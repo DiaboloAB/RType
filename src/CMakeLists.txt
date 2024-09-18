@@ -1,5 +1,6 @@
 # Find the Asio package (assuming Asio is installed system-wide or its path is known)
 find_package(Asio REQUIRED)
+find_package(GLFW REQUIRED)
 
 add_executable(rType)
 
@@ -28,6 +29,7 @@ target_include_directories(rType
 target_link_libraries(rType
     PRIVATE
     asio::asio
+    glfw::glfw
 )
 
 install(TARGETS rType)

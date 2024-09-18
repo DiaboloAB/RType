@@ -1,7 +1,7 @@
 #include <iostream>
 #include "entity.hpp"
 
-#include <asio.hpp>
+#include <GLFW/glfw3.h>
 
 template<typename T>
 T square(T x)
@@ -11,11 +11,32 @@ T square(T x)
 
 int main(void)
 {
-    Entity oui(2);
-    asio::io_context io;
+    GLFWwindow* window;
 
-    asio::steady_timer t(io, asio::chrono::seconds(2));
-    t.wait();
+    if (!glfwInit())
+        return -1;
 
-    std::cout << "Hello, world!" << std::endl;
+    window = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
 }
