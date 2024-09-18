@@ -1,7 +1,0 @@
-[requires]
-asio/1.31.0
-glfw/3.4
-
-[generators]
-CMakeDeps
-CMakeToolchain
