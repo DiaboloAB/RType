@@ -15,9 +15,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
           target_repo_url:
-            git@github.com:DiaboloAB/RType.git
+            git@github.com:EpitechPromo2027/B-CPP-500-REN-5-1-rtype-maxence.largeot.git
           ssh_private_key:
-            ${{ secrets.CODECOMMIT_SSH_PRIVATE_KEY }}
+            ${{ secrets.SSH_PRIVATE_KEY }}
