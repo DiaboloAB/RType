@@ -21,3 +21,4 @@ jobs:
             git@github.com:EpitechPromo2027/B-CPP-500-REN-5-1-rtype-maxence.largeot.git
           ssh_private_key:
             ${{ secrets.SSH_PRIVATE_KEY }}
+
