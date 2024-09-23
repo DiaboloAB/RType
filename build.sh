@@ -3,3 +3,10 @@ conan install . --output-folder=build --build=missing -c "tools.system.package_m
 cd build
 cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build .
+
+
+COMMAND=$1
+
+if [ "$COMMAND" = "pack" ]; then
+    cpack --config CPackConfig.cmake
+fi

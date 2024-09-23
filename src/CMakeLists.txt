@@ -42,3 +42,4 @@ target_link_libraries(rType
 )
 
 install(TARGETS rType)
+include(CPack)
