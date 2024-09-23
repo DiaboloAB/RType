@@ -33,3 +33,10 @@
 
 # Local Settings
 .vscode
+
+**/CMakeFiles/
+
+*.cmake
+Makefile
+CMakeCache.txt
+cmake_install.cmake
