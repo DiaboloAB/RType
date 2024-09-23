@@ -9,10 +9,12 @@
 
 using namespace RType;
 
-Engine::Engine() {
+Engine::Engine()
+{
     // Constructor implementation
 }
 
-Engine::~Engine() {
+Engine::~Engine()
+{
     // Destructor implementation
 }

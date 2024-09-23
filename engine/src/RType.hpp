@@ -10,10 +10,11 @@
 
 // std
 
-namespace RType {
-
-class Engine {
-public:
+namespace RType
+{
+class Engine
+{
+   public:
     Engine();
     ~Engine();
 
@@ -21,10 +22,10 @@ public:
 
     // Setters
 
-private:
+   private:
     // Member variables
 };
 
-}
+}  // namespace RType
 
-#endif // RTYPE_H
+#endif  // RTYPE_H
