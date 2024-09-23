@@ -5,14 +5,14 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RTypeECS.hpp"
+#include "ComponentArray.hpp"
 
 using namespace RType::ECS;
 
-Registry::Registry() {}
+ComponentArray::ComponentArray() {
+    // Constructor implementation
+}
 
-Registry::~Registry() {}
-
-Entity Registry::create() { return _entityManager.create(); }
-
-void Registry::kill(Entity entity) { _entityManager.kill(entity); }
+ComponentArray::~ComponentArray() {
+    // Destructor implementation
+}

@@ -8,23 +8,33 @@
 #ifndef ANTIT_H
 #define ANTIT_H
 
+#include <iostream>
+
+#include "entity/EntityManager.hpp"
+
 // std
 
-namespace RType::ECS {
+namespace RType::ECS
+{
 
-class Registry {
-public:
+class Registry
+{
+   public:
     Registry();
     ~Registry();
+
+    Entity create();
+    void kill(Entity entity);
 
     // Getters
 
     // Setters
 
-private:
+   private:
+    EntityManager _entityManager;
     // Member variables
 };
 
-} // namespace AntiT
+}  // namespace RType::ECS
 
-#endif // ANTIT_H
+#endif  // ANTIT_H

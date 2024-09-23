@@ -5,14 +5,26 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RTypeECS.hpp"
+#ifndef COMPONENTMANAGER_H
+#define COMPONENTMANAGER_H
 
-using namespace RType::ECS;
+// std
 
-Registry::Registry() {}
+namespace RType::ECS {
 
-Registry::~Registry() {}
+class ComponentManager {
+public:
+    ComponentManager();
+    ~ComponentManager();
 
-Entity Registry::create() { return _entityManager.create(); }
+    // Getters
 
-void Registry::kill(Entity entity) { _entityManager.kill(entity); }
+    // Setters
+
+private:
+    // Member variables
+};
+
+} // namespace RType::ECS
+
+#endif // COMPONENTMANAGER_H
