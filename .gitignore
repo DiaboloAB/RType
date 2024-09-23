@@ -33,3 +33,6 @@
 
 # Local Settings
 .vscode
+
+# Build
+/build
