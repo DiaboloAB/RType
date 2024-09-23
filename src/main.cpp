@@ -3,40 +3,37 @@
 
 #include <GLFW/glfw3.h>
 
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+
 template<typename T>
 T square(T x)
 {
     return x * x;
 }
 
-int main(void)
+int main()
 {
-    GLFWwindow* window;
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
 
-    if (!glfwInit())
-        return -1;
-
-    window = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
-    if (!window)
+    // Start the game loop
+    while (window.isOpen())
     {
-        glfwTerminate();
-        return -1;
+        // Process events
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // Close window: exit
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+ 
+        // Clear screen
+        window.clear();
+        // Update the window
+        window.display();
     }
-
-    glfwMakeContextCurrent(window);
-
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
+ 
+    return EXIT_SUCCESS;
 }

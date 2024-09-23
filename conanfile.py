@@ -7,6 +7,7 @@ class MyProjectConan(ConanFile):
 
     def requirements(self):
         self.requires("asio/1.31.0")
+        self.requires("sfml/2.6.1")
         self.requires("glfw/3.4")
 
     def build_requirements(self):
