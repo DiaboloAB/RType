@@ -5,16 +5,14 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RType.hpp"
+#include "ComponentManager.hpp"
 
-using namespace RType;
+using namespace RType::ECS;
 
-Engine::Engine()
-{
+ComponentManager::ComponentManager() {
     // Constructor implementation
 }
 
-Engine::~Engine()
-{
+ComponentManager::~ComponentManager() {
     // Destructor implementation
 }
