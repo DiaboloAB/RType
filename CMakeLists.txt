@@ -1,29 +1,47 @@
-cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
-project(rType)
+cmake_minimum_required(VERSION 3.10)
 
-# Disable developer warnings for CMake
-set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
+project(RType VERSION 1.0)
 
-# The default name of the generated component
-set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "default")
+find_package(Asio REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(SFML REQUIRED COMPONENTS network window graphics system)
 
-# Export all the compile commands
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# If ccache is installed, use to speed up the build
-find_program(CCACHE_FOUND ccache HINTS /bin /usr/bin)
-if(CCACHE_FOUND)
-	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-	set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-endif()
+add_subdirectory(engine)
+add_subdirectory(libs/ecs)
 
 
-add_compile_options(
-    -Wall
-	-Wextra
+add_executable(RType src/main.cpp)
+
+target_link_libraries(RType PRIVATE
+    RTypeEngine
+    RTypeECS
+    asio::asio
+    glfw
+    sfml-graphics
+    sfml-audio
+    sfml-network
 )
 
-# Specify that the final executable should be in the root directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+include(CPack)
 
-add_subdirectory(src)
+target_include_directories(RType PUBLIC
+    "${PROJECT_BINARY_DIR}"
+    "${PROJECT_SOURCE_DIR}/engine/src"
+    "${PROJECT_SOURCE_DIR}/libs/ecs/src"
+)
+
+# vvv Testing vvv #
+
+enable_testing()
+
+add_executable(test_basic tests/test_basic.cpp)
+
+target_link_libraries(test_basic PRIVATE gtest gtest_main
+    RTypeEngine
+    RTypeECS
+)
+
+add_test(NAME BasicTest COMMAND test_basic)

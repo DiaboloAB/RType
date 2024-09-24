@@ -1,16 +1,15 @@
-#include <iostream>
-#include "entity.hpp"
+/**********************************************************************************
+ * Project: RType
+ * Description: A GAME ENGINE THAT ROARS !
+ * Author: Alexis BOITEL, Raphael MABILLE, Morgan LARGEOT, Maxence LARGEOT, Arthur DORIEL
+ * Date, Location: 2024, Rennes
+ **********************************************************************************/
 
+#include <iostream>
 #include <GLFW/glfw3.h>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-
-template<typename T>
-T square(T x)
-{
-    return x * x;
-}
 
 int main()
 {
