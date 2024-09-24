@@ -4,7 +4,6 @@ project(RType VERSION 1.0)
 
 # find_package(Asio REQUIRED)
 # find_package(glfw3 REQUIRED)
-# find_package(SFML REQUIRED COMPONENTS network window graphics system)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
