@@ -13,6 +13,7 @@
 #include <bitset>
 #include <cassert>
 #include <queue>
+#include <cstdint>
 
 namespace RType::ECS
 {

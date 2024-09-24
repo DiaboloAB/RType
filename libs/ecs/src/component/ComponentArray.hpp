@@ -39,7 +39,7 @@ public:
 
 private:
     // Member variables
-    std::vector<std::optional<Component>> _components;
+    // std::vector<std::optional<Component>> _components;
 };
 
 } // namespace RType::ECS
