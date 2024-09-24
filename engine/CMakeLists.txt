@@ -6,7 +6,13 @@ set(SOURCES src/RTypeEngine.cpp)
 
 add_library(RTypeEngine STATIC ${SOURCES})
 
-target_include_directories(RTypeEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(RTypeEngine PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/libs/ecs/src
+    )
+
+target_link_libraries(RTypeEngine PUBLIC RTypeECS)
 
 enable_testing()
 
