@@ -19,9 +19,27 @@ namespace RType::Server {
         }
     }
 
-    Server::Server(const Server &obj) : _port(obj._port) {}
+    Server::Server(const Server &obj) : _host(obj._host), _port(obj._port) {}
 
     Server::~Server() {}
+
+    void Server::setHost(std::string const host) {
+        this->_host = host;
+    }
+
+    std::string Server::getHost() {
+        return this->_host;
+    }
+
+    unsigned int Server::getPort() {
+        return this->_port;
+    }
+
+    void Server::setPort(const unsigned int port) {
+        if (port < 1024 || port > 65535)
+            throw ServerError("ServerError : Chose a port between 1024 and 65535.");
+        this->_port = port;
+    }
 
     void Server::parseFlags(char **flags, int nb_args) {
         try {
@@ -44,6 +62,7 @@ namespace RType::Server {
     Server &Server::operator=(const Server &obj) {
         if (&obj == this)
             return *this;
+        this->_host = obj._host;
         this->_port = obj._port;
         return *this;
     }

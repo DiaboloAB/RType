@@ -20,8 +20,11 @@ namespace RType::Server
             ~Server();
 
         public:
-            void setHost(std::string host) {};
-            void setPort(unsigned int port) {};
+            void setHost(std::string const host);
+            std::string getHost();
+            void setPort(const unsigned int port);
+            unsigned int getPort();
+
         public:
             void parseFlags(char **flags, int nb_args);
 
@@ -40,7 +43,7 @@ namespace RType::Server
             };
     
         private:
-            std::string _host;
-            unsigned int _port;
+            std::string _host = "0.0.0.0";
+            unsigned int _port = 8581;
     };
 }
