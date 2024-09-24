@@ -27,21 +27,35 @@ struct Position
     Position(float x, float y) : x(x), y(y) {}
 };
 
+struct Velocity
+{
+    float x;
+    float y;
+
+    Velocity(float x, float y) : x(x), y(y) {}
+};
+
 void Engine::run()
 {
     ECS::Entity entity = _registry.create();
-    _registry.emplace<Position>(entity, 0.0f, 0.0f);
-    Position &pos = _registry.getComponent<Position>(entity);
+    _registry.emplace<Position>(entity, 0.0f, 1.0f);
+    _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
-    std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
     int i = 0;
-    while (i < 10)
+
+    for (int i = 0; i < 10; i++)
     {
-        pos.x += 1.0f;
-        pos.y += 1.0f;
-        std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
-        i++;
+        ECS::Entity entity = _registry.create();
+        if (i % 2 == 0)
+            _registry.emplace<Position>(entity, 0.0f, i * 10.0f);
     }
-    Position &pos2 = _registry.getComponent<Position>(entity);
-    std::cout << "Position: " << pos2.x << ", " << pos2.y << std::endl;
+
+
+    auto view = _registry.view<Position, Velocity>();
+    for (auto entity : view)
+    {
+        Position &pos = view.get<Position>(entity);
+        std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
+    }
+
 }
