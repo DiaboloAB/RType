@@ -2,11 +2,23 @@ cmake_minimum_required(VERSION 3.10)
 
 project(RTypeEngine VERSION 0.1)
 
-set(SOURCES src/RTypeEngine.cpp)
+find_package(SFML REQUIRED COMPONENTS network window graphics system)
+
+set(SOURCES src/RTypeEngine.cpp src/RenderSystem/RenderSystem.cpp)
 
 add_library(RTypeEngine STATIC ${SOURCES})
 
-target_include_directories(RTypeEngine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(RTypeEngine PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/libs/ecs/src
+    )
+
+target_link_libraries(RTypeEngine PUBLIC RTypeECS
+    sfml-graphics
+    sfml-window
+    sfml-system
+)
 
 enable_testing()
 

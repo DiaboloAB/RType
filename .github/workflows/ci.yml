@@ -3,22 +3,39 @@ name: CI Workflow
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     branches:
-      - main
+      - '**'
 
 jobs:
+  check-style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Run clang-format check
+        run: |
+          chmod +x ./tools.sh
+          ./tools.sh check-clang . > clang-format-errors.txt
+        continue-on-error: false
+        id: clang-format-check
+      - name: Display clang-format errors
+        if: failure()
+        run: |
+          echo "Clang-format errors detected:"
+          cat ./clang-format-errors.txt
+
   push-to-mirror:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && success()
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
-          target_repo_url:
-            git@github.com:EpitechPromo2027/B-CPP-500-REN-5-1-rtype-maxence.largeot.git
-          ssh_private_key:
-            ${{ secrets.SSH_PRIVATE_KEY }}
-
+          target_repo_url: git@github.com:EpitechPromo2027/B-CPP-500-REN-5-1-rtype-maxence.largeot.git
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

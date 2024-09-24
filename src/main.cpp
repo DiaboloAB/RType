@@ -5,10 +5,13 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
+#include "RTypeEngine.hpp"
+
 #include <iostream>
 
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
+    RType::Engine engine;
+    engine.run();
     return 0;
 }
