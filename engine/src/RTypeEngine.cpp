@@ -35,27 +35,53 @@ struct Velocity
     Velocity(float x, float y) : x(x), y(y) {}
 };
 
-void Engine::run()
-{
+void Engine::run() {
+    // Créer des entités
     ECS::Entity entity = _registry.create();
     _registry.emplace<Position>(entity, 0.0f, 1.0f);
     _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
-    int i = 0;
-
-    for (int i = 0; i < 10; i++)
-    {
+    // Boucle pour créer plusieurs entités
+    for (int i = 0; i < 10; i++) {
         ECS::Entity entity = _registry.create();
-        if (i % 2 == 0)
+        if (i % 2 == 0) {
             _registry.emplace<Position>(entity, 0.0f, i * 10.0f);
+        }
     }
 
-
-    auto view = _registry.view<Position, Velocity>();
-    for (auto entity : view)
-    {
+    // Affichage des positions initiales
+    auto view = _registry.view<Position>();
+    for (auto entity : view) {
         Position &pos = view.get<Position>(entity);
         std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
     }
 
+    // Créer l'instance de RenderSystem
+    RType::RenderSystem renderSystem;
+
+    // Boucle principale
+    while (renderSystem._window.isOpen()) {
+        // Gestion des événements
+        sf::Event event;
+        while (renderSystem._window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                renderSystem._window.close();
+            }
+        }
+
+        // Effacer la fenêtre
+        renderSystem.clearWindow();
+
+        // Dessiner des entités
+        auto view = _registry.view<Position>(); // Déplacez le view ici pour éviter d'éventuels problèmes de portée
+        for (auto entity : view) {
+            Position &pos = view.get<Position>(entity);
+            sf::CircleShape shape(10); // Par exemple, un cercle de rayon 10
+            shape.setPosition(pos.x, pos.y); // Positionner le cercle
+            renderSystem._window.draw(shape); // Dessiner le cercle
+        }
+
+        // Mettre à jour la fenêtre
+        renderSystem.updateWindow();
+    }
 }
