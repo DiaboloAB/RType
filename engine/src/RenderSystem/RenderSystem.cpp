@@ -5,8 +5,6 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#pragma once
-
 #include "RenderSystem.hpp"
 
 using namespace RType;

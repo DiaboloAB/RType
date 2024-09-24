@@ -8,7 +8,7 @@
 #pragma once
     #include <iostream>
     #include <memory>
-    #include <IRenderSystem.hpp>
+    #include "../IRenderSystem/IRenderSystem.hpp"
     #include <unistd.h>
     #include <SFML/Window.hpp>
     #include <SFML/Graphics.hpp>

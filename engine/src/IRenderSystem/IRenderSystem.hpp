@@ -9,7 +9,7 @@
 
     #include <iostream>
     #include <memory>
-    #include "Event.hpp"
+    #include "../common/Event.hpp"
 
 namespace RType
 {
