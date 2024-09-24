@@ -23,6 +23,8 @@ enable_testing()
 add_executable(test_ecs
     tests/test_basic.cpp
     tests/test_entity.cpp
+    tests/test_component.cpp
+    tests/test_componentmanager.cpp
     )
 
 target_link_libraries(test_ecs PRIVATE gtest gtest_main RTypeECS)
