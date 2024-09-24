@@ -26,6 +26,7 @@ Entity EntityManager::create()
     Entity id = _availableEntities.front();
     _availableEntities.pop();
     _nbLivingEntity++;
+    _entities.push_back(id);
     return id;
 }
 
@@ -35,6 +36,14 @@ void EntityManager::kill(Entity entity)
 
     _signatures[entity].reset();
     _availableEntities.push(entity);
+    int index = 0;
+    for (auto &e : _entities)
+    {
+        if (e == entity)
+            break;
+        index++;
+    }
+    _entities.erase(_entities.begin() + index);
     _nbLivingEntity--;
 }
 

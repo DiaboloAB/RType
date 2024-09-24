@@ -8,11 +8,3 @@
 #include "ComponentArray.hpp"
 
 using namespace RType::ECS;
-
-ComponentArray::ComponentArray() {
-    // Constructor implementation
-}
-
-ComponentArray::~ComponentArray() {
-    // Destructor implementation
-}
