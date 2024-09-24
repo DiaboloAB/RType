@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(RType VERSION 1.0)
 
-find_package(Asio REQUIRED)
-find_package(glfw3 REQUIRED)
-find_package(SFML REQUIRED COMPONENTS network window graphics system)
+# find_package(Asio REQUIRED)
+# find_package(glfw3 REQUIRED)
+# find_package(SFML REQUIRED COMPONENTS network window graphics system)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -18,11 +18,11 @@ add_executable(RType src/main.cpp)
 target_link_libraries(RType PRIVATE
     RTypeEngine
     RTypeECS
-    asio::asio
-    glfw
-    sfml-graphics
-    sfml-audio
-    sfml-network
+    # asio::asio
+    # glfw
+    # sfml-graphics
+    # sfml-audio
+    # sfml-network
 )
 
 include(CPack)
