@@ -8,7 +8,9 @@
 #ifndef RTYPE_H
 #define RTYPE_H
 
+#include "RTypeECS.hpp"
 // std
+#include <iostream>
 
 namespace RType
 {
@@ -18,11 +20,13 @@ class Engine
     Engine();
     ~Engine();
 
+    void run();
     // Getters
 
     // Setters
 
    private:
+    ECS::Registry _registry;
     // Member variables
 };
 
