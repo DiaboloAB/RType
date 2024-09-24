@@ -14,6 +14,9 @@
 #include <cassert>
 #include <queue>
 #include <cstdint>
+#include <vector>
+#include <iostream>
+#include <iterator>
 
 namespace RType::ECS
 {
@@ -36,15 +39,22 @@ class EntityManager
 
     // Getters
     Signature getSignature(Entity entity);
+    int getNbLivingEntity() { return _nbLivingEntity; }
 
     // Setters
     void setSignature(Entity entity, Signature signature);
+
+    // Iterators
+    std::vector<Entity>::iterator begin() { return _entities.begin(); }
+    std::vector<Entity>::iterator end() { return _entities.end(); }
 
    private:
     // Member variables
     std::queue<Entity> _availableEntities{};
     std::array<Signature, MAX_ENTITIES> _signatures{};
     size_t _nbLivingEntity{};
+
+    std::vector<Entity> _entities{};
 };
 
 }  // namespace RType::ECS
