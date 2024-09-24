@@ -28,14 +28,21 @@ if [ "$COMMAND" == "runtest" ]; then
     ./engine/test_engine
     cd ..
 elif [ "$COMMAND" == "build" ]; then
-    echo "Building project..."
-    cmake -B build -S .
+    conan profile detect --force
+    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
     cd build
-    make
-    cd ..
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+    cmake --build .
+elif [ "$COMMAND" == "pack" ]; then
+    conan profile detect --force
+    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+    cd build
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+    cpack --config CPackConfig.cmake
 elif [ "$COMMAND" == "clean" ]; then
     echo "Cleaning project..."
     rm -rf build
+    rm CMakeUserPresets.json
 elif [ "$COMMAND" == "rebuild" ]; then
     echo "Rebuilding project..."
     $0 clean
