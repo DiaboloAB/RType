@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(RTypeEngine VERSION 0.1)
 
-set(SOURCES src/RTypeEngine.cpp)
+set(SOURCES src/RTypeEngine.cpp src/RenderSystem/RenderSystem.cpp)
 
 add_library(RTypeEngine STATIC ${SOURCES})
 
