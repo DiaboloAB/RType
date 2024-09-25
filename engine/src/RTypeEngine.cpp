@@ -55,33 +55,4 @@ void Engine::run() {
         Position &pos = view.get<Position>(entity);
         std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
     }
-
-    // Créer l'instance de RenderSystem
-    RType::RenderSystem renderSystem;
-
-    // Boucle principale
-    while (renderSystem._window.isOpen()) {
-        // Gestion des événements
-        sf::Event event;
-        while (renderSystem._window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                renderSystem._window.close();
-            }
-        }
-
-        // Effacer la fenêtre
-        renderSystem.clearWindow();
-
-        // Dessiner des entités
-        auto view = _registry.view<Position>(); // Déplacez le view ici pour éviter d'éventuels problèmes de portée
-        for (auto entity : view) {
-            Position &pos = view.get<Position>(entity);
-            sf::CircleShape shape(10); // Par exemple, un cercle de rayon 10
-            shape.setPosition(pos.x, pos.y); // Positionner le cercle
-            renderSystem._window.draw(shape); // Dessiner le cercle
-        }
-
-        // Mettre à jour la fenêtre
-        renderSystem.updateWindow();
-    }
 }
