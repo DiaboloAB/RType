@@ -13,7 +13,7 @@ void displayUsage() {
     std::cout << "USAGE:" << std::endl;
     std::cout << "\n  ./r-type_server [-p port] [-H host]" << std::endl;
     std::cout << "\nPARAM:" << std::endl;
-    std::cout << "  -p  --port : Server port between 49152 and 65535." << std::endl;
+    std::cout << "  -p  --port : Server port between 1024 and 65535." << std::endl;
     std::cout << "  -H  --host : Server ip address." << std::endl;
 }
 
