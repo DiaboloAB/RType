@@ -35,27 +35,24 @@ struct Velocity
     Velocity(float x, float y) : x(x), y(y) {}
 };
 
-void Engine::run()
-{
+void Engine::run() {
+    // Créer des entités
     ECS::Entity entity = _registry.create();
     _registry.emplace<Position>(entity, 0.0f, 1.0f);
     _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
-    int i = 0;
-
-    for (int i = 0; i < 10; i++)
-    {
+    // Boucle pour créer plusieurs entités
+    for (int i = 0; i < 10; i++) {
         ECS::Entity entity = _registry.create();
-        if (i % 2 == 0)
+        if (i % 2 == 0) {
             _registry.emplace<Position>(entity, 0.0f, i * 10.0f);
+        }
     }
 
-
-    auto view = _registry.view<Position, Velocity>();
-    for (auto entity : view)
-    {
+    // Affichage des positions initiales
+    auto view = _registry.view<Position>();
+    for (auto entity : view) {
         Position &pos = view.get<Position>(entity);
         std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
     }
-
 }

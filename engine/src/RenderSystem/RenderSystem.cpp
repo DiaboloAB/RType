@@ -9,6 +9,17 @@
 
 using namespace RType;
 
+// Constructeur
+RType::RenderSystem::RenderSystem() : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false) {
+    // Initialisation ici
+}
+
+// Destructeur
+RType::RenderSystem::~RenderSystem() {
+    // Libération des ressources si nécessaire
+    // _window.close(); // si vous devez fermer la fenêtre
+}
+
 Event RenderSystem::getInput()
 {
     sf::Event event = {};
@@ -122,3 +133,7 @@ void RenderSystem::FullScreenWindow()
         _isFullScreen = true;
     }
 }
+
+void RenderSystem::drawSprite() {};
+
+void RenderSystem::drawText() {};
