@@ -5,7 +5,7 @@
                                                                   DORIEL Arthur
                                                                 MABILLE Raphael
 Document: rfc-53952.txt                                          EPITECH Rennes
-                                                                Semptember 2024
+                                                                 September 2024
 
                             R-Type Protocol
 
@@ -45,4 +45,23 @@ Conventions used in this document
     document are to be interpreted as described in RFC-2119.
 
 LARGEOT                         Informational                           [Page 1]
+
+                            R-Type Protocol                       September 2024
+
+Table of Contents
+      1. R-Type architecture.............................................2
+      2. Client and server communication.................................2
+      3. Packet header...................................................3
+      4. Packets payload.................................................3
+          4.1 HiServer...................................................4
+          4.2 HiClient...................................................4
+          4.3 AdiosServer................................................4
+          4.4 Healthcheck................................................4
+          4.5 CreateEntity...............................................4
+          4.6 DestroyEntity..............................................5
+          4.7 MoveEntity.................................................5
+          4.8 UpdateEntity...............................................5
+          4.9 ClientInput................................................6
+          4.10 [IN DEVELOPPEMENT]........................................6
+      Security Considerations............................................7
 
