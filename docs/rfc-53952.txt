@@ -1,0 +1,48 @@
+    EPITECH Rennes
+                                                                 LARGEOT Morgan
+                                                                LARGEOT Maxence
+                                                                  BOITEL Alexis
+                                                                  DORIEL Arthur
+                                                                MABILLE Raphael
+Document: rfc-53952.txt                                          EPITECH Rennes
+                                                                Semptember 2024
+
+                            R-Type Protocol
+
+/==============================================================================\
+|                                                                              |
+|    This document is an Internet-Draft and is NOT provided in accordance      |
+|    with Section 10 of RFC2026. The author grants the IETF no rights other    |
+|    than the permission to publish it as an Internet-Draft.                   |
+|                                                                              |
+|    Internet-Drafts are working papers of the Internet Engineering Task       |
+|    Force (IETF), its various areas, and working groups. Other organizations  |
+|    may also release documents as Internet-Drafts.                            |
+|                                                                              |
+|    Internet-Drafts are temporary, with a maximum validity of six months.     |
+|    They may be revised, replaced, or withdrawn at any time, so it is         |
+|    inappropriate to use them as formal references or to cite them except     |
+|    as "works in progress."                                                   |
+|                                                                              |
+|    The current list of Internet-Drafts is available at:                      |
+|        http://www.ietf.org/ietf/1id-abstracts.txt                            |
+|    The list of Internet-Draft Shadow Directories can be accessed at:         |
+|        http://www.ietf.org/shadow.html.                                      |
+|                                                                              |
+\==============================================================================/
+
+Abstract
+
+    This memo is the official R-Type documentation of the network protocol.
+    R-Type is a 3rd year project for EPITECH students that include
+    implementation of an ECS, Game Engine and UDP network protocol.
+    Distribution of this memo is unlimited.
+
+Conventions used in this document
+
+    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+    document are to be interpreted as described in RFC-2119.
+
+LARGEOT                         Informational                           [Page 1]
+
