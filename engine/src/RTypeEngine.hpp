@@ -9,6 +9,7 @@
 #define RTYPE_H
 
 #include "RTypeECS.hpp"
+#include "RenderSystem/RenderSystem.hpp"
 // std
 #include <iostream>
 
