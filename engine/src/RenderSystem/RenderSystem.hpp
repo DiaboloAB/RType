@@ -15,85 +15,88 @@
 
 /**
  * @file RenderSystem.hpp
- * @brief Déclaration de la classe RenderSystem du namespace RType.
+ * @brief Declaration of the RenderSystem class in the RType namespace.
  */
 
 namespace RType
 {
     /**
      * @class RenderSystem
-     * @brief Système de rendu pour le jeu RType.
+     * @brief Rendering system for the RType game.
      *
-     * Cette classe gère les opérations de rendu, telles que la gestion des fenêtres,
-     * l'affichage des sprites, des textes, et la gestion des événements liés à l'interface graphique.
+     * This class manages rendering operations such as window management,
+     * displaying sprites, text, and handling graphical interface-related events.
      */
     class RenderSystem : public RType::IRenderSystem {
-        public:
+    public:
 
-            /**
-             * @brief Constructeur de la classe RenderSystem.
-             *
-             * Initialise une fenêtre graphique avec une résolution de 1920x1080 pixels.
-             */
-            RenderSystem();
+        /**
+         * @brief Constructor for the RenderSystem class.
+         *
+         * Initializes a graphical window with a resolution of 1920x1080 pixels.
+         */
+        RenderSystem();
 
-            /**
-             * @brief Destructeur de la classe RenderSystem.
-             */
-            ~RenderSystem();
+        /**
+         * @brief Destructor for the RenderSystem class.
+         */
+        ~RenderSystem();
 
-        public:
+    public:
 
-            /**
-             * @brief Récupère les entrées utilisateur (clavier, souris, etc.).
-             * @return RType::Event Événement capturé.
-             *
-             * Cette méthode permet de capturer les événements provenant de l'utilisateur, 
-             * tels que les touches du clavier ou les mouvements de la souris.
-             */
-            RType::Event getInput() override;
+        /**
+         * @brief Retrieves user inputs (keyboard, mouse, etc.).
+         * @return RType::Event The captured event.
+         *
+         * This method captures events coming from the user, such as keyboard inputs or mouse movements.
+         */
+        RType::Event getInput() override;
 
-            /**
-             * @brief Efface la fenêtre pour le prochain rendu.
-             *
-             * Cette méthode doit être appelée avant chaque cycle de rendu pour effacer le contenu
-             * de la fenêtre et préparer l'affichage d'un nouveau frame.
-             */
-            void clearWindow() override;
+        /**
+         * @brief Clears the window for the next frame rendering.
+         *
+         * This method should be called before each rendering cycle to clear the window content
+         * and prepare it for displaying a new frame.
+         */
+        void clearWindow() override;
 
-            /**
-             * @brief Met à jour la fenêtre après le rendu.
-             *
-             * Cette méthode permet d'afficher le contenu de la fenêtre après le cycle de rendu.
-             */
-            void updateWindow() override;
+        /**
+         * @brief Updates the window after rendering.
+         *
+         * This method displays the window content after the rendering cycle.
+         */
+        void updateWindow() override;
 
-            /**
-             * @brief Affiche un texte à l'écran.
-             *
-             * Cette méthode permet de dessiner du texte sur la fenêtre de rendu.
-             */
-            void drawText() override;
+        /**
+         * @brief Displays text on the screen.
+         *
+         * This method allows drawing text on the rendering window.
+         */
+        void drawText() override;
 
-            /**
-             * @brief Affiche un sprite à l'écran.
-             *
-             * Cette méthode permet de dessiner un sprite (image 2D) sur la fenêtre de rendu.
-             */
-            void drawSprite() override;
+        /**
+         * @brief Displays a sprite on the screen.
+         *
+         * This method allows drawing a sprite (2D image) on the rendering window.
+         */
+        void drawSprite() override;
 
-            /**
-             * @brief Bascule la fenêtre en mode plein écran.
-             *
-             * Permet de passer la fenêtre en mode plein écran ou de revenir en mode fenêtre normale.
-             */
-            void FullScreenWindow() override;
+        /**
+         * @brief Toggles the window to fullscreen mode.
+         *
+         * Allows switching the window to fullscreen mode or returning to normal windowed mode.
+         */
+        void FullScreenWindow() override;
 
-            bool isWindowOpen() const { return _window.isOpen(); } 
+        /**
+         * @brief Checks if the window is open.
+         * @return `true` if the window is open, `false` otherwise.
+         */
+        bool isWindowOpen() const { return _window.isOpen(); } 
 
-            sf::RenderWindow _window;  ///< Fenêtre de rendu SFML.
+        sf::RenderWindow _window;  ///< SFML render window.
 
-        private:
-            bool _isFullScreen;        ///< Indique si la fenêtre est en mode plein écran.
+    private:
+        bool _isFullScreen;        ///< Indicates whether the window is in fullscreen mode.
     };
 }
