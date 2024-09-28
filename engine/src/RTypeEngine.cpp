@@ -6,6 +6,7 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
+#include "components/basicComponents.hpp"
 
 using namespace RType;
 
@@ -18,22 +19,6 @@ Engine::~Engine()
 {
     // Destructor implementation
 }
-
-struct Position
-{
-    float x;
-    float y;
-
-    Position(float x, float y) : x(x), y(y) {}
-};
-
-struct Velocity
-{
-    float x;
-    float y;
-
-    Velocity(float x, float y) : x(x), y(y) {}
-};
 
 void Engine::run()
 {
