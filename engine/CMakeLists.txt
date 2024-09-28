@@ -6,7 +6,7 @@ find_package(SFML REQUIRED COMPONENTS network window graphics system)
 
 set(SOURCES
     src/RTypeEngine.cpp
-    src/RenderSystem/RenderSystem.cpp
+    src/RenderSystemSFML/RenderSystemSFML.cpp
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
     )
