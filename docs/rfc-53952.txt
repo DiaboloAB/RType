@@ -48,6 +48,7 @@ LARGEOT                         Informational                           [Page 1]
 
                             R-Type Protocol                       September 2024
 
+
 Table of Contents
       1. R-Type architecture.............................................2
       2. Client and server communication.................................2
@@ -61,7 +62,62 @@ Table of Contents
           4.6 DestroyEntity..............................................5
           4.7 MoveEntity.................................................5
           4.8 UpdateEntity...............................................5
-          4.9 ClientInput................................................6
-          4.10 [IN DEVELOPPEMENT]........................................6
+          4.9 ClientEvents...............................................6
+          4.10 [UNDER DEVELOPPEMENT].....................................6
       Security Considerations............................................7
 
+
+1. R-Type architecture
+
+    The R-Type architecture is a classic client-server game architecture.
+    All game logic is in the server. The client will display the
+    information transmitted by the server. It will also transmit the player's
+    events (movements, keybinds) as well as these actions to the server.
+
+
+2. Communication between client and server
+
+    Communication between the server and clients is carried out via the
+    UDP protocol defined in RFC-768.
+    
+    When connecting to the server, a client must send a first "HiServer"
+    packet in order to check compatibility betweenthe server and the client.
+    The server will send a positive or negative response with “HiClient” packet.
+    This first packet is very important. If it is not received or invalid,
+    the server will kick the client and will not be able to process further
+    requests from the client.
+
+    If the server does not receive any packets from the client for more
+    than 4 seconds, the server will consider that the connection has been
+
+
+LARGEOT                         Informational                           [Page 2]
+
+                            R-Type Protocol                       September 2024
+
+    The client must do the same as the server. If it does not receive any
+    packets from the server for more than 4 seconds, the client must close the
+    connection with the server.
+
+    Good practice would be to send at least one "Healthcheck"  packet from the
+    client to the server every second.
+
+
+3. Packet header
+
+    Each packet contains a header. This header gives details on its size,
+    its type, its sending date/hour and the size of its data.
+
+    /----------------------------\
+    | Name      | Size (in bits) |
+    |-----------|----------------|
+    | Length    | 32             |
+    | Type      | 8              |
+    | Timestamp | 64             |
+    | Datasize  | 16             |
+    \----------------------------/
+
+    When reading packets, the Length parameter must be checked first to
+    ensure that the entire Packet has been received. Each Packet defined
+    in this document has a unique ID used in the Type parameter for
+    identification upon receipt (example: HiServer -> type: 1).
