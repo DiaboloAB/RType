@@ -19,7 +19,7 @@ namespace RType {
  * Initializes the game window with a resolution of 1920x1080 in windowed mode by default.
  * The window will be used to render all graphical content.
  */
-RenderSystem::RenderSystem() : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false) {
+RenderSystemSFML::RenderSystemSFML() : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false) {
     // Initialization code here
 }
 
@@ -28,7 +28,7 @@ RenderSystem::RenderSystem() : _window(sf::VideoMode(1920, 1080), "RType"), _isF
  * 
  * Cleans up resources and can be used to close the game window when necessary.
  */
-RenderSystem::~RenderSystem() {
+RenderSystemSFML::~RenderSystemSFML() {
     // Release resources if needed (e.g., _window.close() if needed)
 }
 
@@ -41,7 +41,7 @@ RenderSystem::~RenderSystem() {
  * 
  * @return An `Event` enum value corresponding to the key pressed, such as `Event::ENTER`, `Event::MENU`, or `Event::NONE`.
  */
-Event RenderSystem::getInput()
+Event RenderSystemSFML::getInput()
 {
     sf::Event event = {};
 
@@ -84,7 +84,7 @@ Event RenderSystem::getInput()
  * 
  * This function is called before drawing new objects or frames, resetting the window to a black screen.
  */
-void RenderSystem::clearWindow()
+void RenderSystemSFML::clearWindow()
 {
     _window.clear(sf::Color::Black);
 }
@@ -94,7 +94,7 @@ void RenderSystem::clearWindow()
  * 
  * This function refreshes the window to display everything that has been drawn since the last call to clearWindow().
  */
-void RenderSystem::updateWindow()
+void RenderSystemSFML::updateWindow()
 {
     _window.display();
 }
@@ -105,7 +105,7 @@ void RenderSystem::updateWindow()
  * Switches the window from fullscreen mode to windowed mode (1920x1080) or vice versa.
  * The current state is tracked by the `_isFullScreen` flag.
  */
-void RenderSystem::FullScreenWindow()
+void RenderSystemSFML::FullScreenWindow()
 {
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
 
@@ -125,7 +125,7 @@ void RenderSystem::FullScreenWindow()
  * 
  * Placeholder function for drawing sprites. It is currently not implemented but intended for future use.
  */
-void RenderSystem::drawSprite() {
+void RenderSystemSFML::drawSprite() {
     // To be implemented
 }
 
@@ -134,7 +134,7 @@ void RenderSystem::drawSprite() {
  * 
  * Placeholder function for drawing text. It is currently not implemented but intended for future use.
  */
-void RenderSystem::drawText() {
+void RenderSystemSFML::drawText() {
     // To be implemented
 }
 
