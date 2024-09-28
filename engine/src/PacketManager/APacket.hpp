@@ -41,12 +41,21 @@ namespace RType::Network {
             APacket(PacketType type);
 
             /**
+             * @brief Construct new APacket object with serialized data by deserializing them.
+             * 
+             * @param buffer: Serialized packet data to deserialize.
+             * @return APacket object.
+             */
+            APacket(std::vector<char> &buffer);
+
+            /**
              * @brief Define destructor to the default destructor of the class that implements APacket.
              */
             virtual ~APacket() = default;
         public:
             uint32_t getPacketSize() const;
             PacketType getPacketType() const;
+            uint32_t getHeaderSize() const;
 
             /**
              * @brief Get the total size of the packet using serialized data if it is possible.
@@ -54,7 +63,7 @@ namespace RType::Network {
              * @param buffer: Serialized packet to get the size from.
              * @return Total size of the packet or throw an error.
              */
-            uint32_t getPacketSizeFromBuffer(std::vector<char> buffer) const;
+            uint32_t getPacketSizeFromBuffer(std::vector<char> &buffer) const;
 
             /**
              * @brief Get the type of the packet using serialized data if it is possible.
@@ -62,7 +71,7 @@ namespace RType::Network {
              * @param buffer: Serialized packet to get the type from.
              * @return Type of the packet or throw an error.
              */
-            PacketType getPacketTypeFromBuffer(std::vector<char> buffer) const; 
+            PacketType getPacketTypeFromBuffer(std::vector<char> &buffer) const; 
         public:
 
             /**

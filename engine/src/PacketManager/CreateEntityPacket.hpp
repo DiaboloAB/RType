@@ -31,6 +31,14 @@ namespace RType::Network {
             CreateEntityPacket(uint32_t entityId, float posX, float posY, std::string entityToCreate);
 
             /**
+             * @brief Construct new CreateEntityPacket object with serialized data by deserializing them.
+             * 
+             * @param buffer: Serialized packet data to deserialize.
+             * @return CreateEntityPacket object.
+             */
+            CreateEntityPacket(std::vector<char> &buffer);
+
+            /**
              * @brief Destruct CreateEntityPacket object.
              */
             ~CreateEntityPacket() override;

@@ -14,6 +14,20 @@ namespace RType::Network {
         this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size();
     }
 
+    CreateEntityPacket::CreateEntityPacket(std::vector<char> &buffer) : APacket(buffer) {
+        char *data = buffer.data();
+        data += this->getHeaderSize();
+
+        std::memcpy(&this->_entityId, data, sizeof(uint32_t));
+        data += sizeof(uint32_t);
+        std::memcpy(&this->_posX, data, sizeof(float));
+        data += sizeof(float);
+        std::memcpy(&this->_posY, data, sizeof(float));
+        data += sizeof(float);
+        this->_entityToCreate = std::string(
+            data, this->getPacketSize() - this->getHeaderSize() - sizeof(uint32_t) - sizeof(float) - sizeof(float));
+    }
+
     CreateEntityPacket::~CreateEntityPacket() {}
 
     std::vector<char> CreateEntityPacket::serializeData() const {
