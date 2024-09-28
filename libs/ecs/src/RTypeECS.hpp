@@ -79,7 +79,6 @@ class Registry
         // return entities;
     }
 
-
     // Getters
 
     // Setters

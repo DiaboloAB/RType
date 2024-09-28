@@ -5,38 +5,29 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef RTYPE_H
-#define RTYPE_H
+#ifndef ISYSTEM_H
+#define ISYSTEM_H
 
 #include "RTypeECS.hpp"
-#include "gameContext/GameContext.hpp"
-#include "system/SystemManager.hpp"
-
+#include <gameContext/GameContext.hpp>
 // std
-#include <iostream>
-#include <chrono>
 
-namespace RType
-{
-class Engine
-{
-   public:
-    Engine();
-    ~Engine();
+namespace RType {
 
-    void run();
+class ISystem {
+public:
+    ~ISystem() = default;
+
+    virtual void update(ECS::Registry &registry, GameContext &gameContext) = 0;
+
     // Getters
 
     // Setters
 
-   private:
-    ECS::Registry _registry;
-    SystemManager _systemManager;
-    GameContext _gameContext;
-
+private:
     // Member variables
 };
 
-}  // namespace RType
+}
 
-#endif  // RTYPE_H
+#endif // ISYSTEM_H

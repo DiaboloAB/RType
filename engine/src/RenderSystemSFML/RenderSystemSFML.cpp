@@ -5,7 +5,7 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RenderSystem.hpp"
+#include "RenderSystemSFML.hpp"
 
 /**
  * @namespace RType
