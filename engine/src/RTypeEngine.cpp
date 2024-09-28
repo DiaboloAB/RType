@@ -55,4 +55,20 @@ void Engine::run() {
         Position &pos = view.get<Position>(entity);
         std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
     }
+
+    RenderSystemSFML renderSystem;
+
+    renderSystem.loadTexture("player", "player.png");
+
+    // Charger les sprites
+    renderSystem.loadSprite("player");
+
+    while (renderSystem.isWindowOpen()) {
+        renderSystem.clearWindow();
+        
+        // Dessiner tous les sprites chargés
+        renderSystem.drawSprite();
+        
+        renderSystem.updateWindow();
+    }
 }

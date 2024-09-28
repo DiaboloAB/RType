@@ -7,9 +7,12 @@
 
 #pragma once
 
-    #include <iostream>
-    #include <memory>
-    #include "../common/Event.hpp"
+#include <iostream>
+#include <memory>
+#include <string>
+#include "../common/Event.hpp"
+#include <SFML/Graphics.hpp>
+#include <map>
 
 /**
  * @file IRenderSystem.hpp
@@ -53,6 +56,31 @@ namespace RType
          * after all rendering operations are completed.
          */
         virtual void updateWindow() = 0;
+
+        /**
+         * @brief Pure virtual method to load a texture for a sprite.
+         * @param textureName The unique name of the texture.
+         * @param filePath The file path of the texture to load.
+         *
+         * This method must be implemented to load a texture from a file and store it in memory.
+         */
+        virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
+
+        /**
+         * @brief Pure virtual method to unload a texture from memory.
+         * @param textureName The unique name of the texture to unload.
+         *
+         * This method must be implemented to remove a texture from memory when it is no longer needed.
+         */
+        virtual void unloadTexture(const std::string& textureName) = 0;
+
+        /**
+         * @brief Pure virtual method to load a sprite using a previously loaded texture.
+         * @param textureName The name of the texture to use for the sprite.
+         *
+         * This method must be implemented to assign a texture to a sprite.
+         */
+        virtual void loadSprite(const std::string& textureName) = 0;
 
         /**
          * @brief Pure virtual method to draw a sprite on the window.

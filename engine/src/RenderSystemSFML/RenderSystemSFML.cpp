@@ -5,7 +5,7 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RenderSystem.hpp"
+#include "RenderSystemSFML.hpp"
 
 /**
  * @namespace RType
@@ -121,6 +121,33 @@ void RenderSystemSFML::FullScreenWindow()
 }
 
 /**
+ * @brief Loads a texture from file and stores it in a cache.
+ * @param textureName The unique name of the texture.
+ * @param filePath The file path of the texture to load.
+ * @return `true` if the texture was loaded successfully, `false` otherwise.
+ */
+bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::string& filePath) {
+    auto texture = std::make_unique<sf::Texture>();
+    if (!texture->loadFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
+        return false;
+    }
+    _textures[textureName] = std::move(texture);
+    return true;
+}
+
+/**
+ * @brief Unloads a specific texture from the cache.
+ * @param textureName The unique name of the texture to unload.
+ */
+void RenderSystemSFML::unloadTexture(const std::string& textureName) {
+    auto it = _textures.find(textureName);
+    if (it != _textures.end()) {
+        _textures.erase(it); // Libère la mémoire associée à la texture
+    }
+}
+
+/**
  * @brief Draws a sprite on the game window.
  * 
  * Placeholder function for drawing sprites. It is currently not implemented but intended for future use.
@@ -135,7 +162,7 @@ void RenderSystemSFML::drawSprite() {
  * Placeholder function for drawing text. It is currently not implemented but intended for future use.
  */
 void RenderSystemSFML::drawText() {
-    // To be implemented
+    // To be implemented    
 }
 
 } // namespace RType

@@ -12,6 +12,7 @@
     #include <unistd.h>
     #include <SFML/Window.hpp>
     #include <SFML/Graphics.hpp>
+    #include <map>
 
 /**
  * @file RenderSystem.hpp
@@ -68,18 +69,36 @@ namespace RType
         void updateWindow() override;
 
         /**
+         * @brief Loads a texture from file and stores it in a cache.
+         * @param textureName The unique name of the texture.
+         * @param filePath The file path of the texture to load.
+         * @return `true` if the texture was loaded successfully, `false` otherwise.
+         */
+        bool loadTexture(const std::string& textureName, const std::string& filePath) override;
+
+        /**
+         * @brief Unloads a specific texture from the cache.
+         * @param textureName The unique name of the texture to unload.
+         */
+        void unloadTexture(const std::string& textureName) override;
+
+        /**
+         * @brief Loads a sprite using a texture from the cache.
+         * @param textureName The name of the texture to use for the sprite.
+         */
+        void loadSprite(const std::string& textureName) override;
+
+        /**
+         * @brief Draws a sprite on the window.
+         */
+        void drawSprite() override;
+
+        /**
          * @brief Displays text on the screen.
          *
          * This method allows drawing text on the rendering window.
          */
         void drawText() override;
-
-        /**
-         * @brief Displays a sprite on the screen.
-         *
-         * This method allows drawing a sprite (2D image) on the rendering window.
-         */
-        void drawSprite() override;
 
         /**
          * @brief Toggles the window to fullscreen mode.
@@ -94,20 +113,19 @@ namespace RType
          */
         bool isWindowOpen() override { return _window.isOpen(); }
 
-    /**
-     * @brief Accède à la fenêtre de rendu SFML.
-     *
-     * Cette fonction retourne une référence à la fenêtre de rendu utilisée 
-     * 
-     * @return sf::RenderWindow& Référence à l'instance de la fenêtre SFML utilisée pour le rendu.
-     *
-     */
-
+        /**
+         * @brief Accède à la fenêtre de rendu SFML.
+         *
+         * Cette fonction retourne une référence à la fenêtre de rendu utilisée 
+         * pour dessiner dans l'application.
+         * 
+         * @return sf::RenderWindow& Référence à l'instance de la fenêtre SFML utilisée pour le rendu.
+         */
         sf::RenderWindow& getWindow() { return this->_window; }
 
-        
     private:
         bool _isFullScreen;        ///< Indicates whether the window is in fullscreen mode.
         sf::RenderWindow _window;  ///< SFML render window.
+        std::map<std::string, std::unique_ptr<sf::Texture>> _textures; ///< Cache des textures.
     };
 }
