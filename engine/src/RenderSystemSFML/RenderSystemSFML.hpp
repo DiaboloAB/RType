@@ -27,7 +27,7 @@ namespace RType
      * This class manages rendering operations such as window management,
      * displaying sprites, text, and handling graphical interface-related events.
      */
-    class RenderSystem : public RType::IRenderSystem {
+    class RenderSystemSFML : public RType::IRenderSystem {
     public:
 
         /**
@@ -35,12 +35,12 @@ namespace RType
          *
          * Initializes a graphical window with a resolution of 1920x1080 pixels.
          */
-        RenderSystem();
+        RenderSystemSFML();
 
         /**
          * @brief Destructor for the RenderSystem class.
          */
-        ~RenderSystem();
+        ~RenderSystemSFML();
 
     public:
 
@@ -92,11 +92,22 @@ namespace RType
          * @brief Checks if the window is open.
          * @return `true` if the window is open, `false` otherwise.
          */
-        bool isWindowOpen() const { return _window.isOpen(); } 
+        bool isWindowOpen() override { return _window.isOpen(); }
 
-        sf::RenderWindow _window;  ///< SFML render window.
+    /**
+     * @brief Accède à la fenêtre de rendu SFML.
+     *
+     * Cette fonction retourne une référence à la fenêtre de rendu utilisée 
+     * 
+     * @return sf::RenderWindow& Référence à l'instance de la fenêtre SFML utilisée pour le rendu.
+     *
+     */
 
+        sf::RenderWindow& getWindow() { return this->_window; }
+
+        
     private:
         bool _isFullScreen;        ///< Indicates whether the window is in fullscreen mode.
+        sf::RenderWindow _window;  ///< SFML render window.
     };
 }
