@@ -86,12 +86,12 @@ namespace RType
          * @brief Loads a sprite using a texture from the cache.
          * @param textureName The name of the texture to use for the sprite.
          */
-        void loadSprite(const std::string& textureName) override;
+        void loadSprite(const std::string& spriteName, const std::string& textureName) override;
 
         /**
          * @brief Draws a sprite on the window.
          */
-        void drawSprite() override;
+        void drawSprite(const std::string& spriteName, float x, float y) override;
 
         /**
          * @brief Displays text on the screen.
@@ -127,5 +127,6 @@ namespace RType
         bool _isFullScreen;        ///< Indicates whether the window is in fullscreen mode.
         sf::RenderWindow _window;  ///< SFML render window.
         std::map<std::string, std::unique_ptr<sf::Texture>> _textures; ///< Cache des textures.
+        std::map<std::string, sf::Sprite> _sprites;
     };
 }

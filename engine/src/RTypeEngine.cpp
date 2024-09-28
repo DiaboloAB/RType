@@ -61,7 +61,7 @@ void Engine::run() {
     renderSystem.loadTexture("player", "player.png");
 
     // Charger les sprites
-    renderSystem.loadSprite("player");
+    renderSystem.loadSprite("player", "player");
 
     while (renderSystem.isWindowOpen()) {
         renderSystem.clearWindow();

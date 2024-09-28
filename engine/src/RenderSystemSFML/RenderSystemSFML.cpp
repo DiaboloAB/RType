@@ -148,12 +148,36 @@ void RenderSystemSFML::unloadTexture(const std::string& textureName) {
 }
 
 /**
+ * @brief Loads a sprite using a texture from the cache.
+ * @param textureName The name of the texture to use for the sprite.
+ */
+void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::string& textureName) {
+    auto it = _textures.find(textureName);
+    if (it != _textures.end()) {
+        sf::Sprite sprite;
+        sprite.setTexture(*it->second);
+        _sprites[spriteName] = sprite;  // Ajoute le sprite à la map avec son nom unique
+    } else {
+        std::cerr << "Erreur : texture non trouvée (" << textureName << ")" << std::endl;
+    }
+}
+
+/**
  * @brief Draws a sprite on the game window.
  * 
  * Placeholder function for drawing sprites. It is currently not implemented but intended for future use.
  */
-void RenderSystemSFML::drawSprite() {
-    // To be implemented
+void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y) {
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end()) {
+        // Met à jour la position du sprite
+        it->second.setPosition(x, y);
+        
+        // Dessine le sprite avec la nouvelle position
+        _window.draw(it->second);
+    } else {
+        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
+    }
 }
 
 /**
