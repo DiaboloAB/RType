@@ -180,6 +180,12 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float 
     }
 }
 
+void RenderSystemSFML::drawAllSprites() {
+    for (const auto& pair : _sprites) {
+        _window.draw(pair.second); // Dessine chaque sprite dans la map
+    }
+}
+
 /**
  * @brief Draws text on the game window.
  * 

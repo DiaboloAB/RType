@@ -64,10 +64,12 @@ void Engine::run() {
     renderSystem.loadSprite("player", "player");
 
     while (renderSystem.isWindowOpen()) {
+        if (renderSystem.getInput() == ESCAPE)
+            break;
         renderSystem.clearWindow();
         
         // Dessiner tous les sprites chargés
-        renderSystem.drawSprite();
+        renderSystem.drawSprite("player", 50, 50);
         
         renderSystem.updateWindow();
     }

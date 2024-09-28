@@ -93,6 +93,8 @@ namespace RType
          */
         void drawSprite(const std::string& spriteName, float x, float y) override;
 
+        void drawAllSprites();
+
         /**
          * @brief Displays text on the screen.
          *
