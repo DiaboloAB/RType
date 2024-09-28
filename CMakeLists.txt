@@ -20,7 +20,6 @@ target_link_libraries(RType PRIVATE
     RTypeEngine
     RTypeECS
     # asio::asio
-    # glfw
     # sfml-graphics
     # sfml-audio
     # sfml-network
