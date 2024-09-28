@@ -1,0 +1,2 @@
+/usr/bin/ar qc libRTypeEngine.a CMakeFiles/RTypeEngine.dir/src/RTypeEngine.cpp.o CMakeFiles/RTypeEngine.dir/src/RenderSystem/RenderSystem.cpp.o
+/usr/bin/ranlib libRTypeEngine.a

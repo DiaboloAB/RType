@@ -37,5 +37,4 @@ void Engine::run()
 
         _systemManager.update(_registry, _gameContext);
     }
-
 }
