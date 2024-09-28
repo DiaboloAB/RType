@@ -7,7 +7,7 @@
 
 #include "SystemManager.hpp"
 
-using namespace RType::ECS;
+using namespace RType;
 
 SystemManager::SystemManager() {
     // Constructor implementation

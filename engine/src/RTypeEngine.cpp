@@ -7,6 +7,7 @@
 
 #include "RTypeEngine.hpp"
 #include "components/basicComponents.hpp"
+#include "systems/forward.hpp"
 
 using namespace RType;
 
@@ -28,19 +29,13 @@ void Engine::run()
 
     int i = 0;
 
-    for (int i = 0; i < 10; i++)
-    {
-        ECS::Entity entity = _registry.create();
-        if (i % 2 == 0)
-            _registry.emplace<Position>(entity, 0.0f, i * 10.0f);
-    }
+    _systemManager.addSystem<ForwardSystem>();
 
-
-    auto view = _registry.view<Position, Velocity>();
-    for (auto entity : view)
+    for (int i = 0; i < 10; i++) // replace with while (window.isOpen())
     {
-        Position &pos = view.get<Position>(entity);
-        std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
+        _gameContext.update();
+
+        _systemManager.update(_registry, _gameContext);
     }
 
 }

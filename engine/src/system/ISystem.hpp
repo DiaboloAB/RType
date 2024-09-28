@@ -8,17 +8,17 @@
 #ifndef ISYSTEM_H
 #define ISYSTEM_H
 
+#include "RTypeECS.hpp"
+#include <gameContext/GameContext.hpp>
 // std
 
-namespace RType::ECS {
-
-class Registry;
+namespace RType {
 
 class ISystem {
 public:
     ~ISystem() = default;
 
-    virtual void update(Registry &registry, float deltaTime) = 0;
+    virtual void update(ECS::Registry &registry, GameContext &gameContext) = 0;
 
     // Getters
 

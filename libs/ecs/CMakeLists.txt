@@ -7,7 +7,6 @@ set(SOURCES
     src/entity/EntityManager.cpp
     src/component/ComponentManager.cpp
     src/component/ComponentArray.cpp
-    src/system/SystemManager.cpp
     )
 
 add_library(RTypeECS STATIC ${SOURCES})
@@ -17,7 +16,6 @@ target_include_directories(RTypeECS PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/entity
     ${CMAKE_CURRENT_SOURCE_DIR}/src/component
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/system
     )
 
 enable_testing()

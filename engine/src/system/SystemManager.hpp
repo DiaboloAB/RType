@@ -14,7 +14,7 @@
 #include <vector>
 #include <memory>
 
-namespace RType::ECS {
+namespace RType {
 
 class SystemManager {
 public:
@@ -24,13 +24,14 @@ public:
     template <typename T, typename... Args>
     T &addSystem(Args &&...args) {
         auto system = std::make_unique<T>(std::forward<Args>(args)...);
+        T& ref = *system;
         _systems.push_back(std::move(system));
-        return *_systems.back();
+        return ref;
     }
 
-    void update(Registry &registry, float deltaTime) {
+    void update(ECS::Registry &registry, GameContext &gameContext) {
         for (auto &system : _systems) {
-            system->update(registry, deltaTime);
+            system->update(registry, gameContext);
         }
     }
 

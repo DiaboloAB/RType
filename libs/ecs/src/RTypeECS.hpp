@@ -11,7 +11,6 @@
 
 #include "entity/EntityManager.hpp"
 #include "component/ComponentManager.hpp"
-#include "system/SystemManager.hpp"
 
 // std
 #include <iostream>
@@ -80,7 +79,6 @@ class Registry
         // return entities;
     }
 
-
     // Getters
 
     // Setters
@@ -102,7 +100,6 @@ class Registry
     }
 
     ComponentManager _componentManager;
-    SystemManager _systemManager;
     // Member variables
 };
 
