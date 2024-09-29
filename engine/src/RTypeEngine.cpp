@@ -57,11 +57,8 @@ void Engine::run() {
     }
 
     RenderSystemSFML renderSystem;
-
-    renderSystem.loadTexture("player", "player.png");
-
     // Charger les sprites
-    renderSystem.loadSprite("player", "player");
+    renderSystem.loadSprite("player", "player", "player.png");
 
     while (renderSystem.isWindowOpen()) {
         if (renderSystem.getInput() == ESCAPE)

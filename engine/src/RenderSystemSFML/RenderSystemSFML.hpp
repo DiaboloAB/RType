@@ -86,7 +86,7 @@ namespace RType
          * @brief Loads a sprite using a texture from the cache.
          * @param textureName The name of the texture to use for the sprite.
          */
-        void loadSprite(const std::string& spriteName, const std::string& textureName) override;
+        void loadSprite(const std::string& spriteName, const std::string& textureName, const std::string& filePath) override;
 
         /**
          * @brief Draws a sprite on the window.

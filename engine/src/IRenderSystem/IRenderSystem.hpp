@@ -80,7 +80,7 @@ namespace RType
          *
          * This method must be implemented to assign a texture to a sprite.
          */
-        virtual void loadSprite(const std::string& spriteName, const std::string& textureName) = 0;
+        virtual void loadSprite(const std::string& spriteName, const std::string& textureName, const std::string& filePath) = 0;
 
         /**
          * @brief Pure virtual method to draw a sprite on the window.

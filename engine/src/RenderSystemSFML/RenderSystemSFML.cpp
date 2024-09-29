@@ -151,7 +151,10 @@ void RenderSystemSFML::unloadTexture(const std::string& textureName) {
  * @brief Loads a sprite using a texture from the cache.
  * @param textureName The name of the texture to use for the sprite.
  */
-void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::string& textureName) {
+void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::string& textureName, const std::string& filePath) {
+    if (loadTexture(textureName, filePath) == false) {
+        return;
+    }
     auto it = _textures.find(textureName);
     if (it != _textures.end()) {
         sf::Sprite sprite;
