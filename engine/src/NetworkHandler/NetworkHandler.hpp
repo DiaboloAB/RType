@@ -8,6 +8,8 @@
 #pragma once
 
     #include <string>
+    #include <list>
+    #include <asio.hpp>
 
 namespace RType::Network
 {
@@ -15,7 +17,6 @@ namespace RType::Network
         public:
             NetworkHandler();
             NetworkHandler(std::string host, unsigned int port, bool isServer);
-            NetworkHandler(const NetworkHandler &obj);
             ~NetworkHandler();
 
         public:
@@ -27,12 +28,11 @@ namespace RType::Network
         public:
             void sendData();
             void receiveData();
-            void serializeData();
-            void deserializeData();
 
         private:
             std::string _host = "";
-            unsigned int port_ = 0;
-            bool isServer = false;
+            unsigned int _port = 0;
+            bool _isServer = false;
+            std::list<asio::ip::udp::endpoint> endpoint_list = {};
     };
 }

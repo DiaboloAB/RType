@@ -16,6 +16,8 @@ Engine::Engine()
     // Constructor implementation
 }
 
+Engine::Engine(std::string host, unsigned int port, bool isServer) : _networkHandler(host, port, isServer) {}
+
 Engine::~Engine()
 {
     // Destructor implementation

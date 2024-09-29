@@ -6,6 +6,7 @@
 */
 
 #include "Server.hpp"
+#include "RTypeEngine.hpp"
 #include <string>
 #include <iostream>
 
@@ -25,6 +26,8 @@ int main(int ac, char **av)
     }
     try {
         RType::Server::Server server(ac, av);
+        RType::Engine engine;
+        engine.run();
         return 0;
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
