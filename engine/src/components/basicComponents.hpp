@@ -5,14 +5,27 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include <iostream>
-#include <string>
+#ifndef BASICCOMPONENTS_H
+#define BASICCOMPONENTS_H
 
-#include "RTypeEngine.hpp"
+// std
 
-int main()
-{
-    RType::Engine engine;
-    engine.run();
-    return 0;
+namespace RType {
+    struct Position
+    {
+        float x;
+        float y;
+
+        Position(float x, float y) : x(x), y(y) {}
+    };
+
+    struct Velocity
+    {
+        float x;
+        float y;
+
+        Velocity(float x, float y) : x(x), y(y) {}
+    };
 }
+
+#endif // BASICCOMPONENTS_H

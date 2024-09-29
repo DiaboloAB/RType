@@ -6,6 +6,8 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
+#include "components/basicComponents.hpp"
+#include "systems/forward.hpp"
 
 using namespace RType;
 
@@ -19,41 +21,21 @@ Engine::~Engine()
     // Destructor implementation
 }
 
-struct Position
+void Engine::run()
 {
-    float x;
-    float y;
-
-    Position(float x, float y) : x(x), y(y) {}
-};
-
-struct Velocity
-{
-    float x;
-    float y;
-
-    Velocity(float x, float y) : x(x), y(y) {}
-};
-
-void Engine::run() {
-    // Créer des entités
     ECS::Entity entity = _registry.create();
     _registry.emplace<Position>(entity, 0.0f, 1.0f);
     _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
-    // Boucle pour créer plusieurs entités
-    for (int i = 0; i < 10; i++) {
-        ECS::Entity entity = _registry.create();
-        if (i % 2 == 0) {
-            _registry.emplace<Position>(entity, 0.0f, i * 10.0f);
-        }
-    }
+    int i = 0;
 
-    // Affichage des positions initiales
-    auto view = _registry.view<Position>();
-    for (auto entity : view) {
-        Position &pos = view.get<Position>(entity);
-        std::cout << "Position: " << pos.x << ", " << pos.y << std::endl;
+    _systemManager.addSystem<ForwardSystem>();
+
+    for (int i = 0; i < 10; i++) // replace with while (window.isOpen())
+    {
+        _gameContext.update();
+
+        _systemManager.update(_registry, _gameContext);
     }
 
     RenderSystemSFML renderSystem;

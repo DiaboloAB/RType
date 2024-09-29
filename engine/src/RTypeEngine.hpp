@@ -9,9 +9,12 @@
 #define RTYPE_H
 
 #include "RTypeECS.hpp"
-#include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "gameContext/GameContext.hpp"
+#include "system/SystemManager.hpp"
+
 // std
 #include <iostream>
+#include <chrono>
 
 namespace RType
 {
@@ -28,6 +31,9 @@ class Engine
 
    private:
     ECS::Registry _registry;
+    SystemManager _systemManager;
+    GameContext _gameContext;
+
     // Member variables
 };
 

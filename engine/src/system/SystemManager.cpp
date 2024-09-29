@@ -5,14 +5,14 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include <iostream>
-#include <string>
+#include "SystemManager.hpp"
 
-#include "RTypeEngine.hpp"
+using namespace RType;
 
-int main()
-{
-    RType::Engine engine;
-    engine.run();
-    return 0;
+SystemManager::SystemManager() {
+    // Constructor implementation
+}
+
+SystemManager::~SystemManager() {
+    // Destructor implementation
 }

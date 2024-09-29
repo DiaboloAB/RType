@@ -4,7 +4,12 @@ project(RTypeEngine VERSION 0.1)
 
 find_package(SFML REQUIRED COMPONENTS network window graphics system)
 
-set(SOURCES src/RTypeEngine.cpp src/RenderSystemSFML/RenderSystemSFML.cpp)
+set(SOURCES
+    src/RTypeEngine.cpp
+    src/RenderSystemSFML/RenderSystemSFML.cpp
+    src/gameContext/GameContext.cpp
+    src/system/SystemManager.cpp
+    )
 
 add_library(RTypeEngine STATIC ${SOURCES})
 
