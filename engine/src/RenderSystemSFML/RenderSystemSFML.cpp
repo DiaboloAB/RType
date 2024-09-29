@@ -121,12 +121,72 @@ void RenderSystemSFML::FullScreenWindow()
 }
 
 /**
+ * @brief Loads a texture from file and stores it in a cache.
+ * @param textureName The unique name of the texture.
+ * @param filePath The file path of the texture to load.
+ * @return `true` if the texture was loaded successfully, `false` otherwise.
+ */
+bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::string& filePath) {
+    auto texture = std::make_unique<sf::Texture>();
+    if (!texture->loadFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
+        return false;
+    }
+    _textures[textureName] = std::move(texture);
+    return true;
+}
+
+/**
+ * @brief Unloads a specific texture from the cache.
+ * @param textureName The unique name of the texture to unload.
+ */
+void RenderSystemSFML::unloadTexture(const std::string& textureName) {
+    auto it = _textures.find(textureName);
+    if (it != _textures.end()) {
+        _textures.erase(it); // Libère la mémoire associée à la texture
+    }
+}
+
+/**
+ * @brief Loads a sprite using a texture from the cache.
+ * @param textureName The name of the texture to use for the sprite.
+ */
+void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::string& textureName, const std::string& filePath) {
+    if (loadTexture(textureName, filePath) == false) {
+        return;
+    }
+    auto it = _textures.find(textureName);
+    if (it != _textures.end()) {
+        sf::Sprite sprite;
+        sprite.setTexture(*it->second);
+        _sprites[spriteName] = sprite;  // Ajoute le sprite à la map avec son nom unique
+    } else {
+        std::cerr << "Erreur : texture non trouvée (" << textureName << ")" << std::endl;
+    }
+}
+
+/**
  * @brief Draws a sprite on the game window.
  * 
  * Placeholder function for drawing sprites. It is currently not implemented but intended for future use.
  */
-void RenderSystemSFML::drawSprite() {
-    // To be implemented
+void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y) {
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end()) {
+        // Met à jour la position du sprite
+        it->second.setPosition(x, y);
+        
+        // Dessine le sprite avec la nouvelle position
+        _window.draw(it->second);
+    } else {
+        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
+    }
+}
+
+void RenderSystemSFML::drawAllSprites() {
+    for (const auto& pair : _sprites) {
+        _window.draw(pair.second); // Dessine chaque sprite dans la map
+    }
 }
 
 /**
@@ -135,7 +195,7 @@ void RenderSystemSFML::drawSprite() {
  * Placeholder function for drawing text. It is currently not implemented but intended for future use.
  */
 void RenderSystemSFML::drawText() {
-    // To be implemented
+    // To be implemented    
 }
 
 } // namespace RType
