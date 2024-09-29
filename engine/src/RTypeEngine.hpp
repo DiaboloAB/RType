@@ -31,7 +31,7 @@ namespace RType {
             ECS::Registry _registry;
             SystemManager _systemManager;
             GameContext _gameContext;
-            Network::NetworkHandler _networkHandler;
+           std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
 
     // Member variables
     };
