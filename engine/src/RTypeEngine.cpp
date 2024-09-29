@@ -39,4 +39,19 @@ void Engine::run()
 
         _systemManager.update(_registry, _gameContext);
     }
+
+    RenderSystemSFML renderSystem;
+    // Charger les sprites
+    renderSystem.loadSprite("player", "player", "player.png");
+
+    while (renderSystem.isWindowOpen()) {
+        if (renderSystem.getInput() == ESCAPE)
+            break;
+        renderSystem.clearWindow();
+        
+        // Dessiner tous les sprites chargés
+        renderSystem.drawSprite("player", 50, 50);
+        
+        renderSystem.updateWindow();
+    }
 }
