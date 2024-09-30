@@ -8,11 +8,13 @@
 #pragma once
     #include <iostream>
     #include <memory>
-    #include "../IRenderSystem/IRenderSystem.hpp"
+    #include "../IRuntime/IRuntime.hpp"
     #include <unistd.h>
     #include <SFML/Window.hpp>
     #include <SFML/Graphics.hpp>
     #include <map>
+    #include <vector>
+    #include <unordered_map>
 
 /**
  * @file RenderSystem.hpp
@@ -21,6 +23,7 @@
 
 namespace RType
 {
+
     /**
      * @class RenderSystem
      * @brief Rendering system for the RType game.
@@ -28,7 +31,7 @@ namespace RType
      * This class manages rendering operations such as window management,
      * displaying sprites, text, and handling graphical interface-related events.
      */
-    class RenderSystemSFML : public RType::IRenderSystem {
+    class RenderSystemSFML : public RType::IRuntime {
     public:
 
         /**
@@ -45,13 +48,31 @@ namespace RType
 
     public:
 
+        void pollEvents() override;
+
         /**
          * @brief Retrieves user inputs (keyboard, mouse, etc.).
          * @return RType::Event The captured event.
          *
          * This method captures events coming from the user, such as keyboard inputs or mouse movements.
          */
-        RType::Event getInput() override;
+        bool getKey(KeyCode key) override;
+
+        /**
+         * @brief Retrieves user inputs (keyboard, mouse, etc.).
+         * @return RType::Event The captured event.
+         *
+         * This method captures events coming from the user, such as keyboard inputs or mouse movements.
+         */
+        bool getKeyUp(KeyCode key) override;
+
+        /**
+         * @brief Retrieves user inputs (keyboard, mouse, etc.).
+         * @return RType::Event The captured event.
+         *
+         * This method captures events coming from the user, such as keyboard inputs or mouse movements.
+         */
+        bool getKeyDown(KeyCode key) override;
 
         /**
          * @brief Clears the window for the next frame rendering.
@@ -130,5 +151,10 @@ namespace RType
         sf::RenderWindow _window;  ///< SFML render window.
         std::map<std::string, std::unique_ptr<sf::Texture>> _textures; ///< Cache des textures.
         std::map<std::string, sf::Sprite> _sprites;
+
+        KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
+        KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
+        std::unordered_map<int, bool> _currentKeys;
+        std::unordered_map<int, bool> _previousKeys;
     };
 }

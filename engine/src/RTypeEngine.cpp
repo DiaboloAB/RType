@@ -6,8 +6,9 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-#include "components/basicComponents.hpp"
-#include "systems/forward.hpp"
+#include "common/systems/forward.hpp"
+#include "common/systems/SpriteSystem.hpp"
+#include "RenderSystemSFML/RenderSystemSFML.hpp"
 
 using namespace RType;
 
@@ -24,32 +25,32 @@ Engine::~Engine()
 void Engine::run()
 {
     ECS::Entity entity = _registry.create();
-    _registry.emplace<Position>(entity, 0.0f, 1.0f);
-    _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
-
-    int i = 0;
+    _registry.emplace<Transform>(entity);
+    _registry.emplace<Sprite>(entity, "player.png");
+    // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
     _systemManager.addSystem<ForwardSystem>();
+    _systemManager.addSystem<SpriteSystem>();
 
-    for (int i = 0; i < 10; i++) // replace with while (window.isOpen())
+    _gameContext._runtime->loadSprite("player", "player", "player.png");
+
+    _systemManager.start(_registry, _gameContext);
+    while (_gameContext._runtime->isWindowOpen())
     {
+        _gameContext._runtime->pollEvents();
         _gameContext.update();
 
-        _systemManager.update(_registry, _gameContext);
-    }
-
-    RenderSystemSFML renderSystem;
-    // Charger les sprites
-    renderSystem.loadSprite("player", "player", "player.png");
-
-    while (renderSystem.isWindowOpen()) {
-        if (renderSystem.getInput() == ESCAPE)
+        if (_gameContext._runtime->getKey(KeyCode::Close))
             break;
-        renderSystem.clearWindow();
-        
-        // Dessiner tous les sprites chargés
-        renderSystem.drawSprite("player", 50, 50);
-        
-        renderSystem.updateWindow();
+
+
+        _systemManager.update(_registry, _gameContext);
+
+        _gameContext._runtime->clearWindow();
+        _systemManager.draw(_registry, _gameContext);
+        // _gameContext._runtime->drawSprite("player", 50, 50);
+        _gameContext._runtime->updateWindow();
     }
+
+
 }
