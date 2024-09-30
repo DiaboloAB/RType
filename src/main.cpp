@@ -34,8 +34,8 @@ int main(int ac, char **av)
             engine.run();
         } else if (ac != 1 &&
             (std::string(av[1]) == "--debug" || std::string(av[1]) == "-d")) {
-            std::string host = av[2];    
-            RType::Engine engine(host, (unsigned int)std::stoi(av[2]), false);
+            std::string host = av[2];
+            RType::Engine engine(host, (unsigned int)std::stoi(av[3]), false);
             engine.run();
         } else {
             displayUsage();
