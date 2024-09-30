@@ -10,6 +10,8 @@
 
 // std
 #include <chrono>
+#include <IRuntime/IRuntime.hpp>
+#include <RenderSystemSFML/RenderSystemSFML.hpp>
 
 namespace RType
 {
@@ -26,11 +28,10 @@ public:
     }
 
     float _deltaT;
+    IRuntime* _runtime;
 
 private:
-    // Member variables
     std::chrono::high_resolution_clock::time_point _currentTime;
-    //renderer here
 };
 
 }  // namespace RType

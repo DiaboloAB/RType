@@ -21,7 +21,17 @@ namespace RType::Network {
      */
     enum PacketType : uint8_t {
         NONE = 0,
-        CREATEENTITY = 1,
+        HISERVER = 1,
+        HICLIENT = 2,
+        ADIOSSERVER = 3,
+        HEALTHCHECK = 4,
+        CREATEENTITY = 5,
+        DESTROYENTITY = 6,
+        MOVEENTITY = 7,
+        UPDATEENTITY = 8,
+        CLIENTEVENT = 9,
+        KICKCLIENT = 10,
+        PACKETVALIDATION = 11,
     };
 
     /**

@@ -5,27 +5,16 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef BASICCOMPONENTS_H
-#define BASICCOMPONENTS_H
+#include "HiServerPacket.hpp"
 
-// std
+namespace RType::Network {
+    HiServerPacket::HiServerPacket() : APacket(HISERVER) {
+        this->_packetDataSize = 0;
+    }
 
-namespace RType {
-    struct Position
-    {
-        float x;
-        float y;
+    HiServerPacket::HiServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-        Position(float x, float y) : x(x), y(y) {}
-    };
+    HiServerPacket::~HiServerPacket() {};
 
-    struct Velocity
-    {
-        float x;
-        float y;
-
-        Velocity(float x, float y) : x(x), y(y) {}
-    };
+    std::vector<char> HiServerPacket::serializeData() const {}
 }
-
-#endif // BASICCOMPONENTS_H

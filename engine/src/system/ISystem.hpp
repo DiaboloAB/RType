@@ -18,11 +18,14 @@ class ISystem {
 public:
     ~ISystem() = default;
 
-    virtual void update(ECS::Registry &registry, GameContext &gameContext) = 0;
+    virtual void start(ECS::Registry &registry, GameContext &gameContext) {
+    }
 
-    // Getters
+    virtual void update(ECS::Registry &registry, GameContext &gameContext) {
+    }
 
-    // Setters
+    virtual void draw(ECS::Registry &registry, GameContext &gameContext) {
+    }
 
 private:
     // Member variables

@@ -10,6 +10,8 @@
     #include "RTypeECS.hpp"
     #include "gameContext/GameContext.hpp"
     #include "system/SystemManager.hpp"
+    #include "common/components.hpp"
+    #include <glm/glm.hpp>
     #include "NetworkHandler/NetworkHandler.hpp"
 // std
     #include <iostream>
