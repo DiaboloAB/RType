@@ -9,8 +9,8 @@
 
 namespace RType::Network {
     NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServer)
-    : _host(host), _port(port), _isServer(isServer), _io_context(),
-    _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), isServer ? port : 0)) {
+    : _host(host), _port(port), _isServer(isServer), _io_context() {
+        this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), isServer ? port : 0));
         this->receiveData();
         this->_io_context.run();
     };
@@ -38,6 +38,10 @@ namespace RType::Network {
     }
 
     void NetworkHandler::receiveData() {
-
+        this->_socket->async_receive_from(
+        asio::buffer(recv_buffer_), remote_endpoint_,
+        std::bind(&udp_server::handle_receive, this,
+          asio::placeholders::error,
+          asio::placeholders::bytes_transferred));
     }
 }

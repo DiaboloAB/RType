@@ -34,6 +34,6 @@ namespace RType::Network
             bool _isServer = false;
             std::list<asio::ip::udp::endpoint> _endpointList = {};
             asio::io_context _io_context;
-            asio::ip::udp::socket _socket;
+            std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
     };
 }
