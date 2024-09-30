@@ -29,9 +29,21 @@ public:
         return ref;
     }
 
+    void start(ECS::Registry &registry, GameContext &gameContext) {
+        for (auto &system : _systems) {
+            system->start(registry, gameContext);
+        }
+    }
+
     void update(ECS::Registry &registry, GameContext &gameContext) {
         for (auto &system : _systems) {
             system->update(registry, gameContext);
+        }
+    }
+
+    void draw(ECS::Registry &registry, GameContext &gameContext) {
+        for (auto &system : _systems) {
+            system->draw(registry, gameContext);
         }
     }
 

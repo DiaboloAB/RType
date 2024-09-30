@@ -10,36 +10,60 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include "../common/Event.hpp"
+#include "../common/KeyCode.hpp"
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <vector>
 
 /**
- * @file IRenderSystem.hpp
+ * @file IRuntime.hpp
  * @brief Rendering interface for the RType game.
  */
 
 namespace RType
 {
     /**
-     * @class IRenderSystem
+     * @class IRuntime
      * @brief Interface for managing the rendering system.
      *
      * This interface defines the necessary methods for any rendering system
      * used in the RType game. Derived classes must implement these methods
      * to handle rendering, user input, and window control.
      */
-    class IRenderSystem {
+    class IRuntime {
 
     public:
+
+        virtual ~IRuntime() = default;
+
+        virtual void pollEvents() = 0;
+
         /**
-         * @brief Pure virtual method to capture user input.
-         * @return RType::Event The captured user event.
+            * @brief Pure virtual method to retrieve user input.
+            * @return The captured event.
+            *
+            * This method must be implemented to capture user input events
+            * such as keyboard presses, mouse clicks, or other input devices.
+            */
+        virtual bool getKey(KeyCode key) = 0;
+
+        /**
+         * @brief Pure virtual method to retrieve user input.
+         * @return The captured event.
          *
-         * This method must be implemented to capture user input
-         * (keyboard, mouse, etc.).
+         * This method must be implemented to capture user input events
+         * such as keyboard presses, mouse clicks, or other input devices.
          */
-        virtual RType::Event getInput() = 0;
+        virtual bool getKeyUp(KeyCode key) = 0;
+
+        /**
+         * @brief Pure virtual method to retrieve user input.
+         * @return The captured event.
+         *
+         * This method must be implemented to capture user input events
+         * such as keyboard presses, mouse clicks, or other input devices.
+         */
+        virtual bool getKeyDown(KeyCode key) = 0;
 
         /**
          * @brief Pure virtual method to clear the window before a new frame.
