@@ -35,5 +35,6 @@ namespace RType::Network
             std::list<asio::ip::udp::endpoint> _endpointList = {};
             asio::io_context _io_context;
             std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
+            // recieve buffer
     };
 }

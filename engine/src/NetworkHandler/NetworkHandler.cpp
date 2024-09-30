@@ -10,10 +10,22 @@
 namespace RType::Network {
     NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServer)
     : _host(host), _port(port), _isServer(isServer), _io_context() {
-        this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), isServer ? port : 0));
+        // Init de la socket
+        asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
+        this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
+
+        // Ajout du server dans la liste d'endpoint du client
+        if (!isServer) {
+            asio::ip::udp::resolver resolver(this->_io_context);
+            asio::ip::udp::resolver::results_type endpoints = resolver.resolve(host, std::to_string(port));
+            asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
+            this->_endpointList.push_back(serverEndpoint);
+        }
+        // Debut de la reception de données
         this->receiveData();
+        // mettre le thread
         this->_io_context.run();
-    };
+    }
 
     NetworkHandler::~NetworkHandler() {};
 
@@ -38,10 +50,12 @@ namespace RType::Network {
     }
 
     void NetworkHandler::receiveData() {
+        asio::ip::udp::endpoint remoteEndpoint();
         this->_socket->async_receive_from(
-        asio::buffer(recv_buffer_), remote_endpoint_,
-        std::bind(&udp_server::handle_receive, this,
-          asio::placeholders::error,
-          asio::placeholders::bytes_transferred));
+        asio::buffer(recv_buffer_), remoteEndpoint,
+        //handler
+        ;
+        )
+        // rerun la fonction
     }
 }
