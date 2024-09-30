@@ -5,16 +5,16 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "HiServerPacket.hpp"
+#include "AdiosServerPacket.hpp"
 
 namespace RType::Network {
-    HiServerPacket::HiServerPacket() : APacket(HISERVER) {
+    AdiosServerPacket::AdiosServerPacket() : APacket(ADIOSSERVER) {
         this->_packetDataSize = 0;
     }
 
-    HiServerPacket::HiServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
+    AdiosServerPacket::AdiosServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-    HiServerPacket::~HiServerPacket() {};
+    AdiosServerPacket::~AdiosServerPacket() {};
 
-    std::vector<char> HiServerPacket::serializeData() const {}
+    std::vector<char> AdiosServerPacket::serializeData() const {}
 }

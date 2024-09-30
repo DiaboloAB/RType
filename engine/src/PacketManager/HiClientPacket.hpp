@@ -10,6 +10,13 @@
     #include "APacket.hpp"
 
 namespace RType::Network {
+
+    /**
+     * @class CreateEntityPacket
+     * 
+     * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
+     * main information used to ping server from new client.
+     */
     class HiClientPacket : public APacket {
         public:
             /**

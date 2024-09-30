@@ -12,32 +12,32 @@
 namespace RType::Network {
 
     /**
-     * @class CreateEntityPacket
+     * @class AdiosServerPacket
      * 
      * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
-     * main information used to ping client that connection is ok for the server.
+     * main information used by client to inform server of logout.
      */
-    class HiServerPacket : public APacket {
+    class AdiosServerPacket : public APacket {
         public:
             /**
-             * @brief Construct HiServerPacket object that will be send to server.
+             * @brief Construct AdiosServerPacket object that will be send to sever.
              * 
-             * @return HiServerPacket object.
+             * @return AdiosServerPacket object.
              */
-            HiServerPacket();
+            AdiosServerPacket();
             
             /**
-             * @brief Construct new HiServerPacket object with serialized data by deserializing them.
+             * @brief Construct new AdiosServerPacket object with serialized data by deserializing them.
              * 
              * @param buffer: Serialized packet data to deserialize.
-             * @return HiServerPacket object.
+             * @return AdiosServerPacket object.
              */
-            HiServerPacket(std::vector<char> &buffer);
+            AdiosServerPacket(std::vector<char> &buffer);
 
             /**
-             * @brief Destruct HiServerPacket object.
+             * @brief Destruct AdiosServerPacket object.
              */
-            ~HiServerPacket();
+            ~AdiosServerPacket();
         public:
             /**
              * @brief Serialize class data to binary to make it sendable by NetworkHandler.
