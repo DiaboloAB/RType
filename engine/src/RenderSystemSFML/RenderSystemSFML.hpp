@@ -13,6 +13,7 @@
     #include <SFML/Window.hpp>
     #include <SFML/Graphics.hpp>
     #include <map>
+    #include <SFML/Audio.hpp>
     #include <vector>
     #include <unordered_map>
 
@@ -110,11 +111,15 @@ namespace RType
         void loadSprite(const std::string& spriteName, const std::string& textureName, const std::string& filePath) override;
 
         /**
+         * @brief Unloads a specific sprite and its associated texture from the cache.
+         * @param spriteName The unique name of the sprite to unload.
+         */
+        void unloadSprite(const std::string& spriteName);
+
+        /**
          * @brief Draws a sprite on the window.
          */
         void drawSprite(const std::string& spriteName, float x, float y) override;
-
-        void drawAllSprites();
 
         /**
          * @brief Displays text on the screen.
@@ -129,6 +134,8 @@ namespace RType
          * Allows switching the window to fullscreen mode or returning to normal windowed mode.
          */
         void FullScreenWindow() override;
+
+
 
         /**
          * @brief Checks if the window is open.
@@ -146,11 +153,82 @@ namespace RType
          */
         sf::RenderWindow& getWindow() { return this->_window; }
 
+        /**
+         * @brief Preloads a music file and stores it in a cache.
+         * 
+         * This function loads a music
+         * 
+         * @param musicName The unique name used to reference the music.
+         * @param filePath The file path of the music file to load (e.g., "assets/music/background.ogg").
+         * @return `true` if the music was preloaded successfully, `false` otherwise.
+         */
+        bool loadMusic(const std::string& musicName, const std::string& filePath);
+
+        /**
+         * @brief Plays a preloaded music.
+         * 
+         * This function plays a music file that has already been preloaded
+         * 
+         * @param musicName The unique name of the preloaded music to play.
+         * @param loop Whether the music should loop continuously (default is `true`).
+         */
+        void playMusic(const std::string& musicName, bool loop = true);
+
+        /**
+         * @brief Stops the currently playing music.
+         * 
+         * This function stops the playback of any music currently playing. It does not unload
+         * the music from memory.
+         */
+        void stopCurrentMusic();
+
+        /**
+         * @brief Unloads a specific music from the cache.
+         * 
+         * This function removes a preloaded music from the cache, freeing the memory associated
+         * with it. If the music is currently playing, it will be stopped before being unloaded.
+         * 
+         * @param musicName The unique name of the preloaded music to unload.
+         */
+        void unloadMusic(const std::string& musicName);
+
+        /**
+         * @brief Preloads a sound buffer from file and stores it in a cache.
+         * 
+         * This function loads a sound
+         * 
+         * @return `true` if the sound was preloaded successfully, `false` otherwise.
+         */
+        bool loadSound(const std::string& soundName, const std::string& filePath);
+
+        /**
+         * @brief Plays a preloaded sound.
+         * 
+         * This function plays a sound
+         * 
+         * @param soundName The unique name of the preloaded sound to play.
+         */
+        void playSound(const std::string& soundName);
+
+        /**
+         * @brief Unloads a specific sound from the cache.
+         * 
+         * This function removes a preloaded sound from the cache
+         * 
+         * @param soundName The unique name of the preloaded sound to unload.
+         */
+        void unloadSound(const std::string& soundName);
+
+
     private:
-        bool _isFullScreen;        ///< Indicates whether the window is in fullscreen mode.
-        sf::RenderWindow _window;  ///< SFML render window.
-        std::map<std::string, std::unique_ptr<sf::Texture>> _textures; ///< Cache des textures.
+        bool _isFullScreen;
+        sf::RenderWindow _window;
+        std::map<std::string, std::unique_ptr<sf::Texture>> _textures;
         std::map<std::string, sf::Sprite> _sprites;
+        std::map<std::string, std::unique_ptr<sf::Music>> _musics;
+        sf::Music* _currentMusic = nullptr;
+        std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _soundBuffers;
+        std::vector<sf::Sound> _sounds;
 
         KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
         KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
