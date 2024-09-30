@@ -10,28 +10,28 @@
     #include "APacket.hpp"
 
 namespace RType::Network {
-    class HiClientPacket : public APacket {
+    class HiServerPacket : public APacket {
         public:
             /**
-             * @brief Construct HiClientPacket object that will be send to client.
+             * @brief Construct HiServerPacket object that will be send to client.
              * 
              * @param entityId : Id of the entity that will be created.
-             * @return HiClientPacket object.
+             * @return HiServerPacket object.
              */
-            HiClientPacket(uint32_t entityId);
+            HiServerPacket(float runtimeVersion);
             
             /**
-             * @brief Construct new HiClientPacket object with serialized data by deserializing them.
+             * @brief Construct new HiServerPacket object with serialized data by deserializing them.
              * 
              * @param buffer: Serialized packet data to deserialize.
-             * @return HiClientPacket object.
+             * @return HiServerPacket object.
              */
-            HiClientPacket(std::vector<char> &buffer);
+            HiServerPacket(std::vector<char> &buffer);
 
             /**
-             * @brief Destruct HiClientPacket object.
+             * @brief Destruct HiServerPacket object.
              */
-            ~HiClientPacket();
+            ~HiServerPacket();
         public:
             /**
              * @brief Serialize class data to binary to make it sendable by NetworkHandler.
@@ -40,6 +40,6 @@ namespace RType::Network {
              */
             std::vector<char> serializeData() const override;
         private:
-            uint32_t _entityId;
+            float _runtimeVersion;
     };
 }
