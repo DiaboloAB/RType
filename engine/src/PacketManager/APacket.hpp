@@ -22,6 +22,7 @@ namespace RType::Network {
     enum PacketType : uint8_t {
         NONE = 0,
         CREATEENTITY = 1,
+        HICLIENT = 2,
     };
 
     /**
