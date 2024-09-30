@@ -7,6 +7,7 @@
 
 #pragma once
 
+    #include <iostream>
     #include <string>
     #include <list>
     #include <asio.hpp>
@@ -15,6 +16,7 @@ namespace RType::Network
 {
     class NetworkHandler {
         public:
+            NetworkHandler() = delete;
             NetworkHandler(std::string host, unsigned int port, bool isServer);
             ~NetworkHandler();
 

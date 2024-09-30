@@ -49,7 +49,10 @@ namespace RType::Network {
 
     }
 
-    void NetworkHandler::handleData(std::vector<char> recvBuffer, asio::ip::udp::endpoint remoteEndpoint) {}
+    void NetworkHandler::handleData(std::vector<char> recvBuffer, asio::ip::udp::endpoint remoteEndpoint)
+    {
+        std::cout << "De la data!" << std::endl;
+    }
 
     void NetworkHandler::receiveData() {
         asio::ip::udp::endpoint remoteEndpoint;
