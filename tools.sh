@@ -42,6 +42,7 @@ elif [ "$COMMAND" == "pack" ]; then
 elif [ "$COMMAND" == "clean" ]; then
     echo "Cleaning project..."
     rm -rf build
+    rm RType
     rm CMakeUserPresets.json
 elif [ "$COMMAND" == "rebuild" ]; then
     echo "Rebuilding project..."
