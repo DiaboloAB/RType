@@ -10,8 +10,9 @@
 namespace RType::Network {
     NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServer)
     : _host(host), _port(port), _isServer(isServer), _io_context(),
-    _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), port)) {
+    _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), isServer ? port : 0)) {
         this->receiveData();
+        this->_io_context.run();
     };
 
     NetworkHandler::~NetworkHandler() {};
@@ -37,6 +38,6 @@ namespace RType::Network {
     }
 
     void NetworkHandler::receiveData() {
-        //call a lui meme
+
     }
 }
