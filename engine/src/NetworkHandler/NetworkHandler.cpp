@@ -49,13 +49,20 @@ namespace RType::Network {
 
     }
 
+    void NetworkHandler::handleData(std::vector<char> recvBuffer, asio::ip::udp::endpoint remoteEndpoint) {}
+
     void NetworkHandler::receiveData() {
-        asio::ip::udp::endpoint remoteEndpoint();
+        asio::ip::udp::endpoint remoteEndpoint;
+
         this->_socket->async_receive_from(
-        asio::buffer(recv_buffer_), remoteEndpoint,
-        //handler
-        ;
-        )
-        // rerun la fonction
+            asio::buffer(_recvBuffer), remoteEndpoint,
+            [this, &remoteEndpoint](std::error_code ec, std::size_t bytes_recvd) {
+                if (!ec)
+                    this->handleData(_recvBuffer, remoteEndpoint);
+                else
+                    throw NetworkHandlerError("NetworkHandler Error: Corrupted packets");
+            }
+        );
+        return this->receiveData();
     }
 }
