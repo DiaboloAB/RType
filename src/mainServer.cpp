@@ -10,7 +10,7 @@
 #include <string>
 #include <iostream>
 
-void displayUsage() {
+static void displayUsage() {
     std::cout << "USAGE:" << std::endl;
     std::cout << "\n  ./r-type_server [-p port] [-H host]" << std::endl;
     std::cout << "\nPARAM:" << std::endl;
