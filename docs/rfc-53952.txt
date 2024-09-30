@@ -211,7 +211,7 @@ LARGEOT                         Informational                           [Page 4]
     | Name                           | Size (in bits) | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 7     |
-    | EntityUuid                     | 32             |       |
+    | Entity Id                      | 32             |       |
     | x                              | 32             |       |
     | y                              | 32             |       |
     | direction x                    | 32             |       |
