@@ -12,41 +12,38 @@
 namespace RType::Network {
 
     /**
-     * @class HiClientPacket
+     * @class HealthcheckPacket
      * 
      * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
-     * main information used to ping server from new client.
+     * main information used to verify if client or server is still alive.
      */
-    class HiClientPacket : public APacket {
+    class HealthcheckPacket : public APacket {
         public:
             /**
-             * @brief Construct HiClientPacket object that will be send to client.
+             * @brief Construct HealthcheckPacket object that will be send to server or client.
              * 
-             * @param entityId : Id of the entity that will be created.
-             * @return HiClientPacket object.
+             * @return HealthcheckPacket object.
              */
-            HiClientPacket(uint32_t entityId);
+            HealthcheckPacket();
             
             /**
-             * @brief Construct new HiClientPacket object with serialized data by deserializing them.
+             * @brief Construct new HealthcheckPacket object with serialized data by deserializing them.
              * 
              * @param buffer: Serialized packet data to deserialize.
-             * @return HiClientPacket object.
+             * @return HealthcheckPacket object.
              */
-            HiClientPacket(std::vector<char> &buffer);
+            HealthcheckPacket(std::vector<char> &buffer);
 
             /**
-             * @brief Destruct HiClientPacket object.
+             * @brief Destruct HealthcheckPacket object.
              */
-            ~HiClientPacket();
+            ~HealthcheckPacket();
         public:
             /**
              * @brief Serialize class data to binary to make it sendable by NetworkHandler.
              * 
-             * @return std::vector<char> that represent serialization of entityId to binary.
+             * @return empty std::vector<char> because nothing to serialize.
              */
             std::vector<char> serializeData() const override;
-        private:
-            uint32_t _entityId;
     };
 }

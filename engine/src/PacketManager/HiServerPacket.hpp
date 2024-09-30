@@ -12,7 +12,7 @@
 namespace RType::Network {
 
     /**
-     * @class CreateEntityPacket
+     * @class HiServerPacket
      * 
      * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
      * main information used to ping client that connection is ok for the server.
