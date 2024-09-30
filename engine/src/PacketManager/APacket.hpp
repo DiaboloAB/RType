@@ -26,7 +26,7 @@ namespace RType::Network {
         ADIOSSERVER = 3,
         HEALTHCHECK = 4,
         CREATEENTITY = 5,
-        DESTROYENTOTY = 6,
+        DESTROYENTITY = 6,
         MOVEENTITY = 7,
         UPDATEENTITY = 8,
         CLIENTEVENT = 9,
