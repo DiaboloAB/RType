@@ -9,6 +9,7 @@ set(SOURCES
     src/RenderSystemSFML/RenderSystemSFML.cpp
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
+    src/NetworkHandler/NetworkHandler.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})
