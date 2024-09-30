@@ -15,7 +15,6 @@ namespace RType::Network
 {
     class NetworkHandler {
         public:
-            NetworkHandler();
             NetworkHandler(std::string host, unsigned int port, bool isServer);
             ~NetworkHandler();
 
@@ -33,6 +32,8 @@ namespace RType::Network
             std::string _host = "";
             unsigned int _port = 0;
             bool _isServer = false;
-            std::list<asio::ip::udp::endpoint> endpoint_list = {};
+            std::list<asio::ip::udp::endpoint> _endpointList = {};
+            asio::io_context _io_context;
+            asio::ip::udp::socket _socket;
     };
 }
