@@ -35,7 +35,7 @@ void Engine::run()
 
     std::cout << "hello" << std::endl;
     _gameContext._runtime->loadSprite("player", "player", "player.png");
-    // _gameContext._runtime->loadSound("shoot", "shoot.ogg");
+    _gameContext._runtime->loadSound("shoot", "shoot.ogg");
 
     _systemManager.start(_registry, _gameContext);
 
@@ -43,7 +43,7 @@ void Engine::run()
     {
         _gameContext._runtime->pollEvents();
         _gameContext.update();
-        // _gameContext._runtime->playSound("shoot");
+        _gameContext._runtime->playSound("shoot");
 
         if (_gameContext._runtime->getKey(KeyCode::Close))
             break;
