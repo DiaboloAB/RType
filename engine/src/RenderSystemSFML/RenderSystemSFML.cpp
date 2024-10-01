@@ -204,68 +204,6 @@ void RenderSystemSFML::drawText() {
     // To be implemented    
 }
 
-KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key) {
-    switch (key) {
-        case sf::Keyboard::A: return KeyCode::A;
-        case sf::Keyboard::B: return KeyCode::B;
-        case sf::Keyboard::C: return KeyCode::C;
-        case sf::Keyboard::D: return KeyCode::D;
-        case sf::Keyboard::E: return KeyCode::E;
-        case sf::Keyboard::F: return KeyCode::F;
-        case sf::Keyboard::G: return KeyCode::G;
-        case sf::Keyboard::H: return KeyCode::H;
-        case sf::Keyboard::I: return KeyCode::I;
-        case sf::Keyboard::J: return KeyCode::J;
-        case sf::Keyboard::K: return KeyCode::K;
-        case sf::Keyboard::L: return KeyCode::L;
-        case sf::Keyboard::M: return KeyCode::M;
-        case sf::Keyboard::N: return KeyCode::N;
-        case sf::Keyboard::O: return KeyCode::O;
-        case sf::Keyboard::P: return KeyCode::P;
-        case sf::Keyboard::Q: return KeyCode::Q;
-        case sf::Keyboard::R: return KeyCode::R;
-        case sf::Keyboard::S: return KeyCode::S;
-        case sf::Keyboard::T: return KeyCode::T;
-        case sf::Keyboard::U: return KeyCode::U;
-        case sf::Keyboard::V: return KeyCode::V;
-        case sf::Keyboard::W: return KeyCode::W;
-        case sf::Keyboard::X: return KeyCode::X;
-        case sf::Keyboard::Y: return KeyCode::Y;
-        case sf::Keyboard::Z: return KeyCode::Z;
-        case sf::Keyboard::Up: return KeyCode::UpArrow;
-        case sf::Keyboard::Down: return KeyCode::DownArrow;
-        case sf::Keyboard::Left: return KeyCode::LeftArrow;
-        case sf::Keyboard::Right: return KeyCode::RightArrow;
-        case sf::Keyboard::Escape: return KeyCode::Escape;
-        case sf::Keyboard::Space: return KeyCode::Space;
-        case sf::Keyboard::Enter: return KeyCode::Enter;
-        case sf::Keyboard::Backspace: return KeyCode::Backspace;
-        case sf::Keyboard::Tab: return KeyCode::Tab;
-        case sf::Keyboard::Num0: return KeyCode::Alpha0;
-        case sf::Keyboard::Num1: return KeyCode::Alpha1;
-        case sf::Keyboard::Num2: return KeyCode::Alpha2;
-        case sf::Keyboard::Num3: return KeyCode::Alpha3;
-        case sf::Keyboard::Num4: return KeyCode::Alpha4;
-        case sf::Keyboard::Num5: return KeyCode::Alpha5;
-        case sf::Keyboard::Num6: return KeyCode::Alpha6;
-        case sf::Keyboard::Num7: return KeyCode::Alpha7;
-        case sf::Keyboard::Num8: return KeyCode::Alpha8;
-        case sf::Keyboard::Num9: return KeyCode::Alpha9;
-        default: return KeyCode::None; // Default case, adjust as needed
-    }
-}
-
-KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button) {
-    switch (button) {
-        case sf::Mouse::Left: return KeyCode::Mouse0;
-        case sf::Mouse::Right: return KeyCode::Mouse2;
-        case sf::Mouse::Middle: return KeyCode::Mouse3;
-        case sf::Mouse::XButton1: return KeyCode::Mouse4;
-        case sf::Mouse::XButton2: return KeyCode::Mouse5;
-        default: return KeyCode::None; // Default case, adjust as needed
-    }
-}
-
 /**
  * @brief Preloads a music file and stores it in a cache.
  * 
@@ -371,6 +309,80 @@ void RenderSystemSFML::playSound(const std::string& soundName) {
         _sounds.back().play();
     } else {
         std::cerr << "Erreur : son non trouvé (" << soundName << ")" << std::endl;
+    }
+}
+
+/**
+ * @brief Unloads a specific sound from the cache.
+ * 
+ * @param soundName The unique name of the preloaded sound to unload.
+ */
+void RenderSystemSFML::unloadSound(const std::string& soundName) {
+    auto it = _soundBuffers.find(soundName);
+    if (it != _soundBuffers.end()) {
+        _soundBuffers.erase(it); // Remove the sound buffer from the cache
+    }
+}
+
+KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key) {
+    switch (key) {
+        case sf::Keyboard::A: return KeyCode::A;
+        case sf::Keyboard::B: return KeyCode::B;
+        case sf::Keyboard::C: return KeyCode::C;
+        case sf::Keyboard::D: return KeyCode::D;
+        case sf::Keyboard::E: return KeyCode::E;
+        case sf::Keyboard::F: return KeyCode::F;
+        case sf::Keyboard::G: return KeyCode::G;
+        case sf::Keyboard::H: return KeyCode::H;
+        case sf::Keyboard::I: return KeyCode::I;
+        case sf::Keyboard::J: return KeyCode::J;
+        case sf::Keyboard::K: return KeyCode::K;
+        case sf::Keyboard::L: return KeyCode::L;
+        case sf::Keyboard::M: return KeyCode::M;
+        case sf::Keyboard::N: return KeyCode::N;
+        case sf::Keyboard::O: return KeyCode::O;
+        case sf::Keyboard::P: return KeyCode::P;
+        case sf::Keyboard::Q: return KeyCode::Q;
+        case sf::Keyboard::R: return KeyCode::R;
+        case sf::Keyboard::S: return KeyCode::S;
+        case sf::Keyboard::T: return KeyCode::T;
+        case sf::Keyboard::U: return KeyCode::U;
+        case sf::Keyboard::V: return KeyCode::V;
+        case sf::Keyboard::W: return KeyCode::W;
+        case sf::Keyboard::X: return KeyCode::X;
+        case sf::Keyboard::Y: return KeyCode::Y;
+        case sf::Keyboard::Z: return KeyCode::Z;
+        case sf::Keyboard::Up: return KeyCode::UpArrow;
+        case sf::Keyboard::Down: return KeyCode::DownArrow;
+        case sf::Keyboard::Left: return KeyCode::LeftArrow;
+        case sf::Keyboard::Right: return KeyCode::RightArrow;
+        case sf::Keyboard::Escape: return KeyCode::Escape;
+        case sf::Keyboard::Space: return KeyCode::Space;
+        case sf::Keyboard::Enter: return KeyCode::Enter;
+        case sf::Keyboard::Backspace: return KeyCode::Backspace;
+        case sf::Keyboard::Tab: return KeyCode::Tab;
+        case sf::Keyboard::Num0: return KeyCode::Alpha0;
+        case sf::Keyboard::Num1: return KeyCode::Alpha1;
+        case sf::Keyboard::Num2: return KeyCode::Alpha2;
+        case sf::Keyboard::Num3: return KeyCode::Alpha3;
+        case sf::Keyboard::Num4: return KeyCode::Alpha4;
+        case sf::Keyboard::Num5: return KeyCode::Alpha5;
+        case sf::Keyboard::Num6: return KeyCode::Alpha6;
+        case sf::Keyboard::Num7: return KeyCode::Alpha7;
+        case sf::Keyboard::Num8: return KeyCode::Alpha8;
+        case sf::Keyboard::Num9: return KeyCode::Alpha9;
+        default: return KeyCode::None; // Default case, adjust as needed
+    }
+}
+
+KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button) {
+    switch (button) {
+        case sf::Mouse::Left: return KeyCode::Mouse0;
+        case sf::Mouse::Right: return KeyCode::Mouse2;
+        case sf::Mouse::Middle: return KeyCode::Mouse3;
+        case sf::Mouse::XButton1: return KeyCode::Mouse4;
+        case sf::Mouse::XButton2: return KeyCode::Mouse5;
+        default: return KeyCode::None; // Default case, adjust as needed
     }
 }
 

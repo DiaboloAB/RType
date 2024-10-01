@@ -24,53 +24,29 @@ Engine::~Engine()
 
 void Engine::run()
 {
+    std::cout << "hello" << std::endl;
     ECS::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
-    _registry.emplace<Sprite>(entity, "player");
+    _registry.emplace<Sprite>(entity, "player.png");
     // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();
 
+    std::cout << "hello" << std::endl;
     _gameContext._runtime->loadSprite("player", "player", "player.png");
+    // _gameContext._runtime->loadSound("shoot", "shoot.ogg");
 
     _systemManager.start(_registry, _gameContext);
 
-    RenderSystemSFML renderSystem;
-
-    if (renderSystem.loadSound("explosion", "assets/sounds/explosion.wav")) {
-        std::cout << "Son 'explosion' préchargé avec succès." << std::endl;
-    }
-    if (renderSystem.loadSound("shoot", "shoot.ogg")) {
-        std::cout << "Son 'shoot' préchargé avec succès." << std::endl;
-    }
-
-    // Jouer un son après préchargement
-    std::cout << "Appuyez sur une touche pour jouer le son 'explosion'..." << std::endl;
-    std::cin.get();  // Attend une entrée de l'utilisateur pour continuer
-    renderSystem.playSound("explosion");
-
-    // Jouer un autre son
-    std::cout << "Appuyez sur une touche pour jouer le son 'shoot'..." << std::endl;
-    std::cin.get();
-    renderSystem.playSound("shoot");
-
-    // Décharger un son du cache
-    std::cout << "Déchargement du son 'shoot'..." << std::endl;
-    renderSystem.unloadSound("shoot");
-
-    // Tester le fait de rejouer un son déchargé
-    std::cout << "Appuyez sur une touche pour essayer de rejouer le son 'shoot' après déchargement..." << std::endl;
-    std::cin.get();
-    renderSystem.playSound("shoot");
     while (_gameContext._runtime->isWindowOpen())
     {
         _gameContext._runtime->pollEvents();
         _gameContext.update();
+        // _gameContext._runtime->playSound("shoot");
 
         if (_gameContext._runtime->getKey(KeyCode::Close))
             break;
-
 
         _systemManager.update(_registry, _gameContext);
 
