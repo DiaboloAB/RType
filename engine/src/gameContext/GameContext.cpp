@@ -24,8 +24,9 @@ GameContext::GameContext() {
     i >> j;
 
     std::cout << j.dump(4) << std::endl;
-    name = j["name"];
+    // name = j["name"];
 
+    _runtime = new RenderSystemSFML();
     _currentTime = std::chrono::high_resolution_clock::now();
     _deltaT = 0.0f;
     // Constructor implementation
