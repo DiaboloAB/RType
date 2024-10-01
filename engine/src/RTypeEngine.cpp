@@ -6,9 +6,10 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-#include "common/systems/forward.hpp"
-#include "common/systems/SpriteSystem.hpp"
+
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/SpriteSystem.hpp"
+#include "common/systems/forward.hpp"
 
 using namespace RType;
 
@@ -38,9 +39,7 @@ void Engine::run()
         _gameContext._runtime->pollEvents();
         _gameContext.update();
 
-        if (_gameContext._runtime->getKey(KeyCode::Close))
-            break;
-
+        if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
         _systemManager.update(_registry, _gameContext);
 
@@ -49,6 +48,4 @@ void Engine::run()
         // _gameContext._runtime->drawSprite("player", 50, 50);
         _gameContext._runtime->updateWindow();
     }
-
-
 }

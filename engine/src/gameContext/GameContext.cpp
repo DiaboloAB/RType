@@ -6,17 +6,19 @@
  **********************************************************************************/
 
 #include "GameContext.hpp"
-#include <nlohmann/json.hpp>
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <nlohmann/json.hpp>
 
 using namespace RType;
 
-GameContext::GameContext() {
+GameContext::GameContext()
+{
     std::ifstream i("assets/game.json");
 
-    if (!i.is_open()) {
+    if (!i.is_open())
+    {
         std::cerr << "Error: Could not open file" << std::endl;
         throw std::runtime_error("Could not open file");
     }
@@ -32,6 +34,7 @@ GameContext::GameContext() {
     // Constructor implementation
 }
 
-GameContext::~GameContext() {
+GameContext::~GameContext()
+{
     // Destructor implementation
 }

@@ -9,31 +9,35 @@
 #define GAMECONTEXT_H
 
 // std
-#include <chrono>
 #include <IRuntime/IRuntime.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
+#include <chrono>
 
 namespace RType
 {
 
-class GameContext {
-public:
+class GameContext
+{
+   public:
     GameContext();
     ~GameContext();
 
-    void update() {
-        std::chrono::high_resolution_clock::time_point newTime = std::chrono::high_resolution_clock::now();
-        _deltaT = std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime).count();
+    void update()
+    {
+        std::chrono::high_resolution_clock::time_point newTime =
+            std::chrono::high_resolution_clock::now();
+        _deltaT = std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
+                      .count();
         _currentTime = newTime;
     }
 
     float _deltaT;
     IRuntime* _runtime;
 
-private:
+   private:
     std::chrono::high_resolution_clock::time_point _currentTime;
 };
 
 }  // namespace RType
 
-#endif // GAMECONTEXT_H
+#endif  // GAMECONTEXT_H

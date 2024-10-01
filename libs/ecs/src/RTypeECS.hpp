@@ -8,15 +8,14 @@
 #ifndef ANTIT_H
 #define ANTIT_H
 
-
-#include "entity/EntityManager.hpp"
 #include "component/ComponentManager.hpp"
+#include "entity/EntityManager.hpp"
 
 // std
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <unordered_map>
-#include <iterator>
 
 namespace RType::ECS
 {
@@ -31,7 +30,7 @@ class Registry
     void kill(Entity entity);
 
     template <typename Component, typename... Args>
-    void emplace(Entity entity, Args&&... args)
+    void emplace(Entity entity, Args &&...args)
     {
         Component component(std::forward<Args>(args)...);
         if (_componentManager.getComponentArray<Component>() == nullptr)
@@ -70,8 +69,7 @@ class Registry
         std::vector<Entity> entities;
         for (Entity entity : _entityManager)
         {
-            if (hasComponents<Components...>(entity))
-                entities.push_back(entity);
+            if (hasComponents<Components...>(entity)) entities.push_back(entity);
         }
         view.entities = entities;
         view._manager = _componentManager;
@@ -85,16 +83,15 @@ class Registry
     EntityManager _entityManager;
 
    private:
-
     template <typename... Components>
     bool hasComponents(Entity entity)
     {
         Signature entitySignature = _entityManager.getSignature(entity);
-        std::array<ComponentType, sizeof...(Components)> componentTypes = { _componentManager.getComponentType<Components>()... };
+        std::array<ComponentType, sizeof...(Components)> componentTypes = {
+            _componentManager.getComponentType<Components>()...};
         for (ComponentType componentType : componentTypes)
         {
-            if (!entitySignature.test(componentType))
-                return false;
+            if (!entitySignature.test(componentType)) return false;
         }
         return true;
     }

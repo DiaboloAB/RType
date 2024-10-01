@@ -8,29 +8,29 @@
 #ifndef ISYSTEM_H
 #define ISYSTEM_H
 
-#include "RTypeECS.hpp"
 #include <gameContext/GameContext.hpp>
+
+#include "RTypeECS.hpp"
 // std
 
-namespace RType {
+namespace RType
+{
 
-class ISystem {
-public:
+class ISystem
+{
+   public:
     ~ISystem() = default;
 
-    virtual void start(ECS::Registry &registry, GameContext &gameContext) {
-    }
+    virtual void start(ECS::Registry &registry, GameContext &gameContext) {}
 
-    virtual void update(ECS::Registry &registry, GameContext &gameContext) {
-    }
+    virtual void update(ECS::Registry &registry, GameContext &gameContext) {}
 
-    virtual void draw(ECS::Registry &registry, GameContext &gameContext) {
-    }
+    virtual void draw(ECS::Registry &registry, GameContext &gameContext) {}
 
-private:
+   private:
     // Member variables
 };
 
-}
+}  // namespace RType
 
-#endif // ISYSTEM_H
+#endif  // ISYSTEM_H

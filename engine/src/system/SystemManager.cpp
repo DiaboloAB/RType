@@ -9,10 +9,12 @@
 
 using namespace RType;
 
-SystemManager::SystemManager() {
+SystemManager::SystemManager()
+{
     // Constructor implementation
 }
 
-SystemManager::~SystemManager() {
+SystemManager::~SystemManager()
+{
     // Destructor implementation
 }

@@ -11,38 +11,47 @@
 #include "ISystem.hpp"
 
 // std
-#include <vector>
 #include <memory>
+#include <vector>
 
-namespace RType {
+namespace RType
+{
 
-class SystemManager {
-public:
+class SystemManager
+{
+   public:
     SystemManager();
     ~SystemManager();
 
     template <typename T, typename... Args>
-    T &addSystem(Args &&...args) {
+    T &addSystem(Args &&...args)
+    {
         auto system = std::make_unique<T>(std::forward<Args>(args)...);
-        T& ref = *system;
+        T &ref = *system;
         _systems.push_back(std::move(system));
         return ref;
     }
 
-    void start(ECS::Registry &registry, GameContext &gameContext) {
-        for (auto &system : _systems) {
+    void start(ECS::Registry &registry, GameContext &gameContext)
+    {
+        for (auto &system : _systems)
+        {
             system->start(registry, gameContext);
         }
     }
 
-    void update(ECS::Registry &registry, GameContext &gameContext) {
-        for (auto &system : _systems) {
+    void update(ECS::Registry &registry, GameContext &gameContext)
+    {
+        for (auto &system : _systems)
+        {
             system->update(registry, gameContext);
         }
     }
 
-    void draw(ECS::Registry &registry, GameContext &gameContext) {
-        for (auto &system : _systems) {
+    void draw(ECS::Registry &registry, GameContext &gameContext)
+    {
+        for (auto &system : _systems)
+        {
             system->draw(registry, gameContext);
         }
     }
@@ -51,11 +60,11 @@ public:
 
     // Setters
 
-private:
+   private:
     // Member variables
     std::vector<std::unique_ptr<ISystem>> _systems;
 };
 
-} // namespace RType
+}  // namespace RType
 
-#endif // SYSTEMMANAGER_H
+#endif  // SYSTEMMANAGER_H
