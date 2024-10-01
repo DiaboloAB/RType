@@ -25,10 +25,8 @@ namespace RType::Network {
         }
         // Debut de la reception de données
         this->receiveData();
-        std::cout << "..debug.." << std::endl;
         // mettre le thread
         this->_io_context.run();
-        std::cout << "..debug.." << std::endl;
     }
 
     NetworkHandler::~NetworkHandler() {};
@@ -61,16 +59,15 @@ namespace RType::Network {
     void NetworkHandler::receiveData() {
         asio::ip::udp::endpoint remoteEndpoint;
 
-        std::cout << "..debug boucle.." << std::endl;
         this->_socket->async_receive_from(
             asio::buffer(_recvBuffer), remoteEndpoint,
             [this, &remoteEndpoint](std::error_code ec, std::size_t bytes_recvd) {
-                if (!ec)
+                if (!ec) {
                     this->handleData(_recvBuffer, remoteEndpoint);
-                else
+                    return this->receiveData();
+                } else
                     throw NetworkHandlerError("NetworkHandler Error: Corrupted packets");
             }
         );
-        return this->receiveData();
     }
 }
