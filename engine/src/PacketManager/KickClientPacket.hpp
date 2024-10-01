@@ -22,9 +22,10 @@ namespace RType::Network {
             /**
              * @brief Construct KickClientPacket object that will be send to client.
              * 
+             * @param reason : Reasons why client is kick from server.
              * @return KickClientPacket object.
              */
-            KickClientPacket();
+            KickClientPacket(std::string reason);
             
             /**
              * @brief Construct new KickClientPacket object with serialized data by deserializing them.
@@ -45,5 +46,7 @@ namespace RType::Network {
              * @return empty std::vector<char> because nothing to serialize.
              */
             std::vector<char> serializeData() const override;
+        private:
+            std::string _reason;
     };
 }

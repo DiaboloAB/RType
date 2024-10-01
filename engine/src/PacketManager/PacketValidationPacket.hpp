@@ -20,7 +20,7 @@ namespace RType::Network {
     class PacketValidationPacket : public APacket {
         public:
             /**
-             * @brief Construct PacketValidationPacket object that will be send to client.
+             * @brief Construct PacketValidationPacket object that will be send to client or server.
              * 
              * @return PacketValidationPacket object.
              */
@@ -42,7 +42,7 @@ namespace RType::Network {
             /**
              * @brief Serialize class data to binary to make it sendable by NetworkHandler.
              * 
-             * @return std::vector<char> that represent serialization of to binary.
+             * @return std::vector<char> that represent serialization of packetType, packetTimeStamp to binary.
              */
             std::vector<char> serializeData() const override;
         private:
