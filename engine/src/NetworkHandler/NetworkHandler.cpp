@@ -13,6 +13,8 @@ namespace RType::Network {
         // Init de la socket
         asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
         this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
+        
+        std::cout << "..debug.." << std::endl;
 
         // Ajout du server dans la liste d'endpoint du client
         if (!isServer) {
@@ -23,8 +25,10 @@ namespace RType::Network {
         }
         // Debut de la reception de données
         this->receiveData();
+        std::cout << "..debug.." << std::endl;
         // mettre le thread
         this->_io_context.run();
+        std::cout << "..debug.." << std::endl;
     }
 
     NetworkHandler::~NetworkHandler() {};
@@ -57,6 +61,7 @@ namespace RType::Network {
     void NetworkHandler::receiveData() {
         asio::ip::udp::endpoint remoteEndpoint;
 
+        std::cout << "..debug boucle.." << std::endl;
         this->_socket->async_receive_from(
             asio::buffer(_recvBuffer), remoteEndpoint,
             [this, &remoteEndpoint](std::error_code ec, std::size_t bytes_recvd) {

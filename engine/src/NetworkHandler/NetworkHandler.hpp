@@ -23,6 +23,7 @@ namespace RType::Network
         public:
             std::string getHost() const;
             unsigned int getPort() const;
+            bool getIsServer() const {return this->_isServer;};
             void setHost(const std::string host);
             void setPort(const unsigned int port);
 
