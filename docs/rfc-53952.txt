@@ -81,15 +81,17 @@ Table of Contents
     Communication between the server and clients is carried out via the
     UDP protocol defined in RFC-768.
     
-    When connecting to the server, a client must send a first "HiServer"
-    packet in order to check compatibility betweenthe server and the client.
+    When connecting to the server, a client must send an initial "HiServer" 
+    packet, allowing the server to create a client entity and transmit the 
+    client's actions to other connected clients.
     The server will send a positive or negative response with “HiClient” packet.
     This first packet is very important. If it is not received or invalid,
     the server will kick the client and will not be able to process further
     requests from the client.
 
     If the server does not receive any packets from the client for more
-    than 4 seconds, the server will consider that the connection has been
+    than 4 seconds, the server will consider that the connection has been lost
+    and close it.
 
 
 LARGEOT                         Informational                           [Page 2]
@@ -101,7 +103,7 @@ LARGEOT                         Informational                           [Page 2]
     connection with the server.
 
     Good practice would be to send at least one "Healthcheck"  packet from the
-    client to the server every second.
+    client to the server and vice versa every second.
 
 
 3. Packet header
@@ -143,6 +145,8 @@ LARGEOT                         Informational                           [Page 3]
 
 4.1 HiServer
 
+    Client -> Server
+
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
@@ -151,6 +155,8 @@ LARGEOT                         Informational                           [Page 3]
 
 
 4.2 HiClient
+
+    Client <- Server
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -162,6 +168,8 @@ LARGEOT                         Informational                           [Page 3]
 
 4.3 AdiosServer
 
+    Client -> Server
+
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
@@ -169,6 +177,9 @@ LARGEOT                         Informational                           [Page 3]
     \---------------------------------------------------------/
 
 4.4 Healthcheck
+
+    Client -> Server
+    Client <- Server
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -184,6 +195,9 @@ LARGEOT                         Informational                           [Page 4]
 
 4.5 CreateEntity
 
+    Client -> Server
+    Client <- Server
+
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
@@ -197,6 +211,8 @@ LARGEOT                         Informational                           [Page 4]
 
 4.6 DestroyEntity
 
+    Client <- Server
+
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
@@ -206,6 +222,9 @@ LARGEOT                         Informational                           [Page 4]
 
 
 4.7 MoveEntity
+
+    Client -> Server
+    Client <- Server
 
     /---------------------------------------------------------\
     | Name                           | Size (in bits) | Value |
@@ -225,29 +244,31 @@ LARGEOT                         Informational                           [Page 5]
 
 4.8 UpdateEntity
 
+    Client <- Server
+
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 8     |
-    | EntityId                       | 32             |       |
-    | Score                          | 16             |       |
+    | Entity Id                      | 32             |       |
+    | Score                          | 32             |       |
     \---------------------------------------------------------/
 
 
 4.9 ClientEvents
 
+    Client -> Server
+
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 9     |
-    | x                              | 32             |       |
-    | y                              | 32             |       |
-    | direction x                    | 32             |       |
-    | direction y                    | 32             |       |
     \---------------------------------------------------------/
 
 
 4.10 KickClient
+
+    Client <- Server
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -263,6 +284,9 @@ LARGEOT                         Informational                           [Page 6]
 
 
 4.11 PacketValidation
+
+    Client -> Server
+    Client <- Server
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
