@@ -50,7 +50,6 @@ elif [ "$COMMAND" == "rebuild" ]; then
     $0 build
 elif [ "$COMMAND" == "run" ]; then
     echo "Running project..."
-    cd build
     ./RType
     cd ..
 elif [ "$COMMAND" == "check-clang" ]; then

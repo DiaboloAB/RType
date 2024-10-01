@@ -26,13 +26,11 @@ void Engine::run()
 {
     ECS::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
-    _registry.emplace<Sprite>(entity, "player.png");
+    _registry.emplace<Sprite>(entity, "assets/graphic/player.png");
     // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();
-
-    _gameContext._runtime->loadSprite("player", "player", "player.png");
 
     _systemManager.start(_registry, _gameContext);
     while (_gameContext._runtime->isWindowOpen())
