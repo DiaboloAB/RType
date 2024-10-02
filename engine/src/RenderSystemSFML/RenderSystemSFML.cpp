@@ -216,7 +216,8 @@ void RenderSystemSFML::unloadSprite(const std::string& spriteName)
  * @param spriteRect The rectangle representing the portion of the spritesheet to use.
  */
 void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y,
-                                  std::vector<int>& spriteCoords, float scale, float rotation)
+                                  std::vector<int>& spriteCoords, std::vector<int>& scale,
+                                  float rotation)
 {
     if (spriteCoords.size() != 4)
     {
@@ -231,7 +232,7 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float 
         sf::IntRect spriteRect(spriteCoords[0], spriteCoords[1], spriteCoords[2], spriteCoords[3]);
         it->second.setTextureRect(spriteRect);
         it->second.setPosition(x, y);
-        it->second.setScale(scale, scale);
+        it->second.setScale(scale[0], scale[1]);
         it->second.setRotation(rotation);
         _window.draw(it->second);
     }

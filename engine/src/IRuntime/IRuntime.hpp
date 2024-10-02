@@ -120,7 +120,8 @@ class IRuntime
      * in the rendering window.
      */
     virtual void drawSprite(const std::string& spriteName, float x, float y,
-                            std::vector<int>& spriteCoords, float scale, float rotation) = 0;
+                            std::vector<int>& spriteCoords, std::vector<int>& scale,
+                            float rotation) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.
