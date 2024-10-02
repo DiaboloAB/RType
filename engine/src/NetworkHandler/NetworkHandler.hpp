@@ -11,6 +11,7 @@
     #include <string>
     #include <list>
     #include <asio.hpp>
+    #include <thread>
 
 namespace RType::Network
 {
@@ -30,7 +31,7 @@ namespace RType::Network
         public:
             void sendData();
             void receiveData();
-            void handleData(std::vector<char> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
+            void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
 
         public:
             class NetworkHandlerError : public std::exception {
@@ -50,6 +51,7 @@ namespace RType::Network
             std::list<asio::ip::udp::endpoint> _endpointList = {};
             asio::io_context _io_context;
             std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-            std::vector<char> _recvBuffer;
+            std::array<char, 1024> _recvBuffer;
+            std::thread thread;
     };
 }

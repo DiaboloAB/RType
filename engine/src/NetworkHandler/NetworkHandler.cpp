@@ -13,8 +13,6 @@ namespace RType::Network {
         // Init de la socket
         asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
         this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
-        
-        std::cout << "..debug.." << std::endl;
 
         // Ajout du server dans la liste d'endpoint du client
         if (!isServer) {
@@ -26,10 +24,12 @@ namespace RType::Network {
         // Debut de la reception de données
         this->receiveData();
         // mettre le thread
-        this->_io_context.run();
+        this->thread = std::thread([this] {this->_io_context.run();});
     }
 
-    NetworkHandler::~NetworkHandler() {};
+    NetworkHandler::~NetworkHandler() {
+        this->thread.join();
+    };
 
     std::string NetworkHandler::getHost() const {
         return this->_host;
@@ -51,19 +51,19 @@ namespace RType::Network {
 
     }
 
-    void NetworkHandler::handleData(std::vector<char> recvBuffer, asio::ip::udp::endpoint remoteEndpoint)
+    void NetworkHandler::handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint)
     {
         std::cout << "De la data!" << std::endl;
     }
 
     void NetworkHandler::receiveData() {
-        asio::ip::udp::endpoint remoteEndpoint;
+        auto remoteEndpoint = std::make_shared<asio::ip::udp::endpoint>();
 
         this->_socket->async_receive_from(
-            asio::buffer(_recvBuffer), remoteEndpoint,
-            [this, &remoteEndpoint](std::error_code ec, std::size_t bytes_recvd) {
+            asio::buffer(_recvBuffer), *remoteEndpoint,
+            [this, remoteEndpoint](std::error_code ec, std::size_t bytes_recvd) {
                 if (!ec) {
-                    this->handleData(_recvBuffer, remoteEndpoint);
+                    this->handleData(_recvBuffer, *remoteEndpoint);
                     return this->receiveData();
                 } else
                     throw NetworkHandlerError("NetworkHandler Error: Corrupted packets");

@@ -21,9 +21,7 @@ Engine::Engine()
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
 {
-    std::cout << "................" << std::endl;
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
-    std::cout << "................" << std::endl;
 }
 
 Engine::~Engine()
@@ -33,9 +31,8 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    if (this->_networkHandler != nullptr && this->_networkHandler->getIsServer() == false) {
-
-        std::cout << "SERVER IN IF" << std::endl;
+    if (this->_networkHandler != nullptr && this->_networkHandler->getIsServer() == false ||
+        this->_networkHandler == nullptr) {
         ECS::Entity entity = _registry.create();
         _registry.emplace<Transform>(entity);
         _registry.emplace<Sprite>(entity, "player.png");
@@ -64,6 +61,4 @@ void Engine::run()
             _gameContext._runtime->updateWindow();
         }
     }
-    std::cout << "SERVER NOT IN IF" << std::endl;
-
 }
