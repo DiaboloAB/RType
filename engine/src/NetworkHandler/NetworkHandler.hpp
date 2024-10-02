@@ -7,32 +7,33 @@
 
 #pragma once
 
-    #include <string>
+#include <string>
 
 namespace RType::Network
 {
-    class NetworkHandler {
-        public:
-            NetworkHandler();
-            NetworkHandler(std::string host, unsigned int port, bool isServer);
-            NetworkHandler(const NetworkHandler &obj);
-            ~NetworkHandler();
+class NetworkHandler
+{
+   public:
+    NetworkHandler();
+    NetworkHandler(std::string host, unsigned int port, bool isServer);
+    NetworkHandler(const NetworkHandler &obj);
+    ~NetworkHandler();
 
-        public:
-            std::string getHost() const;
-            unsigned int getPort() const;
-            void setHost(const std::string host);
-            void setPort(const unsigned int port);
+   public:
+    std::string getHost() const;
+    unsigned int getPort() const;
+    void setHost(const std::string host);
+    void setPort(const unsigned int port);
 
-        public:
-            void sendData();
-            void receiveData();
-            void serializeData();
-            void deserializeData();
+   public:
+    void sendData();
+    void receiveData();
+    void serializeData();
+    void deserializeData();
 
-        private:
-            std::string _host = "";
-            unsigned int port_ = 0;
-            bool isServer = false;
-    };
-}
+   private:
+    std::string _host = "";
+    unsigned int port_ = 0;
+    bool isServer = false;
+};
+}  // namespace RType::Network

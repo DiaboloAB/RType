@@ -39,8 +39,7 @@ void EntityManager::kill(Entity entity)
     int index = 0;
     for (auto &e : _entities)
     {
-        if (e == entity)
-            break;
+        if (e == entity) break;
         index++;
     }
     _entities.erase(_entities.begin() + index);

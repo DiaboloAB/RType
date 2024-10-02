@@ -11,60 +11,53 @@
 #include "EntityManager.hpp"
 
 // std
-#include <vector>
-#include <optional>
 #include <memory>
+#include <optional>
+#include <vector>
 
-namespace RType::ECS {
+namespace RType::ECS
+{
 
-class IComponentArray {
-public:
+class IComponentArray
+{
+   public:
     virtual ~IComponentArray() = default;
     virtual void entityDestroyed(Entity entity) = 0;
 };
 
 template <typename Component>
-class ComponentArray : public IComponentArray {
-public:
+class ComponentArray : public IComponentArray
+{
+   public:
     ComponentArray() = default;
     ~ComponentArray() = default;
 
     void insertComponent(Entity entity, Component component)
     {
-        if (entity >= _components.size())
-            _components.resize(entity + 1);
+        if (entity >= _components.size()) _components.resize(entity + 1);
         _components[entity] = component;
     }
 
-    void removeComponent(Entity entity)
-    {
-        _components[entity].reset();
-    }
+    void removeComponent(Entity entity) { _components[entity].reset(); }
 
-    Component& getComponent(Entity entity)
-    {
-        return _components[entity].value();
-    }
+    Component& getComponent(Entity entity) { return _components[entity].value(); }
 
     void entityDestroyed(Entity entity) override
     {
-        if (entity >= _components.size())
-            return;
-        if (_components[entity].has_value())
-            _components[entity].reset();
+        if (entity >= _components.size()) return;
+        if (_components[entity].has_value()) _components[entity].reset();
         _components[entity].reset();
     }
-
 
     // Getters
 
     // Setters
 
-private:
+   private:
     // Member variables
     std::vector<std::optional<Component>> _components;
 };
 
-} // namespace RType::ECS
+}  // namespace RType::ECS
 
-#endif // COMPONENTARRAY_H
+#endif  // COMPONENTARRAY_H

@@ -11,9 +11,11 @@
 // std
 #include <unordered_map>
 
-namespace RType {
+namespace RType
+{
 
-enum KeyCode {
+enum KeyCode
+{
     Space = 32,
     Left = 263,
     Right = 262,
@@ -47,36 +49,33 @@ enum KeyCode {
     Zero = 48,
 }
 
-class Input {
-public:
+class Input
+{
+   public:
     Input();
     ~Input();
 
-    void update(const std::vector<int>& keys) {
+    void update(const std::vector<int>& keys)
+    {
         _previousKeys = _currentKeys;
         _currentKeys.clear();
-        for (int key : keys) {
+        for (int key : keys)
+        {
             _currentKeys[key] = true;
         }
     }
 
-    bool getKey(KeyCode key) {
-        return _currentKeys[key];
-    }
+    bool getKey(KeyCode key) { return _currentKeys[key]; }
 
-    bool getKeyDown(KeyCode key) {
-        return _currentKeys[key] && !_previousKeys[key];
-    }
+    bool getKeyDown(KeyCode key) { return _currentKeys[key] && !_previousKeys[key]; }
 
-    bool getKeyUp(KeyCode key) {
-        return !_currentKeys[key] && _previousKeys[key];
-    }
+    bool getKeyUp(KeyCode key) { return !_currentKeys[key] && _previousKeys[key]; }
 
-private:
+   private:
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
     // Member variables
 };
-}
+}  // namespace RType
 
-#endif // INPUT_H
+#endif  // INPUT_H

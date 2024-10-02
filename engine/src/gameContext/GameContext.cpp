@@ -9,13 +9,15 @@
 
 using namespace RType;
 
-GameContext::GameContext() {
+GameContext::GameContext()
+{
     _runtime = new RenderSystemSFML();
     _currentTime = std::chrono::high_resolution_clock::now();
-    _deltaT = 0.0f; 
+    _deltaT = 0.0f;
     // Constructor implementation
 }
 
-GameContext::~GameContext() {
+GameContext::~GameContext()
+{
     // Destructor implementation
 }

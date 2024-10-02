@@ -12,11 +12,11 @@
 #include <array>
 #include <bitset>
 #include <cassert>
-#include <queue>
 #include <cstdint>
-#include <vector>
 #include <iostream>
 #include <iterator>
+#include <queue>
+#include <vector>
 
 namespace RType::ECS
 {

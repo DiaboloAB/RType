@@ -9,10 +9,12 @@
 
 using namespace RType::ECS;
 
-ComponentManager::ComponentManager() {
+ComponentManager::ComponentManager()
+{
     // Constructor implementation
 }
 
-ComponentManager::~ComponentManager() {
+ComponentManager::~ComponentManager()
+{
     // Destructor implementation
 }

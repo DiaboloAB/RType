@@ -5,9 +5,9 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RTypeEngine.hpp"
-
 #include <iostream>
+
+#include "RTypeEngine.hpp"
 
 int main()
 {

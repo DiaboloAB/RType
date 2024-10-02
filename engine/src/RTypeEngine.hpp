@@ -8,15 +8,16 @@
 #ifndef RTYPE_H
 #define RTYPE_H
 
-#include "RTypeECS.hpp"
-#include "gameContext/GameContext.hpp"
-#include "system/SystemManager.hpp"
-#include "common/components.hpp"
 #include <glm/glm.hpp>
 
+#include "RTypeECS.hpp"
+#include "common/components.hpp"
+#include "gameContext/GameContext.hpp"
+#include "system/SystemManager.hpp"
+
 // std
-#include <iostream>
 #include <chrono>
+#include <iostream>
 
 namespace RType
 {

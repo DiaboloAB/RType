@@ -6,9 +6,10 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-#include "common/systems/forward.hpp"
-#include "common/systems/SpriteSystem.hpp"
+
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/SpriteSystem.hpp"
+#include "common/systems/forward.hpp"
 
 using namespace RType;
 
@@ -24,7 +25,6 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    std::cout << "hello" << std::endl;
     ECS::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
     _registry.emplace<Sprite>(entity, "player.png");
@@ -33,9 +33,7 @@ void Engine::run()
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();
 
-    std::cout << "hello" << std::endl;
     _gameContext._runtime->loadSprite("player", "player", "player.png");
-    _gameContext._runtime->loadSound("shoot", "shoot.ogg");
 
     _systemManager.start(_registry, _gameContext);
 
@@ -43,10 +41,8 @@ void Engine::run()
     {
         _gameContext._runtime->pollEvents();
         _gameContext.update();
-        _gameContext._runtime->playSound("shoot");
 
-        if (_gameContext._runtime->getKey(KeyCode::Close))
-            break;
+        if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
         _systemManager.update(_registry, _gameContext);
 
@@ -55,6 +51,4 @@ void Engine::run()
         // _gameContext._runtime->drawSprite("player", 50, 50);
         _gameContext._runtime->updateWindow();
     }
-
-
 }
