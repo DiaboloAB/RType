@@ -15,7 +15,14 @@ using namespace RType;
 
 Engine::Engine()
 {
-    // Constructor implementation
+    // Demarer l'intrerface graphique
+    // Recup l'host du server et son port
+    // Init le NetworkHandler du client (std::make_shared<Network::NetworkHandler>(host, port, false);)
+}
+
+Engine::Engine(std::string host, unsigned int port, bool isServer)
+{
+    this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
 }
 
 Engine::~Engine()

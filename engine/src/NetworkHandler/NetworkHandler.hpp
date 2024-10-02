@@ -7,33 +7,52 @@
 
 #pragma once
 
-#include <string>
+namespace RType::Network
+    #include <iostream>
+    #include <string>
+    #include <list>
+    #include <asio.hpp>
+    #include <thread>
 
 namespace RType::Network
 {
-class NetworkHandler
-{
-   public:
-    NetworkHandler();
-    NetworkHandler(std::string host, unsigned int port, bool isServer);
-    NetworkHandler(const NetworkHandler &obj);
-    ~NetworkHandler();
+    class NetworkHandler {
+        public:
+            NetworkHandler() = delete;
+            NetworkHandler(std::string host, unsigned int port, bool isServer);
+            ~NetworkHandler();
 
-   public:
-    std::string getHost() const;
-    unsigned int getPort() const;
-    void setHost(const std::string host);
-    void setPort(const unsigned int port);
+        public:
+            std::string getHost() const;
+            unsigned int getPort() const;
+            bool getIsServer() const {return this->_isServer;};
+            void setHost(const std::string host);
+            void setPort(const unsigned int port);
 
-   public:
-    void sendData();
-    void receiveData();
-    void serializeData();
-    void deserializeData();
+        public:
+            void sendData();
+            void receiveData();
+            void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
 
-   private:
-    std::string _host = "";
-    unsigned int port_ = 0;
-    bool isServer = false;
-};
-}  // namespace RType::Network
+        public:
+            class NetworkHandlerError : public std::exception {
+                public:
+                    NetworkHandlerError(std::string msg) : _msg(msg) {};
+                    ~NetworkHandlerError() {};
+                private:
+                    const char *what() const noexcept override {return _msg.c_str();};
+                private:
+                    std::string _msg;
+            };
+
+        private:
+            std::string _host = "";
+            unsigned int _port = 0;
+            bool _isServer = false;
+            std::list<asio::ip::udp::endpoint> _endpointList = {};
+            asio::io_context _io_context;
+            std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
+            std::array<char, 1024> _recvBuffer;
+            std::thread thread;
+    };
+}
