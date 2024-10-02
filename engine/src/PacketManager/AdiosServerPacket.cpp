@@ -15,5 +15,9 @@ AdiosServerPacket::AdiosServerPacket(std::vector<char> &buffer) : APacket(buffer
 
 AdiosServerPacket::~AdiosServerPacket(){};
 
-std::vector<char> AdiosServerPacket::serializeData() const {}
+std::vector<char> AdiosServerPacket::serializeData() const
+{
+    std::vector<char> buffer;
+    return buffer;
+}
 }  // namespace RType::Network

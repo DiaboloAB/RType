@@ -63,7 +63,7 @@ std::vector<char> APacket::serializeHeader() const
 
 uint32_t APacket::getPacketSize() const { return this->_packetSize; }
 
-uint32_t APacket::getPacketSizeFromBuffer(std::vector<char> &buffer) const
+uint32_t APacket::getPacketSizeFromBuffer(std::vector<char> &buffer)
 {
     if (sizeof(uint32_t) > buffer.size())
         throw new PacketException("PacketException: Impossible to retrieve packet size.");
@@ -74,7 +74,7 @@ uint32_t APacket::getPacketSizeFromBuffer(std::vector<char> &buffer) const
 
 PacketType APacket::getPacketType() const { return this->_packetType; }
 
-PacketType APacket::getPacketTypeFromBuffer(std::vector<char> &buffer) const
+PacketType APacket::getPacketTypeFromBuffer(std::vector<char> &buffer)
 {
     if (sizeof(uint32_t) + sizeof(uint8_t) > buffer.size())
         throw new PacketException("PacketException: Impossible to retrieve packet type.");
