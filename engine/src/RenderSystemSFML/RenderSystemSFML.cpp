@@ -196,11 +196,9 @@ void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::stri
  */
 void RenderSystemSFML::unloadSprite(const std::string& spriteName)
 {
-    // Find the sprite in the map
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
     {
-        // If the sprite is found, erase it from the map
         _sprites.erase(it);
     }
     else
@@ -218,7 +216,7 @@ void RenderSystemSFML::unloadSprite(const std::string& spriteName)
  * @param spriteRect The rectangle representing the portion of the spritesheet to use.
  */
 void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y,
-                                  std::vector<int>& spriteCoords)
+                                  std::vector<int>& spriteCoords, float scale, float rotation)
 {
     if (spriteCoords.size() != 4)
     {
@@ -227,13 +225,14 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float 
             << std::endl;
         return;
     }
-
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
     {
         sf::IntRect spriteRect(spriteCoords[0], spriteCoords[1], spriteCoords[2], spriteCoords[3]);
         it->second.setTextureRect(spriteRect);
         it->second.setPosition(x, y);
+        it->second.setScale(scale, scale);
+        it->second.setRotation(rotation);
         _window.draw(it->second);
     }
     else
