@@ -12,6 +12,7 @@
 #include <list>
 #include <string>
 #include <thread>
+#include <APacket.hpp>
 
 namespace RType::Network
 {
@@ -30,7 +31,7 @@ class NetworkHandler
     void setPort(const unsigned int port);
 
    public:
-    void sendData();
+    void sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
     void receiveData();
     void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
 
