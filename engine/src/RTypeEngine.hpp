@@ -5,40 +5,36 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef RTYPE_H
-#define RTYPE_H
+#pragma once
 
-#include "RTypeECS.hpp"
-#include "gameContext/GameContext.hpp"
-#include "system/SystemManager.hpp"
-#include "common/components.hpp"
-#include <glm/glm.hpp>
-
+    #include "RTypeECS.hpp"
+    #include "gameContext/GameContext.hpp"
+    #include "system/SystemManager.hpp"
+    #include "common/components.hpp"
+    #include <glm/glm.hpp>
+    #include "NetworkHandler/NetworkHandler.hpp"
 // std
-#include <iostream>
-#include <chrono>
+    #include <iostream>
+    #include <chrono>
 
-namespace RType
-{
-class Engine
-{
-   public:
-    Engine();
-    ~Engine();
+namespace RType {
+    class Engine {
+        public:
+            Engine();
+            Engine(std::string host, unsigned int port, bool isServer);
+            ~Engine();
 
-    void run();
-    // Getters
+        void run();
+        // Getters
 
-    // Setters
+        // Setters
 
-   private:
-    ECS::Registry _registry;
-    SystemManager _systemManager;
-    GameContext _gameContext;
+        private:
+            ECS::Registry _registry;
+            SystemManager _systemManager;
+            GameContext _gameContext;
+            std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
 
     // Member variables
-};
-
+    };
 }  // namespace RType
-
-#endif  // RTYPE_H

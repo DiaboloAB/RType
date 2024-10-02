@@ -6,10 +6,11 @@
 */
 
 #include "Server.hpp"
+#include "RTypeEngine.hpp"
 #include <string>
 #include <iostream>
 
-void displayUsage() {
+static void displayUsage() {
     std::cout << "USAGE:" << std::endl;
     std::cout << "\n  ./r-type_server [-p port] [-H host]" << std::endl;
     std::cout << "\nPARAM:" << std::endl;
@@ -25,6 +26,8 @@ int main(int ac, char **av)
     }
     try {
         RType::Server::Server server(ac, av);
+        RType::Engine engine(server.getHost(), server.getPort(), true);
+        engine.run();
         return 0;
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;

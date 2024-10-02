@@ -8,7 +8,7 @@
 #ifndef COMPONENTARRAY_H
 #define COMPONENTARRAY_H
 
-#include "EntityManager.hpp"
+#include "entity/EntityManager.hpp"
 
 // std
 #include <vector>
