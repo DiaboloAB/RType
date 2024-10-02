@@ -6,9 +6,10 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-#include "common/systems/forward.hpp"
-#include "common/systems/SpriteSystem.hpp"
+
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/SpriteSystem.hpp"
+#include "common/systems/forward.hpp"
 
 using namespace RType;
 
@@ -33,13 +34,11 @@ void Engine::run()
 {
     ECS::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
-    _registry.emplace<Sprite>(entity, "player.png");
+    _registry.emplace<Sprite>(entity, "assets/graphic/player.png");
     // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();
-
-    _gameContext._runtime->loadSprite("player", "player", "player.png");
 
     _systemManager.start(_registry, _gameContext);
     while (_gameContext._runtime->isWindowOpen())
@@ -47,9 +46,7 @@ void Engine::run()
         _gameContext._runtime->pollEvents();
         _gameContext.update();
 
-        if (_gameContext._runtime->getKey(KeyCode::Close))
-            break;
-
+        if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
         _systemManager.update(_registry, _gameContext);
 

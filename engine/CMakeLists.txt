@@ -4,6 +4,8 @@ project(RTypeEngine VERSION 0.1)
 
 find_package(SFML REQUIRED COMPONENTS network window graphics system)
 find_package(glm REQUIRED)
+find_package(nlohmann_json REQUIRED)
+find_package(lua REQUIRED)
 find_package(asio REQUIRED)
 
 set(SOURCES
@@ -27,6 +29,8 @@ target_link_libraries(RTypeEngine PUBLIC RTypeECS
     sfml-window
     sfml-system
     glm::glm
+    nlohmann_json::nlohmann_json
+    lua::lua
     asio::asio
 )
 

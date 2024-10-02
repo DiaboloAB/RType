@@ -11,28 +11,34 @@
 #include <system/ISystem.hpp>
 // std
 
-namespace RType {
+namespace RType
+{
 
 class SpriteSystem : public ISystem
 {
-public:
+   public:
     SpriteSystem() {}
     ~SpriteSystem() {}
 
-    void start(ECS::Registry &registry, GameContext &gameContext) override {
+    void start(ECS::Registry &registry, GameContext &gameContext) override
+    {
         auto view = registry.view<Sprite>();
-        for (auto entity : view) {
+        for (auto entity : view)
+        {
             auto &sprite = view.get<Sprite>(entity);
             gameContext._runtime->loadSprite(sprite.filePath, sprite.filePath, sprite.filePath);
         }
     }
 
-    void draw(ECS::Registry &registry, GameContext &gameContext) override {
+    void draw(ECS::Registry &registry, GameContext &gameContext) override
+    {
         auto view = registry.view<Transform, Sprite>();
-        for (auto entity : view) {
+        for (auto entity : view)
+        {
             auto &transform = view.get<Transform>(entity);
             auto &sprite = view.get<Sprite>(entity);
-            gameContext._runtime->drawSprite(sprite.filePath, transform.position.x, transform.position.y);
+            gameContext._runtime->drawSprite(sprite.filePath, transform.position.x,
+                                             transform.position.y);
         }
     }
 
@@ -40,10 +46,10 @@ public:
 
     // Setters
 
-private:
+   private:
     // Member variables
 };
 
-} // namespace RType
+}  // namespace RType
 
-#endif // SPRITESYSTEM_H
+#endif  // SPRITESYSTEM_H

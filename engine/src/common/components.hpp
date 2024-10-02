@@ -11,29 +11,34 @@
 #include <glm/glm.hpp>
 // std
 
-namespace RType {
-    struct Transform {
-        glm::vec3 position;
-        glm::vec3 rotation;
-        glm::vec3 scale;
+namespace RType
+{
+struct Transform
+{
+    glm::vec3 position;
+    glm::vec3 rotation;
+    glm::vec3 scale;
 
-        Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : position(position), rotation(rotation), scale(scale) {}
-        Transform() : position(glm::vec3(0.0f)), rotation(glm::vec3(0.0f)), scale(glm::vec3(1.0f)) {}
-    };
-
-    struct Velocity
+    Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+        : position(position), rotation(rotation), scale(scale)
     {
-        glm::vec3 velocity;
+    }
+    Transform() : position(glm::vec3(0.0f)), rotation(glm::vec3(0.0f)), scale(glm::vec3(1.0f)) {}
+};
 
-        Velocity(glm::vec3 velocity) : velocity(velocity) {}
-    };
+struct Velocity
+{
+    glm::vec3 velocity;
 
-    struct Sprite
-    {
-        std::string filePath;
+    Velocity(glm::vec3 velocity) : velocity(velocity) {}
+};
 
-        Sprite(std::string filePath) : filePath(filePath) {}
-    };
-}
+struct Sprite
+{
+    std::string filePath;
 
-#endif // COMPONENTS_H
+    Sprite(std::string filePath) : filePath(filePath) {}
+};
+}  // namespace RType
+
+#endif  // COMPONENTS_H

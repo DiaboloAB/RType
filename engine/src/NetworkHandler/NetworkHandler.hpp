@@ -7,6 +7,7 @@
 
 #pragma once
 
+namespace RType::Network
     #include <iostream>
     #include <string>
     #include <list>

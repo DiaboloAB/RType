@@ -50,6 +50,11 @@ target_include_directories(r-type_server PUBLIC
     "${PROJECT_SOURCE_DIR}/src/server"
 )
 
+set_target_properties( RType
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../"
+)
+
 # vvv Testing vvv #
 
 enable_testing()
