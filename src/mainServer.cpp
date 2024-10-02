@@ -5,15 +5,14 @@
 ** main.cpp
 */
 
-
-#include "Server.hpp"
-#include "RTypeEngine.hpp"
-#include <string>
 #include <iostream>
 #include <string>
 
+#include "RTypeEngine.hpp"
+#include "Server.hpp"
 
-static void displayUsage() {
+static void displayUsage()
+{
     std::cout << "USAGE:" << std::endl;
     std::cout << "\n  ./r-type_server [-p port] [-H host]" << std::endl;
     std::cout << "\nPARAM:" << std::endl;

@@ -7,34 +7,37 @@
 
 #pragma once
 
-    #include "RTypeECS.hpp"
-    #include "gameContext/GameContext.hpp"
-    #include "system/SystemManager.hpp"
-    #include "common/components.hpp"
-    #include <glm/glm.hpp>
-    #include "NetworkHandler/NetworkHandler.hpp"
+#include <glm/glm.hpp>
+
+#include "NetworkHandler/NetworkHandler.hpp"
+#include "RTypeECS.hpp"
+#include "common/components.hpp"
+#include "gameContext/GameContext.hpp"
+#include "system/SystemManager.hpp"
 // std
-    #include <iostream>
-    #include <chrono>
+#include <chrono>
+#include <iostream>
 
-namespace RType {
-    class Engine {
-        public:
-            Engine();
-            Engine(std::string host, unsigned int port, bool isServer);
-            ~Engine();
+namespace RType
+{
+class Engine
+{
+   public:
+    Engine();
+    Engine(std::string host, unsigned int port, bool isServer);
+    ~Engine();
 
-        void run();
-        // Getters
+    void run();
+    // Getters
 
-        // Setters
+    // Setters
 
-        private:
-            ECS::Registry _registry;
-            SystemManager _systemManager;
-            GameContext _gameContext;
-            std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
+   private:
+    ECS::Registry _registry;
+    SystemManager _systemManager;
+    GameContext _gameContext;
+    std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
 
     // Member variables
-    };
+};
 }  // namespace RType

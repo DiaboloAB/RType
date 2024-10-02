@@ -7,14 +7,13 @@
 
 #include "AdiosServerPacket.hpp"
 
-namespace RType::Network {
-    AdiosServerPacket::AdiosServerPacket() : APacket(ADIOSSERVER) {
-        this->_packetDataSize = 0;
-    }
+namespace RType::Network
+{
+AdiosServerPacket::AdiosServerPacket() : APacket(ADIOSSERVER) { this->_packetDataSize = 0; }
 
-    AdiosServerPacket::AdiosServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
+AdiosServerPacket::AdiosServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-    AdiosServerPacket::~AdiosServerPacket() {};
+AdiosServerPacket::~AdiosServerPacket(){};
 
-    std::vector<char> AdiosServerPacket::serializeData() const {}
-}
+std::vector<char> AdiosServerPacket::serializeData() const {}
+}  // namespace RType::Network
