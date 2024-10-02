@@ -12,11 +12,9 @@ namespace RType::Network
 NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServer)
     : _host(host), _port(port), _isServer(isServer), _io_context()
 {
-    // Init de la socket
     asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
     this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
 
-    // Ajout du server dans la liste d'endpoint du client
     if (!isServer)
     {
         asio::ip::udp::resolver resolver(this->_io_context);
@@ -25,9 +23,8 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
         asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
         this->_endpointList.push_back(serverEndpoint);
     }
-    // Debut de la reception de données
+
     this->receiveData();
-    // mettre le thread
     this->thread = std::thread([this] { this->_io_context.run(); });
 }
 
@@ -41,7 +38,10 @@ void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 
 void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
 
-void NetworkHandler::sendData() {}
+void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
+{
+
+}
 
 void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
                                 asio::ip::udp::endpoint remoteEndpoint)
