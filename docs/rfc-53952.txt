@@ -1,0 +1,312 @@
+    EPITECH Rennes
+                                                                 LARGEOT Morgan
+                                                                LARGEOT Maxence
+                                                                  BOITEL Alexis
+                                                                  DORIEL Arthur
+                                                                MABILLE Raphael
+Document: rfc-53952.txt                                          EPITECH Rennes
+                                                                 September 2024
+
+                            R-Type Protocol
+
+/==============================================================================\
+|                                                                              |
+|    This document is an Internet-Draft and is NOT provided in accordance      |
+|    with Section 10 of RFC2026. The author grants the IETF no rights other    |
+|    than the permission to publish it as an Internet-Draft.                   |
+|                                                                              |
+|    Internet-Drafts are working papers of the Internet Engineering Task       |
+|    Force (IETF), its various areas, and working groups. Other organizations  |
+|    may also release documents as Internet-Drafts.                            |
+|                                                                              |
+|    Internet-Drafts are temporary, with a maximum validity of six months.     |
+|    They may be revised, replaced, or withdrawn at any time, so it is         |
+|    inappropriate to use them as formal references or to cite them except     |
+|    as "works in progress."                                                   |
+|                                                                              |
+|    The current list of Internet-Drafts is available at:                      |
+|        http://www.ietf.org/ietf/1id-abstracts.txt                            |
+|    The list of Internet-Draft Shadow Directories can be accessed at:         |
+|        http://www.ietf.org/shadow.html.                                      |
+|                                                                              |
+\==============================================================================/
+
+Abstract
+
+    This memo is the official R-Type documentation of the network protocol.
+    R-Type is a 3rd year project for EPITECH students that include
+    implementation of an ECS, Game Engine and UDP network protocol.
+    Distribution of this memo is unlimited.
+
+Conventions used in this document
+
+    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+    document are to be interpreted as described in RFC-2119.
+
+LARGEOT                         Informational                           [Page 1]
+
+                            R-Type Protocol                       September 2024
+
+
+Table of Contents
+      1. R-Type architecture.............................................2
+      2. Client and server communication.................................2
+      3. Packet header...................................................3
+      4. Packets payload.................................................3
+          4.1  HiServer..................................................4
+          4.2  HiClient..................................................4
+          4.3  AdiosServer...............................................4
+          4.4  Healthcheck...............................................4
+          4.5  CreateEntity..............................................5
+          4.6  DestroyEntity.............................................5
+          4.7  MoveEntity................................................5
+          4.8  UpdateEntity..............................................6
+          4.9  ClientEvents..............................................6
+          4.10 KickClient................................................6
+          4.11 PacketValidation..........................................7
+      5. Security Considerations.........................................7
+
+
+1. R-Type architecture
+
+    The R-Type architecture is a classic client-server game architecture.
+    All game logic is in the server. The client will display the
+    information transmitted by the server. It will also transmit the player's
+    events (movements, keybinds) as well as these actions to the server.
+
+
+2. Communication between client and server
+
+    Communication between the server and clients is carried out via the
+    UDP protocol defined in RFC-768.
+    
+    When connecting to the server, a client must send an initial "HiServer" 
+    packet, allowing the server to create a client entity and transmit the 
+    client's actions to other connected clients.
+    The server will send a positive or negative response with “HiClient” packet.
+    This first packet is very important. If it is not received or invalid,
+    the server will kick the client and will not be able to process further
+    requests from the client.
+
+    If the server does not receive any packets from the client for more
+    than 4 seconds, the server will consider that the connection has been lost
+    and close it.
+
+
+LARGEOT                         Informational                           [Page 2]
+
+                            R-Type Protocol                       September 2024
+
+    The client must do the same as the server. If it does not receive any
+    packets from the server for more than 4 seconds, the client must close the
+    connection with the server.
+
+    Good practice would be to send at least one "Healthcheck"  packet from the
+    client to the server and vice versa every second.
+
+
+3. Packet header
+
+    Each packet contains a header. This header gives details on its size,
+    its type, its sending date/hour and the size of its data.
+
+    /----------------------------\
+    | Name      | Size (in bits) |
+    |-----------|----------------|
+    | Length    | 32             |
+    | Type      | 8              |
+    | Timestamp | 64             |
+    | Datasize  | 16             |
+    \----------------------------/
+
+    When reading packets, the Length parameter must be checked first to
+    ensure that the entire Packet has been received. Each Packet defined
+    in this document has a unique ID used in the Type parameter for
+    identification upon receipt (example: HiServer -> type: 1).
+
+
+4. Packet Payload
+
+    In this part, we will see all the packets that can be used in this
+    protocol. In each case, the description omits the headers described
+    above. Each size of each element is specified and the total must be
+    indicated in the DataSize header.
+    
+    Please note that in the following tables a TYPE element is specified.
+    This corresponds to the TYPE of the header, which is therefore
+    indicated for each packet.
+
+
+LARGEOT                         Informational                           [Page 3]
+
+                            R-Type Protocol                       September 2024
+
+
+4.1 HiServer
+
+    Client -> Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 1     |
+    \---------------------------------------------------------/
+
+
+4.2 HiClient
+
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 2     |
+    | Entity Id                      | 32             |       |
+    \---------------------------------------------------------/
+
+
+4.3 AdiosServer
+
+    Client -> Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 3     |
+    \---------------------------------------------------------/
+
+4.4 Healthcheck
+
+    Client -> Server
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 4     |
+    \---------------------------------------------------------/
+
+
+LARGEOT                         Informational                           [Page 4]
+
+                            R-Type Protocol                       September 2024 
+
+
+4.5 CreateEntity
+
+    Client -> Server
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 5     |
+    | Entity Id                      | 32             |       |
+    | Entity prefab path    		 | 8 * length     |       |
+    | x                              | 32             |       |
+    | y                              | 32             |       |
+    \---------------------------------------------------------/
+
+
+4.6 DestroyEntity
+
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 6     |
+    | Entity Id                      | 32             |       |
+    \---------------------------------------------------------/
+
+
+4.7 MoveEntity
+
+    Client -> Server
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (in bits) | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 7     |
+    | Entity Id                      | 32             |       |
+    | x                              | 32             |       |
+    | y                              | 32             |       |
+    | direction x                    | 32             |       |
+    | direction y                    | 32             |       |
+    \---------------------------------------------------------/
+
+LARGEOT                         Informational                           [Page 5]
+
+                            R-Type Protocol                       September 2024 
+
+
+4.8 UpdateEntity
+
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 8     |
+    | Entity Id                      | 32             |       |
+    | Score                          | 32             |       |
+    \---------------------------------------------------------/
+
+
+4.9 ClientEvents
+
+    Client -> Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 9     |
+    \---------------------------------------------------------/
+
+
+4.10 KickClient
+
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 10    |
+    | Reason			             | 8 * length     |       |
+    \---------------------------------------------------------/
+
+
+LARGEOT                         Informational                           [Page 6]
+
+                            R-Type Protocol                       September 2024 
+
+
+4.11 PacketValidation
+
+    Client -> Server
+    Client <- Server
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 11    |
+    | PacketType                     | 8              |       |
+    | PacketTimestamp                | 64             |       |
+    \---------------------------------------------------------/
+
+5. Security Considerations
+
+    The UDP protocol does not provide confirmation of receipt of Packets,
+    which is why it is important to carefully check the total length upon
+    receipt.
+
+    Some packets needs validation. To do that, when you receive one packets
+    from the following list, send "PacketValidation" Packet with packet type
+    and timestamp: HiClient, CreateEntity and DestroyEntity.
+
+    In case of an error, for example an invalid packet, nothing should be
+    returned.
+
+LARGEOT                         Informational                           [Page 7]
