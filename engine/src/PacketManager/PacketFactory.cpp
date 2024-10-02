@@ -38,7 +38,7 @@ std::shared_ptr<APacket> PacketFactory::createPacketFromBuffer(std::vector<char>
         PacketType type = APacket::getPacketTypeFromBuffer(buffer);
 
         if (packetSize > buffer.size())
-            throw PacketFactoryError("PacketFactoryError: Something wrong with packet size, probably incomplete.");
+            throw PacketFactoryError("PacketFactoryError: Something's wrong with packet size, probably incomplete.");
         return this->_creationMap[type](buffer);
     } catch (std::exception &e) {
         throw;
