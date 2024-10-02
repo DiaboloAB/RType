@@ -28,6 +28,7 @@ target_link_libraries(RTypeEngine PUBLIC RTypeECS
     sfml-graphics
     sfml-window
     sfml-system
+    sfml-audio
     glm::glm
     nlohmann_json::nlohmann_json
     lua::lua

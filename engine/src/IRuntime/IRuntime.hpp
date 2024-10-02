@@ -108,12 +108,19 @@ class IRuntime
                             const std::string& filePath) = 0;
 
     /**
+     * @brief Unloads a specific sprite and its associated texture from the cache.
+     * @param spriteName The unique name of the sprite to unload.
+     */
+    virtual void unloadSprite(const std::string& spriteName) = 0;
+
+    /**
      * @brief Pure virtual method to draw a sprite on the window.
      *
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, float x, float y) = 0;
+    virtual void drawSprite(const std::string& spriteName, float x, float y,
+                            std::vector<int>& spriteCoords) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.
