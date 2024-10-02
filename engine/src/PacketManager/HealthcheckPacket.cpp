@@ -15,5 +15,8 @@ HealthcheckPacket::HealthcheckPacket(std::vector<char> &buffer) : APacket(buffer
 
 HealthcheckPacket::~HealthcheckPacket(){};
 
-std::vector<char> HealthcheckPacket::serializeData() const {}
+std::vector<char> HealthcheckPacket::serializeData() const {
+    std::vector<char> buffer;
+    return buffer;
+}
 }  // namespace RType::Network

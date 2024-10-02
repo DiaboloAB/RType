@@ -23,7 +23,17 @@ namespace RType::Network
 enum PacketType : uint8_t
 {
     NONE = 0,
-    CREATEENTITY = 1,
+    HISERVER = 1,
+    HICLIENT = 2,
+    ADIOSSERVER = 3,
+    HEALTHCHECK = 4,
+    CREATEENTITY = 5,
+    DESTROYENTITY = 6,
+    MOVEENTITY = 7,
+    UPDATEENTITY = 8,
+    CLIENTEVENT = 9,
+    KICKCLIENT = 10,
+    PACKETVALIDATION = 11,
 };
 
 /**
@@ -40,21 +50,7 @@ class APacket
      * @param type: Type of the packet (CREATEENTITY, NONE, ...)
      * @return APacket object.
      */
-    enum PacketType : uint8_t
-    {
-        NONE = 0,
-        HISERVER = 1,
-        HICLIENT = 2,
-        ADIOSSERVER = 3,
-        HEALTHCHECK = 4,
-        CREATEENTITY = 5,
-        DESTROYENTITY = 6,
-        MOVEENTITY = 7,
-        UPDATEENTITY = 8,
-        CLIENTEVENT = 9,
-        KICKCLIENT = 10,
-        PACKETVALIDATION = 11,
-    };
+    APacket(PacketType type);
 
     /**
      * @brief Construct new APacket object with serialized data by deserializing them.
@@ -80,7 +76,7 @@ class APacket
      * @param buffer: Serialized packet to get the size from.
      * @return Total size of the packet or throw an error.
      */
-    uint32_t getPacketSizeFromBuffer(std::vector<char> &buffer) const;
+    static uint32_t getPacketSizeFromBuffer(std::vector<char> &buffer);
 
     /**
      * @brief Get the type of the packet using serialized data if it is possible.
@@ -88,7 +84,7 @@ class APacket
      * @param buffer: Serialized packet to get the type from.
      * @return Type of the packet or throw an error.
      */
-    PacketType getPacketTypeFromBuffer(std::vector<char> &buffer) const;
+    static PacketType getPacketTypeFromBuffer(std::vector<char> &buffer);
 
    public:
     /**
