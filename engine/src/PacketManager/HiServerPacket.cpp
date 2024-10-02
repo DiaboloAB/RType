@@ -15,7 +15,8 @@ HiServerPacket::HiServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
 HiServerPacket::~HiServerPacket(){};
 
-std::vector<char> HiServerPacket::serializeData() const {
+std::vector<char> HiServerPacket::serializeData() const
+{
     std::vector<char> buffer;
     return buffer;
 }
