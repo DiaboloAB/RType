@@ -162,7 +162,7 @@ void RenderSystemSFML::unloadTexture(const std::string& textureName)
     auto it = _textures.find(textureName);
     if (it != _textures.end())
     {
-        _textures.erase(it);  // Libère la mémoire associée à la texture
+        _textures.erase(it);
     }
 }
 
@@ -182,7 +182,7 @@ void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::stri
     {
         sf::Sprite sprite;
         sprite.setTexture(*it->second);
-        _sprites[spriteName] = sprite;  // Ajoute le sprite à la map avec son nom unique
+        _sprites[spriteName] = sprite;
     }
     else
     {
@@ -191,21 +191,17 @@ void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::stri
 }
 
 /**
- * @brief Draws a sprite on the game window.
- *
- * Placeholder function for drawing sprites. It is currently not implemented but intended for future
- * use.
+ * @brief Unloads a specific sprite and its associated texture from the cache.
+ * @param spriteName The unique name of the sprite to unload.
  */
-void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y)
+void RenderSystemSFML::unloadSprite(const std::string& spriteName)
 {
+    // Find the sprite in the map
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
     {
-        // Met à jour la position du sprite
-        it->second.setPosition(x, y);
-
-        // Dessine le sprite avec la nouvelle position
-        _window.draw(it->second);
+        // If the sprite is found, erase it from the map
+        _sprites.erase(it);
     }
     else
     {
@@ -213,11 +209,36 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float 
     }
 }
 
-void RenderSystemSFML::drawAllSprites()
+/**
+ * @brief Draws a sprite from a spritesheet on the game window at the given coordinates.
+ *
+ * @param spriteName The unique name of the sprite.
+ * @param x The x-coordinate where the sprite will be drawn.
+ * @param y The y-coordinate where the sprite will be drawn.
+ * @param spriteRect The rectangle representing the portion of the spritesheet to use.
+ */
+void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y,
+                                  std::vector<int>& spriteCoords)
 {
-    for (const auto& pair : _sprites)
+    if (spriteCoords.size() != 4)
     {
-        _window.draw(pair.second);  // Dessine chaque sprite dans la map
+        std::cerr
+            << "Erreur : Le vecteur doit contenir exactement 4 éléments (left, top, width, height)"
+            << std::endl;
+        return;
+    }
+
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end())
+    {
+        sf::IntRect spriteRect(spriteCoords[0], spriteCoords[1], spriteCoords[2], spriteCoords[3]);
+        it->second.setTextureRect(spriteRect);
+        it->second.setPosition(x, y);
+        _window.draw(it->second);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
     }
 }
 
@@ -230,6 +251,148 @@ void RenderSystemSFML::drawAllSprites()
 void RenderSystemSFML::drawText()
 {
     // To be implemented
+}
+
+/**
+ * @brief Preloads a music file and stores it in a cache.
+ *
+ * @param musicName The unique name of the music.
+ * @param filePath The file path of the music to load.
+ * @return `true` if the music was preloaded successfully, `false` otherwise.
+ */
+bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string& filePath)
+{
+    if (_musics.find(musicName) != _musics.end())
+    {
+        return true;
+    }
+
+    auto music = std::make_unique<sf::Music>();
+    if (!music->openFromFile(filePath))
+    {
+        std::cerr << "Erreur lors du chargement de la musique : " << filePath << std::endl;
+        return false;
+    }
+
+    _musics[musicName] = std::move(music);
+    return true;
+}
+
+/**
+ * @brief Plays a preloaded music.
+ *
+ * @param musicName The unique name of the music to play.
+ * @param loop Whether to loop the music (default is `true`).
+ */
+void RenderSystemSFML::playMusic(const std::string& musicName, bool loop)
+{
+    if (_currentMusic != nullptr)
+    {
+        _currentMusic->stop();
+    }
+
+    auto it = _musics.find(musicName);
+    if (it != _musics.end())
+    {
+        _currentMusic = it->second.get();
+        _currentMusic->setLoop(loop);
+        _currentMusic->play();
+    }
+    else
+    {
+        std::cerr << "Erreur : musique non trouvée (" << musicName << ")" << std::endl;
+    }
+}
+
+/**
+ * @brief Stops the currently playing music.
+ */
+void RenderSystemSFML::stopCurrentMusic()
+{
+    if (_currentMusic != nullptr)
+    {
+        _currentMusic->stop();
+        _currentMusic = nullptr;
+    }
+}
+
+/**
+ * @brief Unloads a specific music from the cache.
+ *
+ * @param musicName The unique name of the music to unload.
+ */
+void RenderSystemSFML::unloadMusic(const std::string& musicName)
+{
+    auto it = _musics.find(musicName);
+    if (it != _musics.end())
+    {
+        if (_currentMusic == it->second.get())
+        {
+            _currentMusic->stop();
+            _currentMusic = nullptr;
+        }
+        _musics.erase(it);
+    }
+}
+
+/**
+ * @brief Preloads a sound buffer from file and stores it in a cache.
+ *
+ * @param soundName The unique name used to reference the sound.
+ * @param filePath The file path of the sound file to load (e.g., "assets/sounds/explosion.wav").
+ * @return `true` if the sound was preloaded successfully, `false` otherwise.
+ */
+bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string& filePath)
+{
+    if (_soundBuffers.find(soundName) != _soundBuffers.end())
+    {
+        return true;
+    }
+
+    auto buffer = std::make_unique<sf::SoundBuffer>();
+    if (!buffer->loadFromFile(filePath))
+    {
+        std::cerr << "Erreur lors du chargement du son : " << filePath << std::endl;
+        return false;
+    }
+
+    _soundBuffers[soundName] = std::move(buffer);
+    return true;
+}
+
+/**
+ * @brief Plays a preloaded sound.
+ *
+ * @param soundName The unique name of the preloaded sound to play.
+ */
+void RenderSystemSFML::playSound(const std::string& soundName)
+{
+    auto it = _soundBuffers.find(soundName);
+    if (it != _soundBuffers.end())
+    {
+        sf::Sound sound;
+        sound.setBuffer(*it->second);
+        _sounds.push_back(sound);
+        _sounds.back().play();
+    }
+    else
+    {
+        std::cerr << "Erreur : son non trouvé (" << soundName << ")" << std::endl;
+    }
+}
+
+/**
+ * @brief Unloads a specific sound from the cache.
+ *
+ * @param soundName The unique name of the preloaded sound to unload.
+ */
+void RenderSystemSFML::unloadSound(const std::string& soundName)
+{
+    auto it = _soundBuffers.find(soundName);
+    if (it != _soundBuffers.end())
+    {
+        _soundBuffers.erase(it);  // Remove the sound buffer from the cache
+    }
 }
 
 KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
