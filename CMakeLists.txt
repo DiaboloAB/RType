@@ -12,9 +12,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_subdirectory(engine)
 add_subdirectory(libs/ecs)
 
-add_executable(RType src/main.cpp)
-add_executable(r-type_server src/mainServer.cpp
-    src/server/Server.cpp)
+add_executable(RType
+    src/main.cpp
+)
+
+add_executable(r-type_server
+    src/mainServer.cpp
+    src/server/Server.cpp
+)
+
+target_link_libraries(r-type_server PRIVATE
+    RTypeEngine
+    RTypeECS
+)
 
 target_link_libraries(RType PRIVATE
     RTypeEngine
@@ -38,6 +48,11 @@ target_include_directories(r-type_server PUBLIC
     "${PROJECT_SOURCE_DIR}/engine/src"
     "${PROJECT_SOURCE_DIR}/libs/ecs/src"
     "${PROJECT_SOURCE_DIR}/src/server"
+)
+
+set_target_properties( RType
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../"
 )
 
 # vvv Testing vvv #

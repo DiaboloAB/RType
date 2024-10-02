@@ -34,22 +34,18 @@ class ForwardSystem : public ISystem
             if (gameContext._runtime->getKey(KeyCode::UpArrow))
             {
                 transform.position.y -= speed * deltaTime;
-                std::cout << "Moving up" << std::endl;
             }
             if (gameContext._runtime->getKey(KeyCode::DownArrow))
             {
                 transform.position.y += speed * deltaTime;
-                std::cout << "Moving down" << std::endl;
             }
             if (gameContext._runtime->getKey(KeyCode::LeftArrow))
             {
                 transform.position.x -= speed * deltaTime;
-                std::cout << "Moving left" << std::endl;
             }
             if (gameContext._runtime->getKey(KeyCode::RightArrow))
             {
                 transform.position.x += speed * deltaTime;
-                std::cout << "Moving right" << std::endl;
             }
         }
     }

@@ -144,7 +144,6 @@ void RenderSystemSFML::FullScreenWindow()
 bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::string& filePath)
 {
     auto texture = std::make_unique<sf::Texture>();
-    std::cout << filePath << std::endl;
     if (!texture->loadFromFile(filePath))
     {
         std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;

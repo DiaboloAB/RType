@@ -15,7 +15,15 @@ using namespace RType;
 
 Engine::Engine()
 {
-    // Constructor implementation
+    // Demarer l'intrerface graphique
+    // Recup l'host du server et son port
+    // Init le NetworkHandler du client (std::make_shared<Network::NetworkHandler>(host, port,
+    // false);)
+}
+
+Engine::Engine(std::string host, unsigned int port, bool isServer)
+{
+    this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
 }
 
 Engine::~Engine()
@@ -27,13 +35,11 @@ void Engine::run()
 {
     ECS::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
-    _registry.emplace<Sprite>(entity, "player.png");
+    _registry.emplace<Sprite>(entity, "assets/graphic/player.png");
     // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();
-
-    _gameContext._runtime->loadSprite("player", "player", "player.png");
 
     _systemManager.start(_registry, _gameContext);
 
