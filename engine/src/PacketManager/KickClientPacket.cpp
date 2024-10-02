@@ -7,26 +7,29 @@
 
 #include "KickClientPacket.hpp"
 
-namespace RType::Network {
-    KickClientPacket::KickClientPacket(std::string reason) : APacket(KICKCLIENT), _reason(reason) {
-        this->_packetDataSize = this->_reason.size();
-    }
-
-    KickClientPacket::KickClientPacket(std::vector<char> &buffer) : APacket(buffer) {
-        char *data = buffer.data();
-        data += this->getHeaderSize();
-
-        this->_reason = std::string(
-            data, this->getPacketSize() - this->getHeaderSize());
-    }
-
-    KickClientPacket::~KickClientPacket() {};
-
-    std::vector<char> KickClientPacket::serializeData() const {
-        std::vector<char> buffer;
-        char *data = buffer.data();
-
-        std::memcpy(data, this->_reason.c_str(), this->_reason.size());
-        return buffer;
-    }
+namespace RType::Network
+{
+KickClientPacket::KickClientPacket(std::string reason) : APacket(KICKCLIENT), _reason(reason)
+{
+    this->_packetDataSize = this->_reason.size();
 }
+
+KickClientPacket::KickClientPacket(std::vector<char> &buffer) : APacket(buffer)
+{
+    char *data = buffer.data();
+    data += this->getHeaderSize();
+
+    this->_reason = std::string(data, this->getPacketSize() - this->getHeaderSize());
+}
+
+KickClientPacket::~KickClientPacket(){};
+
+std::vector<char> KickClientPacket::serializeData() const
+{
+    std::vector<char> buffer;
+    char *data = buffer.data();
+
+    std::memcpy(data, this->_reason.c_str(), this->_reason.size());
+    return buffer;
+}
+}  // namespace RType::Network

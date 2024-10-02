@@ -7,14 +7,13 @@
 
 #include "HealthcheckPacket.hpp"
 
-namespace RType::Network {
-    HealthcheckPacket::HealthcheckPacket() : APacket(HEALTHCHECK) {
-        this->_packetDataSize = 0;
-    }
+namespace RType::Network
+{
+HealthcheckPacket::HealthcheckPacket() : APacket(HEALTHCHECK) { this->_packetDataSize = 0; }
 
-    HealthcheckPacket::HealthcheckPacket(std::vector<char> &buffer) : APacket(buffer) {}
+HealthcheckPacket::HealthcheckPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-    HealthcheckPacket::~HealthcheckPacket() {};
+HealthcheckPacket::~HealthcheckPacket(){};
 
-    std::vector<char> HealthcheckPacket::serializeData() const {}
-}
+std::vector<char> HealthcheckPacket::serializeData() const {}
+}  // namespace RType::Network

@@ -17,7 +17,8 @@ Engine::Engine()
 {
     // Demarer l'intrerface graphique
     // Recup l'host du server et son port
-    // Init le NetworkHandler du client (std::make_shared<Network::NetworkHandler>(host, port, false);)
+    // Init le NetworkHandler du client (std::make_shared<Network::NetworkHandler>(host, port,
+    // false);)
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
