@@ -40,7 +40,23 @@ void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
 
 void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
+    std::vector<char> packetData;
 
+    try {
+        packetData = packet.serialize();
+    } catch (APacket::PacketException &e) {
+        std::cerr << "[sendData ERROR]: Problème de serialisation" << std::endl;
+        return;
+    }
+
+    this->_socket->async_send_to(asio::buffer(packetData), endpoint,
+        [this](std::error_code ec, std::size_t bytes_recvd) {
+            if (ec) {
+                std::cerr << "[sendData ERROR]: Problème de send de données" << std::endl;
+                return;
+            }
+        }
+    );
 }
 
 void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
@@ -58,12 +74,10 @@ void NetworkHandler::receiveData()
         [this, remoteEndpoint](std::error_code ec, std::size_t bytes_recvd)
         {
             if (!ec)
-            {
                 this->handleData(_recvBuffer, *remoteEndpoint);
-                return this->receiveData();
-            }
             else
-                throw NetworkHandlerError("NetworkHandler Error: Corrupted packets");
+                std::cerr << "[receiveData ERROR]: Problème de réception de données" << std::endl;
+            return this->receiveData();
         });
 }
 }  // namespace RType::Network
