@@ -42,6 +42,7 @@ void Engine::run()
     _systemManager.addSystem<SpriteSystem>();
 
     _systemManager.start(_registry, _gameContext);
+
     while (_gameContext._runtime->isWindowOpen())
     {
         _gameContext._runtime->pollEvents();
