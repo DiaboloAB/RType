@@ -11,8 +11,9 @@
 #include <mlg/vector/vec3.hpp>
 // std
 
-namespace mlg {
+namespace mlg
+{
 
-} // namespace mlg
+}  // namespace mlg
 
-#endif // MLG_H
+#endif  // MLG_H
