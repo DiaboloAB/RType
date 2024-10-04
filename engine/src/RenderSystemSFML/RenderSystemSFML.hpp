@@ -121,8 +121,8 @@ class RenderSystemSFML : public RType::IRuntime
     /**
      * @brief Draws a sprite on the window.
      */
-    void drawSprite(const std::string& spriteName, float x, float y,
-                    std::vector<int>& spriteCoords) override;
+    void drawSprite(const std::string& spriteName, float x, float y, std::vector<int>& spriteCoords,
+                    std::vector<int>& scale, float rotation) override;
 
     /**
      * @brief Displays text on the screen.
