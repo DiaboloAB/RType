@@ -170,23 +170,22 @@ void RenderSystemSFML::unloadTexture(const std::string& textureName)
  * @brief Loads a sprite using a texture from the cache.
  * @param textureName The name of the texture to use for the sprite.
  */
-void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::string& textureName,
-                                  const std::string& filePath)
+void RenderSystemSFML::loadSprite(const std::string& filePath)
 {
-    if (loadTexture(textureName, filePath) == false)
+    if (loadTexture(filePath, filePath) == false)
     {
         return;
     }
-    auto it = _textures.find(textureName);
+    auto it = _textures.find(filePath);
     if (it != _textures.end())
     {
         sf::Sprite sprite;
         sprite.setTexture(*it->second);
-        _sprites[spriteName] = sprite;
+        _sprites[filePath] = sprite;
     }
     else
     {
-        std::cerr << "Erreur : texture non trouvée (" << textureName << ")" << std::endl;
+        std::cerr << "Erreur : texture non trouvée (" << filePath << ")" << std::endl;
     }
 }
 
@@ -215,25 +214,31 @@ void RenderSystemSFML::unloadSprite(const std::string& spriteName)
  * @param y The y-coordinate where the sprite will be drawn.
  * @param spriteRect The rectangle representing the portion of the spritesheet to use.
  */
-void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y,
-                                  std::vector<int>& spriteCoords, std::vector<int>& scale,
-                                  float rotation)
+void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 position,
+                                    mlg::vec4 spriteCoords, mlg::vec2 scale, float rotation)
 {
-    if (spriteCoords.size() != 4)
-    {
-        std::cerr
-            << "Erreur : Le vecteur doit contenir exactement 4 éléments (left, top, width, height)"
-            << std::endl;
-        return;
-    }
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
     {
-        sf::IntRect spriteRect(spriteCoords[0], spriteCoords[1], spriteCoords[2], spriteCoords[3]);
+        sf::IntRect spriteRect(spriteCoords.x, spriteCoords.y, spriteCoords.z, spriteCoords.w);
         it->second.setTextureRect(spriteRect);
-        it->second.setPosition(x, y);
-        it->second.setScale(scale[0], scale[1]);
+        it->second.setPosition(position.x, position.y);
+        it->second.setScale(scale.x, scale.y);
         it->second.setRotation(rotation);
+        _window.draw(it->second);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
+    }
+}
+
+void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 position)
+{
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end())
+    {
+        it->second.setPosition(position.x, position.y);
         _window.draw(it->second);
     }
     else
@@ -511,6 +516,23 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
         default:
             return KeyCode::None;  // Default case, adjust as needed
     }
+}
+
+mlg::vec2 RenderSystemSFML::getMousePosition()
+{
+    sf::Vector2i position = sf::Mouse::getPosition(_window);
+    return mlg::vec2(position.x, position.y, 0);
+}
+
+mlg::vec2 RenderSystemSFML::getTextureSize(const std::string& spriteName)
+{
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end())
+    {
+        auto size = it->second.getTexture()->getSize();
+        return mlg::vec2(size.x, size.y, 0);
+    }
+    return mlg::vec2(0, 0, 0);
 }
 
 }  // namespace RType

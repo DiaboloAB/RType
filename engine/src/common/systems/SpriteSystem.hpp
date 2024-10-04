@@ -26,7 +26,7 @@ class SpriteSystem : public ISystem
         for (auto entity : view)
         {
             auto &sprite = view.get<Sprite>(entity);
-            gameContext._runtime->loadSprite(sprite.filePath, sprite.filePath, sprite.filePath);
+            gameContext._runtime->loadSprite(sprite.filePath);
         }
     }
 
@@ -37,6 +37,7 @@ class SpriteSystem : public ISystem
         {
             auto &transform = view.get<Transform>(entity);
             auto &sprite = view.get<Sprite>(entity);
+            gameContext._runtime->drawSprite(sprite.filePath, transform.position);
             // gameContext._runtime->drawSprite(sprite.filePath, transform.position.x,
             //                                  transform.position.y);
         }
