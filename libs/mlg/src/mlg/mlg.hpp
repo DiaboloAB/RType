@@ -5,14 +5,14 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RTypeECS.hpp"
+#ifndef MLG_H
+#define MLG_H
 
-using namespace RType::ECS;
+#include <mlg/vector/vec3.hpp>
+// std
 
-Registry::Registry() {}
+namespace mlg {
 
-Registry::~Registry() {}
+} // namespace mlg
 
-Entity Registry::create() { return _entityManager.create(); }
-
-void Registry::kill(Entity entity) { _entityManager.kill(entity); }
+#endif // MLG_H

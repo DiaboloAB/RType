@@ -8,7 +8,6 @@ class MyProjectConan(ConanFile):
     def requirements(self):
         self.requires("asio/1.31.0")
         self.requires("sfml/2.6.1")
-        self.requires("glm/cci.20230113")
         self.requires("lua/5.4.7")
         self.requires("nlohmann_json/3.11.3")
 

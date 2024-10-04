@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "EntityManager.hpp" // Make sure this path is correct
+#include "mobs/mobs.hpp"
 
-using namespace RType::ECS;
+using namespace mobs;
 
 class EntityManagerTest : public ::testing::Test {
 protected:

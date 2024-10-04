@@ -13,7 +13,7 @@
 
 #include "ComponentArray.hpp"
 
-namespace RType::ECS
+namespace mobs
 {
 
 class ComponentManager
@@ -77,6 +77,6 @@ class ComponentManager
     ComponentType _nextComponentType = 0;
 };
 
-}  // namespace RType::ECS
+}  // namespace mobs
 
 #endif  // COMPONENTMANAGER_H

@@ -18,7 +18,7 @@
 #include <queue>
 #include <vector>
 
-namespace RType::ECS
+namespace mobs
 {
 
 using Entity = std::uint32_t;
@@ -57,6 +57,6 @@ class EntityManager
     std::vector<Entity> _entities{};
 };
 
-}  // namespace RType::ECS
+}  // namespace mobs
 
 #endif  // ENTITYMANAGER_H

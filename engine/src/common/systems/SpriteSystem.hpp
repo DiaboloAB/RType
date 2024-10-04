@@ -20,7 +20,7 @@ class SpriteSystem : public ISystem
     SpriteSystem() {}
     ~SpriteSystem() {}
 
-    void start(ECS::Registry &registry, GameContext &gameContext) override
+    void start(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Sprite>();
         for (auto entity : view)
@@ -30,15 +30,15 @@ class SpriteSystem : public ISystem
         }
     }
 
-    void draw(ECS::Registry &registry, GameContext &gameContext) override
+    void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Transform, Sprite>();
         for (auto entity : view)
         {
             auto &transform = view.get<Transform>(entity);
             auto &sprite = view.get<Sprite>(entity);
-            gameContext._runtime->drawSprite(sprite.filePath, transform.position.x,
-                                             transform.position.y);
+            // gameContext._runtime->drawSprite(sprite.filePath, transform.position.x,
+            //                                  transform.position.y);
         }
     }
 

@@ -17,7 +17,7 @@
 #include <memory>
 #include <unordered_map>
 
-namespace RType::ECS
+namespace mobs
 {
 
 class Registry
@@ -100,6 +100,6 @@ class Registry
     // Member variables
 };
 
-}  // namespace RType::ECS
+}  // namespace mobs
 
 #endif  // ANTIT_H

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "ComponentArray.hpp"
+#include "mobs/mobs.hpp"
 
-using namespace RType::ECS;
+using namespace mobs;
 
 class TestComponentArray : public ::testing::Test {
 protected:
