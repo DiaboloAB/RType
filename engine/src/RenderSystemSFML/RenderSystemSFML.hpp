@@ -129,6 +129,8 @@ class RenderSystemSFML : public RType::IRuntime
 
     mlg::vec2 getMousePosition() override;
 
+    void setGameIcon(const std::string& filePath) override;
+
     /**
      * @brief Displays text on the screen.
      *
@@ -240,5 +242,6 @@ class RenderSystemSFML : public RType::IRuntime
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
+    sf::Image _icon;
 };
 }  // namespace RType

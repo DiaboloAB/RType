@@ -535,4 +535,17 @@ mlg::vec2 RenderSystemSFML::getTextureSize(const std::string& spriteName)
     return mlg::vec2(0, 0, 0);
 }
 
+void RenderSystemSFML::setGameIcon(const std::string& filePath)
+{
+    try {
+        sf::Image icon;
+        if (!icon.loadFromFile(filePath)) {
+            throw std::runtime_error("Failed to load game icon image");
+        }
+        _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
 }  // namespace RType

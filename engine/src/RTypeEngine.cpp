@@ -38,7 +38,6 @@ void Engine::run()
     mobs::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
     _registry.emplace<Sprite>(entity, "assets/graphic/player.png");
-    // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
 
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();

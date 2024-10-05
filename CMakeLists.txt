@@ -13,7 +13,7 @@ add_subdirectory(engine)
 add_subdirectory(libs/mobs)
 add_subdirectory(libs/mlg)
 
-add_executable(RType
+add_executable(r-type_client
     src/main.cpp
 )
 
@@ -28,7 +28,7 @@ target_link_libraries(r-type_server PRIVATE
     mlg::mlg
 )
 
-target_link_libraries(RType PRIVATE
+target_link_libraries(r-type_client PRIVATE
     RTypeEngine
     mobs::mobs
     mlg::mlg
@@ -40,7 +40,7 @@ target_link_libraries(RType PRIVATE
 
 include(CPack)
 
-target_include_directories(RType PUBLIC
+target_include_directories(r-type_client PUBLIC
     "${PROJECT_BINARY_DIR}"
     "${PROJECT_SOURCE_DIR}/engine/src"
 )
@@ -51,7 +51,12 @@ target_include_directories(r-type_server PUBLIC
     "${PROJECT_SOURCE_DIR}/src/server"
 )
 
-set_target_properties( RType
+set_target_properties(r-type_client
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../"
+)
+
+set_target_properties(r-type_server
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../"
 )

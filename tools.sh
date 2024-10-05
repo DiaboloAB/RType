@@ -42,7 +42,8 @@ elif [ "$COMMAND" == "pack" ]; then
 elif [ "$COMMAND" == "clean" ]; then
     echo "Cleaning project..."
     rm -rf build
-    rm RType
+    rm r-type_client
+    rm r-type_server
     rm CMakeUserPresets.json
 elif [ "$COMMAND" == "rebuild" ]; then
     echo "Rebuilding project..."
@@ -50,7 +51,7 @@ elif [ "$COMMAND" == "rebuild" ]; then
     $0 build
 elif [ "$COMMAND" == "run" ]; then
     echo "Running project..."
-    ./RType
+    ./r-type_client
     cd ..
 elif [ "$COMMAND" == "check-clang" ]; then
     if [ $# -ne 2 ]; then
