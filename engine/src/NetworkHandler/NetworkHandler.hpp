@@ -60,7 +60,7 @@ class NetworkHandler
      *
      * @return Packet queue of the NetworkHandler.
      */
-    std::queue<std::pair<APacket, asio::ip::udp::endpoint>> getPacketQueue() const;
+    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> getPacketQueue() const;
 
     /**
      * @brief Getter for NetworkHandler status.
@@ -114,12 +114,12 @@ class NetworkHandler
     std::string _host = "";
     unsigned int _port = 0;
     bool _isServer = false;
-    std::list<asio::ip::udp::endpoint> _endpointList = {};
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
     std::array<char, 1024> _recvBuffer;
     std::thread thread;
     PacketFactory _factory;
-    std::queue<std::pair<APacket, asio::ip::udp::endpoint>> packetQueue;
+    std::list<std::pair<asio::ip::udp::endpoint, bool>> _endpointList = {};
+    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> packetQueue;
 };
 }  // namespace RType::Network
