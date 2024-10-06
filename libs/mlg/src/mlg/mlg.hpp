@@ -14,7 +14,7 @@
 
 namespace mlg
 {
-    using vec2 = vec3;
+using vec2 = vec3;
 }  // namespace mlg
 
 #endif  // MLG_H

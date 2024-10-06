@@ -11,9 +11,9 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <mlg/mlg.hpp>
 #include <string>
 #include <vector>
-#include <mlg/mlg.hpp>
 
 #include "../common/KeyCode.hpp"
 
@@ -108,11 +108,8 @@ class IRuntime
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, mlg::vec2 position,
-                            mlg::vec4 spriteRect,
-                            mlg::vec2 scale,
-                            float rotation
-                            ) = 0;
+    virtual void drawSprite(const std::string& spriteName, mlg::vec2 position, mlg::vec4 spriteRect,
+                            mlg::vec2 scale, float rotation) = 0;
 
     virtual void drawSprite(const std::string& spriteName, mlg::vec2 position) = 0;
 

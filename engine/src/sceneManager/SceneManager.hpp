@@ -13,27 +13,29 @@
 #include <string>
 #include <vector>
 
-namespace RType {
+namespace RType
+{
 
 class GameContext;
 
-class SceneManager {
-    public:
-        SceneManager();
-        ~SceneManager();
+class SceneManager
+{
+   public:
+    SceneManager();
+    ~SceneManager();
 
-        void loadScene(const std::string &sceneName, GameContext &gameContext);
+    void loadScene(const std::string &sceneName, GameContext &gameContext);
 
-        void update(GameContext &gameContext);
+    void update(GameContext &gameContext);
 
-        std::string _nextScene = "";
-    private:
-        std::string _defaultScene;
-        std::string _currentScene;
-        std::vector<std::string> _scenesList;
+    std::string _nextScene = "";
 
+   private:
+    std::string _defaultScene;
+    std::string _currentScene;
+    std::vector<std::string> _scenesList;
 };
 
-} // namespace RType
+}  // namespace RType
 
-#endif // SCENEMANAGER_H
+#endif  // SCENEMANAGER_H

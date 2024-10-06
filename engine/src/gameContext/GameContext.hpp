@@ -8,7 +8,6 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
-#include <sceneManager/SceneManager.hpp>
 #include <IRuntime/IRuntime.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <mobs/mobs.hpp>
@@ -36,9 +35,10 @@ class GameContext
     }
 
     float _deltaT;
-    IRuntime* _runtime;
+    IRuntime *_runtime;
     mobs::Registry &_registry;
     SceneManager &_sceneManager;
+
    private:
     std::chrono::high_resolution_clock::time_point _currentTime;
 };

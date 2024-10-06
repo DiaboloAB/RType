@@ -16,8 +16,9 @@
 namespace RType
 {
 
-class IScript {
-public:
+class IScript
+{
+   public:
     ~IScript() = default;
 
     virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
@@ -28,10 +29,10 @@ public:
 
     virtual void onCollision(mobs::Registry &registry, GameContext &gameContext) {}
 
-private:
+   private:
     // Member variables
 };
 
-} // namespace RType
+}  // namespace RType
 
-#endif // ISCRIPT_H
+#endif  // ISCRIPT_H

@@ -13,8 +13,9 @@
 namespace mlg
 {
 
-class vec4 {
-public:
+class vec4
+{
+   public:
     float x, y, z, w;
 
     vec4() {}
@@ -26,10 +27,10 @@ public:
 
     // Setters
 
-private:
+   private:
     // Member variables
 };
 
-} // namespace mlg
+}  // namespace mlg
 
-#endif // VEC4_H
+#endif  // VEC4_H

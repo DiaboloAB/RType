@@ -221,7 +221,7 @@ void RenderSystemSFML::unloadSprite(const std::string& spriteName)
  * @param spriteRect The rectangle representing the portion of the spritesheet to use.
  */
 void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 position,
-                                    mlg::vec4 spriteCoords, mlg::vec2 scale, float rotation)
+                                  mlg::vec4 spriteCoords, mlg::vec2 scale, float rotation)
 {
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
@@ -543,13 +543,17 @@ mlg::vec2 RenderSystemSFML::getTextureSize(const std::string& spriteName)
 
 void RenderSystemSFML::setGameIcon(const std::string& filePath)
 {
-    try {
+    try
+    {
         sf::Image icon;
-        if (!icon.loadFromFile(filePath)) {
+        if (!icon.loadFromFile(filePath))
+        {
             throw std::runtime_error("Failed to load game icon image");
         }
         _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
     }
 }

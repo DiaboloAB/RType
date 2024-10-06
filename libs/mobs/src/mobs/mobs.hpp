@@ -77,7 +77,8 @@ class Registry
         // return entities;
     }
 
-    void clear() {
+    void clear()
+    {
         for (Entity entity : _entityManager)
         {
             kill(entity);
