@@ -19,7 +19,7 @@ set(SOURCES
     src/PacketManager/ClientEventPacket.cpp
     src/PacketManager/CreateEntityPacket.cpp
     src/PacketManager/DestroyEntityPacket.cpp
-    src/PacketManager/HealthcheckPacket.cpp
+    src/PacketManager/PingPacket.cpp
     src/PacketManager/HiClientPacket.cpp
     src/PacketManager/HiServerPacket.cpp
     src/PacketManager/KickClientPacket.cpp
