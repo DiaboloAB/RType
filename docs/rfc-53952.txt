@@ -292,7 +292,7 @@ LARGEOT                         Informational                           [Page 6]
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 11    |
-    | PacketType                     | 8              |       |
+    | PacketReceiveType              | 8              |       |
     | PacketTimestamp                | 64             |       |
     \---------------------------------------------------------/
 

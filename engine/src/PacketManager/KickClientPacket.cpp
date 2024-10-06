@@ -33,4 +33,8 @@ std::vector<char> KickClientPacket::serializeData() const
     std::memcpy(data, this->_reason.c_str(), this->_reason.size());
     return buffer;
 }
-}  // namespace RType::Network
+
+std::string KickClientPacket::getReason() const
+{
+    return this->_reason;
+}

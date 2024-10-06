@@ -43,9 +43,7 @@ int main(int ac, char **av)
         {
             std::string host = av[2];
             RType::Engine engine(host, (unsigned int)std::stoi(av[3]), false);
-            auto packet = RType::Network::CreateEntityPacket(1, 0.1, 0.1, "player");
-            engine._networkHandler->sendData(packet, *engine._networkHandler->_endpointList.begin());
-            //engine.run();
+            engine.run();
         }
         else
         {

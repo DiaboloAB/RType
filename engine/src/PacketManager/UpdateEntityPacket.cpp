@@ -38,4 +38,14 @@ std::vector<char> UpdateEntityPacket::serializeData() const
     std::memcpy(data, &this->_score, sizeof(uint32_t));
     return buffer;
 }
+
+uint32_t UpdateEntityPacket::getEntityId() const
+{
+    return this->_entityId;
+}
+
+uint32_t UpdateEntityPacket::getScore() const
+{
+    return this->_score;
+}
 }  // namespace RType::Network

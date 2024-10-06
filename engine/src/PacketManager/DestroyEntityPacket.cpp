@@ -34,4 +34,9 @@ std::vector<char> DestroyEntityPacket::serializeData() const
     std::memcpy(data, &this->_entityId, sizeof(uint32_t));
     return buffer;
 }
+
+uint32_t DestroyEntityPacket::getEntityId() const
+{
+    return this->getEntityId();
+}
 }  // namespace RType::Network

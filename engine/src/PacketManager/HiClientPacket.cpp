@@ -33,4 +33,9 @@ std::vector<char> HiClientPacket::serializeData() const
     std::memcpy(data, &this->_entityId, sizeof(uint32_t));
     return buffer;
 }
+
+uint32_t HiClientPacket::getEntityId() const 
+{
+    return this->_entityId;
+}
 }  // namespace RType::Network

@@ -51,6 +51,10 @@ class UpdateEntityPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
+    public:
+        uint32_t getEntityId() const;
+        uint32_t getScore() const;
+
    private:
     uint32_t _entityId;
     uint32_t _score;

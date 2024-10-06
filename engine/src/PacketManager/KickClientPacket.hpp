@@ -42,6 +42,9 @@ class KickClientPacket : public APacket
      */
     ~KickClientPacket();
 
+    public:
+        std::string getReason() const;
+
    public:
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
