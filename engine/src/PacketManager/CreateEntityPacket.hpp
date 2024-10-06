@@ -54,6 +54,12 @@ class CreateEntityPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
+   public:
+    uint32_t getEntityId() const;
+    float getPosX() const;
+    float getPosY() const;
+    std::string getEntityToCreate() const;
+
    private:
     uint32_t _entityId;
     float _posX;

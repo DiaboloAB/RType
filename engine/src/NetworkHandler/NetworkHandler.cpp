@@ -12,22 +12,19 @@ namespace RType::Network
 NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServer)
     : _host(host), _port(port), _isServer(isServer), _io_context()
 {
-    // Init de la socket
     asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
     this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
 
-    // Ajout du server dans la liste d'endpoint du client
     if (!isServer)
     {
         asio::ip::udp::resolver resolver(this->_io_context);
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(host, std::to_string(port));
         asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
-        this->_endpointList.push_back(serverEndpoint);
+        this->_endpointList.push_back(std::make_pair(serverEndpoint, true));
     }
-    // Debut de la reception de données
+
     this->receiveData();
-    // mettre le thread
     this->thread = std::thread([this] { this->_io_context.run(); });
 }
 
@@ -37,16 +34,64 @@ std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
 
+std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
+NetworkHandler::getPacketQueue() const
+{
+    return this->packetQueue;
+}
+
+bool NetworkHandler::getIsServer() const { return this->_isServer; }
+
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 
 void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
 
-void NetworkHandler::sendData() {}
+void NetworkHandler::popQueue()
+{
+    if (!this->packetQueue.empty()) this->packetQueue.pop();
+}
+
+void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
+{
+    std::vector<char> packetData;
+
+    try
+    {
+        packetData = packet.serialize();
+    }
+    catch (APacket::PacketException &e)
+    {
+        std::cerr << "[sendData ERROR]: Problème de serialisation" << std::endl;
+        return;
+    }
+
+    this->_socket->async_send_to(
+        asio::buffer(packetData), endpoint,
+        [this](std::error_code ec, std::size_t bytes_recvd)
+        {
+            if (ec)
+            {
+                std::cerr << "[sendData ERROR]: Problème de send de données" << std::endl;
+                return;
+            }
+        });
+}
 
 void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
                                 asio::ip::udp::endpoint remoteEndpoint)
 {
-    std::cout << "De la data!" << std::endl;
+    std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
+    std::shared_ptr<APacket> packet = nullptr;
+    try
+    {
+        packet = this->_factory.createPacketFromBuffer(buffer);
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "[sendData ERROR]: Problème de deserialisation des packets" << std::endl;
+        return;
+    }
+    this->packetQueue.push(std::make_pair(packet, remoteEndpoint));
 }
 
 void NetworkHandler::receiveData()
@@ -58,12 +103,10 @@ void NetworkHandler::receiveData()
         [this, remoteEndpoint](std::error_code ec, std::size_t bytes_recvd)
         {
             if (!ec)
-            {
                 this->handleData(_recvBuffer, *remoteEndpoint);
-                return this->receiveData();
-            }
             else
-                throw NetworkHandlerError("NetworkHandler Error: Corrupted packets");
+                std::cerr << "[receiveData ERROR]: Problème de réception de données" << std::endl;
+            return this->receiveData();
         });
 }
 }  // namespace RType::Network

@@ -17,8 +17,8 @@ PacketFactory::PacketFactory()
     { return std::make_shared<HiClientPacket>(buffer); };
     this->_creationMap[ADIOSSERVER] = [](std::vector<char> &buffer)
     { return std::make_shared<AdiosServerPacket>(buffer); };
-    this->_creationMap[HEALTHCHECK] = [](std::vector<char> &buffer)
-    { return std::make_shared<HealthcheckPacket>(buffer); };
+    this->_creationMap[PING] = [](std::vector<char> &buffer)
+    { return std::make_shared<PingPacket>(buffer); };
     this->_creationMap[CREATEENTITY] = [](std::vector<char> &buffer)
     { return std::make_shared<CreateEntityPacket>(buffer); };
     this->_creationMap[DESTROYENTITY] = [](std::vector<char> &buffer)

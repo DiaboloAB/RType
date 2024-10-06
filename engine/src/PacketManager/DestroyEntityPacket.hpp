@@ -43,6 +43,9 @@ class DestroyEntityPacket : public APacket
     ~DestroyEntityPacket() override;
 
    public:
+    uint32_t getEntityId() const;
+
+   public:
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *

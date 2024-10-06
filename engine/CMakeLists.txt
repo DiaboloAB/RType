@@ -14,6 +14,19 @@ set(SOURCES
     src/system/SystemManager.cpp
     src/NetworkHandler/NetworkHandler.cpp
     src/sceneManager/SceneManager.cpp
+    src/PacketManager/APacket.cpp
+    src/PacketManager/AdiosServerPacket.cpp
+    src/PacketManager/ClientEventPacket.cpp
+    src/PacketManager/CreateEntityPacket.cpp
+    src/PacketManager/DestroyEntityPacket.cpp
+    src/PacketManager/PingPacket.cpp
+    src/PacketManager/HiClientPacket.cpp
+    src/PacketManager/HiServerPacket.cpp
+    src/PacketManager/KickClientPacket.cpp
+    src/PacketManager/MoveEntityPacket.cpp
+    src/PacketManager/PacketFactory.cpp
+    src/PacketManager/PacketValidationPacket.cpp
+    src/PacketManager/UpdateEntityPacket.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})

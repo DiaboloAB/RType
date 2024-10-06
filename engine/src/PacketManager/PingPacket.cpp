@@ -5,17 +5,17 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "HealthcheckPacket.hpp"
+#include "PingPacket.hpp"
 
 namespace RType::Network
 {
-HealthcheckPacket::HealthcheckPacket() : APacket(HEALTHCHECK) { this->_packetDataSize = 0; }
+PingPacket::PingPacket() : APacket(PING) { this->_packetDataSize = 0; }
 
-HealthcheckPacket::HealthcheckPacket(std::vector<char> &buffer) : APacket(buffer) {}
+PingPacket::PingPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-HealthcheckPacket::~HealthcheckPacket(){};
+PingPacket::~PingPacket(){};
 
-std::vector<char> HealthcheckPacket::serializeData() const
+std::vector<char> PingPacket::serializeData() const
 {
     std::vector<char> buffer;
     return buffer;
