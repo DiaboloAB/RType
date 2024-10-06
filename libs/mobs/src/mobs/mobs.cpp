@@ -5,16 +5,14 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "ComponentManager.hpp"
+#include "mobs.hpp"
 
-using namespace RType::ECS;
+using namespace mobs;
 
-ComponentManager::ComponentManager()
-{
-    // Constructor implementation
-}
+Registry::Registry() {}
 
-ComponentManager::~ComponentManager()
-{
-    // Destructor implementation
-}
+Registry::~Registry() {}
+
+Entity Registry::create() { return _entityManager.create(); }
+
+void Registry::kill(Entity entity) { _entityManager.kill(entity); }

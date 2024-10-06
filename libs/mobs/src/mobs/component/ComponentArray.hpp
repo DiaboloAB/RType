@@ -8,14 +8,14 @@
 #ifndef COMPONENTARRAY_H
 #define COMPONENTARRAY_H
 
-#include "entity/EntityManager.hpp"
+#include "mobs/entity/EntityManager.hpp"
 
 // std
 #include <memory>
 #include <optional>
 #include <vector>
 
-namespace RType::ECS
+namespace mobs
 {
 
 class IComponentArray
@@ -58,6 +58,6 @@ class ComponentArray : public IComponentArray
     std::vector<std::optional<Component>> _components;
 };
 
-}  // namespace RType::ECS
+}  // namespace mobs
 
 #endif  // COMPONENTARRAY_H

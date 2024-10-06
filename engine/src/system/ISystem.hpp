@@ -10,7 +10,7 @@
 
 #include <gameContext/GameContext.hpp>
 
-#include "RTypeECS.hpp"
+#include "mobs/mobs.hpp"
 // std
 
 namespace RType
@@ -21,11 +21,11 @@ class ISystem
    public:
     ~ISystem() = default;
 
-    virtual void start(ECS::Registry &registry, GameContext &gameContext) {}
+    virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
 
-    virtual void update(ECS::Registry &registry, GameContext &gameContext) {}
+    virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
-    virtual void draw(ECS::Registry &registry, GameContext &gameContext) {}
+    virtual void draw(mobs::Registry &registry, GameContext &gameContext) {}
 
    private:
     // Member variables

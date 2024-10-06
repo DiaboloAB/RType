@@ -22,7 +22,7 @@ class ForwardSystem : public ISystem
     ForwardSystem() {}
     ~ForwardSystem() {}
 
-    void update(ECS::Registry &registry, GameContext &gameContext) override
+    void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         float deltaTime = gameContext._deltaT;
         auto view = registry.view<Transform>();

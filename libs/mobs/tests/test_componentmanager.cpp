@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "ComponentManager.hpp"
+#include "mobs/mobs.hpp"
 
-using namespace RType::ECS;
+using namespace mobs;
 
 class TestComponentManager : public ::testing::Test {
 protected:

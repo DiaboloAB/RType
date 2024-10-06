@@ -10,7 +10,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
 add_subdirectory(engine)
-add_subdirectory(libs/ecs)
+add_subdirectory(libs/mobs)
+add_subdirectory(libs/mlg)
 
 add_executable(RType
     src/main.cpp
@@ -23,12 +24,14 @@ add_executable(r-type_server
 
 target_link_libraries(r-type_server PRIVATE
     RTypeEngine
-    RTypeECS
+    mobs::mobs
+    mlg::mlg
 )
 
 target_link_libraries(RType PRIVATE
     RTypeEngine
-    RTypeECS
+    mobs::mobs
+    mlg::mlg
     # asio::asio
     # sfml-graphics
     # sfml-audio
@@ -40,13 +43,11 @@ include(CPack)
 target_include_directories(RType PUBLIC
     "${PROJECT_BINARY_DIR}"
     "${PROJECT_SOURCE_DIR}/engine/src"
-    "${PROJECT_SOURCE_DIR}/libs/ecs/src"
 )
 
 target_include_directories(r-type_server PUBLIC
     "${PROJECT_BINARY_DIR}"
     "${PROJECT_SOURCE_DIR}/engine/src"
-    "${PROJECT_SOURCE_DIR}/libs/ecs/src"
     "${PROJECT_SOURCE_DIR}/src/server"
 )
 
@@ -63,7 +64,7 @@ add_executable(test_basic tests/test_basic.cpp)
 
 target_link_libraries(test_basic PRIVATE gtest gtest_main
     RTypeEngine
-    RTypeECS
+    mobs::mobs
 )
 
 add_test(NAME BasicTest COMMAND test_basic)

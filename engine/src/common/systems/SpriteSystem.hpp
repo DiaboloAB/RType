@@ -20,7 +20,7 @@ class SpriteSystem : public ISystem
     SpriteSystem() {}
     ~SpriteSystem() {}
 
-    void start(ECS::Registry &registry, GameContext &gameContext) override
+    void start(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Sprite>();
         for (auto entity : view)
@@ -30,7 +30,7 @@ class SpriteSystem : public ISystem
         }
     }
 
-    void draw(ECS::Registry &registry, GameContext &gameContext) override
+    void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Transform, Sprite>();
         for (auto entity : view)

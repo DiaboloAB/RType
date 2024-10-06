@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.10)
 project(RTypeEngine VERSION 0.1)
 
 find_package(SFML REQUIRED COMPONENTS network window graphics system)
-find_package(glm REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(lua REQUIRED)
 find_package(asio REQUIRED)
@@ -34,18 +33,18 @@ add_library(RTypeEngine STATIC ${SOURCES})
 target_include_directories(RTypeEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/libs/ecs/src
     )
 
-target_link_libraries(RTypeEngine PUBLIC RTypeECS
+target_link_libraries(RTypeEngine PUBLIC
     sfml-graphics
     sfml-window
     sfml-system
     sfml-audio
-    glm::glm
     nlohmann_json::nlohmann_json
     lua::lua
     asio::asio
+    mlg::mlg
+    mobs::mobs
 )
 
 enable_testing()

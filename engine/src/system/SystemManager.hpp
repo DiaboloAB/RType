@@ -32,7 +32,7 @@ class SystemManager
         return ref;
     }
 
-    void start(ECS::Registry &registry, GameContext &gameContext)
+    void start(mobs::Registry &registry, GameContext &gameContext)
     {
         for (auto &system : _systems)
         {
@@ -40,7 +40,7 @@ class SystemManager
         }
     }
 
-    void update(ECS::Registry &registry, GameContext &gameContext)
+    void update(mobs::Registry &registry, GameContext &gameContext)
     {
         for (auto &system : _systems)
         {
@@ -48,7 +48,7 @@ class SystemManager
         }
     }
 
-    void draw(ECS::Registry &registry, GameContext &gameContext)
+    void draw(mobs::Registry &registry, GameContext &gameContext)
     {
         for (auto &system : _systems)
         {

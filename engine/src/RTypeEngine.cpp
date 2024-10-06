@@ -15,6 +15,8 @@ using namespace RType;
 
 Engine::Engine()
 {
+    mlg::vec3 v1(1, 2, 3);
+    mlg::vec3 v2(4, 5, 6);
     // Demarer l'intrerface graphique
     // Recup l'host du server et son port
     // Init le NetworkHandler du client (std::make_shared<Network::NetworkHandler>(host, port,
@@ -33,7 +35,7 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    ECS::Entity entity = _registry.create();
+    mobs::Entity entity = _registry.create();
     _registry.emplace<Transform>(entity);
     _registry.emplace<Sprite>(entity, "assets/graphic/player.png");
     // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);

@@ -7,12 +7,12 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include <mlg/mlg.hpp>
 
 #include "NetworkHandler/NetworkHandler.hpp"
-#include "RTypeECS.hpp"
 #include "common/components.hpp"
 #include "gameContext/GameContext.hpp"
+#include "mobs/mobs.hpp"
 #include "system/SystemManager.hpp"
 // std
 #include <chrono>
@@ -33,7 +33,7 @@ class Engine
     // Setters
 
    private:
-    ECS::Registry _registry;
+    mobs::Registry _registry;
     SystemManager _systemManager;
     GameContext _gameContext;
     std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;

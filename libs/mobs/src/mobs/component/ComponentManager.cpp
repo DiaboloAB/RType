@@ -5,6 +5,16 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "ComponentArray.hpp"
+#include "ComponentManager.hpp"
 
-using namespace RType::ECS;
+using namespace mobs;
+
+ComponentManager::ComponentManager()
+{
+    // Constructor implementation
+}
+
+ComponentManager::~ComponentManager()
+{
+    // Destructor implementation
+}

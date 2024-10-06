@@ -7,7 +7,7 @@
 
 #include "EntityManager.hpp"
 
-using namespace RType::ECS;
+using namespace mobs;
 
 EntityManager::EntityManager()
 {
