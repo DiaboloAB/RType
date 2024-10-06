@@ -13,6 +13,7 @@
 #include <string>
 #include <thread>
 #include <queue>
+#include <utility>
 
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/PacketFactory.hpp> 
@@ -59,7 +60,7 @@ class NetworkHandler
      *
      * @return Packet queue of the NetworkHandler.
      */
-    std::queue<APacket> getPacketQueue() const;
+    std::queue<std::pair<APacket, asio::ip::udp::endpoint>> getPacketQueue() const;
 
     /**
      * @brief Getter for NetworkHandler status.
@@ -119,6 +120,6 @@ class NetworkHandler
     std::array<char, 1024> _recvBuffer;
     std::thread thread;
     PacketFactory _factory;
-    std::queue<APacket> packetQueue;
+    std::queue<std::pair<APacket, asio::ip::udp::endpoint>> packetQueue;
 };
 }  // namespace RType::Network

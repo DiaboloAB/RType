@@ -34,7 +34,7 @@ std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
 
-std::queue<APacket> NetworkHandler::getPacketQueue() const { return this->packetQueue; }
+std::queue<std::pair<APacket, asio::ip::udp::endpoint>> NetworkHandler::getPacketQueue() const { return this->packetQueue; }
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
 
