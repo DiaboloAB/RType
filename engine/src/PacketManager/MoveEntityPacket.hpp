@@ -55,12 +55,12 @@ class MoveEntityPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
-    public:
-        uint32_t getEntityId() const;
-        float getPosX() const;
-        float getPosY() const;
-        float getDirectionX() const;
-        float getDirectionY() const;
+   public:
+    uint32_t getEntityId() const;
+    float getPosX() const;
+    float getPosY() const;
+    float getDirectionX() const;
+    float getDirectionY() const;
 
    private:
     uint32_t _entityId;

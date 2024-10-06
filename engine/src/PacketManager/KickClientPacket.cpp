@@ -34,7 +34,5 @@ std::vector<char> KickClientPacket::serializeData() const
     return buffer;
 }
 
-std::string KickClientPacket::getReason() const
-{
-    return this->_reason;
-}
+std::string KickClientPacket::getReason() const { return this->_reason; }
+}  // namespace RType::Network

@@ -39,13 +39,7 @@ std::vector<char> PacketValidationPacket::serializeData() const
     return buffer;
 }
 
-PacketType PacketValidationPacket::getPacketReceiveType() const
-{
-    return this->_packetReceiveType;
-}
+PacketType PacketValidationPacket::getPacketReceiveType() const { return this->_packetReceiveType; }
 
-uint64_t PacketValidationPacket::getPacketTimeStamp() const
-{
-    return this->_packetTimeStamp;
-}
+uint64_t PacketValidationPacket::getPacketTimeStamp() const { return this->_packetTimeStamp; }
 }  // namespace RType::Network

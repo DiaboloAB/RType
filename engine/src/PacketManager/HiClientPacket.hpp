@@ -50,8 +50,8 @@ class HiClientPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
-    public:
-        uint32_t getEntityId() const;
+   public:
+    uint32_t getEntityId() const;
 
    private:
     uint32_t _entityId;

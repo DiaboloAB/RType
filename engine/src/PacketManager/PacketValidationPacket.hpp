@@ -51,9 +51,9 @@ class PacketValidationPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
-    public:
-        PacketType getPacketReceiveType() const;
-        uint64_t getPacketTimeStamp() const;
+   public:
+    PacketType getPacketReceiveType() const;
+    uint64_t getPacketTimeStamp() const;
 
    private:
     PacketType _packetReceiveType;

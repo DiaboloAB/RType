@@ -9,8 +9,8 @@
 #include <iostream>
 #include <string>
 
-#include "RTypeEngine.hpp"
 #include "PacketManager/CreateEntityPacket.hpp"
+#include "RTypeEngine.hpp"
 
 static void displayUsage(void)
 {

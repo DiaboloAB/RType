@@ -55,19 +55,11 @@ std::vector<char> CreateEntityPacket::serializeData() const
     return buffer;
 }
 
-    uint32_t CreateEntityPacket::getEntityId() const {
-        return this->_entityId;
-    }
+uint32_t CreateEntityPacket::getEntityId() const { return this->_entityId; }
 
-    float CreateEntityPacket::getPosX() const {
-        return this->_posX;
-    }
+float CreateEntityPacket::getPosX() const { return this->_posX; }
 
-    float CreateEntityPacket::getPosY() const {
-        return this->_posY;
-    }
+float CreateEntityPacket::getPosY() const { return this->_posY; }
 
-    std::string CreateEntityPacket::getEntityToCreate() const {
-        return this->_entityToCreate;
-    }
+std::string CreateEntityPacket::getEntityToCreate() const { return this->_entityToCreate; }
 }  // namespace RType::Network

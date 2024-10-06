@@ -39,13 +39,7 @@ std::vector<char> UpdateEntityPacket::serializeData() const
     return buffer;
 }
 
-uint32_t UpdateEntityPacket::getEntityId() const
-{
-    return this->_entityId;
-}
+uint32_t UpdateEntityPacket::getEntityId() const { return this->_entityId; }
 
-uint32_t UpdateEntityPacket::getScore() const
-{
-    return this->_score;
-}
+uint32_t UpdateEntityPacket::getScore() const { return this->_score; }
 }  // namespace RType::Network

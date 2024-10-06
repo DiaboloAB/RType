@@ -7,23 +7,21 @@
 
 #pragma once
 
+#include <PacketManager/APacket.hpp>
+#include <PacketManager/PacketFactory.hpp>
 #include <asio.hpp>
 #include <iostream>
 #include <list>
+#include <queue>
 #include <string>
 #include <thread>
-#include <queue>
 #include <utility>
-
-#include <PacketManager/APacket.hpp>
-#include <PacketManager/PacketFactory.hpp> 
 
 namespace RType::Network
 {
 class NetworkHandler
 {
    public:
-    
     NetworkHandler() = delete;
 
     /**
@@ -33,7 +31,7 @@ class NetworkHandler
      * @param port: Port of the game server.
      * @param isServer: Status of the NetworkHandler (true if it's a server,
      * false else).
-     * 
+     *
      * @return NetworkHandler object.
      */
     NetworkHandler(std::string host, unsigned int port, bool isServer);
@@ -47,7 +45,7 @@ class NetworkHandler
      * @return Host of the server.
      */
     std::string getHost() const;
-    
+
     /**
      * @brief Getter for NetworkHandler server port.
      *
@@ -60,7 +58,8 @@ class NetworkHandler
      *
      * @return Packet queue of the NetworkHandler.
      */
-    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> getPacketQueue() const;
+    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
+    getPacketQueue() const;
 
     /**
      * @brief Getter for NetworkHandler status.
@@ -69,14 +68,13 @@ class NetworkHandler
      */
     bool getIsServer() const;
 
-
     void setHost(const std::string host);
     void setPort(const unsigned int port);
 
    public:
-
     /**
-     * @brief Method that send packets from an endpoint to another using async method from asio network library.
+     * @brief Method that send packets from an endpoint to another using async method from asio
+     * network library.
      *
      * @param packet: Packet to send.
      * @param endpoint: Endpoint target to send packet to.
@@ -84,13 +82,15 @@ class NetworkHandler
     void sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
     /**
-     * @brief Method that receive packets from an endpoint using async method from asio network library and send it to the handler.
+     * @brief Method that receive packets from an endpoint using async method from asio network
+     * library and send it to the handler.
      */
     void receiveData();
 
     /**
-     * @brief Method called by receiveData to handle packets received and add it to NetworkHandler queue.
-     * 
+     * @brief Method called by receiveData to handle packets received and add it to NetworkHandler
+     * queue.
+     *
      * @param recvBuffer: Buffer of the packet received that will be deserialized.
      * @param remoteEndoint: Endpoint of the sender of the packet.
      */
@@ -125,6 +125,7 @@ class NetworkHandler
     std::thread thread;
     PacketFactory _factory;
     std::list<std::pair<asio::ip::udp::endpoint, bool>> _endpointList = {};
-    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> packetQueue;
+    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
+        packetQueue;
 };
 }  // namespace RType::Network

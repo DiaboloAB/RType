@@ -42,8 +42,8 @@ class KickClientPacket : public APacket
      */
     ~KickClientPacket();
 
-    public:
-        std::string getReason() const;
+   public:
+    std::string getReason() const;
 
    public:
     /**
