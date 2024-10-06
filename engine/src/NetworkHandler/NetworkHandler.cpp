@@ -34,6 +34,10 @@ std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
 
+std::queue<APacket> NetworkHandler::getPacketQueue() const { return this->packetQueue; }
+
+bool NetworkHandler::getIsServer() const { return this->_isServer; }
+
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 
 void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
