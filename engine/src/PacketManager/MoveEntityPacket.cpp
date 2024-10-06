@@ -58,4 +58,15 @@ std::vector<char> MoveEntityPacket::serializeData() const
     std::memcpy(data, &this->_directionY, sizeof(float));
     return buffer;
 }
+
+uint32_t MoveEntityPacket::getEntityId() const { return this->_entityId; }
+
+float MoveEntityPacket::getPosX() const { return this->_posX; }
+
+float MoveEntityPacket::getPosY() const { return this->_posY; }
+
+float MoveEntityPacket::getDirectionX() const { return this->_directionX; }
+
+float MoveEntityPacket::getDirectionY() const { return this->_directionY; }
+
 }  // namespace RType::Network

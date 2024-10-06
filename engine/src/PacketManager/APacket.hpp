@@ -26,7 +26,7 @@ enum PacketType : uint8_t
     HISERVER = 1,
     HICLIENT = 2,
     ADIOSSERVER = 3,
-    HEALTHCHECK = 4,
+    PING = 4,
     CREATEENTITY = 5,
     DESTROYENTITY = 6,
     MOVEENTITY = 7,

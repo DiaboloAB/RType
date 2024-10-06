@@ -42,7 +42,7 @@ CreateEntityPacket::~CreateEntityPacket() {}
 std::vector<char> CreateEntityPacket::serializeData() const
 {
     std::vector<char> buffer;
-    buffer.resize(sizeof(uint32_t) + sizeof(float) + sizeof(float));
+    buffer.resize(sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size());
     char *data = buffer.data();
 
     std::memcpy(data, &this->_entityId, sizeof(uint32_t));
@@ -54,4 +54,12 @@ std::vector<char> CreateEntityPacket::serializeData() const
     std::memcpy(data, this->_entityToCreate.c_str(), this->_entityToCreate.size());
     return buffer;
 }
+
+uint32_t CreateEntityPacket::getEntityId() const { return this->_entityId; }
+
+float CreateEntityPacket::getPosX() const { return this->_posX; }
+
+float CreateEntityPacket::getPosY() const { return this->_posY; }
+
+std::string CreateEntityPacket::getEntityToCreate() const { return this->_entityToCreate; }
 }  // namespace RType::Network

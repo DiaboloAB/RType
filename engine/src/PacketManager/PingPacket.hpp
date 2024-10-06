@@ -13,33 +13,33 @@ namespace RType::Network
 {
 
 /**
- * @class HealthcheckPacket
+ * @class PingPacket
  *
  * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
  * main information used to verify if client or server is still alive.
  */
-class HealthcheckPacket : public APacket
+class PingPacket : public APacket
 {
    public:
     /**
-     * @brief Construct HealthcheckPacket object that will be send to server or client.
+     * @brief Construct PingPacket object that will be send to server or client.
      *
-     * @return HealthcheckPacket object.
+     * @return PingPacket object.
      */
-    HealthcheckPacket();
+    PingPacket();
 
     /**
-     * @brief Construct new HealthcheckPacket object with serialized data by deserializing them.
+     * @brief Construct new PingPacket object with serialized data by deserializing them.
      *
      * @param buffer: Serialized packet data to deserialize.
-     * @return HealthcheckPacket object.
+     * @return PingPacket object.
      */
-    HealthcheckPacket(std::vector<char> &buffer);
+    PingPacket(std::vector<char> &buffer);
 
     /**
-     * @brief Destruct HealthcheckPacket object.
+     * @brief Destruct PingPacket object.
      */
-    ~HealthcheckPacket();
+    ~PingPacket();
 
    public:
     /**

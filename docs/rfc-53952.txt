@@ -57,7 +57,7 @@ Table of Contents
           4.1  HiServer..................................................4
           4.2  HiClient..................................................4
           4.3  AdiosServer...............................................4
-          4.4  Healthcheck...............................................4
+          4.4  Ping......................................................4
           4.5  CreateEntity..............................................5
           4.6  DestroyEntity.............................................5
           4.7  MoveEntity................................................5
@@ -102,7 +102,7 @@ LARGEOT                         Informational                           [Page 2]
     packets from the server for more than 4 seconds, the client must close the
     connection with the server.
 
-    Good practice would be to send at least one "Healthcheck"  packet from the
+    Good practice would be to send at least one "Ping"  packet from the
     client to the server and vice versa every second.
 
 
@@ -176,7 +176,7 @@ LARGEOT                         Informational                           [Page 3]
     | Type                           | 8              | 3     |
     \---------------------------------------------------------/
 
-4.4 Healthcheck
+4.4 Ping
 
     Client -> Server
     Client <- Server
@@ -292,7 +292,7 @@ LARGEOT                         Informational                           [Page 6]
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 11    |
-    | PacketType                     | 8              |       |
+    | PacketReceiveType              | 8              |       |
     | PacketTimestamp                | 64             |       |
     \---------------------------------------------------------/
 
