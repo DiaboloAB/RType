@@ -80,7 +80,10 @@ bool RenderSystemSFML::getKeyUp(KeyCode key)
     auto it = _previousKeys.find(static_cast<int>(key));
     if (it != _previousKeys.end())
     {
-        return it->second;
+        if (it->second == true && _currentKeys[static_cast<int>(key)] == false)
+        {
+            return true;
+        }
     }
     return false;
 }
@@ -90,7 +93,10 @@ bool RenderSystemSFML::getKeyDown(KeyCode key)
     auto it = _currentKeys.find(static_cast<int>(key));
     if (it != _currentKeys.end())
     {
-        return it->second;
+        if (it->second == true && _previousKeys[static_cast<int>(key)] == false)
+        {
+            return true;
+        }
     }
     return false;
 }

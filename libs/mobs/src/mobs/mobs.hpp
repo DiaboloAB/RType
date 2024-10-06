@@ -77,9 +77,13 @@ class Registry
         // return entities;
     }
 
-    // Getters
+    void clear() {
+        for (Entity entity : _entityManager)
+        {
+            kill(entity);
+        }
+    }
 
-    // Setters
     EntityManager _entityManager;
 
    private:
@@ -87,10 +91,12 @@ class Registry
     bool hasComponents(Entity entity)
     {
         Signature entitySignature = _entityManager.getSignature(entity);
+
         std::array<ComponentType, sizeof...(Components)> componentTypes = {
             _componentManager.getComponentType<Components>()...};
         for (ComponentType componentType : componentTypes)
         {
+            if (componentType == 255) return false;
             if (!entitySignature.test(componentType)) return false;
         }
         return true;

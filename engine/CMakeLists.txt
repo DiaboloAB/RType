@@ -13,6 +13,7 @@ set(SOURCES
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
     src/NetworkHandler/NetworkHandler.cpp
+    src/sceneManager/SceneManager.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})
