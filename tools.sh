@@ -23,8 +23,8 @@ COMMAND=$1
 if [ "$COMMAND" == "runtest" ]; then
     echo "Running tests..."
     cd build
-    ./test_basic
-    ./libs/ecs/test_ecs
+    ./libs/mobs/test_mobs
+    ./libs/mlg/test_mlg
     ./engine/test_engine
     cd ..
 elif [ "$COMMAND" == "build" ]; then

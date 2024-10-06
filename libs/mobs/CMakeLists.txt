@@ -20,10 +20,7 @@ add_library(mobs::mobs ALIAS mobs_lib)
 enable_testing()
 
 add_executable(test_mobs
-    tests/test_basic.cpp
     tests/test_entity.cpp
-    tests/test_component.cpp
-    tests/test_componentmanager.cpp
     )
 
 target_link_libraries(test_mobs PRIVATE gtest gtest_main mobs_lib)

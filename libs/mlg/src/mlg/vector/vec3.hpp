@@ -45,9 +45,6 @@ class vec3
     vec3 operator-(const vec3& other) const { return {x - other.x, y - other.y, z - other.z}; }
 
     vec3 operator*(float scalar) const { return {x * scalar, y * scalar, z * scalar}; }
-    // static  const vec3 zero = vec3(0, 0, 0);
-    // static  const vec3 up = vec3(0, 1, 0);
-    // static  const vec3 down = vec3(0, -1, 0);
 };
 
 }  // namespace mlg

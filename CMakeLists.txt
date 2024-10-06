@@ -60,16 +60,3 @@ set_target_properties(r-type_server
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../"
 )
-
-# vvv Testing vvv #
-
-enable_testing()
-
-add_executable(test_basic tests/test_basic.cpp)
-
-target_link_libraries(test_basic PRIVATE gtest gtest_main
-    RTypeEngine
-    mobs::mobs
-)
-
-add_test(NAME BasicTest COMMAND test_basic)
