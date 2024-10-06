@@ -12,6 +12,7 @@
 #include <list>
 #include <string>
 #include <thread>
+#include <queue>
 
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/PacketFactory.hpp> 
@@ -21,20 +22,77 @@ namespace RType::Network
 class NetworkHandler
 {
    public:
+    
     NetworkHandler() = delete;
+
+    /**
+     * @brief Construct of Networkhandler class.
+     *
+     * @param host: Host of the game sever.
+     * @param port: Port of the game server.
+     * @param isServer: Status of the NetworkHandler (true if it's a server,
+     * false else).
+     * 
+     * @return NetworkHandler object.
+     */
     NetworkHandler(std::string host, unsigned int port, bool isServer);
+
     ~NetworkHandler();
 
    public:
+    /**
+     * @brief Getter for NetworkHandler server host.
+     *
+     * @return Host of the server.
+     */
     std::string getHost() const;
+    
+    /**
+     * @brief Getter for NetworkHandler server port.
+     *
+     * @return Port of the server.
+     */
     unsigned int getPort() const;
-    bool getIsServer() const { return this->_isServer; };
+
+    /**
+     * @brief Getter for NetworkHandler packet queue.
+     *
+     * @return Packet queue of the NetworkHandler.
+     */
+    std::queue<APacket> getPacketQueue() const;
+
+    /**
+     * @brief Getter for NetworkHandler status.
+     *
+     * @return Status of the NetworkHandler.
+     */
+    bool getIsServer() const;
+
+
     void setHost(const std::string host);
     void setPort(const unsigned int port);
 
    public:
+
+    /**
+     * @brief Method that send packets from an endpoint to another using async method from asio network library.
+     *
+     * @param packet: Packet to send.
+     * @param endpoint: Endpoint target to send packet to.
+     */
     void sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
+
+    /**
+     * @brief Method that receive packets from an endpoint using async method from asio network library and send it to the handler.
+     */
     void receiveData();
+
+    /**
+     * @brief Method called by receiveData to handle packets received and add it to NetworkHandler queue.
+     * 
+     * @param recvBuffer: Buffer of the packet received that will be deserialized.
+     * @param remoteEndoint: Endpoint of the sender of the packet.
+     */
     void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
 
    public:
@@ -51,7 +109,7 @@ class NetworkHandler
         std::string _msg;
     };
 
-   public:
+   private:
     std::string _host = "";
     unsigned int _port = 0;
     bool _isServer = false;
@@ -61,5 +119,6 @@ class NetworkHandler
     std::array<char, 1024> _recvBuffer;
     std::thread thread;
     PacketFactory _factory;
+    std::queue<APacket> packetQueue;
 };
 }  // namespace RType::Network
