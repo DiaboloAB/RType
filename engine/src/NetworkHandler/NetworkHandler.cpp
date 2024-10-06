@@ -21,7 +21,7 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(host, std::to_string(port));
         asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
-        this->_endpointList.push_back(serverEndpoint);
+        this->_endpointList.push_back(std::make_pair(serverEndpoint, true));
     }
 
     this->receiveData();
@@ -34,7 +34,7 @@ std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
 
-std::queue<std::pair<APacket, asio::ip::udp::endpoint>> NetworkHandler::getPacketQueue() const { return this->packetQueue; }
+std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> NetworkHandler::getPacketQueue() const { return this->packetQueue; }
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
 
@@ -67,7 +67,14 @@ void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
                                 asio::ip::udp::endpoint remoteEndpoint)
 {
     std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
-    std::shared_ptr<APacket> packet = this->_factory.createPacketFromBuffer(buffer);
+    std::shared_ptr<APacket> packet = nullptr;
+    try {
+        packet = this->_factory.createPacketFromBuffer(buffer);
+    } catch (std::exception &e) {
+        std::cerr << "[sendData ERROR]: Problème de deserialisation des packets" <<std::endl;
+        return;
+    }
+    this->packetQueue.push(std::make_pair(packet, remoteEndpoint));
 }
 
 void NetworkHandler::receiveData()
