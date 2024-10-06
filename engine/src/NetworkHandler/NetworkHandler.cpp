@@ -42,6 +42,12 @@ void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 
 void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
 
+void NetworkHandler::popQueue()
+{
+    if (!this->packetQueue.empty())
+        this->packetQueue.pop();
+}
+
 void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
     std::vector<char> packetData;

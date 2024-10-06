@@ -96,6 +96,11 @@ class NetworkHandler
      */
     void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
 
+    /**
+     * @brief Method that pop the first element of packetQueue if not empty.
+     */
+    void popQueue();
+
    public:
     class NetworkHandlerError : public std::exception
     {
