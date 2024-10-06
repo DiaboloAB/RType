@@ -36,6 +36,7 @@ class Engine
     ECS::Registry _registry;
     SystemManager _systemManager;
     GameContext _gameContext;
+   public:
     std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
 
     // Member variables

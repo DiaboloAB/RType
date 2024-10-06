@@ -27,6 +27,7 @@ KickClientPacket::~KickClientPacket(){};
 std::vector<char> KickClientPacket::serializeData() const
 {
     std::vector<char> buffer;
+    buffer.resize(this->_reason.size());
     char *data = buffer.data();
 
     std::memcpy(data, this->_reason.c_str(), this->_reason.size());

@@ -30,7 +30,7 @@ UpdateEntityPacket::~UpdateEntityPacket(){};
 std::vector<char> UpdateEntityPacket::serializeData() const
 {
     std::vector<char> buffer;
-    buffer.resize(sizeof(uint32_t));
+    buffer.resize(sizeof(uint32_t) + sizeof(uint32_t));
     char *data = buffer.data();
 
     std::memcpy(data, &this->_entityId, sizeof(uint32_t));

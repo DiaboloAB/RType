@@ -37,8 +37,8 @@ class SpriteSystem : public ISystem
         {
             auto &transform = view.get<Transform>(entity);
             auto &sprite = view.get<Sprite>(entity);
-            gameContext._runtime->drawSprite(sprite.filePath, transform.position.x,
-                                             transform.position.y);
+            //gameContext._runtime->drawSprite(sprite.filePath, transform.position.x,
+            //                                 transform.position.y);
         }
     }
 

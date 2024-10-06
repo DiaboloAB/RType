@@ -12,7 +12,9 @@
 #include <list>
 #include <string>
 #include <thread>
+
 #include <PacketManager/APacket.hpp>
+#include <PacketManager/PacketFactory.hpp> 
 
 namespace RType::Network
 {
@@ -49,7 +51,7 @@ class NetworkHandler
         std::string _msg;
     };
 
-   private:
+   public:
     std::string _host = "";
     unsigned int _port = 0;
     bool _isServer = false;
@@ -58,5 +60,6 @@ class NetworkHandler
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
     std::array<char, 1024> _recvBuffer;
     std::thread thread;
+    PacketFactory _factory;
 };
 }  // namespace RType::Network

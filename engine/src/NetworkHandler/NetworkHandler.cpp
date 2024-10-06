@@ -62,7 +62,8 @@ void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoi
 void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
                                 asio::ip::udp::endpoint remoteEndpoint)
 {
-    std::cout << "De la data!" << std::endl;
+    std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
+    std::shared_ptr<APacket> packet = this->_factory.createPacketFromBuffer(buffer);
 }
 
 void NetworkHandler::receiveData()
