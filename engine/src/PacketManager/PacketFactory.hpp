@@ -17,7 +17,7 @@
 #include "ClientEventPacket.hpp"
 #include "CreateEntityPacket.hpp"
 #include "DestroyEntityPacket.hpp"
-#include "HealthcheckPacket.hpp"
+#include "PingPacket.hpp"
 #include "HiClientPacket.hpp"
 #include "HiServerPacket.hpp"
 #include "KickClientPacket.hpp"
