@@ -9,6 +9,7 @@
 #define SCENEMANAGER_H
 
 #include <nlohmann/json.hpp>
+
 #include "mobs/mobs.hpp"
 
 // std
@@ -35,7 +36,8 @@ class SceneManager
     std::string _nextScene = "";
 
    private:
-    void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity, mobs::Registry &registry);
+    void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
+                      mobs::Registry &registry);
     std::string _defaultScene;
     std::string _currentScene;
     std::vector<std::string> _scenesList;

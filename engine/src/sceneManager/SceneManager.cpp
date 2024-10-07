@@ -6,6 +6,7 @@
  **********************************************************************************/
 
 #include "SceneManager.hpp"
+
 #include "common/components.hpp"
 // std
 #include <filesystem>
@@ -104,20 +105,27 @@ void SceneManager::update(GameContext& gameContext)
     }
 }
 
-void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity, mobs::Registry& registry)
+void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
+                                mobs::Registry& registry)
 {
     bool staticObject = false;
     std::string tag = "defaultTag";
 
-    try {
+    try
+    {
         staticObject = prefabJson["staticObject"].get<bool>();
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         staticObject = false;
     }
 
-    try {
+    try
+    {
         tag = prefabJson["tag"].get<std::string>();
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         tag = "defaultTag";
     }
 
@@ -136,8 +144,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         }
         else if (componentName == "Sprite")
         {
-            registry.emplace<Sprite>(entity,
-                                    componentData["texture"].get<std::string>());
+            registry.emplace<Sprite>(entity, componentData["texture"].get<std::string>());
         }
         else if (componentName == "Scripts")
         {
