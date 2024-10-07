@@ -264,6 +264,24 @@ void RenderSystemSFML::drawText()
     // To be implemented
 }
 
+void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full)
+{
+    sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
+    rectangle.setPosition(spriteCoords.x, spriteCoords.y);
+
+    if (full)
+    {
+        rectangle.setFillColor(sf::Color::White);
+    }
+    else
+    {
+        rectangle.setFillColor(sf::Color::Transparent);
+        rectangle.setOutlineThickness(1);
+        rectangle.setOutlineColor(sf::Color::White);
+    }
+    _window.draw(rectangle);
+}
+
 /**
  * @brief Preloads a music file and stores it in a cache.
  *
