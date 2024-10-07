@@ -9,6 +9,7 @@
 #define SCRIPTSSYSTEM_H
 
 #include <common/components.hpp>
+#include <common/scriptsComponent.hpp>
 #include <system/ISystem.hpp>
 // std
 
@@ -29,7 +30,7 @@ class ScriptSystem : public ISystem
         for (auto entity : view)
         {
             auto &scripts = view.get<Scripts>(entity);
-            // scripts.updateAll(registry, gameContext);
+            scripts.updateAll(registry, gameContext);
         }
     }
 

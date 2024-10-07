@@ -8,6 +8,7 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
+#include "common/components.hpp"
 #include <IRuntime/IRuntime.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <mobs/mobs.hpp>
@@ -17,7 +18,6 @@
 
 namespace RType
 {
-
 class GameContext
 {
    public:
@@ -32,6 +32,24 @@ class GameContext
                       .count();
         _currentTime = newTime;
         _sceneManager.update(*this);
+    }
+
+    template <typename Component>
+    Component &get(std::string tag)
+    {
+        try {
+            mobs::Registry::View view = _registry.view<Basics, Component>();
+            for (auto entity : view)
+            {
+                auto &basics = view.get<Basics>(entity);
+                if (basics.tag == tag)
+                    return view.get<Component>(entity);
+            }
+            throw std::runtime_error("Tag not found");
+        } catch (const std::exception &e)
+        {
+            throw std::runtime_error("Tag not found");
+        }
     }
 
     float _deltaT;
