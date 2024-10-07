@@ -8,24 +8,24 @@
 #include "RTypeEngine.hpp"
 
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/forward.hpp"
 
 using namespace RType;
 
-Engine::Engine()
+Engine::Engine() : _gameContext(_registry, _sceneManager)
 {
-    mlg::vec3 v1(1, 2, 3);
-    mlg::vec3 v2(4, 5, 6);
-    // Demarer l'intrerface graphique
-    // Recup l'host du server et son port
-    // Init le NetworkHandler du client (std::make_shared<Network::NetworkHandler>(host, port,
-    // false);)
+    _systemManager.addSystem<ForwardSystem>();
+    _systemManager.addSystem<SpriteSystem>();
+    _systemManager.addSystem<ScriptSystem>();
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
+    : _gameContext(_registry, _sceneManager)
 {
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
+    this->_isServer = isServer;
 }
 
 Engine::~Engine()
@@ -35,14 +35,6 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    mobs::Entity entity = _registry.create();
-    _registry.emplace<Transform>(entity);
-    _registry.emplace<Sprite>(entity, "assets/graphic/player.png");
-    // _registry.emplace<Velocity>(entity, 1.0f, 1.0f);
-
-    _systemManager.addSystem<ForwardSystem>();
-    _systemManager.addSystem<SpriteSystem>();
-
     _systemManager.start(_registry, _gameContext);
 
     while (_gameContext._runtime->isWindowOpen())
@@ -58,5 +50,14 @@ void Engine::run()
         _systemManager.draw(_registry, _gameContext);
         // _gameContext._runtime->drawSprite("player", 50, 50);
         _gameContext._runtime->updateWindow();
+    }
+}
+
+void Engine::runServer()
+{
+    // Server server(this->_networkHandler->getHost(), this->_networkHandler->getPort());
+    // server.run();
+    while (true)
+    {
     }
 }

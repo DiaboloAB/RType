@@ -13,7 +13,8 @@
 
 using namespace RType;
 
-GameContext::GameContext()
+GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
+    : _registry(registry), _sceneManager(sceneManager)
 {
     std::ifstream i("assets/game.json");
 
@@ -25,8 +26,9 @@ GameContext::GameContext()
     nlohmann::json j;
     i >> j;
 
-    std::cout << j.dump(4) << std::endl;
-    // name = j["name"];
+    std::string defaultScene = j["defaultScene"];
+    std::cout << "Default scene: " << defaultScene << std::endl;
+    _sceneManager.loadScene(defaultScene, *this);
 
     _runtime = new RenderSystemSFML();
     _currentTime = std::chrono::high_resolution_clock::now();

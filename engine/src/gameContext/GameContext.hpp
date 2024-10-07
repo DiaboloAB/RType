@@ -8,9 +8,11 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
-// std
 #include <IRuntime/IRuntime.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
+#include <mobs/mobs.hpp>
+#include <sceneManager/SceneManager.hpp>
+// std
 #include <chrono>
 
 namespace RType
@@ -19,7 +21,7 @@ namespace RType
 class GameContext
 {
    public:
-    GameContext();
+    GameContext(mobs::Registry &registry, SceneManager &sceneManager);
     ~GameContext();
 
     void update()
@@ -29,10 +31,13 @@ class GameContext
         _deltaT = std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
                       .count();
         _currentTime = newTime;
+        _sceneManager.update(*this);
     }
 
     float _deltaT;
-    IRuntime* _runtime;
+    IRuntime *_runtime;
+    mobs::Registry &_registry;
+    SceneManager &_sceneManager;
 
    private:
     std::chrono::high_resolution_clock::time_point _currentTime;

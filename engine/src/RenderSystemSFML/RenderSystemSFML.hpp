@@ -97,20 +97,19 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the texture to load.
      * @return `true` if the texture was loaded successfully, `false` otherwise.
      */
-    bool loadTexture(const std::string& textureName, const std::string& filePath) override;
+    bool loadTexture(const std::string& textureName, const std::string& filePath);
 
     /**
      * @brief Unloads a specific texture from the cache.
      * @param textureName The unique name of the texture to unload.
      */
-    void unloadTexture(const std::string& textureName) override;
+    void unloadTexture(const std::string& textureName);
 
     /**
      * @brief Loads a sprite using a texture from the cache.
      * @param textureName The name of the texture to use for the sprite.
      */
-    void loadSprite(const std::string& spriteName, const std::string& textureName,
-                    const std::string& filePath) override;
+    void loadSprite(const std::string& filePath) override;
 
     /**
      * @brief Unloads a specific sprite and its associated texture from the cache.
@@ -121,8 +120,16 @@ class RenderSystemSFML : public RType::IRuntime
     /**
      * @brief Draws a sprite on the window.
      */
-    void drawSprite(const std::string& spriteName, float x, float y, std::vector<int>& spriteCoords,
-                    std::vector<int>& scale, float rotation) override;
+    void drawSprite(const std::string& spriteName, mlg::vec2 position, mlg::vec4 spriteCoords,
+                    mlg::vec2 scale, float rotation) override;
+
+    void drawSprite(const std::string& spriteName, mlg::vec2 position) override;
+
+    mlg::vec2 getTextureSize(const std::string& spriteName) override;
+
+    mlg::vec2 getMousePosition() override;
+
+    void setGameIcon(const std::string& filePath) override;
 
     /**
      * @brief Displays text on the screen.
@@ -235,5 +242,6 @@ class RenderSystemSFML : public RType::IRuntime
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
+    sf::Image _icon;
 };
 }  // namespace RType

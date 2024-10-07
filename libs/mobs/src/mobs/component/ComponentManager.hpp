@@ -34,6 +34,12 @@ class ComponentManager
     ComponentType getComponentType()
     {
         const std::type_index typeIndex(typeid(Component));
+
+        if (_componentTypes.find(typeIndex) == _componentTypes.end())
+        {
+            return 255;
+        }
+
         return _componentTypes[typeIndex];
     }
 

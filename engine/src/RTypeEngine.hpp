@@ -13,6 +13,7 @@
 #include "common/components.hpp"
 #include "gameContext/GameContext.hpp"
 #include "mobs/mobs.hpp"
+#include "sceneManager/SceneManager.hpp"
 #include "system/SystemManager.hpp"
 // std
 #include <chrono>
@@ -28,15 +29,15 @@ class Engine
     ~Engine();
 
     void run();
-    // Getters
-
-    // Setters
+    void runServer();
 
    private:
     mobs::Registry _registry;
     SystemManager _systemManager;
+    SceneManager _sceneManager;
     GameContext _gameContext;
     std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
+    bool _isServer = false;
 
     // Member variables
 };

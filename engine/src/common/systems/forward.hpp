@@ -47,6 +47,10 @@ class ForwardSystem : public ISystem
             {
                 transform.position.x += speed * deltaTime;
             }
+            if (gameContext._runtime->getKey(KeyCode::Space))
+            {
+                gameContext._sceneManager._nextScene = "scenes1.json";
+            }
         }
     }
 };

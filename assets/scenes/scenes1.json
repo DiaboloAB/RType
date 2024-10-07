@@ -1,0 +1,18 @@
+{
+    "entities": [
+      {
+        "tag": "entity1",
+        "components": {
+          "Transform": { "position": [100, 100, 0] },
+          "Sprite": { "texture": "assets/graphic/player.png" }
+        }
+      },
+      {
+        "tag": "entity2",
+        "components": {
+          "Transform": { "position": [200, 100, 0] },
+          "Sprite": { "texture": "assets/graphic/player.png" }
+        }
+      }
+    ]
+  }
