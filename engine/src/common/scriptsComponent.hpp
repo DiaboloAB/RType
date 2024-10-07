@@ -8,13 +8,13 @@
 #ifndef SCRIPTSCOMPONENT_H
 #define SCRIPTSCOMPONENT_H
 
-#include "lua/LuaBindings.hpp"
 #include <lua.hpp>
 #include <mlg/mlg.hpp>
-#include "mobs/mobs.hpp"
-#include "gameContext/GameContext.hpp"
 
 #include "ICppScript.hpp"
+#include "gameContext/GameContext.hpp"
+#include "lua/LuaBindings.hpp"
+#include "mobs/mobs.hpp"
 // std
 
 namespace RType
@@ -74,9 +74,9 @@ struct CppScriptComponent
     std::vector<std::shared_ptr<ICppScript>> scripts;
     mobs::Entity entity;
 
-    void updateAll(mobs::Registry &registry, GameContext &gameContext)
+    void updateAll(mobs::Registry& registry, GameContext& gameContext)
     {
-        for (auto &script : scripts)
+        for (auto& script : scripts)
         {
             script->update(registry, gameContext);
         }
@@ -93,4 +93,4 @@ struct CppScriptComponent
 
 }  // namespace RType
 
-#endif // SCRIPTSCOMPONENT_H
+#endif  // SCRIPTSCOMPONENT_H

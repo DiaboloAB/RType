@@ -8,19 +8,20 @@
 #ifndef CPPSCRIPTSSYSTEM_H
 #define CPPSCRIPTSSYSTEM_H
 
-#include "gameContext/GameContext.hpp"
 #include <common/components.hpp>
-#include "../ICppScript.hpp"
 #include <system/ISystem.hpp>
+
+#include "../ICppScript.hpp"
+#include "gameContext/GameContext.hpp"
 // std
 
 namespace RType
 {
 class CppScriptsSystem : public ISystem
 {
-public:
-    CppScriptsSystem() {};
-    ~CppScriptsSystem() {};
+   public:
+    CppScriptsSystem(){};
+    ~CppScriptsSystem(){};
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
@@ -32,10 +33,10 @@ public:
         }
     }
 
-private:
+   private:
     // Member variables
 };
 
-}
+}  // namespace RType
 
-#endif // CPPSCRIPTSSYSTEM_H
+#endif  // CPPSCRIPTSSYSTEM_H

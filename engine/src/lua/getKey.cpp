@@ -10,7 +10,6 @@
 
 #include "LuaBindings.hpp"
 
-
 RType::KeyCode stringToKeyCode(const std::string& keyName)
 {
     static std::unordered_map<std::string, RType::KeyCode> keyMap = {
@@ -38,7 +37,8 @@ int getKey(lua_State* L)
     const char* keyName = lua_tostring(L, 1);
 
     RType::KeyCode keyCode = stringToKeyCode(std::string(keyName));
-    RType::GameContext* gameContext = static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
 
     bool isPressed = gameContext->_runtime->getKey(keyCode);
 
@@ -52,7 +52,8 @@ int getKeyDown(lua_State* L)
     const char* keyName = lua_tostring(L, 1);
 
     RType::KeyCode keyCode = stringToKeyCode(std::string(keyName));
-    RType::GameContext* gameContext = static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
 
     bool isPressed = gameContext->_runtime->getKeyDown(keyCode);
 
@@ -66,7 +67,8 @@ int getKeyUp(lua_State* L)
     const char* keyName = lua_tostring(L, 1);
 
     RType::KeyCode keyCode = stringToKeyCode(std::string(keyName));
-    RType::GameContext* gameContext = static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
 
     bool isPressed = gameContext->_runtime->getKeyUp(keyCode);
 
@@ -89,5 +91,4 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
     // lua_setglobal(L, "getKeyUp");
 }
 
-
-#endif // GETKEY_H
+#endif  // GETKEY_H

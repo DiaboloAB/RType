@@ -8,8 +8,8 @@
 #include "RTypeEngine.hpp"
 
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
-#include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
+#include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/forward.hpp"
 

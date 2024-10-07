@@ -5,10 +5,10 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "common/cppScripts/helloworld.hpp"
-
 #include "SceneManager.hpp"
+
 #include "common/components.hpp"
+#include "common/cppScripts/helloworld.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -105,8 +105,7 @@ void SceneManager::update(GameContext& gameContext)
         for (auto entity : view)
         {
             auto& basics = view.get<Basics>(entity);
-            if (!basics.staticObject)
-                gameContext._registry.kill(entity);
+            if (!basics.staticObject) gameContext._registry.kill(entity);
         }
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;
@@ -117,7 +116,8 @@ void SceneManager::update(GameContext& gameContext)
 void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
                                 mobs::Registry& registry, GameContext& gameContext)
 {
-    try {
+    try
+    {
         bool staticObject = false;
         std::string tag = "defaultTag";
 
@@ -150,7 +150,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             {
                 registry.emplace<Transform>(
                     entity, mlg::vec3(componentData["position"][0], componentData["position"][1],
-                                    componentData["position"][2]));
+                                      componentData["position"][2]));
             }
             else if (componentName == "Sprite")
             {
@@ -164,18 +164,24 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                 {
                     scripts.addScript(script.get<std::string>(), gameContext);
                 }
-            } else if (componentName == "CppScripts") {
+            }
+            else if (componentName == "CppScripts")
+            {
                 std::cout << "CppScripts" << std::endl;
                 registry.emplace<CppScriptComponent>(entity, entity);
                 auto& scripts = registry.get<CppScriptComponent>(entity);
-                for (const auto& script : componentData) {
-                    if (script.get<std::string>() == "HelloWorld") {
+                for (const auto& script : componentData)
+                {
+                    if (script.get<std::string>() == "HelloWorld")
+                    {
                         scripts.addScript(std::make_shared<HelloWorldScript>());
                     }
                 }
             }
         }
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Error: Could not create entity" << std::endl;
     }
 }

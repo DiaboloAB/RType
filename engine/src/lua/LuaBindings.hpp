@@ -8,10 +8,10 @@
 #ifndef LUABINDINGS_H
 #define LUABINDINGS_H
 
-#include "gameContext/GameContext.hpp"
 #include <lua.hpp>
-// std
 
+#include "gameContext/GameContext.hpp"
+// std
 
 RType::KeyCode stringToKeyCode(const std::string& keyName);
 
@@ -21,5 +21,4 @@ int getKeyUp(lua_State* L);
 
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext);
 
-
-#endif // LUABINDINGS_H
+#endif  // LUABINDINGS_H

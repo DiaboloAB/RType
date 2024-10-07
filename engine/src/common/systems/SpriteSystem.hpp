@@ -32,7 +32,7 @@ class SpriteSystem : public ISystem
 
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
-        std::vector<std::tuple<mobs::Entity, Transform*, Sprite*>> entities;
+        std::vector<std::tuple<mobs::Entity, Transform *, Sprite *>> entities;
 
         auto view = registry.view<Transform, Sprite>();
 
@@ -44,9 +44,8 @@ class SpriteSystem : public ISystem
             entities.emplace_back(entity, &transform, &sprite);
         }
 
-        std::sort(entities.begin(), entities.end(), [](const auto &lhs, const auto &rhs) {
-            return std::get<1>(lhs)->position.z < std::get<1>(rhs)->position.z;
-        });
+        std::sort(entities.begin(), entities.end(), [](const auto &lhs, const auto &rhs)
+                  { return std::get<1>(lhs)->position.z < std::get<1>(rhs)->position.z; });
 
         for (const auto &entry : entities)
         {

@@ -8,9 +8,10 @@
 #ifndef ICPPSCRIPT_H
 #define ICPPSCRIPT_H
 
-#include "mobs/mobs.hpp"
 #include <memory>
 #include <vector>
+
+#include "mobs/mobs.hpp"
 // std
 #include <iostream>
 
@@ -31,9 +32,10 @@ class ICppScript
 
     virtual void onCollision(mobs::Registry &registry, GameContext &gameContext) {}
 
-    virtual void callFunction(const std::string &functionName,
-        mobs::Registry &registry, GameContext &gameContext,
-                              const std::vector<std::string> &args) {}
+    virtual void callFunction(const std::string &functionName, mobs::Registry &registry,
+                              GameContext &gameContext, const std::vector<std::string> &args)
+    {
+    }
 
     virtual void setEntity(mobs::Entity entity) = 0;
 

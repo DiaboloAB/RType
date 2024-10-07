@@ -9,6 +9,7 @@
 #define COMPONENTS_H
 
 #include <mlg/mlg.hpp>
+
 #include "mobs/mobs.hpp"
 
 // std
