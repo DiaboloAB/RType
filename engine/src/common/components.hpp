@@ -51,6 +51,14 @@ struct Sprite
     Sprite(std::string filePath) : filePath(filePath) {}
 };
 
+struct Basics
+{
+    std::string tag;
+    bool staticObject;
+
+    Basics(std::string tag, bool staticObject) : tag(tag), staticObject(staticObject) {}
+};
+
 struct Scripts
 {
     std::vector<std::string> scripts;

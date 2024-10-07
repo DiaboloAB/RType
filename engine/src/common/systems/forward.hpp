@@ -51,6 +51,10 @@ class ForwardSystem : public ISystem
             {
                 gameContext._sceneManager._nextScene = "scenes1.json";
             }
+            if (gameContext._runtime->getKeyDown(KeyCode::H))
+            {
+                std::cout << "Hello World" << std::endl;
+            }
         }
     }
 };

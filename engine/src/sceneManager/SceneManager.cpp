@@ -7,8 +7,6 @@
 
 #include "SceneManager.hpp"
 
-#include <nlohmann/json.hpp>
-
 #include "common/components.hpp"
 // std
 #include <filesystem>
@@ -30,6 +28,17 @@ SceneManager::SceneManager()
         if (entry.is_regular_file())
         {
             _scenesList.push_back(entry.path().filename().string());
+            std::cout << entry.path().filename().string() << std::endl;
+        }
+    }
+
+    const std::string prefabPath = "assets/scenes/prefabs/";
+    std::cout << "Prefabs list:" << std::endl;
+    for (const auto& entry : std::filesystem::directory_iterator(prefabPath))
+    {
+        if (entry.is_regular_file())
+        {
+            _prefabsList.push_back(entry.path().filename().string());
             std::cout << entry.path().filename().string() << std::endl;
         }
     }
@@ -59,33 +68,30 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
     for (const auto& entityJson : sceneJson["entities"])
     {
         mobs::Entity entity = gameContext._registry.create();
-        for (const auto& componentJson : entityJson["components"].items())
-        {
-            const std::string& componentName = componentJson.key();
-            const auto& componentData = componentJson.value();
 
-            if (componentName == "Transform")
-            {
-                gameContext._registry.emplace<Transform>(
-                    entity, mlg::vec3(componentData["position"][0], componentData["position"][1],
-                                      componentData["position"][2]));
-            }
-            else if (componentName == "Sprite")
-            {
-                gameContext._registry.emplace<Sprite>(entity,
-                                                      componentData["texture"].get<std::string>());
-            }
-            else if (componentName == "Scripts")
-            {
-                gameContext._registry.emplace<Scripts>(entity);
-                auto& scripts = gameContext._registry.get<Scripts>(entity);
-                for (const auto& script : componentData)
-                {
-                    scripts.addScript(script.get<std::string>());
-                }
-            }
-        }
+        createEntity(entityJson, entity, gameContext._registry);
     }
+}
+
+void SceneManager::loadPrefab(const std::string& prefabName, GameContext& gameContext)
+{
+    if (std::find(_prefabsList.begin(), _prefabsList.end(), prefabName) == _prefabsList.end())
+    {
+        std::cerr << "Error: Prefab not found" << std::endl;
+        throw std::runtime_error("Prefab not found");
+    }
+    std::ifstream i("assets/scenes/prefabs/" + prefabName);
+    if (!i.is_open())
+    {
+        std::cerr << "Error: Could not open file" << std::endl;
+        throw std::runtime_error("Could not open file");
+    }
+    nlohmann::json prefabJson;
+    i >> prefabJson;
+
+    mobs::Entity entity = gameContext._registry.create();
+
+    createEntity(prefabJson, entity, gameContext._registry);
 }
 
 void SceneManager::update(GameContext& gameContext)
@@ -96,6 +102,59 @@ void SceneManager::update(GameContext& gameContext)
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;
         _nextScene = "";
+    }
+}
+
+void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
+                                mobs::Registry& registry)
+{
+    bool staticObject = false;
+    std::string tag = "defaultTag";
+
+    try
+    {
+        staticObject = prefabJson["staticObject"].get<bool>();
+    }
+    catch (const std::exception& e)
+    {
+        staticObject = false;
+    }
+
+    try
+    {
+        tag = prefabJson["tag"].get<std::string>();
+    }
+    catch (const std::exception& e)
+    {
+        tag = "defaultTag";
+    }
+
+    registry.emplace<Basics>(entity, tag, staticObject);
+
+    for (const auto& componentJson : prefabJson["components"].items())
+    {
+        const std::string& componentName = componentJson.key();
+        const auto& componentData = componentJson.value();
+
+        if (componentName == "Transform")
+        {
+            registry.emplace<Transform>(
+                entity, mlg::vec3(componentData["position"][0], componentData["position"][1],
+                                  componentData["position"][2]));
+        }
+        else if (componentName == "Sprite")
+        {
+            registry.emplace<Sprite>(entity, componentData["texture"].get<std::string>());
+        }
+        else if (componentName == "Scripts")
+        {
+            registry.emplace<Scripts>(entity);
+            auto& scripts = registry.get<Scripts>(entity);
+            for (const auto& script : componentData)
+            {
+                scripts.addScript(script.get<std::string>());
+            }
+        }
     }
 }
 
