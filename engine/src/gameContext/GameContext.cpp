@@ -31,6 +31,7 @@ GameContext::GameContext()
     _runtime = new RenderSystemSFML();
     _currentTime = std::chrono::high_resolution_clock::now();
     _deltaT = 0.0f;
+    _networkHandler = nullptr;
     // Constructor implementation
 }
 
