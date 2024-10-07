@@ -48,7 +48,6 @@ void Engine::run()
 
         _gameContext._runtime->clearWindow();
         _systemManager.draw(_registry, _gameContext);
-        // _gameContext._runtime->drawSprite("player", 50, 50);
         _gameContext._runtime->updateWindow();
     }
 }
