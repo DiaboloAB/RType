@@ -36,6 +36,7 @@ class EntityManager
 
     Entity create();
     void kill(Entity entity);
+    void clear();
 
     // Getters
     Signature getSignature(Entity entity);

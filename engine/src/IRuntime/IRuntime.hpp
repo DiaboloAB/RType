@@ -11,6 +11,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <mlg/mlg.hpp>
 #include <string>
 #include <vector>
 
@@ -81,22 +82,11 @@ class IRuntime
      */
     virtual void updateWindow() = 0;
 
-    /**
-     * @brief Pure virtual method to load a texture for a sprite.
-     * @param textureName The unique name of the texture.
-     * @param filePath The file path of the texture to load.
-     *
-     * This method must be implemented to load a texture from a file and store it in memory.
-     */
-    virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
+    virtual mlg::vec2 getTextureSize(const std::string& spriteName) = 0;
 
-    /**
-     * @brief Pure virtual method to unload a texture from memory.
-     * @param textureName The unique name of the texture to unload.
-     *
-     * This method must be implemented to remove a texture from memory when it is no longer needed.
-     */
-    virtual void unloadTexture(const std::string& textureName) = 0;
+    virtual mlg::vec2 getMousePosition() = 0;
+
+    virtual void setGameIcon(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to load a sprite using a previously loaded texture.
@@ -104,8 +94,7 @@ class IRuntime
      *
      * This method must be implemented to assign a texture to a sprite.
      */
-    virtual void loadSprite(const std::string& spriteName, const std::string& textureName,
-                            const std::string& filePath) = 0;
+    virtual void loadSprite(const std::string& filePath) = 0;
 
     /**
      * @brief Unloads a specific sprite and its associated texture from the cache.
@@ -119,9 +108,10 @@ class IRuntime
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, float x, float y,
-                            std::vector<int>& spriteCoords, std::vector<int>& scale,
-                            float rotation) = 0;
+    virtual void drawSprite(const std::string& spriteName, mlg::vec2 position, mlg::vec4 spriteRect,
+                            mlg::vec2 scale, float rotation) = 0;
+
+    virtual void drawSprite(const std::string& spriteName, mlg::vec2 position) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.

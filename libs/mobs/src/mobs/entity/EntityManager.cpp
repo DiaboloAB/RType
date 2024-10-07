@@ -59,3 +59,14 @@ Signature EntityManager::getSignature(Entity entity)
 
     return _signatures[entity];
 }
+
+void EntityManager::clear()
+{
+    _availableEntities = std::queue<Entity>();
+    _entities.clear();
+    _nbLivingEntity = 0;
+    for (Entity entity = 0; entity < MAX_ENTITIES; entity++)
+    {
+        _availableEntities.push(entity);
+    }
+}

@@ -13,6 +13,7 @@ set(SOURCES
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
     src/NetworkHandler/NetworkHandler.cpp
+    src/sceneManager/SceneManager.cpp
     src/PacketManager/APacket.cpp
     src/PacketManager/AdiosServerPacket.cpp
     src/PacketManager/ClientEventPacket.cpp

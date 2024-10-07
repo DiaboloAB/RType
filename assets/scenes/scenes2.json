@@ -1,0 +1,15 @@
+{
+    "entities": [
+      {
+        "tag": "entity1",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [100, 100, 0] },
+          "Sprite": { "texture": "assets/graphic/player.png" },
+          "Scripts": [
+            "player.lua"
+          ]
+        }
+      }
+    ]
+}
