@@ -264,12 +264,12 @@ void RenderSystemSFML::drawText()
     // To be implemented
 }
 
-void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool plein)
+void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full)
 {
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
 
-    if (plein)
+    if (full)
     {
         rectangle.setFillColor(sf::Color::White);
     }

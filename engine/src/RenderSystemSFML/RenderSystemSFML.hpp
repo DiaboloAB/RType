@@ -138,7 +138,7 @@ class RenderSystemSFML : public RType::IRuntime
      */
     void drawText() override;
 
-    void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool plein) override;
+    void drawRectangle(mlg::vec4& spriteCoords, bool full) override;
 
     /**
      * @brief Toggles the window to fullscreen mode.
