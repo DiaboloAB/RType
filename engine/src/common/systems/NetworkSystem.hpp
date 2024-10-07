@@ -9,6 +9,7 @@
 #define NETWORKSYSTEM_H
 
 #include <system/ISystem.hpp>
+#include <PacketManager/APacket.hpp>
 
 namespace RType
 {
@@ -22,7 +23,12 @@ class NetworkSystem : public ISystem
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        return;
+        if (gameContext._networkHandler == nullptr)
+            return;
+        if (gameContext._networkHandler->getIsServer())
+            std::cout << "Je suis un server" << std::endl;
+        else
+            std::cout << "Je suis un client" << std::endl;
     }
 
    private:

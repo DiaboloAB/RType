@@ -45,6 +45,8 @@ void Engine::run()
 
     _systemManager.start(_registry, _gameContext);
 
+    _gameContext.setNetworkHandler(_networkHandler);
+
     while (_gameContext._runtime->isWindowOpen())
     {
         _gameContext._runtime->pollEvents();

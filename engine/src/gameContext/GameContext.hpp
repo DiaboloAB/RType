@@ -32,11 +32,6 @@ class GameContext
         _currentTime = newTime;
     }
 
-    std::shared_ptr<Network::NetworkHandler> getNetworkHandler() const
-    { 
-        return this->_networkHandler;
-    }
-
     void setNetworkHandler(std::shared_ptr<Network::NetworkHandler> newNetworkHandler)
     {
         this->_networkHandler = newNetworkHandler;
@@ -44,10 +39,10 @@ class GameContext
 
     float _deltaT;
     IRuntime* _runtime;
+    std::shared_ptr<Network::NetworkHandler> _networkHandler;
 
    private:
     std::chrono::high_resolution_clock::time_point _currentTime;
-    std::shared_ptr<Network::NetworkHandler> _networkHandler;
 };
 
 }  // namespace RType
