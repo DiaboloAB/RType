@@ -11,6 +11,7 @@
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/forward.hpp"
+#include "common/systems/NetworkSystem.hpp"
 
 using namespace RType;
 
@@ -19,6 +20,7 @@ Engine::Engine() : _gameContext(_registry, _sceneManager)
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ScriptSystem>();
+    _systemManager.addSystem<NetworkSystem>();
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
@@ -26,6 +28,10 @@ Engine::Engine(std::string host, unsigned int port, bool isServer)
 {
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
     this->_isServer = isServer;
+    _systemManager.addSystem<ForwardSystem>();
+    _systemManager.addSystem<SpriteSystem>();
+    _systemManager.addSystem<ScriptSystem>();
+    _systemManager.addSystem<NetworkSystem>();
 }
 
 Engine::~Engine()
@@ -58,7 +64,14 @@ void Engine::runServer()
 {
     // Server server(this->_networkHandler->getHost(), this->_networkHandler->getPort());
     // server.run();
+    _systemManager.start(_registry, _gameContext);
+
+    _gameContext.setNetworkHandler(_networkHandler);
+
     while (true)
     {
+        _gameContext.update();
+
+        _systemManager.update(_registry, _gameContext);
     }
 }
