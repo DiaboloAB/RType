@@ -13,6 +13,8 @@
 #include <mlg/mlg.hpp>
 #include "mobs/mobs.hpp"
 #include "gameContext/GameContext.hpp"
+
+#include "ICppScript.hpp"
 // std
 
 namespace RType
@@ -65,6 +67,28 @@ struct Scripts
             lua_close(L);
         }
     }
+};
+
+struct CppScriptComponent
+{
+    std::vector<std::shared_ptr<ICppScript>> scripts;
+    mobs::Entity entity;
+
+    void updateAll(mobs::Registry &registry, GameContext &gameContext)
+    {
+        for (auto &script : scripts)
+        {
+            script->update(registry, gameContext);
+        }
+    }
+
+    void addScript(std::shared_ptr<ICppScript> script)
+    {
+        script->setEntity(entity);
+        scripts.push_back(std::move(script));
+    }
+
+    CppScriptComponent(mobs::Entity entity) : entity(entity) {}
 };
 
 }  // namespace RType

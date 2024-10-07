@@ -35,18 +35,10 @@ class ICppScript
         mobs::Registry &registry, GameContext &gameContext,
                               const std::vector<std::string> &args) {}
 
+    virtual void setEntity(mobs::Entity entity) = 0;
+
    private:
     // Member variables
-};
-
-struct CppScriptComponent
-{
-    std::vector<std::unique_ptr<ICppScript>> scripts;
-
-    void addScript(std::unique_ptr<ICppScript> script)
-    {
-        scripts.push_back(std::move(script));
-    }
 };
 
 }  // namespace RType

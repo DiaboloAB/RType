@@ -8,6 +8,9 @@
           "Sprite": { "texture": "assets/graphics/player.png" },
           "Scripts": [
             "player.lua"
+          ],
+          "CppScripts": [
+            "HelloWorld"
           ]
         }
       },

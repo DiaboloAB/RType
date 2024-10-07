@@ -5,7 +5,10 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
-          "Sprite": { "texture": "assets/graphics/player.png" }
+          "Sprite": { "texture": "assets/graphics/player.png" },
+          "CppScripts": [
+            "HelloWorld"
+          ]
         }
       },
       {
@@ -13,8 +16,12 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [200, 100, 0] },
-          "Sprite": { "texture": "assets/graphics/player.png" }
+          "Sprite": { "texture": "assets/graphics/player.png" },
+          "CppScripts": [
+            "HelloWorld"
+          ]
         }
       }
     ]
   }
+  

@@ -5,8 +5,9 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "SceneManager.hpp"
+#include "common/cppScripts/helloworld.hpp"
 
+#include "SceneManager.hpp"
 #include "common/components.hpp"
 #include "common/scriptsComponent.hpp"
 // std
@@ -162,6 +163,15 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                 for (const auto& script : componentData)
                 {
                     scripts.addScript(script.get<std::string>(), gameContext);
+                }
+            } else if (componentName == "CppScripts") {
+                std::cout << "CppScripts" << std::endl;
+                registry.emplace<CppScriptComponent>(entity, entity);
+                auto& scripts = registry.get<CppScriptComponent>(entity);
+                for (const auto& script : componentData) {
+                    if (script.get<std::string>() == "HelloWorld") {
+                        scripts.addScript(std::make_shared<HelloWorldScript>());
+                    }
                 }
             }
         }
