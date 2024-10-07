@@ -86,7 +86,7 @@ class IRuntime
 
     virtual mlg::vec2 getMousePosition() = 0;
 
-    virtual void drawRectangle(mlg::vec4& spriteCoords, bool plein) = 0;
+    virtual void drawRectangle(mlg::vec4& spriteCoords, bool full) = 0;
 
     virtual void setGameIcon(const std::string& filePath) = 0;
 
