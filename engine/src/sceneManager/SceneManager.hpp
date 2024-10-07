@@ -8,6 +8,10 @@
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
 
+#include <nlohmann/json.hpp>
+
+#include "mobs/mobs.hpp"
+
 // std
 #include <functional>
 #include <string>
@@ -25,15 +29,20 @@ class SceneManager
     ~SceneManager();
 
     void loadScene(const std::string &sceneName, GameContext &gameContext);
+    void loadPrefab(const std::string &prefabName, GameContext &gameContext);
 
     void update(GameContext &gameContext);
 
     std::string _nextScene = "";
 
    private:
+    void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
+                      mobs::Registry &registry);
     std::string _defaultScene;
     std::string _currentScene;
     std::vector<std::string> _scenesList;
+
+    std::vector<std::string> _prefabsList;
 };
 
 }  // namespace RType

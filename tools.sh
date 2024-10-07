@@ -5,6 +5,7 @@ usage() {
     echo "Commands:"
     echo "  clean: Clean build directory."
     echo "  build: Build project."
+    echo "  thread-build: Build project with 4 threads."
     echo "  rebuild: Rebuild project."
     echo "  runtest: Run tests."
     echo "  run: Run project."
@@ -33,7 +34,7 @@ elif [ "$COMMAND" == "build" ]; then
     cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
     cmake --build .
-elif [ "$COMMAND" == "threadBuild" ]; then
+elif [ "$COMMAND" == "thread-build" ]; then
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
     cd build
