@@ -21,14 +21,31 @@ class NetworkSystem : public ISystem
     ~NetworkSystem() {}
 
 
+    void manageServerQueue(mobs::Registry &registry, GameContext &gameContext)
+    {
+        std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
+            serverQueue = gameContext._networkHandler->getPacketQueue();
+
+        if (serverQueue.empty())
+            std::cout << "J'ai une queue vide" << std::endl;
+        return;
+    }
+
+    void manageClientQueue(mobs::Registry &registry, GameContext &gameContext)
+    {
+        // send a first packet to server
+
+        return;
+    }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         if (gameContext._networkHandler == nullptr)
             return;
         if (gameContext._networkHandler->getIsServer())
-            std::cout << "Je suis un server" << std::endl;
+            this->manageServerQueue(registry, gameContext);
         else
-            std::cout << "Je suis un client" << std::endl;
+            this->manageClientQueue(registry, gameContext);
     }
 
    private:
