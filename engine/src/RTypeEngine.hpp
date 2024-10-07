@@ -15,6 +15,7 @@
 #include "mobs/mobs.hpp"
 #include "sceneManager/SceneManager.hpp"
 #include "system/SystemManager.hpp"
+#include "cppScript/CppScriptManager.hpp"
 // std
 #include <chrono>
 #include <iostream>
@@ -36,6 +37,8 @@ class Engine
     SystemManager _systemManager;
     SceneManager _sceneManager;
     GameContext _gameContext;
+    CppScriptManager _cppScriptManager;
+
     std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
     bool _isServer = false;
 
