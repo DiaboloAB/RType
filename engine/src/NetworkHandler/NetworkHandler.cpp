@@ -40,6 +40,11 @@ NetworkHandler::getPacketQueue() const
     return this->packetQueue;
 }
 
+std::list<std::pair<asio::ip::udp::endpoint, bool>> NetworkHandler::getEndpointList() const
+{
+    return this->_endpointList;
+}
+
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
 
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }

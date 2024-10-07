@@ -68,6 +68,13 @@ class NetworkHandler
      */
     bool getIsServer() const;
 
+    /**
+     * @brief Getter for NetworkHandler endpoint list.
+     *
+     * @return Endpoint list of the NetworkHandler.
+     */
+    std::list<std::pair<asio::ip::udp::endpoint, bool>> getEndpointList() const;
+
     void setHost(const std::string host);
     void setPort(const unsigned int port);
 
