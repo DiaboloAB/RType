@@ -44,8 +44,8 @@ class SpriteSystem : public ISystem
             entities.emplace_back(entity, &transform, &sprite);
         }
 
-        std::sort(entities.begin(), entities.end(), [](const auto &lhs, const auto &rhs)
-                  { return std::get<1>(lhs)->position.z < std::get<1>(rhs)->position.z; });
+        std::sort(entities.begin(), entities.end(),
+                  [this](const auto &lhs, const auto &rhs) { return compareZOrder(lhs, rhs); });
 
         for (const auto &entry : entities)
         {
@@ -57,6 +57,11 @@ class SpriteSystem : public ISystem
     }
 
    private:
+    bool compareZOrder(const std::tuple<mobs::Entity, Transform *, Sprite *> &lhs,
+                       const std::tuple<mobs::Entity, Transform *, Sprite *> &rhs) const
+    {
+        return std::get<1>(lhs)->position.z < std::get<1>(rhs)->position.z;
+    }
     // Member variables
 };
 
