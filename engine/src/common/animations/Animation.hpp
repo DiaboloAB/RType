@@ -20,10 +20,11 @@ class Animation
     mlg::vec2 scale;
     float rotation;
     std::string name;
+    bool loop;
 
    public:
     Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize,
-              const mlg::vec2 &scale, float rotation, std::string name);
+              const mlg::vec2 &scale, float rotation, std::string name, bool loop);
     ~Animation();
 
     mlg::vec4 getSpriteCoords(int frame)
@@ -38,6 +39,7 @@ class Animation
     mlg::vec2 getScale() { return scale; }
     float getRotation() { return rotation; }
     std::string getName() { return name; }
+    bool getLoop() { return loop; }
 };
 
 class Animations
@@ -64,6 +66,7 @@ class Animations
             {
                 time = 0;
                 currentAnim = animName;
+                currentFrame = 0;
                 std::cout << "playing anim: " << animName << std::endl;
                 return;
             }

@@ -1,19 +1,20 @@
 {
     "entities": [
       {
-        "tag": "entity1",
+        "tag": "player",
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
           "Animator": [
             {
-              "name": "idle",
+              "name": "default",
               "speed": 6,
               "texture": "assets/graphics/ennemy/red_ship.png",
               "frameCount": 8,
               "frameSize": [32, 32],
               "scale": [2, 2],
-              "rotation": 0
+              "rotation": 0,
+              "loop": true
             },
             {
               "name": "running",
@@ -22,12 +23,14 @@
               "frameCount": 8,
               "frameSize": [32, 32],
               "scale": [2, 2],
-              "rotation": -90
+              "rotation": -90,
+              "loop": false
             }
           ],
           "CppScripts": [
             "HelloWorld",
-            "ChangeAnim"
+            "ChangeAnim",
+            "MovePlayer"
           ]
         }
       },

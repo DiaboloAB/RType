@@ -10,6 +10,7 @@
 #include "common/components.hpp"
 #include "common/cppScripts/changeAnim.hpp"
 #include "common/cppScripts/helloworld.hpp"
+#include "common/cppScripts/MovePlayer.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -181,6 +182,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<ChangeAnimScript>());
                     }
+                    else if (script.get<std::string>() == "MovePlayer")
+                    {
+                        scripts.addScript(std::make_shared<MovePlayerScript>());
+                    }
                 }
             }
             else if (componentName == "Network")
@@ -199,7 +204,8 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                         animation["speed"].get<float>(),
                         mlg::vec2(animation["frameSize"][0], animation["frameSize"][1], 0),
                         mlg::vec2(animation["scale"][0], animation["scale"][1], 0),
-                        animation["rotation"].get<float>(), animation["name"].get<std::string>()));
+                        animation["rotation"].get<float>(), animation["name"].get<std::string>(),
+                        animation["loop"].get<bool>()));
                 }
             }
         }

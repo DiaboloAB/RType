@@ -21,14 +21,8 @@ class ChangeAnimScript : public RType::ICppScript
     {
         if (gameContext._runtime->getKeyDown(KeyCode::P))
         {
-            auto viewAnim = registry.view<Transform, Animator, Basics>();
-            for (auto entity : viewAnim)
-            {
-                Basics &basics = viewAnim.get<Basics>(entity);
-                if (basics.tag != "entity1") continue;
-                Animations &animations = viewAnim.get<Animator>(entity).animations;
-                animations.playAnim("running");
-            }
+            Animations &animations = registry.get<Animator>(_entity).animations;
+            animations.playAnim("running");
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
