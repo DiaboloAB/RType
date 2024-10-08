@@ -73,7 +73,10 @@ struct Button
     std::string font;
     bool clicked;
 
-    Button(std::string text, mlg::vec2 size, std::string font) : text(text), size(size), font(font), clicked(false) {}
+    Button(std::string text, mlg::vec2 size, std::string font)
+        : text(text), size(size), font(font), clicked(false)
+    {
+    }
 };
 
 struct Input

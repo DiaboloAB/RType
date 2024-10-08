@@ -86,12 +86,11 @@ class IRuntime
 
     virtual mlg::vec2 getMousePosition() = 0;
 
-    virtual void drawRectangle(mlg::vec4& spriteCoords, bool full) = 0;
+    virtual void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& textColor) = 0;
 
     virtual void setGameIcon(const std::string& filePath) = 0;
 
     virtual void loadFont(const std::string& filePath) = 0;
-
 
     /**
      * @brief Pure virtual method to load a sprite using a previously loaded texture.
@@ -118,9 +117,9 @@ class IRuntime
      * Must be implemented to handle displaying text (such as scores or information)
      * on the screen.
      */
-    virtual void drawText(const std::string &fontPath, const std::string &textStr, 
-            const mlg::vec2 position, unsigned int fontSize, 
-            const mlg::vec3 &textColor) = 0;
+    virtual void drawText(const std::string& fontPath, const std::string& textStr,
+                          const mlg::vec2 position, unsigned int fontSize,
+                          const mlg::vec3& textColor) = 0;
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
@@ -139,7 +138,7 @@ class IRuntime
      * window has been closed, prompting a shutdown of the rendering loop.
      */
     virtual bool isWindowOpen() = 0;
-    
+
     virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
 
     virtual void unloadTexture(const std::string& textureName) = 0;
@@ -147,7 +146,7 @@ class IRuntime
     virtual void unloadSprite(const std::string& spriteName) = 0;
 
     virtual bool loadMusic(const std::string& musicName, const std::string& filePath) = 0;
-    
+
     virtual void playMusic(const std::string& musicName, bool loop = true) = 0;
 
     virtual void stopCurrentMusic() = 0;

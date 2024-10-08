@@ -8,9 +8,7 @@ RenderSystemSFML::RenderSystemSFML()
 {
 }
 
-RenderSystemSFML::~RenderSystemSFML()
-{
-}
+RenderSystemSFML::~RenderSystemSFML() {}
 
 void RenderSystemSFML::pollEvents()
 {
@@ -85,7 +83,8 @@ void RenderSystemSFML::FullScreenWindow()
 {
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
 
-    try {
+    try
+    {
         if (_isFullScreen)
         {
             _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
@@ -96,14 +95,17 @@ void RenderSystemSFML::FullScreenWindow()
             _window.create(fullscreenMode, "RType", sf::Style::Fullscreen);
             _isFullScreen = true;
         }
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur lors du changement de mode plein écran : " << e.what() << std::endl;
     }
 }
 
 bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::string& filePath)
 {
-    try {
+    try
+    {
         auto texture = std::make_unique<sf::Texture>();
         if (!texture->loadFromFile(filePath))
         {
@@ -111,7 +113,9 @@ bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::st
         }
         _textures[textureName] = std::move(texture);
         return true;
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
         return false;
     }
@@ -128,7 +132,8 @@ void RenderSystemSFML::unloadTexture(const std::string& textureName)
 
 void RenderSystemSFML::loadSprite(const std::string& filePath)
 {
-    try {
+    try
+    {
         if (!loadTexture(filePath, filePath))
         {
             throw std::runtime_error("Erreur lors du chargement du sprite : " + filePath);
@@ -145,7 +150,9 @@ void RenderSystemSFML::loadSprite(const std::string& filePath)
         {
             throw std::runtime_error("Erreur : texture non trouvée (" + filePath + ")");
         }
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
     }
 }
@@ -196,10 +203,14 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 posit
     }
 }
 
-void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full)
+void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& textColor)
 {
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
+
+    sf::Color color(static_cast<sf::Uint8>(textColor.x * 255),
+                    static_cast<sf::Uint8>(textColor.y * 255),
+                    static_cast<sf::Uint8>(textColor.z * 255));
 
     if (full)
     {
@@ -216,7 +227,8 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full)
 
 bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string& filePath)
 {
-    try {
+    try
+    {
         if (_musics.find(musicName) != _musics.end())
         {
             return true;
@@ -230,18 +242,22 @@ bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string
 
         _musics[musicName] = std::move(music);
         return true;
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
         return false;
     }
 }
 
-void RenderSystemSFML::drawText(const std::string &fontPath, const std::string &textStr, 
-                                const mlg::vec2 position, unsigned int fontSize, 
-                                const mlg::vec3 &textColor) 
+void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
+                                const mlg::vec2 position, unsigned int fontSize,
+                                const mlg::vec3& textColor)
 {
-    try {
-        if (_fonts.find(fontPath) == _fonts.end()) {
+    try
+    {
+        if (_fonts.find(fontPath) == _fonts.end())
+        {
             throw std::runtime_error("Erreur : police non reconnue (" + fontPath + ")");
         }
 
@@ -256,7 +272,9 @@ void RenderSystemSFML::drawText(const std::string &fontPath, const std::string &
                                     static_cast<sf::Uint8>(textColor.y * 255),
                                     static_cast<sf::Uint8>(textColor.z * 255)));
         _window.draw(text);
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
     }
 }
@@ -268,7 +286,8 @@ void RenderSystemSFML::playMusic(const std::string& musicName, bool loop)
         _currentMusic->stop();
     }
 
-    try {
+    try
+    {
         auto it = _musics.find(musicName);
         if (it != _musics.end())
         {
@@ -280,7 +299,9 @@ void RenderSystemSFML::playMusic(const std::string& musicName, bool loop)
         {
             throw std::runtime_error("Erreur : musique non trouvée (" + musicName + ")");
         }
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
     }
 }
@@ -310,7 +331,8 @@ void RenderSystemSFML::unloadMusic(const std::string& musicName)
 
 bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string& filePath)
 {
-    try {
+    try
+    {
         if (_soundBuffers.find(soundName) != _soundBuffers.end())
         {
             return true;
@@ -324,7 +346,9 @@ bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string
 
         _soundBuffers[soundName] = std::move(buffer);
         return true;
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
         return false;
     }
@@ -332,7 +356,8 @@ bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string
 
 void RenderSystemSFML::playSound(const std::string& soundName)
 {
-    try {
+    try
+    {
         auto it = _soundBuffers.find(soundName);
         if (it != _soundBuffers.end())
         {
@@ -345,7 +370,9 @@ void RenderSystemSFML::playSound(const std::string& soundName)
         {
             throw std::runtime_error("Erreur : son non trouvé (" + soundName + ")");
         }
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Erreur : " << e.what() << std::endl;
     }
 }
@@ -514,14 +541,16 @@ void RenderSystemSFML::setGameIcon(const std::string& filePath)
 void RenderSystemSFML::loadFont(const std::string& filePath)
 {
     sf::Font font;
-    try {
+    try
+    {
         if (!font.loadFromFile(filePath))
         {
             throw std::runtime_error("Erreur lors du chargement de la police : " + filePath);
         }
         _fonts[filePath] = font;
         std::cout << "Police chargée : " << filePath << std::endl;
-    } catch (const std::exception& e)
+    }
+    catch (const std::exception& e)
     {
         std::cerr << "Erreur : " << e.what() << std::endl;
     }
