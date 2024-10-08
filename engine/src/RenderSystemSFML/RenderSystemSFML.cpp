@@ -253,17 +253,6 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 posit
     }
 }
 
-/**
- * @brief Draws text on the game window.
- *
- * Placeholder function for drawing text. It is currently not implemented but intended for future
- * use.
- */
-void RenderSystemSFML::drawText()
-{
-    // To be implemented
-}
-
 void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full)
 {
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
@@ -306,6 +295,28 @@ bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string
     _musics[musicName] = std::move(music);
     return true;
 }
+
+void RenderSystemSFML::drawText(const std::string &fontPath, const std::string &textStr, 
+            const mlg::vec2 position, unsigned int fontSize, 
+            const mlg::vec3 &textColor) {
+
+    sf::Font font;
+    if (!font.loadFromFile(fontPath)) {
+        std::cerr << "Erreur lors du chargement de la police." << std::endl;
+        return;
+    }
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString(textStr);
+    text.setCharacterSize(fontSize);
+    text.setPosition(position.x, position.y);
+
+    text.setFillColor(sf::Color(static_cast<sf::Uint8>(textColor.x * 255),
+                                static_cast<sf::Uint8>(textColor.y * 255),
+                                static_cast<sf::Uint8>(textColor.z * 255)));
+    _window.draw(text);
+};
 
 /**
  * @brief Plays a preloaded music.

@@ -136,7 +136,9 @@ class RenderSystemSFML : public RType::IRuntime
      *
      * This method allows drawing text on the rendering window.
      */
-    void drawText() override;
+    void drawText(const std::string &fontPath, const std::string &textStr, 
+            const mlg::vec2 position, unsigned int fontSize, 
+            const mlg::vec3 &textColor) override;
 
     void drawRectangle(mlg::vec4& spriteCoords, bool full) override;
 
