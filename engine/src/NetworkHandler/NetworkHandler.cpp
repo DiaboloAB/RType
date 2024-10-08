@@ -21,7 +21,7 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(host, std::to_string(port));
         asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
-        this->_endpointList.push_back(std::make_pair(serverEndpoint, true));
+        this->_endpointMap.insert_or_assign(serverEndpoint, false);
     }
 
     this->receiveData();
@@ -40,9 +40,9 @@ NetworkHandler::getPacketQueue() const
     return this->packetQueue;
 }
 
-std::list<std::pair<asio::ip::udp::endpoint, bool>> NetworkHandler::getEndpointList() const
+std::map<asio::ip::udp::endpoint, bool> NetworkHandler::getEndpointMap() const
 {
-    return this->_endpointList;
+    return this->_endpointMap;
 }
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }

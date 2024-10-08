@@ -16,6 +16,7 @@
 #include <string>
 #include <thread>
 #include <utility>
+#include <map>
 
 namespace RType::Network
 {
@@ -73,7 +74,7 @@ class NetworkHandler
      *
      * @return Endpoint list of the NetworkHandler.
      */
-    std::list<std::pair<asio::ip::udp::endpoint, bool>> getEndpointList() const;
+    std::map<asio::ip::udp::endpoint, bool> getEndpointMap() const;
 
     void setHost(const std::string host);
     void setPort(const unsigned int port);
@@ -131,7 +132,7 @@ class NetworkHandler
     std::array<char, 1024> _recvBuffer;
     std::thread thread;
     PacketFactory _factory;
-    std::list<std::pair<asio::ip::udp::endpoint, bool>> _endpointList = {};
+    std::map<asio::ip::udp::endpoint, bool> _endpointMap = {};
     std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
         packetQueue;
 };
