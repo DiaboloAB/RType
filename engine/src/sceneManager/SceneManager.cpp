@@ -8,9 +8,10 @@
 #include "SceneManager.hpp"
 
 #include "common/components.hpp"
-#include "common/cppScripts/changeAnim.hpp"
 #include "common/cppScripts/helloworld.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
+#include "common/cppScripts/AnimPlayer.hpp"
+#include "common/cppScripts/AnimThruster.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -178,13 +179,17 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<HelloWorldScript>());
                     }
-                    else if (script.get<std::string>() == "ChangeAnim")
-                    {
-                        scripts.addScript(std::make_shared<ChangeAnimScript>());
-                    }
                     else if (script.get<std::string>() == "MovePlayer")
                     {
                         scripts.addScript(std::make_shared<MovePlayerScript>());
+                    }
+                    else if (script.get<std::string>() == "AnimPlayer")
+                    {
+                        scripts.addScript(std::make_shared<AnimPlayerScript>());
+                    }
+                    else if (script.get<std::string>() == "AnimThruster")
+                    {
+                        scripts.addScript(std::make_shared<AnimThrusterScript>());
                     }
                 }
             }

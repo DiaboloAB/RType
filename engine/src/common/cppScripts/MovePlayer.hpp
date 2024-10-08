@@ -19,7 +19,7 @@ class MovePlayerScript : public RType::ICppScript
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        int speed = 300;
+        int speed = 1000;
         if (gameContext._runtime->getKey(KeyCode::UpArrow))
         {
             auto &transform = registry.get<Transform>(_entity);

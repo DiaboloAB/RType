@@ -8,40 +8,81 @@
           "Animator": [
             {
               "name": "default",
-              "speed": 6,
-              "texture": "assets/graphics/ennemy/red_ship.png",
-              "frameCount": 8,
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/idle.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "down",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/down.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": false
+            },
+            {
+              "name": "up",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/up.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": false
+            }
+          ],
+          "CppScripts": [
+            "MovePlayer",
+            "AnimPlayer"
+          ]
+        }
+      },
+      {
+        "tag": "thruster",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [36, 84, 0] },
+          "Animator": [
+            {
+              "name": "default",
+              "speed": 1,
+              "texture": "assets/graphics/player/thruster/low.png",
+              "frameCount": 1,
+              "frameSize": [1, 1],
+              "scale": [1, 1],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "low",
+              "speed": 10,
+              "texture": "assets/graphics/player/thruster/low.png",
+              "frameCount": 2,
               "frameSize": [32, 32],
               "scale": [2, 2],
               "rotation": 0,
               "loop": true
             },
             {
-              "name": "running",
+              "name": "full",
               "speed": 10,
-              "texture": "assets/graphics/player/charge.png",
-              "frameCount": 8,
+              "texture": "assets/graphics/player/thruster/high.png",
+              "frameCount": 2,
               "frameSize": [32, 32],
               "scale": [2, 2],
-              "rotation": -90,
-              "loop": false
+              "rotation": 0,
+              "loop": true
             }
           ],
           "CppScripts": [
-            "HelloWorld",
-            "ChangeAnim",
-            "MovePlayer"
-          ]
-        }
-      },
-      {
-        "tag": "entity2",
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [200, 100, 0] },
-          "Sprite": { "texture": "assets/graphics/player.png" },
-          "CppScripts": [
-            "HelloWorld"
+            "MovePlayer",
+            "AnimThruster"
           ]
         }
       }
