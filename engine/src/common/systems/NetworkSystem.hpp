@@ -10,6 +10,7 @@
 
 #include <system/ISystem.hpp>
 #include <PacketManager/APacket.hpp>
+#include <PacketManager/HiServerPacket.hpp>
 
 namespace RType
 {
@@ -21,20 +22,19 @@ class NetworkSystem : public ISystem
     ~NetworkSystem() {}
 
 
-    void manageServerQueue(mobs::Registry &registry, GameContext &gameContext)
+    void manageQueue(mobs::Registry &registry, GameContext &gameContext)
     {
         std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
-            serverQueue = gameContext._networkHandler->getPacketQueue();
+            packetQueue = gameContext._networkHandler->getPacketQueue();
 
-        if (serverQueue.empty())
-            std::cout << "J'ai une queue vide" << std::endl;
-        return;
-    }
+        while (!packetQueue.empty()) {
+            std::shared_ptr<RType::Network::APacket> packet = packetQueue.front().first;
 
-    void manageClientQueue(mobs::Registry &registry, GameContext &gameContext)
-    {
-        // send a first packet to server
+            // handle le packet en fonction de son type
 
+            packetQueue.pop();
+            gameContext._networkHandler->popQueue();
+        }
         return;
     }
 
@@ -42,10 +42,7 @@ class NetworkSystem : public ISystem
     {
         if (gameContext._networkHandler == nullptr)
             return;
-        if (gameContext._networkHandler->getIsServer())
-            this->manageServerQueue(registry, gameContext);
-        else
-            this->manageClientQueue(registry, gameContext);
+        this->manageQueue(registry, gameContext);
     }
 
    private:
