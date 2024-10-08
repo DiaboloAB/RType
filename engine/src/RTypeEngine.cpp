@@ -8,6 +8,7 @@
 #include "RTypeEngine.hpp"
 
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/CppScriptsSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/forward.hpp"
@@ -17,9 +18,10 @@ using namespace RType;
 
 Engine::Engine() : _gameContext(_registry, _sceneManager)
 {
-    _systemManager.addSystem<ForwardSystem>();
-    _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ScriptSystem>();
+    _systemManager.addSystem<SpriteSystem>();
+    _systemManager.addSystem<ForwardSystem>();
+    _systemManager.addSystem<CppScriptsSystem>();
     _systemManager.addSystem<NetworkSystem>();
 }
 

@@ -12,12 +12,13 @@
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
+
+#include "common/components.hpp"
 #include <NetworkHandler/NetworkHandler.hpp>
 #include <chrono>
 
 namespace RType
 {
-
 class GameContext
 {
    public:
@@ -37,6 +38,25 @@ class GameContext
     void setNetworkHandler(std::shared_ptr<Network::NetworkHandler> newNetworkHandler)
     {
         this->_networkHandler = newNetworkHandler;
+    }
+
+    template <typename Component>
+    Component &get(std::string tag)
+    {
+        try
+        {
+            mobs::Registry::View view = _registry.view<Basics, Component>();
+            for (auto entity : view)
+            {
+                auto &basics = view.get<Basics>(entity);
+                if (basics.tag == tag) return view.get<Component>(entity);
+            }
+            throw std::runtime_error("Tag not found");
+        }
+        catch (const std::exception &e)
+        {
+            throw std::runtime_error("Tag not found");
+        }
     }
 
     float _deltaT;

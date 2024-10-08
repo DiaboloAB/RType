@@ -36,6 +36,7 @@ class Engine
     SystemManager _systemManager;
     SceneManager _sceneManager;
     GameContext _gameContext;
+
     std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
     bool _isServer = false;
 

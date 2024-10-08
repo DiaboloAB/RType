@@ -2,19 +2,46 @@
     "entities": [
       {
         "tag": "entity1",
-        "static": false,
+        "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
-          "Sprite": { "texture": "assets/graphic/player.png" }
+          "Animator": [
+            {
+              "name": "idle",
+              "speed": 6,
+              "texture": "assets/graphics/ennemy/red_ship.png",
+              "frameCount": 8,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": 0
+            },
+            {
+              "name": "running",
+              "speed": 10,
+              "texture": "assets/graphics/player/charge.png",
+              "frameCount": 8,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": -90
+            }
+          ],
+          "CppScripts": [
+            "HelloWorld",
+            "ChangeAnim"
+          ]
         }
       },
       {
         "tag": "entity2",
-        "static": false,
+        "staticObject": false,
         "components": {
           "Transform": { "position": [200, 100, 0] },
-          "Sprite": { "texture": "assets/graphic/player.png" }
+          "Sprite": { "texture": "assets/graphics/player.png" },
+          "CppScripts": [
+            "HelloWorld"
+          ]
         }
       }
     ]
   }
+  
