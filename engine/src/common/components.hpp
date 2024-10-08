@@ -20,6 +20,13 @@
 
 namespace RType
 {
+struct NetworkComp {
+    uint32_t id;
+    std::string authority;
+
+    NetworkComp(uint32_t id, std::string authority) : id(id), authority(authority) {};
+};
+
 struct Transform
 {
     mlg::vec3 position;
