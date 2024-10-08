@@ -5,38 +5,32 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef SCRIPTSSYSTEM_H
-#define SCRIPTSSYSTEM_H
+#ifndef HELLOWORLD_H
+#define HELLOWORLD_H
 
-#include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
-#include <system/ISystem.hpp>
-// std
+#include "common/ICppScript.hpp"
+#include "gameContext/GameContext.hpp"
 
 namespace RType
 {
 
-class ScriptSystem : public ISystem
+class HelloWorldScript : public RType::ICppScript
 {
    public:
-    ScriptSystem() {}
-    ~ScriptSystem() {}
-
-    void start(mobs::Registry &registry, GameContext &gameContext) override {}
-
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto view = registry.view<Scripts>();
-        for (auto entity : view)
+        if (gameContext._runtime->getKeyDown(KeyCode::H))
         {
-            auto &scripts = view.get<Scripts>(entity);
-            scripts.updateAll(registry, gameContext);
+            std::cout << "Hello, World! from " << _entity << std::endl;
+            gameContext._sceneManager._nextScene = "scenes1.json";
         }
     }
+    void setEntity(mobs::Entity entity) override { _entity = entity; }
 
    private:
+    mobs::Entity _entity;
 };
 
 }  // namespace RType
 
-#endif  // SCRIPTSSYSTEM_H
+#endif  // HELLOWORLD_H

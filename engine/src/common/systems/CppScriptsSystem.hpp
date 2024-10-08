@@ -5,38 +5,38 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef SCRIPTSSYSTEM_H
-#define SCRIPTSSYSTEM_H
+#ifndef CPPSCRIPTSSYSTEM_H
+#define CPPSCRIPTSSYSTEM_H
 
 #include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
 #include <system/ISystem.hpp>
+
+#include "../ICppScript.hpp"
+#include "gameContext/GameContext.hpp"
 // std
 
 namespace RType
 {
-
-class ScriptSystem : public ISystem
+class CppScriptsSystem : public ISystem
 {
    public:
-    ScriptSystem() {}
-    ~ScriptSystem() {}
-
-    void start(mobs::Registry &registry, GameContext &gameContext) override {}
+    CppScriptsSystem(){};
+    ~CppScriptsSystem(){};
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto view = registry.view<Scripts>();
+        auto view = registry.view<CppScriptComponent>();
         for (auto entity : view)
         {
-            auto &scripts = view.get<Scripts>(entity);
+            auto &scripts = view.get<CppScriptComponent>(entity);
             scripts.updateAll(registry, gameContext);
         }
     }
 
    private:
+    // Member variables
 };
 
 }  // namespace RType
 
-#endif  // SCRIPTSSYSTEM_H
+#endif  // CPPSCRIPTSSYSTEM_H

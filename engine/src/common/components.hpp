@@ -8,11 +8,10 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-#include <lua.hpp>
 #include <mlg/mlg.hpp>
 
-#include "gameContext/GameContext.hpp"
 #include "mobs/mobs.hpp"
+
 // std
 #include <iostream>
 #include <string>
@@ -65,53 +64,6 @@ struct Basics
     bool staticObject;
 
     Basics(std::string tag, bool staticObject) : tag(tag), staticObject(staticObject) {}
-};
-
-struct Scripts
-{
-    std::vector<std::string> scripts;
-    std::vector<lua_State*> luaStates;
-
-    void addScript(const std::string& scriptFile)
-    {
-        lua_State* L = luaL_newstate();
-        luaL_openlibs(L);
-        if (luaL_dofile(L, (std::string("assets/scripts/") + scriptFile).c_str()) != LUA_OK)
-        {
-            std::cerr << "Failed to load Lua script: " << lua_tostring(L, -1) << std::endl;
-        }
-        else
-        {
-            std::cout << "Loaded Lua script: " << scriptFile << std::endl;
-            scripts.push_back(scriptFile);
-            luaStates.push_back(L);
-        }
-    }
-
-    void updateAll(mobs::Registry& registry, GameContext& gameContext)
-    {
-        for (auto L : luaStates)
-        {
-            lua_getglobal(L, "update");
-
-            lua_pushlightuserdata(L, &registry);
-            lua_pushlightuserdata(L, &gameContext);
-
-            if (lua_pcall(L, 2, 0, 0) != LUA_OK)
-            {
-                std::cerr << "Failed to call update: " << lua_tostring(L, -1) << std::endl;
-                lua_pop(L, 1);
-            }
-        }
-    }
-
-    ~Scripts()
-    {
-        for (auto L : luaStates)
-        {
-            lua_close(L);
-        }
-    }
 };
 
 }  // namespace RType
