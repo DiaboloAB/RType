@@ -25,7 +25,7 @@ UpdateEntityPacket::UpdateEntityPacket(std::vector<char> &buffer) : APacket(buff
     std::memcpy(&this->_score, data, sizeof(uint32_t));
 }
 
-UpdateEntityPacket::~UpdateEntityPacket() {};
+UpdateEntityPacket::~UpdateEntityPacket(){};
 
 std::vector<char> UpdateEntityPacket::serializeData() const
 {

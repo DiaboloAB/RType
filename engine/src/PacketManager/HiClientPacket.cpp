@@ -22,7 +22,7 @@ HiClientPacket::HiClientPacket(std::vector<char> &buffer) : APacket(buffer)
     std::memcpy(&this->_entityId, data, sizeof(uint32_t));
 }
 
-HiClientPacket::~HiClientPacket() {};
+HiClientPacket::~HiClientPacket(){};
 
 std::vector<char> HiClientPacket::serializeData() const
 {

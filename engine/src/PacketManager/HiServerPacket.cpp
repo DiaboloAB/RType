@@ -13,7 +13,7 @@ HiServerPacket::HiServerPacket() : APacket(HISERVER) { this->_packetDataSize = 0
 
 HiServerPacket::HiServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-HiServerPacket::~HiServerPacket() {};
+HiServerPacket::~HiServerPacket(){};
 
 std::vector<char> HiServerPacket::serializeData() const
 {
