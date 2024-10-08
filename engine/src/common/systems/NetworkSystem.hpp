@@ -58,9 +58,15 @@ class NetworkSystem : public ISystem
         */
         void handleHiServer (std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
         {
-            
             if (!gameContext._networkHandler->getIsServer())
-                return;
+               return;
+            std::map<asio::ip::udp::endpoint, bool> endpointMap = gameContext._networkHandler->getEndpointMap();
+            if (!endpointMap.contains(sender))
+                std::cout << "Un nouveau user nan ?" << std::endl;
+                // Creation d'un packet HiClient
+                // Ajouter l'endpoint et le set a false
+                // Send le packet HiClient
+                // Ajout a la queue de validation
         }
 
         /**
