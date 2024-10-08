@@ -76,8 +76,10 @@ struct Timer
 struct Hitbox
 {
     mlg::vec2 size;
+    mlg::vec2 offset;
+    bool isEnemy;
 
-    Hitbox(mlg::vec2 size) : size(size) {}
+    Hitbox(mlg::vec2 size, mlg::vec2 offset, bool isEnemy) : size(size), isEnemy(isEnemy), offset(offset) {}
 };
 
 struct Basics

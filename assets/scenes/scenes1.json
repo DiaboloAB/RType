@@ -5,7 +5,11 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
-          "Hitbox": { "size": [32, 16] },
+          "Hitbox": {
+            "size": [64, 32],
+            "offSet": [0, 0],
+            "isEnemy": false
+          },
           "Animator": [
             {
               "name": "default",
@@ -102,7 +106,11 @@
           "Transform": { "position": [1600, 500, 0] },
           "Sprite": { "texture": "assets/graphics/enemy/factory.png" },
           "Timer": { "time": 0 },
-          "Hitbox": { "size": [130, 50] },
+          "Hitbox": {
+            "size": [130, 50],
+            "offSet": [0, 0],
+            "isEnemy": true
+          },
           "CppScripts": [
             "EnemyFactory"
           ]

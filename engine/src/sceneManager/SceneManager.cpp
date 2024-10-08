@@ -13,6 +13,7 @@
 #include "common/cppScripts/EnemyFactory.hpp"
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
+#include "common/cppScripts/RedShipScript.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -79,7 +80,7 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
     }
 }
 
-void SceneManager::loadPrefab(const std::string& prefabName, GameContext& gameContext)
+mobs::Entity SceneManager::loadPrefab(const std::string& prefabName, GameContext& gameContext)
 {
     if (std::find(_prefabsList.begin(), _prefabsList.end(), prefabName) == _prefabsList.end())
     {
@@ -98,6 +99,7 @@ void SceneManager::loadPrefab(const std::string& prefabName, GameContext& gameCo
     mobs::Entity entity = gameContext._registry.create();
 
     createEntity(prefabJson, entity, gameContext._registry, gameContext);
+    return entity;
 }
 
 void SceneManager::update(GameContext& gameContext)
@@ -196,6 +198,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<EnemyFactoryScript>());
                     }
+                    else if (script.get<std::string>() == "RedShip")
+                    {
+                        scripts.addScript(std::make_shared<RedShipScript>());
+                    }
                 }
             }
             else if (componentName == "Network")
@@ -209,7 +215,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             }
             else if (componentName == "Hitbox")
             {
-                registry.emplace<Hitbox>(entity, mlg::vec3(componentData["size"][0], componentData["size"][1], 0));
+                registry.emplace<Hitbox>(entity,
+                    mlg::vec3(componentData["size"][0], componentData["size"][1], 0),
+                    mlg::vec3(componentData["offSet"][0], componentData["offSet"][1], 0),
+                    componentData["isEnemy"].get<bool>());
             }
             else if (componentName == "Animator")
             {

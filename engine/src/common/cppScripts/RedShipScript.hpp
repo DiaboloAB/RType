@@ -22,6 +22,11 @@ class RedShipScript : public RType::ICppScript
         int speed = 100;
         auto &transform = registry.get<Transform>(_entity);
         transform.position.x -= speed * gameContext._deltaT;
+
+        if (transform.position.x < -100)
+        {
+            registry.kill(_entity);
+        }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
 
