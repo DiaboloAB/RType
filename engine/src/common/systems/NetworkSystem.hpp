@@ -81,7 +81,7 @@ class NetworkSystem : public ISystem
             if (gameContext._networkHandler->getIsServer())
                return;
             std::map<asio::ip::udp::endpoint, bool> endpointMap = gameContext._networkHandler->getEndpointMap();
-            Network::PacketValidationPacket packetToSend(Network::HICLIENT, packet->getPacketTimeStamp);
+            Network::PacketValidationPacket packetToSend(Network::HICLIENT, packet->getPacketTimeStamp());
             if (endpointMap.count(sender) == 1)
                 gameContext._networkHandler->updateEndpointMap(sender, true);
                 gameContext._networkHandler->sendNewPacket(packetToSend, sender);
