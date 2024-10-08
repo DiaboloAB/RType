@@ -157,7 +157,8 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         }
         else if (componentName == "Network")
         {
-            registry.emplace<NetworkComp>(entity, componentData["id"], componentData["authority"].get<std::string>());
+            registry.emplace<NetworkComp>(entity, componentData["id"],
+                                          componentData["authority"].get<std::string>());
         }
     }
 }
