@@ -32,6 +32,7 @@ class ChangeAnimScript : public RType::ICppScript
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
+
    private:
     mobs::Entity _entity;
 };

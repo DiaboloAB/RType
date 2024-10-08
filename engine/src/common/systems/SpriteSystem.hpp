@@ -78,9 +78,12 @@ class SpriteSystem : public ISystem
             if (animations.time > frameSpeed)
             {
                 animations.time = 0;
-                animations.currentFrame = (animations.currentFrame + 1) % currentAnim.getFrameCount();
+                animations.currentFrame =
+                    (animations.currentFrame + 1) % currentAnim.getFrameCount();
             }
-            gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position, currentAnim.getSpriteCoords(animations.currentFrame), currentAnim.getScale(), currentAnim.getRotation());
+            gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position,
+                                             currentAnim.getSpriteCoords(animations.currentFrame),
+                                             currentAnim.getScale(), currentAnim.getRotation());
         }
     }
 
