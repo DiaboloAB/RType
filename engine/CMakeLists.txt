@@ -28,6 +28,7 @@ set(SOURCES
     src/PacketManager/PacketValidationPacket.cpp
     src/PacketManager/UpdateEntityPacket.cpp
     src/lua/getKey.cpp
+    src/utils/hexaColorToVec3.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})

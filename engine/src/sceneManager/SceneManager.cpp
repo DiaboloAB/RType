@@ -167,7 +167,6 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             }
             else if (componentName == "CppScripts")
             {
-                std::cout << "CppScripts" << std::endl;
                 registry.emplace<CppScriptComponent>(entity, entity);
                 auto& scripts = registry.get<CppScriptComponent>(entity);
                 for (const auto& script : componentData)

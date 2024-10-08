@@ -576,4 +576,20 @@ void RenderSystemSFML::setGameIcon(const std::string& filePath)
     }
 }
 
+void RenderSystemSFML::loadFont(const std::string& filePath)
+{
+    sf::Font font;
+    try {
+        if (!font.loadFromFile(filePath))
+        {
+            throw std::runtime_error("Failed to load font");
+        }
+        _fonts[filePath] = font;
+        std::cout << "Loaded font: " << filePath << std::endl;
+    } catch (const std::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
 }  // namespace RType

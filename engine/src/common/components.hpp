@@ -66,6 +66,22 @@ struct Basics
     Basics(std::string tag, bool staticObject) : tag(tag), staticObject(staticObject) {}
 };
 
+struct Button
+{
+    std::string text;
+    mlg::vec2 size;
+    std::string font;
+    bool clicked;
+
+    Button(std::string text, mlg::vec2 size, std::string font) : text(text), size(size), font(font), clicked(false) {}
+};
+
+struct Input
+{
+    std::string input = "";
+    bool selected = false;
+};
+
 }  // namespace RType
 
 #endif  // COMPONENTS_H

@@ -61,6 +61,8 @@ class GameContext
 
    private:
     std::chrono::high_resolution_clock::time_point _currentTime;
+
+    void loadFonts();
 };
 
 }  // namespace RType

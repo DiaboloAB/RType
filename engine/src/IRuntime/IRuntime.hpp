@@ -90,6 +90,9 @@ class IRuntime
 
     virtual void setGameIcon(const std::string& filePath) = 0;
 
+    virtual void loadFont(const std::string& filePath) = 0;
+
+
     /**
      * @brief Pure virtual method to load a sprite using a previously loaded texture.
      * @param textureName The name of the texture to use for the sprite.

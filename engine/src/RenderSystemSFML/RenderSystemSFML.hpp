@@ -230,6 +230,8 @@ class RenderSystemSFML : public RType::IRuntime
      */
     void unloadSound(const std::string& soundName);
 
+    void loadFont(const std::string& filePath) override;
+
    private:
     bool _isFullScreen;
     sf::RenderWindow _window;
@@ -245,5 +247,6 @@ class RenderSystemSFML : public RType::IRuntime
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
     sf::Image _icon;
+    std::map<std::string, sf::Font> _fonts;
 };
 }  // namespace RType
