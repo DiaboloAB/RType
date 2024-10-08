@@ -8,11 +8,10 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
-#include <lua.hpp>
 #include <mlg/mlg.hpp>
 
-#include "gameContext/GameContext.hpp"
 #include "mobs/mobs.hpp"
+
 // std
 #include <iostream>
 #include <string>
@@ -20,6 +19,14 @@
 
 namespace RType
 {
+struct NetworkComp
+{
+    uint32_t id;
+    std::string authority;
+
+    NetworkComp(uint32_t id, std::string authority) : id(id), authority(authority){};
+};
+
 struct Transform
 {
     mlg::vec3 position;
@@ -59,51 +66,20 @@ struct Basics
     Basics(std::string tag, bool staticObject) : tag(tag), staticObject(staticObject) {}
 };
 
-struct Scripts
+struct Button
 {
-    std::vector<std::string> scripts;
-    std::vector<lua_State*> luaStates;
+    std::string text;
+    mlg::vec2 size;
+    std::string font;
+    bool clicked;
 
-    void addScript(const std::string& scriptFile)
-    {
-        lua_State* L = luaL_newstate();
-        luaL_openlibs(L);
-        if (luaL_dofile(L, (std::string("assets/scripts/") + scriptFile).c_str()) != LUA_OK)
-        {
-            std::cerr << "Failed to load Lua script: " << lua_tostring(L, -1) << std::endl;
-        }
-        else
-        {
-            std::cout << "Loaded Lua script: " << scriptFile << std::endl;
-            scripts.push_back(scriptFile);
-            luaStates.push_back(L);
-        }
-    }
+    Button(std::string text, mlg::vec2 size, std::string font) : text(text), size(size), font(font), clicked(false) {}
+};
 
-    void updateAll(mobs::Registry& registry, GameContext& gameContext)
-    {
-        for (auto L : luaStates)
-        {
-            lua_getglobal(L, "update");
-
-            lua_pushlightuserdata(L, &registry);
-            lua_pushlightuserdata(L, &gameContext);
-
-            if (lua_pcall(L, 2, 0, 0) != LUA_OK)
-            {
-                std::cerr << "Failed to call update: " << lua_tostring(L, -1) << std::endl;
-                lua_pop(L, 1);
-            }
-        }
-    }
-
-    ~Scripts()
-    {
-        for (auto L : luaStates)
-        {
-            lua_close(L);
-        }
-    }
+struct Input
+{
+    std::string input = "";
+    bool selected = false;
 };
 
 }  // namespace RType

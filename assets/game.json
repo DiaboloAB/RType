@@ -4,5 +4,8 @@
     "version": "1.0.0",
     "description": "A simple game",
     "defaultScene": "scenes2.json",
-    "network": true
+    "network": true,
+    "fontList": [
+        "assets/fonts/Roboto-Medium.ttf"
+    ]
 }
