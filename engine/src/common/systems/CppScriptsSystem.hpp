@@ -9,6 +9,7 @@
 #define CPPSCRIPTSSYSTEM_H
 
 #include <common/components.hpp>
+#include <common/scriptsComponent.hpp>
 #include <system/ISystem.hpp>
 
 #include "../ICppScript.hpp"
