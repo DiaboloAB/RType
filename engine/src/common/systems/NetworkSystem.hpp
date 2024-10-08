@@ -16,7 +16,7 @@ namespace RType
 {
 
 class NetworkSystem : public ISystem
-{   
+{
    public:
         NetworkSystem()
         {
@@ -46,7 +46,13 @@ class NetworkSystem : public ISystem
 
         ~NetworkSystem() {}
 
-
+        /**
+        * @brief Method that take each packet from NetworkHandler queue and call it's associated method.
+        *
+        * @param registry: Entity handler.
+        * @param gameContext: Object that allow access to engine attributes & methods.
+        * 
+        */
         void manageQueue(mobs::Registry &registry, GameContext &gameContext)
         {
             std::queue<std::pair<std::shared_ptr<Network::APacket>, asio::ip::udp::endpoint>>
@@ -75,6 +81,14 @@ class NetworkSystem : public ISystem
             return;
         }
 
+
+        /**
+        * @brief Method that update game content based on packets received by calling the queue manager.
+        *
+        * @param registry: Entity handler.
+        * @param gameContext: Object that allow access to engine attributes & methods.
+        * 
+        */
         void update(mobs::Registry &registry, GameContext &gameContext) override
         {
             if (gameContext._networkHandler == nullptr)
