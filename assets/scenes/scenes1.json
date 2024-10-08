@@ -85,6 +85,14 @@
             "AnimThruster"
           ]
         }
+      },
+      {
+        "tag": "background",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [0, 0, -1] },
+          "Sprite": { "texture": "assets/graphics/background.png" }
+        }
       }
     ]
   }
