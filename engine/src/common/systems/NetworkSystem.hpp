@@ -78,7 +78,13 @@ class NetworkSystem : public ISystem
         */
         void handleHiClient (std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
         {
-            return;
+            if (gameContext._networkHandler->getIsServer())
+               return;
+            std::map<asio::ip::udp::endpoint, bool> endpointMap = gameContext._networkHandler->getEndpointMap();
+            Network::PacketValidationPacket packetToSend(Network::HICLIENT, packet->getPacketTimeStamp);
+            if (endpointMap.count(sender) == 1)
+                gameContext._networkHandler->updateEndpointMap(sender, true);
+                gameContext._networkHandler->sendNewPacket(packetToSend, sender);
         }
 
         /**
