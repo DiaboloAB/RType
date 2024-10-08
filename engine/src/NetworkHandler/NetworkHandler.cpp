@@ -31,9 +31,12 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
 
 NetworkHandler::~NetworkHandler() { this->_thread.join(); };
 
-void NetworkHandler::resendValidationList() {
-    std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>> validationList = this->_packetHandler.getValidationList();
-    for (auto &pairInLst : validationList) {
+void NetworkHandler::resendValidationList()
+{
+    std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>> validationList =
+        this->_packetHandler.getValidationList();
+    for (auto &pairInLst : validationList)
+    {
         this->sendData(pairInLst.first, pairInLst.second);
     }
 }
@@ -45,9 +48,7 @@ void NetworkHandler::sendNewPacket(const APacket &packet, const asio::ip::udp::e
     this->sendData(packet, endpoint);
 }
 
-void NetworkHandler::popQueue() {
-    this->_packetHandler.popReceiveQueue();
-}
+void NetworkHandler::popQueue() { this->_packetHandler.popReceiveQueue(); }
 
 void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
@@ -75,7 +76,8 @@ void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoi
         });
 }
 
-void NetworkHandler::handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint)
+void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
+                                asio::ip::udp::endpoint remoteEndpoint)
 {
     std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
     std::shared_ptr<APacket> packet = nullptr;
@@ -107,7 +109,9 @@ void NetworkHandler::receiveData()
         });
 }
 
-void NetworkHandler::deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation, const asio::ip::udp::endpoint &endpoint)
+void NetworkHandler::deleteFromValidationList(
+    const std::shared_ptr<PacketValidationPacket> &validation,
+    const asio::ip::udp::endpoint &endpoint)
 {
     this->_packetHandler.deleteFromValidationList(validation, endpoint);
 }
@@ -116,7 +120,8 @@ std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
 
-std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> NetworkHandler::getPacketQueue() const
+std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>>
+NetworkHandler::getPacketQueue() const
 {
     return this->_packetHandler.getReceiveQueue();
 }

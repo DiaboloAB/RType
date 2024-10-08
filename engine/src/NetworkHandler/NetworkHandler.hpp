@@ -7,9 +7,9 @@
 
 #pragma once
 
+#include <NetworkHandler/PacketHandler.hpp>
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/PacketFactory.hpp>
-#include <NetworkHandler/PacketHandler.hpp>
 #include <asio.hpp>
 #include <iostream>
 #include <list>
@@ -41,13 +41,15 @@ class NetworkHandler
 
    public:
     /**
-     * @brief Send all keeped packet that need a validation to avoid broken game due to missing packets.
+     * @brief Send all keeped packet that need a validation to avoid broken game due to missing
+     * packets.
      */
     void resendValidationList();
 
     /**
-     * @brief Send a completely new packet to client or server and add it to a validation list if packet needs it.
-     * 
+     * @brief Send a completely new packet to client or server and add it to a validation list if
+     * packet needs it.
+     *
      * @param packet: Packet to send (HiServer, ...).
      * @param endpoint: Endpoint target to send packet to.
      */
@@ -85,11 +87,12 @@ class NetworkHandler
     /**
      * @brief Delete packet keeped in validation list if a validation of this packet is received.
      * Does nothing if the validation correspond to any packet in the packet validation list.
-     * 
+     *
      * @param validation: Packet that tells information about the packet it validate.
      * @param enpoint: Enpoint target that receives the validated packet.
      */
-    void deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation, const asio::ip::udp::endpoint &endpoint);
+    void deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation,
+                                  const asio::ip::udp::endpoint &endpoint);
 
    public:
     class NetworkHandlerError : public std::exception
@@ -104,15 +107,17 @@ class NetworkHandler
        private:
         std::string _msg;
     };
-    public:
-        std::string getHost() const;
-        unsigned int getPort() const;
-        bool getIsServer() const;
-        std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> getPacketQueue() const;
-    
-    public:
-        void setHost(const std::string host);
-        void setPort(const unsigned int port);
+
+   public:
+    std::string getHost() const;
+    unsigned int getPort() const;
+    bool getIsServer() const;
+    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
+    getPacketQueue() const;
+
+   public:
+    void setHost(const std::string host);
+    void setPort(const unsigned int port);
 
    private:
     std::string _host = "";
