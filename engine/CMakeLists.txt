@@ -12,6 +12,7 @@ set(SOURCES
     src/RenderSystemSFML/RenderSystemSFML.cpp
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
+    src/common/animations/Animation.cpp
     src/NetworkHandler/NetworkHandler.cpp
     src/sceneManager/SceneManager.cpp
     src/PacketManager/APacket.cpp
