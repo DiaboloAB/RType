@@ -8,6 +8,7 @@
 #include "SceneManager.hpp"
 
 #include "common/components.hpp"
+#include "common/cppScripts/changeAnim.hpp"
 #include "common/cppScripts/helloworld.hpp"
 #include "common/scriptsComponent.hpp"
 // std
@@ -176,12 +177,30 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<HelloWorldScript>());
                     }
+                    else if (script.get<std::string>() == "ChangeAnim")
+                    {
+                        scripts.addScript(std::make_shared<ChangeAnimScript>());
+                    }
                 }
             }
             else if (componentName == "Network")
             {
                 registry.emplace<NetworkComp>(entity, componentData["id"],
                                               componentData["authority"].get<std::string>());
+            }
+            else if (componentName == "Animator")
+            {
+                registry.emplace<Animator>(entity);
+                auto& animator = registry.get<Animator>(entity);
+                for (const auto& animation : componentData)
+                {
+                    animator.animations.addAnimation(Animation(
+                        animation["texture"].get<std::string>(), animation["frameCount"].get<int>(),
+                        animation["speed"].get<float>(),
+                        mlg::vec2(animation["frameSize"][0], animation["frameSize"][1], 0),
+                        mlg::vec2(animation["scale"][0], animation["scale"][1], 0),
+                        animation["rotation"].get<float>(), animation["name"].get<std::string>()));
+                }
             }
         }
     }
