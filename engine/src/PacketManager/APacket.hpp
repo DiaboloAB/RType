@@ -69,6 +69,7 @@ class APacket
     uint32_t getPacketSize() const;
     PacketType getPacketType() const;
     uint32_t getHeaderSize() const;
+    uint64_t getPacketTimeStamp() const;
 
     /**
      * @brief Get the total size of the packet using serialized data if it is possible.

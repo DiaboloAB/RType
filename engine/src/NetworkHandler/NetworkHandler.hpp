@@ -9,6 +9,7 @@
 
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/PacketFactory.hpp>
+#include <NetworkHandler/PacketHandler.hpp>
 #include <asio.hpp>
 #include <iostream>
 #include <list>
@@ -40,38 +41,18 @@ class NetworkHandler
 
    public:
     /**
-     * @brief Getter for NetworkHandler server host.
-     *
-     * @return Host of the server.
+     * @brief Send all keeped packet that need a validation to avoid broken game due to missing packets.
      */
-    std::string getHost() const;
+    void resendValidationList();
 
     /**
-     * @brief Getter for NetworkHandler server port.
-     *
-     * @return Port of the server.
+     * @brief Send a completely new packet to client or server and add it to a validation list if packet needs it.
+     * 
+     * @param packet: Packet to send (HiServer, ...).
+     * @param endpoint: Endpoint target to send packet to.
      */
-    unsigned int getPort() const;
+    void sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
-    /**
-     * @brief Getter for NetworkHandler packet queue.
-     *
-     * @return Packet queue of the NetworkHandler.
-     */
-    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
-    getPacketQueue() const;
-
-    /**
-     * @brief Getter for NetworkHandler status.
-     *
-     * @return Status of the NetworkHandler.
-     */
-    bool getIsServer() const;
-
-    void setHost(const std::string host);
-    void setPort(const unsigned int port);
-
-   public:
     /**
      * @brief Method that send packets from an endpoint to another using async method from asio
      * network library.
@@ -101,6 +82,15 @@ class NetworkHandler
      */
     void popQueue();
 
+    /**
+     * @brief Delete packet keeped in validation list if a validation of this packet is received.
+     * Does nothing if the validation correspond to any packet in the packet validation list.
+     * 
+     * @param validation: Packet that tells information about the packet it validate.
+     * @param enpoint: Enpoint target that receives the validated packet.
+     */
+    void deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation, const asio::ip::udp::endpoint &endpoint);
+
    public:
     class NetworkHandlerError : public std::exception
     {
@@ -114,18 +104,26 @@ class NetworkHandler
        private:
         std::string _msg;
     };
+    public:
+        std::string getHost() const;
+        unsigned int getPort() const;
+        bool getIsServer() const;
+        std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>> getPacketQueue() const;
+    
+    public:
+        void setHost(const std::string host);
+        void setPort(const unsigned int port);
 
    private:
     std::string _host = "";
     unsigned int _port = 0;
     bool _isServer = false;
+    std::array<char, 1024> _recvBuffer;
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-    std::array<char, 1024> _recvBuffer;
-    std::thread thread;
-    PacketFactory _factory;
     std::list<std::pair<asio::ip::udp::endpoint, bool>> _endpointList = {};
-    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
-        packetQueue;
+    std::thread _thread;
+    PacketFactory _factory;
+    PacketHandler _packetHandler;
 };
 }  // namespace RType::Network

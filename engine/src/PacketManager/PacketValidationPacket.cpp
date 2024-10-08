@@ -10,7 +10,7 @@
 namespace RType::Network
 {
 PacketValidationPacket::PacketValidationPacket(PacketType packetType, uint64_t packetTimeStamp)
-    : APacket(PACKETVALIDATION), _packetReceiveType(packetType), _packetTimeStamp(packetTimeStamp)
+    : APacket(PACKETVALIDATION), _packetReceiveType(packetType), _packetReceiveTimeStamp(packetTimeStamp)
 {
     this->_packetDataSize = sizeof(PacketType) + sizeof(uint64_t);
 }
@@ -41,5 +41,5 @@ std::vector<char> PacketValidationPacket::serializeData() const
 
 PacketType PacketValidationPacket::getPacketReceiveType() const { return this->_packetReceiveType; }
 
-uint64_t PacketValidationPacket::getPacketTimeStamp() const { return this->_packetTimeStamp; }
+uint64_t PacketValidationPacket::getPacketReceiveTimeStamp() const { return this->_packetReceiveTimeStamp; }
 }  // namespace RType::Network
