@@ -20,31 +20,57 @@ class NetworkSystem : public ISystem
    public:
         NetworkSystem()
         {
-            this->_systemsMap[Network::HISERVER] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::HISERVER] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            { handleHiServer(packet, registry, gameContext); };
+            this->_systemsMap[Network::HICLIENT] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            { handleHiClient(packet, registry, gameContext); };
+            this->_systemsMap[Network::ADIOSSERVER] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::HICLIENT] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::PING] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::ADIOSSERVER] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::CREATEENTITY] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::PING] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::DESTROYENTITY] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::CREATEENTITY] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::MOVEENTITY] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::DESTROYENTITY] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::UPDATEENTITY] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::MOVEENTITY] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::CLIENTEVENT] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::UPDATEENTITY] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::KICKCLIENT] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
-            this->_systemsMap[Network::CLIENTEVENT] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
-            { return; };
-            this->_systemsMap[Network::KICKCLIENT] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
-            { return; };
-            this->_systemsMap[Network::PACKETVALIDATION] = [](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+            this->_systemsMap[Network::PACKETVALIDATION] = [this](std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
             { return; };
         }
 
         ~NetworkSystem() {}
+
+        /**
+        * @brief HiServer packet handler.
+        *
+        * @param packet: Packet received.
+        * @param registry: Entity handler.
+        * @param gameContext: Object that allow access to engine attributes & methods.
+        * 
+        */
+        void handleHiServer (std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+        {
+            return;
+        }
+
+        /**
+        * @brief HiClient packet handler.
+        *
+        * @param packet: Packet received.
+        * @param registry: Entity handler.
+        * @param gameContext: Object that allow access to engine attributes & methods.
+        * 
+        */
+        void handleHiClient (std::shared_ptr<Network::APacket> &packet, mobs::Registry &registry, GameContext &gameContext)
+        {
+            return;
+        }
 
         /**
         * @brief Method that take each packet from NetworkHandler queue and call it's associated method.
