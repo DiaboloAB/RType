@@ -5,7 +5,26 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
-          "Sprite": { "texture": "assets/graphics/player.png" },
+          "Animator": [
+            {
+              "name": "idle",
+              "speed": 6,
+              "texture": "assets/graphics/ennemy/red_ship.png",
+              "frameCount": 8,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": 0
+            },
+            {
+              "name": "running",
+              "speed": 1,
+              "texture": "assets/graphics/player.png",
+              "frameCount": 1,
+              "frameSize": [128, 128],
+              "scale": [1, 1],
+              "rotation": 0
+            }
+          ],
           "CppScripts": [
             "HelloWorld"
           ]

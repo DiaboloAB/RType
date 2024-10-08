@@ -11,6 +11,7 @@
 #include <mlg/mlg.hpp>
 
 #include "mobs/mobs.hpp"
+#include "animations/Animation.hpp"
 
 // std
 #include <iostream>
@@ -56,6 +57,13 @@ struct Sprite
     std::string filePath;
 
     Sprite(std::string filePath) : filePath(filePath) {}
+};
+
+struct Animator
+{
+    Animations animations = Animations();
+
+    Animator() {}
 };
 
 struct Basics

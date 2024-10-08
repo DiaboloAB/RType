@@ -183,6 +183,22 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                 registry.emplace<NetworkComp>(entity, componentData["id"],
                                               componentData["authority"].get<std::string>());
             }
+            else if (componentName == "Animator")
+            {
+                registry.emplace<Animator>(entity);
+                auto& animator = registry.get<Animator>(entity);
+                for (const auto& animation : componentData)
+                {
+                    animator.animations.addAnimation(Animation(
+                        animation["texture"].get<std::string>(),
+                        animation["frameCount"].get<int>(),
+                        animation["speed"].get<float>(),
+                        mlg::vec2(animation["frameSize"][0], animation["frameSize"][1], 0),
+                        mlg::vec2(animation["scale"][0], animation["scale"][1], 0),
+                        animation["rotation"].get<float>()
+                    ));
+                }
+            }
         }
     }
     catch (const std::exception& e)
