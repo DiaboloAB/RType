@@ -40,24 +40,6 @@ void NetworkHandler::resendValidationList()
         this->sendData(pairInLst.first, pairInLst.second);
     }
 }
-NetworkHandler::~NetworkHandler() { this->thread.join(); };
-
-std::string NetworkHandler::getHost() const { return this->_host; }
-
-unsigned int NetworkHandler::getPort() const { return this->_port; }
-
-std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
-NetworkHandler::getPacketQueue() const
-{
-    return this->packetQueue;
-}
-
-std::map<asio::ip::udp::endpoint, bool> NetworkHandler::getEndpointMap() const
-{
-    return this->_endpointMap;
-}
-
-bool NetworkHandler::getIsServer() const { return this->_isServer; }
 
 void NetworkHandler::sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
@@ -142,6 +124,11 @@ std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>>
 NetworkHandler::getPacketQueue() const
 {
     return this->_packetHandler.getReceiveQueue();
+}
+
+std::map<asio::ip::udp::endpoint, bool> NetworkHandler::getEndpointMap() const
+{
+    return this->_endpointMap;
 }
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }

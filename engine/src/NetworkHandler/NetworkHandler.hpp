@@ -56,17 +56,12 @@ class NetworkHandler
      */
     void sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
-    bool getIsServer() const;
-
     /**
      * @brief Getter for NetworkHandler endpoint list.
      *
      * @return Endpoint list of the NetworkHandler.
      */
     std::map<asio::ip::udp::endpoint, bool> getEndpointMap() const;
-
-    void setHost(const std::string host);
-    void setPort(const unsigned int port);
 
    public:
     /**
@@ -140,15 +135,9 @@ class NetworkHandler
     std::array<char, 1024> _recvBuffer;
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-    std::list<std::pair<asio::ip::udp::endpoint, bool>> _endpointList = {};
+    std::map<asio::ip::udp::endpoint, bool> _endpointMap = {};
     std::thread _thread;
     PacketFactory _factory;
     PacketHandler _packetHandler;
-    std::array<char, 1024> _recvBuffer;
-    std::thread thread;
-    PacketFactory _factory;
-    std::map<asio::ip::udp::endpoint, bool> _endpointMap = {};
-    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
-        packetQueue;
 };
 }  // namespace RType::Network
