@@ -19,8 +19,9 @@ class Animation
         mlg::vec2 frameSize;
         mlg::vec2 scale;
         float rotation;
+        std::string name;
     public:
-        Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize, const mlg::vec2 &scale, float rotation);
+        Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize, const mlg::vec2 &scale, float rotation, std::string name);
         ~Animation();
 
         mlg::vec4 getSpriteCoords(int frame)
@@ -39,6 +40,7 @@ class Animation
         mlg::vec2 getFrameSize() { return frameSize; }
         mlg::vec2 getScale() { return scale; }
         float getRotation() { return rotation; }
+        std::string getName() { return name; }
 };
 
 class Animations
@@ -56,12 +58,17 @@ class Animations
 
         void playAnim(std::string animName)
         {
+            if (currentAnim == animName)
+            {
+                return;
+            }
             for (auto& anim : animations)
             {
-                if (anim.getFilePath() == animName)
+                if (anim.getName() == animName)
                 {
                     time = 0;
                     currentAnim = animName;
+                    std::cout << "playing anim: " << animName << std::endl;
                     return;
                 }
             }
@@ -71,7 +78,7 @@ class Animations
         {
             for (auto& anim : animations)
             {
-                if (anim.getFilePath() == currentAnim)
+                if (anim.getName() == currentAnim)
                 {
                     return anim;
                 }

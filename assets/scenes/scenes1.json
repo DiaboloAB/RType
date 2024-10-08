@@ -17,16 +17,17 @@
             },
             {
               "name": "running",
-              "speed": 1,
-              "texture": "assets/graphics/player.png",
-              "frameCount": 1,
-              "frameSize": [128, 128],
-              "scale": [1, 1],
-              "rotation": 0
+              "speed": 10,
+              "texture": "assets/graphics/player/charge.png",
+              "frameCount": 8,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": -90
             }
           ],
           "CppScripts": [
-            "HelloWorld"
+            "HelloWorld",
+            "ChangeAnim"
           ]
         }
       },

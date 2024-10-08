@@ -7,8 +7,8 @@
 
 #include "Animation.hpp"
 
-Animation::Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize, const mlg::vec2 &scale, float rotation)
-    : filepath(filepath), frameCount(frameCount), speed(speed), frameSize(frameSize), scale(scale), rotation(rotation)
+Animation::Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize, const mlg::vec2 &scale, float rotation, std::string name)
+    : filepath(filepath), frameCount(frameCount), speed(speed), frameSize(frameSize), scale(scale), rotation(rotation), name(name)
 {
 }
 
