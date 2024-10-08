@@ -9,8 +9,8 @@
 #define CPPSCRIPTSSYSTEM_H
 
 #include <common/components.hpp>
-#include <system/ISystem.hpp>
 #include <common/scriptsComponent.hpp>
+#include <system/ISystem.hpp>
 
 #include "../ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
