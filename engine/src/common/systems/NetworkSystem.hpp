@@ -11,6 +11,7 @@
 #include <system/ISystem.hpp>
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/HiServerPacket.hpp>
+#include <PacketManager/HiClientPacket.hpp>
 
 namespace RType
 {
@@ -57,7 +58,9 @@ class NetworkSystem : public ISystem
         */
         void handleHiServer (std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
         {
-            return;
+            
+            if (!gameContext._networkHandler->getIsServer())
+                return;
         }
 
         /**
