@@ -61,12 +61,10 @@ class NetworkSystem : public ISystem
             if (!gameContext._networkHandler->getIsServer())
                return;
             std::map<asio::ip::udp::endpoint, bool> endpointMap = gameContext._networkHandler->getEndpointMap();
-            if (endpointMap.count(sender) > 0)
-                std::cout << "Un nouveau user nan ?" << std::endl;
-                // Creation d'un packet HiClient
-                // Ajouter l'endpoint et le set a false
-                // Send le packet HiClient
-                // Ajout a la queue de validation
+            if (endpointMap.count(sender) == 0)
+                Network::HiClientPacket packetToSend;
+                gameContext._networkHandler->updateEndpointMap(sender, false);
+                gameContext._networkHandler->sendNewPacket(packetToSend, sender);
         }
 
         /**
