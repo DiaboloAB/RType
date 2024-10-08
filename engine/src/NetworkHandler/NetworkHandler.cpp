@@ -9,6 +9,7 @@
 
 namespace RType::Network
 {
+
 NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServer)
     : _host(host), _port(port), _isServer(isServer), _io_context()
 {
@@ -25,9 +26,20 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
     }
 
     this->receiveData();
-    this->thread = std::thread([this] { this->_io_context.run(); });
+    this->_thread = std::thread([this] { this->_io_context.run(); });
 }
 
+NetworkHandler::~NetworkHandler() { this->_thread.join(); };
+
+void NetworkHandler::resendValidationList()
+{
+    std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>> validationList =
+        this->_packetHandler.getValidationList();
+    for (auto &pairInLst : validationList)
+    {
+        this->sendData(pairInLst.first, pairInLst.second);
+    }
+}
 NetworkHandler::~NetworkHandler() { this->thread.join(); };
 
 std::string NetworkHandler::getHost() const { return this->_host; }
@@ -47,14 +59,14 @@ std::map<asio::ip::udp::endpoint, bool> NetworkHandler::getEndpointMap() const
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
 
-void NetworkHandler::setHost(const std::string host) { this->_host = host; }
-
-void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
-
-void NetworkHandler::popQueue()
+void NetworkHandler::sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
-    if (!this->packetQueue.empty()) this->packetQueue.pop();
+    if (this->_packetHandler.needPacketValidation(packet))
+        this->_packetHandler.insertToValidationList(packet, endpoint);
+    this->sendData(packet, endpoint);
 }
+
+void NetworkHandler::popQueue() { this->_packetHandler.popReceiveQueue(); }
 
 void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
@@ -96,7 +108,7 @@ void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
         std::cerr << "[sendData ERROR]: Problème de deserialisation des packets" << std::endl;
         return;
     }
-    this->packetQueue.push(std::make_pair(packet, remoteEndpoint));
+    this->_packetHandler.insertToReceiveQueue(packet, remoteEndpoint);
 }
 
 void NetworkHandler::receiveData()
@@ -114,4 +126,27 @@ void NetworkHandler::receiveData()
             return this->receiveData();
         });
 }
+
+void NetworkHandler::deleteFromValidationList(
+    const std::shared_ptr<PacketValidationPacket> &validation,
+    const asio::ip::udp::endpoint &endpoint)
+{
+    this->_packetHandler.deleteFromValidationList(validation, endpoint);
+}
+
+std::string NetworkHandler::getHost() const { return this->_host; }
+
+unsigned int NetworkHandler::getPort() const { return this->_port; }
+
+std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>>
+NetworkHandler::getPacketQueue() const
+{
+    return this->_packetHandler.getReceiveQueue();
+}
+
+bool NetworkHandler::getIsServer() const { return this->_isServer; }
+
+void NetworkHandler::setHost(const std::string host) { this->_host = host; }
+
+void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
 }  // namespace RType::Network

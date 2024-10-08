@@ -74,6 +74,8 @@ uint32_t APacket::getPacketSizeFromBuffer(std::vector<char> &buffer)
 
 PacketType APacket::getPacketType() const { return this->_packetType; }
 
+uint64_t APacket::getPacketTimeStamp() const { return this->_packetTimeStamp; }
+
 PacketType APacket::getPacketTypeFromBuffer(std::vector<char> &buffer)
 {
     if (sizeof(uint32_t) + sizeof(uint8_t) > buffer.size())
