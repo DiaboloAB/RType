@@ -5,10 +5,21 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
-          "Sprite": { "texture": "assets/graphic/player.png" },
+          "Sprite": { "texture": "assets/graphics/player.png" },
           "Scripts": [
             "player.lua"
+          ],
+          "CppScripts": [
+            "HelloWorld"
           ]
+        }
+      },
+      {
+        "tag": "background",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [0, 0, -1] },
+          "Sprite": { "texture": "assets/graphics/background.png" }
         }
       }
     ]

@@ -37,7 +37,7 @@ class SceneManager
 
    private:
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
-                      mobs::Registry &registry);
+                      mobs::Registry &registry, GameContext &gameContext);
     std::string _defaultScene;
     std::string _currentScene;
     std::vector<std::string> _scenesList;

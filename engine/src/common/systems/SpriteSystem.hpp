@@ -32,16 +32,36 @@ class SpriteSystem : public ISystem
 
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
+        std::vector<std::tuple<mobs::Entity, Transform *, Sprite *>> entities;
+
         auto view = registry.view<Transform, Sprite>();
+
         for (auto entity : view)
         {
             auto &transform = view.get<Transform>(entity);
             auto &sprite = view.get<Sprite>(entity);
+
+            entities.emplace_back(entity, &transform, &sprite);
+        }
+
+        std::sort(entities.begin(), entities.end(),
+                  [this](const auto &lhs, const auto &rhs) { return compareZOrder(lhs, rhs); });
+
+        for (const auto &entry : entities)
+        {
+            auto &transform = *std::get<1>(entry);
+            auto &sprite = *std::get<2>(entry);
+
             gameContext._runtime->drawSprite(sprite.filePath, transform.position);
         }
     }
 
    private:
+    bool compareZOrder(const std::tuple<mobs::Entity, Transform *, Sprite *> &lhs,
+                       const std::tuple<mobs::Entity, Transform *, Sprite *> &rhs) const
+    {
+        return std::get<1>(lhs)->position.z < std::get<1>(rhs)->position.z;
+    }
     // Member variables
 };
 

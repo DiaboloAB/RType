@@ -26,7 +26,7 @@ class ForwardSystem : public ISystem
     {
         float deltaTime = gameContext._deltaT;
         auto view = registry.view<Transform>();
-
+        return;
         for (auto entity : view)
         {
             auto &transform = view.get<Transform>(entity);
@@ -47,7 +47,7 @@ class ForwardSystem : public ISystem
             {
                 transform.position.x += speed * deltaTime;
             }
-            if (gameContext._runtime->getKey(KeyCode::Space))
+            if (gameContext._runtime->getKeyDown(KeyCode::Space))
             {
                 gameContext._sceneManager._nextScene = "scenes1.json";
             }
