@@ -116,6 +116,11 @@ void NetworkHandler::deleteFromValidationList(
     this->_packetHandler.deleteFromValidationList(validation, endpoint);
 }
 
+void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value)
+{
+    this->_endpointMap.insert_or_assign(endpoint, value);
+}
+
 std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }

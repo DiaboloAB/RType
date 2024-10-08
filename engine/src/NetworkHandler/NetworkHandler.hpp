@@ -103,6 +103,16 @@ class NetworkHandler
     void deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation,
                                   const asio::ip::udp::endpoint &endpoint);
 
+
+    /**
+     * @brief Update value of the key element (endpoint) in the map if it exist. 
+     * Add it to map else.
+     *
+     * @param endpoint: Key of the map element.
+     * @param value: New value of the element.
+     */
+    void updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value);
+
    public:
     class NetworkHandlerError : public std::exception
     {
