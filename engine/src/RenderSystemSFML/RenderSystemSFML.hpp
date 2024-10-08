@@ -97,13 +97,13 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the texture to load.
      * @return `true` if the texture was loaded successfully, `false` otherwise.
      */
-    bool loadTexture(const std::string& textureName, const std::string& filePath);
+    bool loadTexture(const std::string& textureName, const std::string& filePath) override;
 
     /**
      * @brief Unloads a specific texture from the cache.
      * @param textureName The unique name of the texture to unload.
      */
-    void unloadTexture(const std::string& textureName);
+    void unloadTexture(const std::string& textureName) override;
 
     /**
      * @brief Loads a sprite using a texture from the cache.
@@ -115,7 +115,7 @@ class RenderSystemSFML : public RType::IRuntime
      * @brief Unloads a specific sprite and its associated texture from the cache.
      * @param spriteName The unique name of the sprite to unload.
      */
-    void unloadSprite(const std::string& spriteName);
+    void unloadSprite(const std::string& spriteName) override;
 
     /**
      * @brief Draws a sprite on the window.
@@ -175,7 +175,7 @@ class RenderSystemSFML : public RType::IRuntime
      * "assets/music/background.ogg").
      * @return `true` if the music was preloaded successfully, `false` otherwise.
      */
-    bool loadMusic(const std::string& musicName, const std::string& filePath);
+    bool loadMusic(const std::string& musicName, const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded music.
@@ -185,7 +185,7 @@ class RenderSystemSFML : public RType::IRuntime
      * @param musicName The unique name of the preloaded music to play.
      * @param loop Whether the music should loop continuously (default is `true`).
      */
-    void playMusic(const std::string& musicName, bool loop = true);
+    void playMusic(const std::string& musicName, bool loop = true) override;
 
     /**
      * @brief Stops the currently playing music.
@@ -193,7 +193,7 @@ class RenderSystemSFML : public RType::IRuntime
      * This function stops the playback of any music currently playing. It does not unload
      * the music from memory.
      */
-    void stopCurrentMusic();
+    void stopCurrentMusic() override;
 
     /**
      * @brief Unloads a specific music from the cache.
@@ -203,7 +203,7 @@ class RenderSystemSFML : public RType::IRuntime
      *
      * @param musicName The unique name of the preloaded music to unload.
      */
-    void unloadMusic(const std::string& musicName);
+    void unloadMusic(const std::string& musicName) override;
 
     /**
      * @brief Preloads a sound buffer from file and stores it in a cache.
@@ -212,7 +212,7 @@ class RenderSystemSFML : public RType::IRuntime
      *
      * @return `true` if the sound was preloaded successfully, `false` otherwise.
      */
-    bool loadSound(const std::string& soundName, const std::string& filePath);
+    bool loadSound(const std::string& soundName, const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded sound.
@@ -221,7 +221,7 @@ class RenderSystemSFML : public RType::IRuntime
      *
      * @param soundName The unique name of the preloaded sound to play.
      */
-    void playSound(const std::string& soundName);
+    void playSound(const std::string& soundName) override;
 
     /**
      * @brief Unloads a specific sound from the cache.
@@ -230,7 +230,7 @@ class RenderSystemSFML : public RType::IRuntime
      *
      * @param soundName The unique name of the preloaded sound to unload.
      */
-    void unloadSound(const std::string& soundName);
+    void unloadSound(const std::string& soundName) override;
 
     void loadFont(const std::string& filePath) override;
 

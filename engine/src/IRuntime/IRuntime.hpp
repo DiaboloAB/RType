@@ -102,12 +102,6 @@ class IRuntime
     virtual void loadSprite(const std::string& filePath) = 0;
 
     /**
-     * @brief Unloads a specific sprite and its associated texture from the cache.
-     * @param spriteName The unique name of the sprite to unload.
-     */
-    virtual void unloadSprite(const std::string& spriteName) = 0;
-
-    /**
      * @brief Pure virtual method to draw a sprite on the window.
      *
      * This method must be implemented to render images or sprites
@@ -145,6 +139,26 @@ class IRuntime
      * window has been closed, prompting a shutdown of the rendering loop.
      */
     virtual bool isWindowOpen() = 0;
+    
+    virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
+
+    virtual void unloadTexture(const std::string& textureName) = 0;
+
+    virtual void unloadSprite(const std::string& spriteName) = 0;
+
+    virtual bool loadMusic(const std::string& musicName, const std::string& filePath) = 0;
+    
+    virtual void playMusic(const std::string& musicName, bool loop = true) = 0;
+
+    virtual void stopCurrentMusic() = 0;
+
+    virtual void unloadMusic(const std::string& musicName) = 0;
+
+    virtual bool loadSound(const std::string& soundName, const std::string& filePath) = 0;
+
+    virtual void playSound(const std::string& soundName) = 0;
+
+    virtual void unloadSound(const std::string& soundName) = 0;
 
    private:
     // No private member data defined in this interface.
