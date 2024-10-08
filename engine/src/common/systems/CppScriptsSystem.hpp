@@ -10,6 +10,7 @@
 
 #include <common/components.hpp>
 #include <system/ISystem.hpp>
+#include <common/scriptsComponent.hpp>
 
 #include "../ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
