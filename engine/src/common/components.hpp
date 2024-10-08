@@ -66,6 +66,20 @@ struct Animator
     Animator() {}
 };
 
+struct Timer
+{
+    float time;
+
+    Timer(float time) : time(time) {}
+};
+
+struct Hitbox
+{
+    mlg::vec2 size;
+
+    Hitbox(mlg::vec2 size) : size(size) {}
+};
+
 struct Basics
 {
     std::string tag;

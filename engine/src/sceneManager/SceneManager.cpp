@@ -10,6 +10,7 @@
 #include "common/components.hpp"
 #include "common/cppScripts/helloworld.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
+#include "common/cppScripts/EnemyFactory.hpp"
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
 #include "common/scriptsComponent.hpp"
@@ -191,12 +192,24 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<AnimThrusterScript>());
                     }
+                    else if (script.get<std::string>() == "EnemyFactory")
+                    {
+                        scripts.addScript(std::make_shared<EnemyFactoryScript>());
+                    }
                 }
             }
             else if (componentName == "Network")
             {
                 registry.emplace<NetworkComp>(entity, componentData["id"],
                                               componentData["authority"].get<std::string>());
+            }
+            else if (componentName == "Timer")
+            {
+                registry.emplace<Timer>(entity, componentData["time"].get<float>());
+            }
+            else if (componentName == "Hitbox")
+            {
+                registry.emplace<Hitbox>(entity, mlg::vec3(componentData["size"][0], componentData["size"][1], 0));
             }
             else if (componentName == "Animator")
             {

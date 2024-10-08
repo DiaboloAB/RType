@@ -23,6 +23,17 @@ class Animation
     bool loop;
 
    public:
+   /*
+    * @brief Constructor for Animation
+    * @param filepath: path to the file containing the animation
+    * @param frameCount: number of frames in the animation
+    * @param speed: speed of the animation
+    * @param frameSize: size of each frame
+    * @param scale: scale of the animation
+    * @param rotation: rotation of the animation
+    * @param name: name of the animation
+    * @param loop: boolean to know if the animation should loop
+   */
     Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize,
               const mlg::vec2 &scale, float rotation, std::string name, bool loop);
     ~Animation();
@@ -67,7 +78,6 @@ class Animations
                 time = 0;
                 currentAnim = animName;
                 currentFrame = 0;
-                std::cout << "playing anim: " << animName << std::endl;
                 return;
             }
         }

@@ -5,6 +5,7 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
+          "Hitbox": { "size": [32, 16] },
           "Animator": [
             {
               "name": "default",
@@ -92,6 +93,19 @@
         "components": {
           "Transform": { "position": [0, 0, -1] },
           "Sprite": { "texture": "assets/graphics/background.png" }
+        }
+      },
+      {
+        "tag": "enemy_factory",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [1600, 500, 0] },
+          "Sprite": { "texture": "assets/graphics/enemy/factory.png" },
+          "Timer": { "time": 0 },
+          "Hitbox": { "size": [130, 50] },
+          "CppScripts": [
+            "EnemyFactory"
+          ]
         }
       }
     ]

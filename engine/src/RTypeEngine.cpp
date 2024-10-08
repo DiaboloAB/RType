@@ -12,6 +12,8 @@
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/forward.hpp"
+#include "common/systems/TimerSystem.hpp"
+#include "common/systems/ColisionSystem.hpp"
 
 using namespace RType;
 
@@ -21,6 +23,8 @@ Engine::Engine() : _gameContext(_registry, _sceneManager)
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<CppScriptsSystem>();
+    _systemManager.addSystem<TimerSystem>();
+    _systemManager.addSystem<ColisionSystem>();
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
