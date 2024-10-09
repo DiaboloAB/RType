@@ -15,6 +15,7 @@
 #include "common/cppScripts/AnimThruster.hpp"
 #include "common/cppScripts/RedShipScript.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
+#include "common/cppScripts/Laser.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -207,6 +208,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<PlayerShootScript>());
                     }
+                    else if (script.get<std::string>() == "Laser")
+                    {
+                        scripts.addScript(std::make_shared<LaserScript>());
+                    }
                 }
             }
             else if (componentName == "Network")
@@ -239,6 +244,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                         animation["rotation"].get<float>(), animation["name"].get<std::string>(),
                         animation["loop"].get<bool>()));
                 }
+            }
+            else if (componentName == "Health")
+            {
+                registry.emplace<Health>(entity, componentData["health"].get<int>());
             }
         }
     }

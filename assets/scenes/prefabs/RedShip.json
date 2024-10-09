@@ -8,6 +8,9 @@
             "offSet": [16, 16],
             "isEnemy": true
         },
+        "Health": {
+            "health": 1
+        },
         "Animator": [
             {
                 "name": "default",

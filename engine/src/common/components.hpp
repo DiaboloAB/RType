@@ -87,6 +87,13 @@ struct Hitbox
     Hitbox(mlg::vec2 size, mlg::vec2 offset, bool isEnemy) : size(size), isEnemy(isEnemy), offset(offset) {}
 };
 
+struct Health
+{
+    int health;
+
+    Health(int health) : health(health) {}
+};
+
 struct Basics
 {
     std::string tag;

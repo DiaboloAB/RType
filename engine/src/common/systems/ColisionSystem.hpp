@@ -37,20 +37,41 @@ class ColisionSystem : public ISystem
         auto view = registry.view<Hitbox, Transform>();
         for (auto entity : view)
         {
+            auto &hitbox1 = registry.get<Hitbox>(entity);
+            if (hitbox1.isEnemy)
+                continue;
             for (auto entity2 : view)
             {
-                if (entity == entity2)
+                auto &hitbox2 = registry.get<Hitbox>(entity2);
+                if (!hitbox2.isEnemy)
                     continue;
 
-                auto &hitbox1 = registry.get<Hitbox>(entity);
-                auto &hitbox2 = registry.get<Hitbox>(entity2);
-                if (hitbox1.isEnemy == hitbox2.isEnemy)
-                    continue;
                 auto &transform1 = registry.get<Transform>(entity);
                 auto &transform2 = registry.get<Transform>(entity2);
                 if (intersect(transform1, transform2, hitbox1, hitbox2))
                 {
-                    std::cout << "COLISION" << std::endl;
+                    auto &health1 = registry.get<Health>(entity);
+                    auto &health2 = registry.get<Health>(entity2);
+                    auto &basic = registry.get<Basics>(entity);
+                    auto &basic2 = registry.get<Basics>(entity2);
+
+                    std::cout << basic.tag << " hp: " << health1.health << " " << basic2.tag << " hp: " << health2.health << std::endl;
+
+                    if (health1.health > health2.health)
+                    {
+                        health1.health -= health2.health;
+                        health2.health = 0;
+                    }
+                    else if (health1.health < health2.health)
+                    {
+                        health2.health -= health1.health;
+                        health1.health = 0;
+                    }
+                    else
+                    {
+                        health1.health = 0;
+                        health2.health = 0;
+                    }
                 }
             }
         }

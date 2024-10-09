@@ -11,6 +11,9 @@
             "offSet": [0, 0],
             "isEnemy": false
           },
+          "Health": {
+            "health": 3
+          },
           "Animator": [
             {
               "name": "default",
@@ -112,6 +115,9 @@
             "size": [130, 50],
             "offSet": [0, 0],
             "isEnemy": true
+          },
+          "Health": {
+            "health": 5
           },
           "CppScripts": [
             "EnemyFactory"
