@@ -21,8 +21,8 @@ namespace RType
 class CppScriptsSystem : public ISystem
 {
    public:
-    CppScriptsSystem() {};
-    ~CppScriptsSystem() {};
+    CppScriptsSystem(){};
+    ~CppScriptsSystem(){};
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {

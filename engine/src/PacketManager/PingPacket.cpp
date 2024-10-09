@@ -13,7 +13,7 @@ PingPacket::PingPacket() : APacket(PING) { this->_packetDataSize = 0; }
 
 PingPacket::PingPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-PingPacket::~PingPacket() {};
+PingPacket::~PingPacket(){};
 
 std::vector<char> PingPacket::serializeData() const
 {
