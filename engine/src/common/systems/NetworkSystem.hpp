@@ -110,7 +110,12 @@ class NetworkSystem : public ISystem
         */
         void handlePing (std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
         {
-            return;
+            std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> endpointMap = gameContext._networkHandler->getEndpointMap();
+
+            auto target = endpointMap.find(sender);
+            if (target == endpointMap.end() || target->second.first == false)
+                return;
+            gameContext._networkHandler->updateEndpointMap(sender, true);
         }
 
         /**
