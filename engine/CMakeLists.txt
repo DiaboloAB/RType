@@ -16,6 +16,7 @@ set(SOURCES
     src/NetworkHandler/NetworkHandler.cpp
     src/NetworkHandler/PacketHandler.cpp
     src/NetworkHandler/EndpointState.cpp
+    src/NetworkHandler/NetworkIdHandler.cpp
     src/sceneManager/SceneManager.cpp
     src/PacketManager/APacket.cpp
     src/PacketManager/AdiosServerPacket.cpp

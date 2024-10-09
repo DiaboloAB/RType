@@ -10,6 +10,7 @@
 
 #include <NetworkHandler/EndpointState.hpp>
 #include <PacketManager/APacket.hpp>
+#include <PacketManager/CreateEntityPacket.hpp>
 #include <PacketManager/DestroyEntityPacket.hpp>
 #include <PacketManager/HiClientPacket.hpp>
 #include <PacketManager/HiServerPacket.hpp>
@@ -181,7 +182,36 @@ class NetworkSystem : public ISystem
                             asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                             GameContext &gameContext)
     {
-        return;
+        try
+        {
+            std::shared_ptr<Network::CreateEntityPacket> createPacket =
+                std::dynamic_pointer_cast<Network::CreateEntityPacket>(packet);
+            mobs::Registry::View view = registry.view<NetworkComp>();
+            for (auto &entity : view)
+            {
+                auto &networkC = view.get<NetworkComp>(entity);
+                if (networkC.id == createPacket->getEntityId())
+                {
+                    auto validation = Network::PacketValidationPacket(
+                        createPacket->getPacketType(), createPacket->getPacketTimeStamp());
+                    gameContext._networkHandler->sendNewPacket(validation, sender);
+                    return;
+                }
+            }
+            mobs::Entity newEntity = gameContext._sceneManager.loadPrefab(
+                createPacket->getEntityToCreate(), gameContext);
+            auto &transform = registry.get<Transform>(newEntity);
+            transform.position = mlg::vec3(createPacket->getPosX(), createPacket->getPosY(), 0.0f);
+            auto &networkComp = registry.get<NetworkComp>(newEntity);
+            networkComp.id = createPacket->getEntityId();
+            auto validation = Network::PacketValidationPacket(createPacket->getPacketType(),
+                                                              createPacket->getPacketTimeStamp());
+            gameContext._networkHandler->sendNewPacket(validation, sender);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << "[NETWORK LOG] CREATE ERR : " << e.what() << std::endl;
+        }
     }
 
     /**
@@ -214,7 +244,7 @@ class NetworkSystem : public ISystem
         }
         catch (std::exception &e)
         {
-            std::cerr << "DESTROY ENTITY NETWORK LOG : " << e.what() << std::endl;
+            std::cerr << "[NETWORK LOG] DESTROY ERR : " << e.what() << std::endl;
         }
     }
 
@@ -288,7 +318,7 @@ class NetworkSystem : public ISystem
         }
         catch (std::exception &e)
         {
-            std::cerr << "VALIDATION NETWORK LOG : " << e.what() << std::endl;
+            std::cerr << "[NETWORK LOG] VALIDATION ERR : " << e.what() << std::endl;
         }
     }
 
