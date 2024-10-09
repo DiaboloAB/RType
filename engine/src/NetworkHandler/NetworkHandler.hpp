@@ -24,7 +24,8 @@
 namespace RType::Network
 {
 
-enum GameState : uint8_t {
+enum GameState : uint8_t
+{
     IN_MENU = 0,
     IN_GAME = 1,
 };
@@ -115,14 +116,14 @@ class NetworkHandler
 
     /**
      * @brief Remove endpoint inside enpoint map if this endpoint exist
-     * 
-     * @param endpoint: Endpoint to remove 
+     *
+     * @param endpoint: Endpoint to remove
      */
     void removeEndpointFromMap(asio::ip::udp::endpoint &endpoint);
 
     /**
      * @brief send packet to all conected endpoint
-     * 
+     *
      * @param packet: packet to send.
      */
     void sendToAll(const APacket &packet);

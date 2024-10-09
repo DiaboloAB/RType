@@ -10,8 +10,11 @@
 
 #include <NetworkHandler/EndpointState.hpp>
 #include <PacketManager/APacket.hpp>
+#include <PacketManager/DestroyEntityPacket.hpp>
 #include <PacketManager/HiClientPacket.hpp>
 #include <PacketManager/HiServerPacket.hpp>
+#include <common/components.hpp>
+#include <mobs/mobs.hpp>
 #include <system/ISystem.hpp>
 
 namespace RType
@@ -133,9 +136,12 @@ class NetworkSystem : public ISystem
         gameContext._networkHandler->removeEndpointFromMap(sender);
         Network::DestroyEntityPacket packetToSend(target->second.getNetworkId());
 
-        if (target->second.getConnected() && gameContext._networkHandler->getGameState() == Network::IN_GAME) {
-            endpointMap =  gameContext._networkHandler->getEndpointMap();
-            for (const auto &endpoint : endpointMap) {
+        if (target->second.getConnected() &&
+            gameContext._networkHandler->getGameState() == Network::IN_GAME)
+        {
+            endpointMap = gameContext._networkHandler->getEndpointMap();
+            for (const auto &endpoint : endpointMap)
+            {
                 gameContext._networkHandler->sendNewPacket(packetToSend, endpoint.first);
             }
         }
@@ -190,7 +196,22 @@ class NetworkSystem : public ISystem
                              asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                              GameContext &gameContext)
     {
-        return;
+        try
+        {
+            std::shared_ptr<Network::DestroyEntityPacket> packet =
+                std::dynamic_pointer_cast<Network::DestroyEntityPacket>(packet);
+            mobs::Registry::View view = registry.view<NetworkComp>();
+            for (auto &entity : view)
+            {
+                auto &networkC = view.get<NetworkComp>(entity);
+                if (networkC.id == packet->getEntityId()) registry.kill(entity);
+            }
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << "DESTROY ENTITY NETWORK LOG : " << e.what() << std::endl;
+            return;
+        }
     }
 
     /**
