@@ -107,6 +107,13 @@ class NetworkHandler
      */
     void updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value);
 
+    /**
+     * @brief Remove endpoint inside enpoint map if this endpoint exist
+     * 
+     * @param endpoint: Endpoint to remove 
+     */
+    void removeEndpointFromMap(asio::ip::udp::endpoint &endpoint);
+
    public:
     class NetworkHandlerError : public std::exception
     {

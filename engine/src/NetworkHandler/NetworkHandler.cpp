@@ -126,6 +126,14 @@ void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool va
     target->second.setConnected(value);
 }
 
+void NetworkHandler::removeEndpointFromMap(asio::ip::udp::endpoint &endpoint)
+{
+    auto target = this->_endpointMap.find(endpoint);
+    if (target == this->_endpointMap.end())
+        return;
+    this->_endpointMap.erase(endpoint);
+}
+
 std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
