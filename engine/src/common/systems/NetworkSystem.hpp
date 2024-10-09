@@ -183,19 +183,6 @@ class NetworkSystem : public ISystem
             return;
         }
 
-        /**
-        * @brief KickClient packet handler.
-        *
-        * @param packet: Packet received.
-        * @param sender: Endpoint of the packet sender.
-        * @param registry: Entity handler.
-        * @param gameContext: Object that allow access to engine attributes & methods.
-        * 
-        */
-        void handleKickClient (std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
-        {
-            return;
-        }
 
         /**
         * @brief PacketValidation packet handler.
