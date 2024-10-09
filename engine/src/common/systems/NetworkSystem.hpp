@@ -13,6 +13,7 @@
 #include <PacketManager/DestroyEntityPacket.hpp>
 #include <PacketManager/HiClientPacket.hpp>
 #include <PacketManager/HiServerPacket.hpp>
+#include <PacketManager/PacketValidationPacket.hpp>
 #include <common/components.hpp>
 #include <mobs/mobs.hpp>
 #include <system/ISystem.hpp>
@@ -198,19 +199,22 @@ class NetworkSystem : public ISystem
     {
         try
         {
-            std::shared_ptr<Network::DestroyEntityPacket> packet =
+            std::shared_ptr<Network::DestroyEntityPacket> destroyPacket =
                 std::dynamic_pointer_cast<Network::DestroyEntityPacket>(packet);
+            if (this->getActualTime() - destroyPacket->getPacketTimeStamp() >= 4) return;
             mobs::Registry::View view = registry.view<NetworkComp>();
             for (auto &entity : view)
             {
                 auto &networkC = view.get<NetworkComp>(entity);
-                if (networkC.id == packet->getEntityId()) registry.kill(entity);
+                if (networkC.id == destroyPacket->getEntityId()) registry.kill(entity);
             }
+            auto validation = Network::PacketValidationPacket(destroyPacket->getPacketType(),
+                                                              destroyPacket->getPacketTimeStamp());
+            gameContext._networkHandler->sendNewPacket(validation, sender);
         }
         catch (std::exception &e)
         {
             std::cerr << "DESTROY ENTITY NETWORK LOG : " << e.what() << std::endl;
-            return;
         }
     }
 
@@ -275,7 +279,17 @@ class NetworkSystem : public ISystem
                                 asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                                 GameContext &gameContext)
     {
-        return;
+        try
+        {
+            std::shared_ptr<Network::PacketValidationPacket> validation =
+                std::dynamic_pointer_cast<Network::PacketValidationPacket>(packet);
+            if (this->getActualTime() - validation->getPacketTimeStamp() >= 4) return;
+            gameContext._networkHandler->deleteFromValidationList(validation, sender);
+        }
+        catch (std::exception &e)
+        {
+            std::cerr << "VALIDATION NETWORK LOG : " << e.what() << std::endl;
+        }
     }
 
     /**
@@ -336,6 +350,13 @@ class NetworkSystem : public ISystem
     {
         if (gameContext._networkHandler == nullptr) return;
         this->manageQueue(registry, gameContext);
+    }
+
+    uint64_t getActualTime()
+    {
+        return std::chrono::duration_cast<std::chrono::seconds>(
+                   std::chrono::system_clock::now().time_since_epoch())
+            .count();
     }
 
    private:
