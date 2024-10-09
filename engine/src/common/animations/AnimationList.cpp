@@ -7,7 +7,6 @@
 
 #include "AnimationList.hpp"
 
-
 Animation AnimationList::getAnimation()
 {
     for (auto &anim : animations)

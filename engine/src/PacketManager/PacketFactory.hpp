@@ -73,8 +73,8 @@ class PacketFactory
     class PacketFactoryError : public std::exception
     {
        public:
-        PacketFactoryError(std::string msg) : _msg(msg){};
-        ~PacketFactoryError(){};
+        PacketFactoryError(std::string msg) : _msg(msg) {};
+        ~PacketFactoryError() {};
 
        private:
         const char *what() const noexcept override { return _msg.c_str(); };

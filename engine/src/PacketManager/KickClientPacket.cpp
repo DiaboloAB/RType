@@ -22,7 +22,7 @@ KickClientPacket::KickClientPacket(std::vector<char> &buffer) : APacket(buffer)
     this->_reason = std::string(data, this->getPacketSize() - this->getHeaderSize());
 }
 
-KickClientPacket::~KickClientPacket(){};
+KickClientPacket::~KickClientPacket() {};
 
 std::vector<char> KickClientPacket::serializeData() const
 {

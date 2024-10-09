@@ -12,16 +12,16 @@
 
 /**
  * @class AnimationList
- * @brief Class managing multiple AnimationList.
+ * @brief Class managing multiple Animations.
  */
 class AnimationList
 {
    private:
    public:
-    std::vector<Animation> animations = {}; ///< Vector of Animations.
-    float time = 0; ///< Current time.
-    std::string currentAnim = ""; ///< Name of the current animation.
-    int currentFrame = 0; ///< Current frame number.
+    std::vector<Animation> animations = {};  ///< Vector of Animations.
+    float time = 0;                          ///< Current time.
+    std::string currentAnim = "";            ///< Name of the current animation.
+    int currentFrame = 0;                    ///< Current frame number.
 
     /**
      * @brief Constructor for AnimationList.

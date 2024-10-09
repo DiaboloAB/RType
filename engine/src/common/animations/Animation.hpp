@@ -20,14 +20,14 @@
 class Animation
 {
    private:
-    std::string filepath; ///< Path to the file containing the animation.
-    int frameCount; ///< Number of frames in the animation.
-    float speed; ///< Speed of the animation.
-    mlg::vec2 frameSize; ///< Size of each frame.
-    mlg::vec2 scale; ///< Scale of the animation.
-    float rotation; ///< Rotation of the animation.
-    std::string name; ///< Name of the animation.
-    bool loop; ///< Boolean to know if the animation should loop.
+    std::string filepath;  ///< Path to the file containing the animation.
+    int frameCount;        ///< Number of frames in the animation.
+    float speed;           ///< Speed of the animation.
+    mlg::vec2 frameSize;   ///< Size of each frame.
+    mlg::vec2 scale;       ///< Scale of the animation.
+    float rotation;        ///< Rotation of the animation.
+    std::string name;      ///< Name of the animation.
+    bool loop;             ///< Boolean to know if the animation should loop.
 
    public:
     /**

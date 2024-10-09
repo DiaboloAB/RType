@@ -10,9 +10,9 @@
 namespace RType::Network
 {
 
-PacketHandler::PacketHandler(){};
+PacketHandler::PacketHandler() {};
 
-PacketHandler::~PacketHandler(){};
+PacketHandler::~PacketHandler() {};
 
 void PacketHandler::insertToReceiveQueue(const std::shared_ptr<APacket> &packet,
                                          const asio::ip::udp::endpoint &enpoint)
