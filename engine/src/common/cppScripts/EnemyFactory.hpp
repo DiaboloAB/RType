@@ -11,7 +11,6 @@
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
 
-
 namespace RType
 {
 
@@ -21,12 +20,14 @@ class EnemyFactoryScript : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &timer = registry.get<CoolDown>(_entity).timer;
-        if (timer.getTime() > 2.0f) {
+        if (timer.getTime() > 2.0f)
+        {
             timer.reset();
-            
+
             auto &pos = registry.get<Transform>(_entity);
             gameContext._runtime->loadSprite("assets/graphics/enemy/red_ship.png");
-            mobs::Entity newEntity = gameContext._sceneManager.loadPrefab("RedShip.json", gameContext);
+            mobs::Entity newEntity =
+                gameContext._sceneManager.loadPrefab("RedShip.json", gameContext);
 
             auto &transform = registry.get<Transform>(newEntity);
             transform.position = mlg::vec3(pos.position.x, pos.position.y, 0.0f);

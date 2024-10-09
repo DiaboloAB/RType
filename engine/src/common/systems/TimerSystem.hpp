@@ -8,8 +8,8 @@
 #ifndef TIMERSYSTEM_H
 #define TIMERSYSTEM_H
 
-#include <system/ISystem.hpp>
 #include <common/components.hpp>
+#include <system/ISystem.hpp>
 // std
 
 namespace RType

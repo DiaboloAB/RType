@@ -23,7 +23,7 @@ DestroyEntityPacket::DestroyEntityPacket(std::vector<char> &buffer) : APacket(bu
     std::memcpy(&this->_entityId, data, sizeof(uint32_t));
 }
 
-DestroyEntityPacket::~DestroyEntityPacket(){};
+DestroyEntityPacket::~DestroyEntityPacket() {};
 
 std::vector<char> DestroyEntityPacket::serializeData() const
 {

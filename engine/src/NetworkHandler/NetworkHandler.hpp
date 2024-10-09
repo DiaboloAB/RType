@@ -105,8 +105,8 @@ class NetworkHandler
     class NetworkHandlerError : public std::exception
     {
        public:
-        NetworkHandlerError(std::string msg) : _msg(msg){};
-        ~NetworkHandlerError(){};
+        NetworkHandlerError(std::string msg) : _msg(msg) {};
+        ~NetworkHandlerError() {};
 
        private:
         const char *what() const noexcept override { return _msg.c_str(); };

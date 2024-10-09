@@ -11,8 +11,8 @@
 #include <mlg/mlg.hpp>
 
 #include "animations/Animation.hpp"
-#include "timer/Timer.hpp"
 #include "mobs/mobs.hpp"
+#include "timer/Timer.hpp"
 
 // std
 #include <iostream>
@@ -26,7 +26,7 @@ struct NetworkComp
     uint32_t id;
     std::string authority;
 
-    NetworkComp(uint32_t id, std::string authority) : id(id), authority(authority){};
+    NetworkComp(uint32_t id, std::string authority) : id(id), authority(authority) {};
 };
 
 struct Transform
@@ -73,8 +73,7 @@ struct CoolDown
 
     CoolDown(bool active)
     {
-        if (active)
-            timer.start();
+        if (active) timer.start();
     }
 };
 
@@ -84,7 +83,10 @@ struct Hitbox
     mlg::vec2 offset;
     bool isEnemy;
 
-    Hitbox(mlg::vec2 size, mlg::vec2 offset, bool isEnemy) : size(size), isEnemy(isEnemy), offset(offset) {}
+    Hitbox(mlg::vec2 size, mlg::vec2 offset, bool isEnemy)
+        : size(size), isEnemy(isEnemy), offset(offset)
+    {
+    }
 };
 
 struct Health
