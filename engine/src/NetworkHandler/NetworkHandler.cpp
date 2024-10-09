@@ -83,6 +83,9 @@ void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
 {
     std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
     std::shared_ptr<APacket> packet = nullptr;
+    auto sender = this->_endpointMap.find(remoteEndpoint);
+    if (this->_state == IN_GAME && (sender == this->_endpointMap.end() || !sender->second.getConnected()))
+        return;
     try
     {
         packet = this->_factory.createPacketFromBuffer(buffer);
