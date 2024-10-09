@@ -15,6 +15,7 @@ set(SOURCES
     src/common/animations/Animation.cpp
     src/NetworkHandler/NetworkHandler.cpp
     src/NetworkHandler/PacketHandler.cpp
+    src/NetworkHandler/EndpointState.cpp
     src/sceneManager/SceneManager.cpp
     src/PacketManager/APacket.cpp
     src/PacketManager/AdiosServerPacket.cpp
