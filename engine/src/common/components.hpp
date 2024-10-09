@@ -10,7 +10,7 @@
 
 #include <mlg/mlg.hpp>
 
-#include "animations/Animation.hpp"
+#include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
 #include "timer/Timer.hpp"
 
@@ -62,7 +62,7 @@ struct Sprite
 
 struct Animator
 {
-    Animations animations = Animations();
+    AnimationList animations = AnimationList();
 
     Animator() {}
 };

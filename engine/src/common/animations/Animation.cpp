@@ -22,3 +22,8 @@ Animation::Animation(const std::string &filepath, int frameCount, float speed,
 }
 
 Animation::~Animation() {}
+
+mlg::vec4 Animation::getSpriteCoords(int frame)
+{
+    return mlg::vec4(frame * frameSize.x, 0, frameSize.x, frameSize.y);
+}
