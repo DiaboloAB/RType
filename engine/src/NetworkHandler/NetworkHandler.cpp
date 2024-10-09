@@ -120,8 +120,11 @@ void NetworkHandler::deleteFromValidationList(
 
 void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value)
 {
-    //faire un find et update le bool et la clock
-    return;
+    auto target = this->_endpointMap.find(endpoint);
+    if (target == this->_endpointMap.end())
+        return;
+    target->second.setLastPing(std::chrono::steady_clock::now());
+    target->second.setConnected(value);
 }
 
 std::string NetworkHandler::getHost() const { return this->_host; }
