@@ -30,15 +30,22 @@ class ScrollSystem : public ISystem
             Basics &basics = registry.get<Basics>(entity);
 
             if (basics.tag == "background")
+            {
                 continue;
+            }
             if (basics.tag == "player" && transform.position.x < 0)
+            {
                 continue;
+            }
             if (basics.tag == "thruster" && transform.position.x < -64)
+            {
                 continue;
-
+            }
             transform.position.x -= 20 * gameContext._deltaT;
             if (transform.position.x < -100)
+            {
                 registry.kill(entity);
+            }
         }
     }
 

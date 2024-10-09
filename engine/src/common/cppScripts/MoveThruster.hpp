@@ -25,8 +25,6 @@ class MoveThrusterScript : public RType::ICppScript
         const int thrusterheight = 32;
         const int thrusterWidth = 64;
 
-
-
         if (gameContext._runtime->getKey(KeyCode::UpArrow))
         {
             auto &transform = registry.get<Transform>(_entity);
