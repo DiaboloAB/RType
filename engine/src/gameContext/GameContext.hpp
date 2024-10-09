@@ -8,7 +8,6 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
-#include <IRuntime/IRuntime.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>

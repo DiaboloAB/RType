@@ -16,4 +16,4 @@
 
 mlg::vec3 hexaColorToVec3(std::string hexa);
 
-#endif // HEXATOVEC3_H
+#endif  // HEXATOVEC3_H

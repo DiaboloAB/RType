@@ -8,8 +8,9 @@
 #ifndef DRAWABLESYSTEM_H
 #define DRAWABLESYSTEM_H
 
-#include "common/components.hpp"
 #include <system/ISystem.hpp>
+
+#include "common/components.hpp"
 // std
 
 namespace RType
@@ -17,10 +18,9 @@ namespace RType
 
 class DrawableSystem : public ISystem
 {
-public:
+   public:
     DrawableSystem() {}
     ~DrawableSystem() {}
-
 
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
@@ -35,10 +35,10 @@ public:
 
     // Setters
 
-private:
+   private:
     // Member variables
 };
 
-}
+}  // namespace RType
 
-#endif // DRAWABLESYSTEM_H
+#endif  // DRAWABLESYSTEM_H

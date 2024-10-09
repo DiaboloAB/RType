@@ -30,18 +30,19 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
 
-
     _runtime = new RenderSystemSFML();
     _currentTime = std::chrono::high_resolution_clock::now();
     _deltaT = 0.0f;
 
-    try {
+    try
+    {
         std::vector<std::string> fontList = j["fontList"];
         for (const auto &font : fontList)
         {
             _runtime->loadFont(font);
         }
-    } catch (const std::exception &e)
+    }
+    catch (const std::exception &e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
     }
