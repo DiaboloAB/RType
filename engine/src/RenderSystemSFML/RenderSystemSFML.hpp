@@ -115,7 +115,8 @@ class RenderSystemSFML : public RType::IRuntime
     void unloadSprite(const std::string& spriteName) override;
 
     /**
-     * @brief Draws a sprite on the window at a specific position, with given coordinates, scale, and rotation.
+     * @brief Draws a sprite on the window at a specific position, with given coordinates, scale,
+     * and rotation.
      * @param spriteName The name of the sprite.
      * @param position The position where the sprite will be drawn.
      * @param spriteCoords The coordinates and size of the sprite within the texture.
@@ -186,7 +187,8 @@ class RenderSystemSFML : public RType::IRuntime
     /**
      * @brief Provides access to the SFML render window.
      *
-     * This function returns a reference to the rendering window used for drawing in the application.
+     * This function returns a reference to the rendering window used for drawing in the
+     * application.
      * @return sf::RenderWindow& Reference to the SFML window instance used for rendering.
      */
     sf::RenderWindow& getWindow() { return this->_window; }
@@ -194,7 +196,8 @@ class RenderSystemSFML : public RType::IRuntime
     /**
      * @brief Preloads a music file and stores it in a cache.
      * @param musicName The unique name used to reference the music.
-     * @param filePath The file path of the music file to load (e.g., "assets/music/background.ogg").
+     * @param filePath The file path of the music file to load (e.g.,
+     * "assets/music/background.ogg").
      * @return `true` if the music was preloaded successfully, `false` otherwise.
      */
     bool loadMusic(const std::string& musicName, const std::string& filePath) override;
@@ -241,7 +244,8 @@ class RenderSystemSFML : public RType::IRuntime
      * @brief Unloads a specific sound from the cache.
      * @param soundName The unique name of the preloaded sound to unload.
      *
-     * This function removes a preloaded sound from the cache, freeing the memory associated with it.
+     * This function removes a preloaded sound from the cache, freeing the memory associated with
+     * it.
      */
     void unloadSound(const std::string& soundName) override;
 
