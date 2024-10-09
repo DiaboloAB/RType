@@ -114,6 +114,14 @@ void NetworkHandler::receiveData()
         });
 }
 
+void NetworkHandler::sendToAll(const APacket &packet)
+{
+    for (auto &endpoint : this->_endpointMap) {
+        if (endpoint.second.getConnected())
+            this->sendData(packet, endpoint.first);
+    }
+}
+
 void NetworkHandler::deleteFromValidationList(
     const std::shared_ptr<PacketValidationPacket> &validation,
     const asio::ip::udp::endpoint &endpoint)
@@ -153,6 +161,8 @@ std::map<asio::ip::udp::endpoint, EndpointState> NetworkHandler::getEndpointMap(
 }
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
+
+GameState NetworkHandler::getGameState() const { return this->_state; }
 
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 

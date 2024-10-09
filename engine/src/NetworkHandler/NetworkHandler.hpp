@@ -120,6 +120,13 @@ class NetworkHandler
      */
     void removeEndpointFromMap(asio::ip::udp::endpoint &endpoint);
 
+    /**
+     * @brief send packet to all conected endpoint
+     * 
+     * @param packet: packet to send.
+     */
+    void sendToAll(const APacket &packet);
+
    public:
     class NetworkHandlerError : public std::exception
     {
@@ -141,6 +148,7 @@ class NetworkHandler
     std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
     getPacketQueue() const;
     std::map<asio::ip::udp::endpoint, EndpointState> getEndpointMap() const;
+    GameState getGameState() const;
 
    public:
     void setHost(const std::string host);
