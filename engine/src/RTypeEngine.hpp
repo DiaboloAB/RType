@@ -10,10 +10,7 @@
 #include <mlg/mlg.hpp>
 
 #include "NetworkHandler/NetworkHandler.hpp"
-#include "common/components.hpp"
 #include "gameContext/GameContext.hpp"
-#include "mobs/mobs.hpp"
-#include "sceneManager/SceneManager.hpp"
 #include "system/SystemManager.hpp"
 // std
 #include <chrono>
