@@ -84,7 +84,7 @@ void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
     std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
     std::shared_ptr<APacket> packet = nullptr;
     auto sender = this->_endpointMap.find(remoteEndpoint);
-    if (this->_state == IN_GAME && (sender == this->_endpointMap.end() || !sender->second.getConnected()))
+    if (this->_gameState == IN_GAME && (sender == this->_endpointMap.end() || !sender->second.getConnected()))
         return;
     try
     {
@@ -162,7 +162,7 @@ std::map<asio::ip::udp::endpoint, EndpointState> NetworkHandler::getEndpointMap(
 
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
 
-GameState NetworkHandler::getGameState() const { return this->_state; }
+GameState NetworkHandler::getGameState() const { return this->_gameState; }
 
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 

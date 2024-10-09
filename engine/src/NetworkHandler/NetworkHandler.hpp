@@ -158,7 +158,7 @@ class NetworkHandler
     std::string _host = "";
     unsigned int _port = 0;
     bool _isServer = false;
-    GameState _state = IN_MENU;
+    GameState _gameState = IN_MENU;
     std::array<char, 1024> _recvBuffer;
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
