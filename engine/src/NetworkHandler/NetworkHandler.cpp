@@ -16,13 +16,15 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
     asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
     this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
 
+    EndpointState newEndpointState;
+
     if (!isServer)
     {
         asio::ip::udp::resolver resolver(this->_io_context);
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(host, std::to_string(port));
         asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
-        this->_endpointMap.insert_or_assign(serverEndpoint, std::make_pair(false, std::chrono::steady_clock::now()));
+        this->_endpointMap.insert_or_assign(serverEndpoint, newEndpointState);
     }
 
     this->receiveData();
@@ -118,8 +120,8 @@ void NetworkHandler::deleteFromValidationList(
 
 void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value)
 {
-    std::chrono::time_point<std::chrono::steady_clock> pingClock = std::chrono::steady_clock::now();
-    this->_endpointMap.insert_or_assign(endpoint, std::make_pair(value, pingClock));
+    //faire un find et update le bool et la clock
+    return;
 }
 
 std::string NetworkHandler::getHost() const { return this->_host; }
@@ -132,7 +134,7 @@ NetworkHandler::getPacketQueue() const
     return this->_packetHandler.getReceiveQueue();
 }
 
-std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> NetworkHandler::getEndpointMap() const
+std::map<asio::ip::udp::endpoint, EndpointState> NetworkHandler::getEndpointMap() const
 {
     return this->_endpointMap;
 }

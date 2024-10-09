@@ -12,6 +12,7 @@
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/HiServerPacket.hpp>
 #include <PacketManager/HiClientPacket.hpp>
+#include <NetworkHandler/EndpointState.hpp>
 
 namespace RType
 {
@@ -58,7 +59,7 @@ class NetworkSystem : public ISystem
         {
             if (!gameContext._networkHandler->getIsServer())
                return;
-            std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> endpointMap = gameContext._networkHandler->getEndpointMap();
+            std::map<asio::ip::udp::endpoint, Network::EndpointState> endpointMap = gameContext._networkHandler->getEndpointMap();
             Network::HiClientPacket packetToSend;
             if (endpointMap.count(sender) == 0)
                 gameContext._networkHandler->updateEndpointMap(sender, false);
@@ -78,7 +79,7 @@ class NetworkSystem : public ISystem
         {
             if (gameContext._networkHandler->getIsServer())
                return;
-            std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> endpointMap = gameContext._networkHandler->getEndpointMap();
+            std::map<asio::ip::udp::endpoint, Network::EndpointState> endpointMap = gameContext._networkHandler->getEndpointMap();
             Network::PacketValidationPacket packetToSend(Network::HICLIENT, packet->getPacketTimeStamp());
             if (endpointMap.count(sender) == 1)
                 gameContext._networkHandler->updateEndpointMap(sender, true);
@@ -110,10 +111,10 @@ class NetworkSystem : public ISystem
         */
         void handlePing (std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
         {
-            std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> endpointMap = gameContext._networkHandler->getEndpointMap();
+            std::map<asio::ip::udp::endpoint, Network::EndpointState> endpointMap = gameContext._networkHandler->getEndpointMap();
 
             auto target = endpointMap.find(sender);
-            if (target == endpointMap.end() || target->second.first == false)
+            if (target == endpointMap.end() || target->second.getConnected())
                 return;
             gameContext._networkHandler->updateEndpointMap(sender, true);
         }

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <NetworkHandler/PacketHandler.hpp>
+#include <NetworkHandler/EndpointState.hpp>
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/PacketFactory.hpp>
 #include <asio.hpp>
@@ -127,8 +128,7 @@ class NetworkHandler
     bool getIsServer() const;
     std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
     getPacketQueue() const;
-    std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> 
-    getEndpointMap() const;
+    std::map<asio::ip::udp::endpoint, EndpointState> getEndpointMap() const;
 
    public:
     void setHost(const std::string host);
@@ -141,8 +141,7 @@ class NetworkHandler
     std::array<char, 1024> _recvBuffer;
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-    std::map<asio::ip::udp::endpoint, std::pair<bool,
-    std::chrono::time_point<std::chrono::steady_clock>>> _endpointMap = {};
+    std::map<asio::ip::udp::endpoint, EndpointState> _endpointMap = {};
     std::thread _thread;
     PacketFactory _factory;
     PacketHandler _packetHandler;
