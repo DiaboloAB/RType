@@ -9,13 +9,13 @@
 #define GAMECONTEXT_H
 
 #include <IRuntime/IRuntime.hpp>
+#include <NetworkHandler/NetworkHandler.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
+#include <chrono>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
 
 #include "common/components.hpp"
-#include <NetworkHandler/NetworkHandler.hpp>
-#include <chrono>
 
 namespace RType
 {

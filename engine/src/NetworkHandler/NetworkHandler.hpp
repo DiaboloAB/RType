@@ -7,19 +7,19 @@
 
 #pragma once
 
-#include <NetworkHandler/PacketHandler.hpp>
 #include <NetworkHandler/EndpointState.hpp>
+#include <NetworkHandler/PacketHandler.hpp>
 #include <PacketManager/APacket.hpp>
 #include <PacketManager/PacketFactory.hpp>
 #include <asio.hpp>
+#include <chrono>
 #include <iostream>
 #include <list>
+#include <map>
 #include <queue>
 #include <string>
 #include <thread>
 #include <utility>
-#include <chrono>
-#include <map>
 
 namespace RType::Network
 {
@@ -98,9 +98,8 @@ class NetworkHandler
     void deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation,
                                   const asio::ip::udp::endpoint &endpoint);
 
-
     /**
-     * @brief Update value of the key element (endpoint) in the map if it exist. 
+     * @brief Update value of the key element (endpoint) in the map if it exist.
      * Add it to map else.
      *
      * @param endpoint: Key of the map element.

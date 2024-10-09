@@ -121,8 +121,7 @@ void NetworkHandler::deleteFromValidationList(
 void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value)
 {
     auto target = this->_endpointMap.find(endpoint);
-    if (target == this->_endpointMap.end())
-        return;
+    if (target == this->_endpointMap.end()) return;
     target->second.setLastPing(std::chrono::steady_clock::now());
     target->second.setConnected(value);
 }

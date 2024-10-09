@@ -28,7 +28,8 @@ PacketFactory::PacketFactory()
     this->_creationMap[UPDATEENTITY] = [](std::vector<char> &buffer)
     { return std::make_shared<UpdateEntityPacket>(buffer); };
     this->_creationMap[CLIENTEVENT] = [](std::vector<char> &buffer)
-    { return std::make_shared<ClientEventPacket>(buffer); };;
+    { return std::make_shared<ClientEventPacket>(buffer); };
+    ;
     this->_creationMap[PACKETVALIDATION] = [](std::vector<char> &buffer)
     { return std::make_shared<PacketValidationPacket>(buffer); };
 }
