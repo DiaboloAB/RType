@@ -23,7 +23,7 @@ class LaserScript : public RType::ICppScript
         auto &transform = registry.get<Transform>(_entity);
         transform.position.x += speed * gameContext._deltaT;
 
-        if (transform.position.x > 1600)
+        if (transform.position.x > 2000)
         {
             registry.kill(_entity);
         }

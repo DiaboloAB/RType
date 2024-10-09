@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef MOVEPLAYER_HPP
-#define MOVEPLAYER_HPP
+#ifndef MOVETHRUSTER_HPP
+#define MOVETHRUSTER_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -14,18 +14,25 @@
 namespace RType
 {
 
-class MovePlayerScript : public RType::ICppScript
+class MoveThrusterScript : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        int speed = 600;
+        const int speed = 600;
+        const int playerHeight = 16;
+        const int playerWidth = 64;
+        const int thrusterheight = 32;
+        const int thrusterWidth = 64;
+
+
+
         if (gameContext._runtime->getKey(KeyCode::UpArrow))
         {
             auto &transform = registry.get<Transform>(_entity);
-            if (transform.position.y < 0)
+            if (transform.position.y < 0 - playerHeight)
             {
-                transform.position.y = 0;
+                transform.position.y = 0 - playerHeight;
                 return;
             }
             transform.position.y -= speed * gameContext._deltaT;
@@ -33,10 +40,9 @@ class MovePlayerScript : public RType::ICppScript
         if (gameContext._runtime->getKey(KeyCode::DownArrow))
         {
             auto &transform = registry.get<Transform>(_entity);
-            Hitbox &hitbox = registry.get<Hitbox>(_entity);
-            if (transform.position.y > 1080 - hitbox.size.y)
+            if (transform.position.y > 1080 - thrusterheight - playerHeight)
             {
-                transform.position.y = 1080 - hitbox.size.y;
+                transform.position.y = 1080 - thrusterheight - playerHeight;
                 return;
             }
             transform.position.y += speed * gameContext._deltaT;
@@ -44,9 +50,9 @@ class MovePlayerScript : public RType::ICppScript
         if (gameContext._runtime->getKey(KeyCode::LeftArrow))
         {
             auto &transform = registry.get<Transform>(_entity);
-            if (transform.position.x < 0)
+            if (transform.position.x < 0 - thrusterWidth)
             {
-                transform.position.x = 0;
+                transform.position.x = 0 - thrusterWidth;
                 return;
             }
             transform.position.x -= speed * gameContext._deltaT;
@@ -54,10 +60,9 @@ class MovePlayerScript : public RType::ICppScript
         if (gameContext._runtime->getKey(KeyCode::RightArrow))
         {
             auto &transform = registry.get<Transform>(_entity);
-            auto &hitbox = registry.get<Hitbox>(_entity);
-            if (transform.position.x > 1920 - hitbox.size.x)
+            if (transform.position.x > 1920 - playerWidth - thrusterWidth)
             {
-                transform.position.x = 1920 - hitbox.size.x;
+                transform.position.x = 1920 - playerWidth - thrusterWidth;
                 return;
             }
             transform.position.x += speed * gameContext._deltaT;
@@ -71,4 +76,4 @@ class MovePlayerScript : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // MOVEPLAYER_HPP
+#endif  // MOVETHRUSTER_HPP
