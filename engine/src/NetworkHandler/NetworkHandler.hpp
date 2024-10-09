@@ -17,6 +17,7 @@
 #include <string>
 #include <thread>
 #include <utility>
+#include <chrono>
 #include <map>
 
 namespace RType::Network
@@ -55,13 +56,6 @@ class NetworkHandler
      * @param endpoint: Endpoint target to send packet to.
      */
     void sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
-
-    /**
-     * @brief Getter for NetworkHandler endpoint list.
-     *
-     * @return Endpoint list of the NetworkHandler.
-     */
-    std::map<asio::ip::udp::endpoint, bool> getEndpointMap() const;
 
    public:
     /**
@@ -133,6 +127,8 @@ class NetworkHandler
     bool getIsServer() const;
     std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
     getPacketQueue() const;
+    std::map<asio::ip::udp::endpoint, std::pair<bool, std::chrono::time_point<std::chrono::steady_clock>>> 
+    getEndpointMap() const;
 
    public:
     void setHost(const std::string host);
@@ -145,7 +141,8 @@ class NetworkHandler
     std::array<char, 1024> _recvBuffer;
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-    std::map<asio::ip::udp::endpoint, bool> _endpointMap = {};
+    std::map<asio::ip::udp::endpoint, std::pair<bool,
+    std::chrono::time_point<std::chrono::steady_clock>>> _endpointMap = {};
     std::thread _thread;
     PacketFactory _factory;
     PacketHandler _packetHandler;
