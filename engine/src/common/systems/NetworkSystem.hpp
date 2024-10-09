@@ -141,7 +141,7 @@ class NetworkSystem : public ISystem
             gameContext._networkHandler->getEndpointMap();
 
         auto target = endpointMap.find(sender);
-        if (target == endpointMap.end() || target->second.getConnected()) return;
+        if (target == endpointMap.end() || !target->second.getConnected()) return;
         gameContext._networkHandler->updateEndpointMap(sender, true);
     }
 
