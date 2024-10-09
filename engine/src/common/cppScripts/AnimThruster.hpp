@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef CHANGEANIM_H
-#define CHANGEANIM_H
+#ifndef ANIMTHRUSTER_HPP
+#define ANIMTHRUSTER_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -14,21 +14,21 @@
 namespace RType
 {
 
-class ChangeAnimScript : public RType::ICppScript
+class AnimThrusterScript : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (gameContext._runtime->getKeyDown(KeyCode::P))
+        int speed = 300;
+        if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
-            auto viewAnim = registry.view<Transform, Animator, Basics>();
-            for (auto entity : viewAnim)
-            {
-                Basics &basics = viewAnim.get<Basics>(entity);
-                if (basics.tag != "entity1") continue;
-                Animations &animations = viewAnim.get<Animator>(entity).animations;
-                animations.playAnim("running");
-            }
+            Animations &animations = registry.get<Animator>(_entity).animations;
+            animations.playAnim("low");
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
+        {
+            Animations &animations = registry.get<Animator>(_entity).animations;
+            animations.playAnim("default");
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
@@ -39,4 +39,4 @@ class ChangeAnimScript : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // CHANGEANIM_H
+#endif  // ANIMTHRUSTER_HPP
