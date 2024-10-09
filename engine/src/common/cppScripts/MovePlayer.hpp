@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef MovePlayer_HPP
-#define MovePlayer_HPP
+#ifndef MOVEPLAYER_HPP
+#define MOVEPLAYER_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -49,4 +49,4 @@ class MovePlayerScript : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // MovePlayer_HPP
+#endif  // MOVEPLAYER_HPP

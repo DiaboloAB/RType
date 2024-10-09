@@ -11,6 +11,7 @@
 #include <mlg/mlg.hpp>
 
 #include "animations/Animation.hpp"
+#include "timer/Timer.hpp"
 #include "mobs/mobs.hpp"
 
 // std
@@ -66,11 +67,15 @@ struct Animator
     Animator() {}
 };
 
-struct Timer
+struct CoolDown
 {
-    float time;
+    Timer timer;
 
-    Timer(float time) : time(time) {}
+    CoolDown(bool active)
+    {
+        if (active)
+            timer.start();
+    }
 };
 
 struct Hitbox

@@ -9,6 +9,7 @@
 #define TIMERSYSTEM_H
 
 #include <system/ISystem.hpp>
+#include <common/components.hpp>
 // std
 
 namespace RType
@@ -22,11 +23,14 @@ class TimerSystem : public ISystem
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto view = registry.view<Timer>();
+        auto view = registry.view<CoolDown>();
         for (auto entity : view)
         {
-            auto &timer = view.get<Timer>(entity);
-            timer.time += gameContext._deltaT;
+            Timer &timer = view.get<CoolDown>(entity).timer;
+            if (timer.getState())
+            {
+                timer.setTime(timer.getTime() + gameContext._deltaT);
+            }
         }
     }
 

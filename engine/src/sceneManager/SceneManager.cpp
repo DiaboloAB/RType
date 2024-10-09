@@ -14,6 +14,7 @@
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
 #include "common/cppScripts/RedShipScript.hpp"
+#include "common/cppScripts/PlayerShoot.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -202,6 +203,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<RedShipScript>());
                     }
+                    else if (script.get<std::string>() == "PlayerShoot")
+                    {
+                        scripts.addScript(std::make_shared<PlayerShootScript>());
+                    }
                 }
             }
             else if (componentName == "Network")
@@ -211,7 +216,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             }
             else if (componentName == "Timer")
             {
-                registry.emplace<Timer>(entity, componentData["time"].get<float>());
+                registry.emplace<CoolDown>(entity, componentData["active"].get<bool>());
             }
             else if (componentName == "Hitbox")
             {

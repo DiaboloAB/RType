@@ -5,31 +5,30 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef ENEMYFACTORY_HPP
-#define ENEMYFACTORY_HPP
+#ifndef PLAYERSHOOT_HPP
+#define PLAYERSHOOT_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
 
-
 namespace RType
 {
 
-class EnemyFactoryScript : public RType::ICppScript
+class PlayerShootScript : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto &timer = registry.get<CoolDown>(_entity).timer;
-        if (timer.getTime() > 2.0f) {
+        Timer &timer = registry.get<CoolDown>(_entity).timer;
+        if (gameContext._runtime->getKeyDown(KeyCode::Space))
+        {
+            timer.start();
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::Space))
+        {
+            std::cout << "Space released at: " << timer.getTime() << std::endl;
             timer.reset();
-            
-            auto &pos = registry.get<Transform>(_entity);
-            gameContext._runtime->loadSprite("assets/graphics/enemy/red_ship.png");
-            mobs::Entity newEntity = gameContext._sceneManager.loadPrefab("RedShip.json", gameContext);
-
-            auto &transform = registry.get<Transform>(newEntity);
-            transform.position = mlg::vec3(pos.position.x, pos.position.y, 0.0f);
+            timer.stop();
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
@@ -40,4 +39,4 @@ class EnemyFactoryScript : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // ENEMYFACTORY_HPP
+#endif  // PLAYERSHOOT_HPP
