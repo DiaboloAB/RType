@@ -53,10 +53,10 @@ class PacketValidationPacket : public APacket
 
    public:
     PacketType getPacketReceiveType() const;
-    uint64_t getPacketTimeStamp() const;
+    uint64_t getPacketReceiveTimeStamp() const;
 
    private:
     PacketType _packetReceiveType;
-    uint64_t _packetTimeStamp;
+    uint64_t _packetReceiveTimeStamp;
 };
 }  // namespace RType::Network
