@@ -122,7 +122,23 @@ class NetworkSystem : public ISystem
                            asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                            GameContext &gameContext)
     {
-        return;
+        if (!gameContext._networkHandler->getIsServer()) return;
+
+        std::map<asio::ip::udp::endpoint, Network::EndpointState> endpointMap =
+            gameContext._networkHandler->getEndpointMap();
+
+        auto target = endpointMap.find(sender);
+        if (target == endpointMap.end()) return;
+
+        gameContext._networkHandler->removeEndpointFromMap(sender);
+        Network::DestroyEntityPacket packetToSend(target->second.getNetworkId());
+
+        if (target->second.getConnected() && gameContext._networkHandler->getGameState() == Network::IN_GAME) {
+            endpointMap =  gameContext._networkHandler->getEndpointMap();
+            for (const auto &endpoint : endpointMap) {
+                gameContext._networkHandler->sendNewPacket(packetToSend, endpoint.first);
+            }
+        }
     }
 
     /**
