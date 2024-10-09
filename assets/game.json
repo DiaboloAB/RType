@@ -3,6 +3,6 @@
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
-    "defaultScene": "scenes2.json",
+    "defaultScene": "scenes1.json",
     "network": true
 }

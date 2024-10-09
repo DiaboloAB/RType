@@ -29,7 +29,7 @@ class SceneManager
     ~SceneManager();
 
     void loadScene(const std::string &sceneName, GameContext &gameContext);
-    void loadPrefab(const std::string &prefabName, GameContext &gameContext);
+    mobs::Entity loadPrefab(const std::string &prefabName, GameContext &gameContext);
 
     void update(GameContext &gameContext);
 

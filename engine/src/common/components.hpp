@@ -12,6 +12,7 @@
 
 #include "animations/Animation.hpp"
 #include "mobs/mobs.hpp"
+#include "timer/Timer.hpp"
 
 // std
 #include <iostream>
@@ -64,6 +65,35 @@ struct Animator
     Animations animations = Animations();
 
     Animator() {}
+};
+
+struct CoolDown
+{
+    Timer timer;
+
+    CoolDown(bool active)
+    {
+        if (active) timer.start();
+    }
+};
+
+struct Hitbox
+{
+    mlg::vec2 size;
+    mlg::vec2 offset;
+    bool isEnemy;
+
+    Hitbox(mlg::vec2 size, mlg::vec2 offset, bool isEnemy)
+        : size(size), isEnemy(isEnemy), offset(offset)
+    {
+    }
+};
+
+struct Health
+{
+    int health;
+
+    Health(int health) : health(health) {}
 };
 
 struct Basics
