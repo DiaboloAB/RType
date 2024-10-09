@@ -91,7 +91,7 @@
             }
           ],
           "CppScripts": [
-            "MovePlayer",
+            "MoveThruster",
             "AnimThruster"
           ]
         }

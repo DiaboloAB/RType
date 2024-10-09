@@ -13,6 +13,7 @@
 #include "common/cppScripts/EnemyFactory.hpp"
 #include "common/cppScripts/Laser.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
+#include "common/cppScripts/MoveThruster.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
 #include "common/cppScripts/RedShipScript.hpp"
 #include "common/cppScripts/helloworld.hpp"
@@ -211,6 +212,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     else if (script.get<std::string>() == "Laser")
                     {
                         scripts.addScript(std::make_shared<LaserScript>());
+                    }
+                    else if (script.get<std::string>() == "MoveThruster")
+                    {
+                        scripts.addScript(std::make_shared<MoveThrusterScript>());
                     }
                 }
             }
