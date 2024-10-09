@@ -39,8 +39,6 @@ class NetworkSystem : public ISystem
             { handleUpdateEntity(packet, sender, registry, gameContext); };
             this->_systemsMap[Network::CLIENTEVENT] = [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
             { handleClientEvent(packet, sender, registry, gameContext); };
-            this->_systemsMap[Network::KICKCLIENT] = [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
-            { handleKickClient(packet, sender, registry, gameContext); };
             this->_systemsMap[Network::PACKETVALIDATION] = [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender, mobs::Registry &registry, GameContext &gameContext)
             { handlePacketValidation(packet, sender, registry, gameContext); };
         }

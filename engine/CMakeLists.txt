@@ -24,7 +24,6 @@ set(SOURCES
     src/PacketManager/PingPacket.cpp
     src/PacketManager/HiClientPacket.cpp
     src/PacketManager/HiServerPacket.cpp
-    src/PacketManager/KickClientPacket.cpp
     src/PacketManager/MoveEntityPacket.cpp
     src/PacketManager/PacketFactory.cpp
     src/PacketManager/PacketValidationPacket.cpp

@@ -32,8 +32,7 @@ enum PacketType : uint8_t
     MOVEENTITY = 7,
     UPDATEENTITY = 8,
     CLIENTEVENT = 9,
-    KICKCLIENT = 10,
-    PACKETVALIDATION = 11,
+    PACKETVALIDATION = 10,
 };
 
 /**
