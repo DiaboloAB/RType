@@ -18,18 +18,18 @@ set(SOURCES
     src/NetworkHandler/EndpointState.cpp
     src/NetworkHandler/NetworkIdHandler.cpp
     src/sceneManager/SceneManager.cpp
-    src/PacketManager/APacket.cpp
-    src/PacketManager/AdiosServerPacket.cpp
-    src/PacketManager/ClientEventPacket.cpp
-    src/PacketManager/CreateEntityPacket.cpp
-    src/PacketManager/DestroyEntityPacket.cpp
-    src/PacketManager/PingPacket.cpp
-    src/PacketManager/HiClientPacket.cpp
-    src/PacketManager/HiServerPacket.cpp
-    src/PacketManager/MoveEntityPacket.cpp
-    src/PacketManager/PacketFactory.cpp
-    src/PacketManager/PacketValidationPacket.cpp
-    src/PacketManager/UpdateEntityPacket.cpp
+    src/NetworkPacketManager/APacket.cpp
+    src/NetworkPacketManager/AdiosServerPacket.cpp
+    src/NetworkPacketManager/ClientEventPacket.cpp
+    src/NetworkPacketManager/CreateEntityPacket.cpp
+    src/NetworkPacketManager/DestroyEntityPacket.cpp
+    src/NetworkPacketManager/PingPacket.cpp
+    src/NetworkPacketManager/HiClientPacket.cpp
+    src/NetworkPacketManager/HiServerPacket.cpp
+    src/NetworkPacketManager/MoveEntityPacket.cpp
+    src/NetworkPacketManager/PacketFactory.cpp
+    src/NetworkPacketManager/PacketValidationPacket.cpp
+    src/NetworkPacketManager/UpdateEntityPacket.cpp
     src/lua/getKey.cpp
     )
 

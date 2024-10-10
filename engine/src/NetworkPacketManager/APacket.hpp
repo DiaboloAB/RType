@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <common/PacketType.hpp>
 #include <chrono>
 #include <cstdint>
 #include <cstring>
@@ -16,24 +17,6 @@
 
 namespace RType::Network
 {
-
-/**
- * @brief All possible types of a packet.
- */
-enum PacketType : uint8_t
-{
-    NONE = 0,
-    HISERVER = 1,
-    HICLIENT = 2,
-    ADIOSSERVER = 3,
-    PING = 4,
-    CREATEENTITY = 5,
-    DESTROYENTITY = 6,
-    MOVEENTITY = 7,
-    UPDATEENTITY = 8,
-    CLIENTEVENT = 9,
-    PACKETVALIDATION = 10,
-};
 
 /**
  * @class APacket

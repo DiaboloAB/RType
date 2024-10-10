@@ -9,8 +9,8 @@
 
 #include <NetworkHandler/EndpointState.hpp>
 #include <NetworkHandler/PacketHandler.hpp>
-#include <PacketManager/APacket.hpp>
-#include <PacketManager/PacketFactory.hpp>
+#include <NetworkPacketManager/APacket.hpp>
+#include <NetworkPacketManager/PacketFactory.hpp>
 #include <asio.hpp>
 #include <chrono>
 #include <iostream>

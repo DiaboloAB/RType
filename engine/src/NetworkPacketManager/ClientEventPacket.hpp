@@ -8,10 +8,10 @@
 #pragma once
 
 #include "APacket.hpp"
+#include <common/ClientEvent.hpp>
 
 namespace RType::Network
 {
-
 /**
  * @class ClientEventPacket
  *
@@ -26,7 +26,7 @@ class ClientEventPacket : public APacket
      *
      * @return ClientEventPacket object.
      */
-    ClientEventPacket();
+    ClientEventPacket(ClientEvent event, uint32_t clientNetworkId);
 
     /**
      * @brief Construct new CLientEventPacket object with serialized data by deserializing them.
@@ -48,5 +48,11 @@ class ClientEventPacket : public APacket
      * @return empty std::vector<char> because nothing to serialize.
      */
     std::vector<char> serializeData() const override;
+
+    public:
+        ClientEvent getClientEvent() const;
+
+    private:
+        ClientEvent _clientEvent;
 };
 }  // namespace RType::Network

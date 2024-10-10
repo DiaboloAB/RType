@@ -9,12 +9,12 @@
 #define NETWORKSYSTEM_H
 
 #include <NetworkHandler/EndpointState.hpp>
-#include <PacketManager/APacket.hpp>
-#include <PacketManager/CreateEntityPacket.hpp>
-#include <PacketManager/DestroyEntityPacket.hpp>
-#include <PacketManager/HiClientPacket.hpp>
-#include <PacketManager/HiServerPacket.hpp>
-#include <PacketManager/PacketValidationPacket.hpp>
+#include <NetworkPacketManager/APacket.hpp>
+#include <NetworkPacketManager/CreateEntityPacket.hpp>
+#include <NetworkPacketManager/DestroyEntityPacket.hpp>
+#include <NetworkPacketManager/HiClientPacket.hpp>
+#include <NetworkPacketManager/HiServerPacket.hpp>
+#include <NetworkPacketManager/PacketValidationPacket.hpp>
 #include <common/components.hpp>
 #include <mobs/mobs.hpp>
 #include <system/ISystem.hpp>

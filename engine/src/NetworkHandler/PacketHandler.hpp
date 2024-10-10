@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <PacketManager/APacket.hpp>
-#include <PacketManager/PacketValidationPacket.hpp>
+#include <NetworkPacketManager/APacket.hpp>
+#include <NetworkPacketManager/PacketValidationPacket.hpp>
 #include <asio.hpp>
 #include <list>
 #include <memory>
