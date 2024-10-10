@@ -215,9 +215,8 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
 
-    sf::Color sfcolor(static_cast<sf::Uint8>(color.x * 255),
-                    static_cast<sf::Uint8>(color.y * 255),
-                    static_cast<sf::Uint8>(color.z * 255));
+    sf::Color sfcolor(static_cast<sf::Uint8>(color.x * 255), static_cast<sf::Uint8>(color.y * 255),
+                      static_cast<sf::Uint8>(color.z * 255));
 
     if (full)
     {
@@ -565,6 +564,9 @@ void RenderSystemSFML::loadFont(const std::string& filePath)
 
 void RenderSystemSFML::setFramerateLimit(unsigned int limit) { _window.setFramerateLimit(limit); }
 
-void RenderSystemSFML::setVerticalSyncEnabled(bool enabled) { _window.setVerticalSyncEnabled(enabled); }
+void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
+{
+    _window.setVerticalSyncEnabled(enabled);
+}
 
 }  // namespace RType

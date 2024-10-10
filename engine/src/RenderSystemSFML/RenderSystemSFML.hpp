@@ -169,7 +169,8 @@ class RenderSystemSFML : public RType::IRuntime
      * @param full If `true`, the rectangle is filled; otherwise, it's outlined.
      * @param textColor The color of the rectangle.
      */
-    void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
+    void drawRectangle(mlg::vec4& spriteCoords, bool full,
+                       const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
 
     /**
      * @brief Toggles the window to fullscreen mode.
