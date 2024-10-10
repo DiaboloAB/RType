@@ -5,7 +5,7 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
-          "Timer": { "active": false},
+          "Timer": { "active": true},
           "Hitbox": {
             "size": [64, 32],
             "offSet": [0, 0],
@@ -57,7 +57,8 @@
         "tag": "thruster",
         "staticObject": false,
         "components": {
-          "Transform": { "position": [36, 84, 0] },
+          "Sticky": { "target": "player", "offset": [-64, -16] },
+          "Transform": { "position": [0, 0, 0] },
           "Animator": [
             {
               "name": "default",
@@ -91,8 +92,40 @@
             }
           ],
           "CppScripts": [
-            "MoveThruster",
             "AnimThruster"
+          ]
+        }
+      },
+      {
+        "tag": "chargeAnim",
+        "staticObject": false,
+        "components": {
+          "Sticky": { "target": "player", "offset": [64, -16] },
+          "Transform": { "position": [0, 0, 0] },
+          "Animator": [
+            {
+              "name": "default",
+              "speed": 10,
+              "texture": "assets/graphics/player/beam/charge.png",
+              "frameCount": 8,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "idle",
+              "speed": 1,
+              "texture": "assets/graphics/player/beam/charge.png",
+              "frameCount": 1,
+              "frameSize": [1, 1],
+              "scale": [1, 1],
+              "rotation": 0,
+              "loop": true
+            }
+          ],
+          "CppScripts": [
+            "AnimCharge"
           ]
         }
       },

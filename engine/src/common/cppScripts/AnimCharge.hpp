@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef ANIMTHRUSTER_HPP
-#define ANIMTHRUSTER_HPP
+#ifndef ANIMCHARGE_HPP
+#define ANIMCHARGE_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -14,17 +14,17 @@
 namespace RType
 {
 
-class AnimThrusterScript : public RType::ICppScript
+class AnimChargeScript : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::Space))
         {
             Animations &animations = registry.get<Animator>(_entity).animations;
-            animations.playAnim("low");
+            animations.playAnim("idle");
         }
-        if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
+        if (gameContext._runtime->getKeyUp(KeyCode::Space))
         {
             Animations &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("default");
@@ -38,4 +38,4 @@ class AnimThrusterScript : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // ANIMTHRUSTER_HPP
+#endif  // ANIMCHARGE_HPP

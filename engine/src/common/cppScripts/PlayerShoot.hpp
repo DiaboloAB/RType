@@ -20,13 +20,11 @@ class PlayerShootScript : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         Timer &timer = registry.get<CoolDown>(_entity).timer;
-        if (gameContext._runtime->getKeyDown(KeyCode::Space))
-        {
-            timer.start();
-        }
-        if (gameContext._runtime->getKeyUp(KeyCode::Space))
+        if (gameContext._runtime->getKey(KeyCode::Space))
         {
             float charge = timer.getTime();
+            if (charge < 0.4)
+                return;
             mobs::Entity laser = gameContext._sceneManager.loadPrefab("Laser.json", gameContext);
             auto &animator = registry.get<Animator>(laser).animations;
             auto &transform = registry.get<Transform>(laser);
@@ -34,18 +32,18 @@ class PlayerShootScript : public RType::ICppScript
             auto &health = registry.get<Health>(laser);
 
             transform.position = registry.get<Transform>(_entity).position + mlg::vec3(50, 0, 0);
-            if (charge < 0.4)
+            if (charge < 0.6)
             {
                 gameContext._runtime->loadSprite("assets/graphics/player/beam/small.png");
             }
-            else if (charge < 0.8)
+            else if (charge < 0.1)
             {
                 gameContext._runtime->loadSprite("assets/graphics/player/beam/medium.png");
                 animator.playAnim("medium");
                 hitbox.size = mlg::vec3(64, 24, 0);
                 health.health = 2;
             }
-            else if (charge < 1.2)
+            else if (charge < 1.4)
             {
                 gameContext._runtime->loadSprite("assets/graphics/player/beam/large.png");
                 animator.playAnim("large");
@@ -60,7 +58,6 @@ class PlayerShootScript : public RType::ICppScript
                 health.health = 5;
             }
             timer.reset();
-            timer.stop();
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }

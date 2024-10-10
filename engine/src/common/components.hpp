@@ -96,6 +96,14 @@ struct Health
     Health(int health) : health(health) {}
 };
 
+struct Sticky
+{
+    mlg::vec2 offset;
+    std::string target;
+
+    Sticky(std::string target, mlg::vec2 offset) : offset(offset), target(target) {}
+};
+
 struct Basics
 {
     std::string tag;

@@ -10,10 +10,10 @@
 #include "common/components.hpp"
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
+#include "common/cppScripts/AnimCharge.hpp"
 #include "common/cppScripts/EnemyFactory.hpp"
 #include "common/cppScripts/Laser.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
-#include "common/cppScripts/MoveThruster.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
 #include "common/cppScripts/RedShipScript.hpp"
 #include "common/cppScripts/helloworld.hpp"
@@ -213,9 +213,9 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                     {
                         scripts.addScript(std::make_shared<LaserScript>());
                     }
-                    else if (script.get<std::string>() == "MoveThruster")
+                    else if (script.get<std::string>() == "AnimCharge")
                     {
-                        scripts.addScript(std::make_shared<MoveThrusterScript>());
+                        scripts.addScript(std::make_shared<AnimChargeScript>());
                     }
                 }
             }
@@ -253,6 +253,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             else if (componentName == "Health")
             {
                 registry.emplace<Health>(entity, componentData["health"].get<int>());
+            }
+            else if (componentName == "Sticky")
+            {
+                registry.emplace<Sticky>(entity, componentData["target"].get<std::string>(), mlg::vec2(componentData["offset"][0], componentData["offset"][1], 0));
             }
         }
     }

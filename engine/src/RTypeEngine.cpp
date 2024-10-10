@@ -16,6 +16,7 @@
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/TimerSystem.hpp"
 #include "common/systems/forward.hpp"
+#include "common/systems/StickySystem.hpp"
 
 using namespace RType;
 
@@ -29,6 +30,7 @@ Engine::Engine() : _gameContext(_registry, _sceneManager)
     _systemManager.addSystem<ColisionSystem>();
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
+    _systemManager.addSystem<StickySystem>();
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
