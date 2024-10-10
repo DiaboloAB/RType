@@ -14,9 +14,9 @@
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/ScrollSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
+#include "common/systems/StickySystem.hpp"
 #include "common/systems/TimerSystem.hpp"
 #include "common/systems/forward.hpp"
-#include "common/systems/StickySystem.hpp"
 
 using namespace RType;
 

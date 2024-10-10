@@ -8,9 +8,9 @@
 #include "SceneManager.hpp"
 
 #include "common/components.hpp"
+#include "common/cppScripts/AnimCharge.hpp"
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
-#include "common/cppScripts/AnimCharge.hpp"
 #include "common/cppScripts/EnemyFactory.hpp"
 #include "common/cppScripts/Laser.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
@@ -258,8 +258,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             {
                 registry.emplace<Sticky>(
                     entity, componentData["target"].get<std::string>(),
-                    mlg::vec2(componentData["offset"][0],
-                    componentData["offset"][1], 0));
+                    mlg::vec2(componentData["offset"][0], componentData["offset"][1], 0));
             }
         }
     }
