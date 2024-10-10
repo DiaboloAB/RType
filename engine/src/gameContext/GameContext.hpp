@@ -46,11 +46,10 @@ class GameContext
     }
 
     float _deltaT;
-
     float _drawDeltaT;
     float _updateDeltaT;
 
-    float _targetUpdateDeltaT = 1.0f / 120.0f;
+    float _targetUpdateDeltaT = 1.0f / 300.0f;
     float _targetDrawDeltaT = 1.0f / 60.0f;
 
     IRuntime *_runtime;

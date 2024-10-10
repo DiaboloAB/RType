@@ -33,8 +33,8 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
     _runtime = new RenderSystemSFML();
     _currentTime = std::chrono::high_resolution_clock::now();
     _deltaT = 0.0f;
-    _drawDeltaT = 0.0f;
     _updateDeltaT = 0.0f;
+    _drawDeltaT = 0.0f;
 
     try
     {
@@ -60,10 +60,12 @@ void GameContext::update()
     {
         std::chrono::high_resolution_clock::time_point newTime =
             std::chrono::high_resolution_clock::now();
-        _deltaT = std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
-                      .count();
-        _drawDeltaT += _deltaT;
-        _updateDeltaT += _deltaT;
+        float elapsed =
+            std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
+                .count();
+        _deltaT = elapsed;
+        _drawDeltaT += elapsed;
+        _updateDeltaT += elapsed;
         _currentTime = newTime;
         _sceneManager.update(*this);
     }

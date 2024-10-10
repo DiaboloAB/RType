@@ -54,14 +54,16 @@ void Engine::run()
 
         _gameContext.update();
 
-        if (_gameContext._updateDeltaT >= _gameContext._targetUpdateDeltaT)
-        {
-            _systemManager.update(_registry, _gameContext);
-            _gameContext._updateDeltaT = 0.0f;
-        }
+        // if (_gameContext._updateDeltaT >= _gameContext._targetUpdateDeltaT)
+        // {
+        //     _gameContext._deltaT = _gameContext._updateDeltaT;
+        _systemManager.update(_registry, _gameContext);
+        //     _gameContext._updateDeltaT = 0.0f;
+        // }
 
         if (_gameContext._drawDeltaT >= _gameContext._targetDrawDeltaT)
         {
+            _gameContext._deltaT = _gameContext._drawDeltaT;
             _gameContext._runtime->clearWindow();
             _systemManager.draw(_registry, _gameContext);
             _gameContext._runtime->updateWindow();
