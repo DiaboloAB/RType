@@ -32,7 +32,9 @@ class StickySystem : public ISystem
             for (auto entity2 : view)
             {
                 if (entity == entity2)
+                {
                     continue;
+                }
                 auto &basic = registry.get<Basics>(entity2);
                 if (basic.tag == sticky.target)
                 {

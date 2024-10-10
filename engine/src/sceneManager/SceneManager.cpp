@@ -256,7 +256,10 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             }
             else if (componentName == "Sticky")
             {
-                registry.emplace<Sticky>(entity, componentData["target"].get<std::string>(), mlg::vec2(componentData["offset"][0], componentData["offset"][1], 0));
+                registry.emplace<Sticky>(
+                    entity, componentData["target"].get<std::string>()
+                    mlg::vec2(componentData["offset"][0],
+                    componentData["offset"][1], 0));
             }
         }
     }

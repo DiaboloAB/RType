@@ -23,8 +23,10 @@ class PlayerShootScript : public RType::ICppScript
         if (gameContext._runtime->getKey(KeyCode::Space))
         {
             float charge = timer.getTime();
-            if (charge < 0.4)
+            if (charge < 0.4) 
+            {
                 return;
+            }
             mobs::Entity laser = gameContext._sceneManager.loadPrefab("Laser.json", gameContext);
             auto &animator = registry.get<Animator>(laser).animations;
             auto &transform = registry.get<Transform>(laser);
