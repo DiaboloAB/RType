@@ -161,7 +161,7 @@ class RenderSystemSFML : public RType::IRuntime
      * @param textColor The color of the text.
      */
     void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec2 position,
-                  unsigned int fontSize, const mlg::vec3& textColor) override;
+                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
 
     /**
      * @brief Draws a rectangle on the window.
@@ -169,7 +169,7 @@ class RenderSystemSFML : public RType::IRuntime
      * @param full If `true`, the rectangle is filled; otherwise, it's outlined.
      * @param textColor The color of the rectangle.
      */
-    void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& textColor) override;
+    void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
 
     /**
      * @brief Toggles the window to fullscreen mode.
@@ -254,6 +254,10 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the font to load.
      */
     void loadFont(const std::string& filePath) override;
+
+    void setFramerateLimit(unsigned int limit) override;
+
+    void setVerticalSyncEnabled(bool enabled) override;
 
    private:
     bool _isFullScreen;

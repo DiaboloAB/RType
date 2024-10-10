@@ -86,7 +86,7 @@ class IRuntime
 
     virtual mlg::vec2 getMousePosition() = 0;
 
-    virtual void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& textColor) = 0;
+    virtual void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
 
     virtual void setGameIcon(const std::string& filePath) = 0;
 
@@ -119,7 +119,7 @@ class IRuntime
      */
     virtual void drawText(const std::string& fontPath, const std::string& textStr,
                           const mlg::vec2 position, unsigned int fontSize,
-                          const mlg::vec3& textColor) = 0;
+                          const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
@@ -158,6 +158,10 @@ class IRuntime
     virtual void playSound(const std::string& soundName) = 0;
 
     virtual void unloadSound(const std::string& soundName) = 0;
+
+    virtual void setFramerateLimit(unsigned int limit) = 0;
+
+    virtual void setVerticalSyncEnabled(bool enabled) = 0;
 
    private:
     // No private member data defined in this interface.

@@ -210,24 +210,24 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 posit
     }
 }
 
-void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& textColor)
+void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color)
 {
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
 
-    sf::Color color(static_cast<sf::Uint8>(textColor.x * 255),
-                    static_cast<sf::Uint8>(textColor.y * 255),
-                    static_cast<sf::Uint8>(textColor.z * 255));
+    sf::Color sfcolor(static_cast<sf::Uint8>(color.x * 255),
+                    static_cast<sf::Uint8>(color.y * 255),
+                    static_cast<sf::Uint8>(color.z * 255));
 
     if (full)
     {
-        rectangle.setFillColor(sf::Color::White);
+        rectangle.setFillColor(sfcolor);
     }
     else
     {
         rectangle.setFillColor(sf::Color::Transparent);
         rectangle.setOutlineThickness(1);
-        rectangle.setOutlineColor(sf::Color::White);
+        rectangle.setOutlineColor(sfcolor);
     }
     _window.draw(rectangle);
 }
@@ -259,7 +259,7 @@ bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string
 
 void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
                                 const mlg::vec2 position, unsigned int fontSize,
-                                const mlg::vec3& textColor)
+                                const mlg::vec3& color)
 {
     try
     {
@@ -275,9 +275,9 @@ void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& 
         text.setCharacterSize(fontSize);
         text.setPosition(position.x, position.y);
 
-        text.setFillColor(sf::Color(static_cast<sf::Uint8>(textColor.x * 255),
-                                    static_cast<sf::Uint8>(textColor.y * 255),
-                                    static_cast<sf::Uint8>(textColor.z * 255)));
+        text.setFillColor(sf::Color(static_cast<sf::Uint8>(color.x * 255),
+                                    static_cast<sf::Uint8>(color.y * 255),
+                                    static_cast<sf::Uint8>(color.z * 255)));
         _window.draw(text);
     }
     catch (const std::exception& e)
@@ -562,5 +562,9 @@ void RenderSystemSFML::loadFont(const std::string& filePath)
         std::cerr << "Erreur : " << e.what() << std::endl;
     }
 }
+
+void RenderSystemSFML::setFramerateLimit(unsigned int limit) { _window.setFramerateLimit(limit); }
+
+void RenderSystemSFML::setVerticalSyncEnabled(bool enabled) { _window.setVerticalSyncEnabled(enabled); }
 
 }  // namespace RType
