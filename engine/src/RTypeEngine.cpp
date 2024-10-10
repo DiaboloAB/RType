@@ -7,9 +7,14 @@
 
 #include "RTypeEngine.hpp"
 
+#include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
+#include "common/systems/HealthSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
+#include "common/systems/ScrollSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
+#include "common/systems/TimerSystem.hpp"
 #include "common/systems/forward.hpp"
 
 using namespace RType;
@@ -20,6 +25,10 @@ Engine::Engine() : _gameContext(_registry, _sceneManager)
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<CppScriptsSystem>();
+    _systemManager.addSystem<TimerSystem>();
+    _systemManager.addSystem<ColisionSystem>();
+    _systemManager.addSystem<HealthSystem>();
+    _systemManager.addSystem<ScrollSystem>();
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)

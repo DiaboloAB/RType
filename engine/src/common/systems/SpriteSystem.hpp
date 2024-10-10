@@ -28,6 +28,16 @@ class SpriteSystem : public ISystem
             auto &sprite = view.get<Sprite>(entity);
             gameContext._runtime->loadSprite(sprite.filePath);
         }
+
+        auto viewAnim = registry.view<Animator>();
+        for (auto entity : viewAnim)
+        {
+            Animations &animations = viewAnim.get<Animator>(entity).animations;
+            for (auto &anim : animations.animations)
+            {
+                gameContext._runtime->loadSprite(anim.getFilePath());
+            }
+        }
     }
 
     void draw(mobs::Registry &registry, GameContext &gameContext) override
@@ -53,6 +63,34 @@ class SpriteSystem : public ISystem
             auto &sprite = *std::get<2>(entry);
 
             gameContext._runtime->drawSprite(sprite.filePath, transform.position);
+        }
+
+        auto viewAnim = registry.view<Transform, Animator>();
+        for (auto entity : viewAnim)
+        {
+            Animations &animations = viewAnim.get<Animator>(entity).animations;
+            auto &transform = viewAnim.get<Transform>(entity);
+
+            animations.time += gameContext._deltaT;
+            Animation currentAnim = animations.getAnimation();
+            float frameSpeed = 1.0f / currentAnim.getFrameDuration();
+
+            if (animations.time > frameSpeed)
+            {
+                animations.time = 0;
+                animations.currentFrame += 1;
+                if (animations.currentFrame >= currentAnim.getFrameCount())
+                {
+                    animations.currentFrame = 0;
+                    if (!currentAnim.getLoop())
+                    {
+                        animations.playAnim("default");
+                    }
+                }
+            }
+            gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position,
+                                             currentAnim.getSpriteCoords(animations.currentFrame),
+                                             currentAnim.getScale(), currentAnim.getRotation());
         }
     }
 
