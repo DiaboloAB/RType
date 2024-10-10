@@ -24,15 +24,7 @@ class GameContext
     GameContext(mobs::Registry &registry, SceneManager &sceneManager);
     ~GameContext();
 
-    void update()
-    {
-        std::chrono::high_resolution_clock::time_point newTime =
-            std::chrono::high_resolution_clock::now();
-        _deltaT = std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
-                      .count();
-        _currentTime = newTime;
-        _sceneManager.update(*this);
-    }
+    void update();
 
     template <typename Component>
     Component &get(std::string tag)
@@ -54,6 +46,13 @@ class GameContext
     }
 
     float _deltaT;
+
+    float _drawDeltaT;
+    float _updateDeltaT;
+
+    float _targetUpdateDeltaT = 1.0f / 120.0f;
+    float _targetDrawDeltaT = 1.0f / 60.0f;
+
     IRuntime *_runtime;
     mobs::Registry &_registry;
     SceneManager &_sceneManager;
