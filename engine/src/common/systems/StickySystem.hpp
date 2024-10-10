@@ -46,6 +46,7 @@ class StickySystem : public ISystem
             }
         }
     }
+
    private:
     // Member variables
 };

@@ -23,7 +23,7 @@ class PlayerShootScript : public RType::ICppScript
         if (gameContext._runtime->getKey(KeyCode::Space))
         {
             float charge = timer.getTime();
-            if (charge < 0.4) 
+            if (charge < 0.4)
             {
                 return;
             }
