@@ -19,8 +19,8 @@ namespace RType
 class HealthSystem : public ISystem
 {
    public:
-    HealthSystem() {};
-    ~HealthSystem() {};
+    HealthSystem(){};
+    ~HealthSystem(){};
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {

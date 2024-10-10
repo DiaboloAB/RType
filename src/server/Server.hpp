@@ -71,8 +71,8 @@ class Server
     class ServerError : public std::exception
     {
        public:
-        ServerError(std::string msg) : _msg(msg) {};
-        ~ServerError() {};
+        ServerError(std::string msg) : _msg(msg){};
+        ~ServerError(){};
 
        private:
         const char *what() const noexcept override { return _msg.c_str(); };

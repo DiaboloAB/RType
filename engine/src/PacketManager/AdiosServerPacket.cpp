@@ -13,7 +13,7 @@ AdiosServerPacket::AdiosServerPacket() : APacket(ADIOSSERVER) { this->_packetDat
 
 AdiosServerPacket::AdiosServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-AdiosServerPacket::~AdiosServerPacket() {};
+AdiosServerPacket::~AdiosServerPacket(){};
 
 std::vector<char> AdiosServerPacket::serializeData() const
 {
