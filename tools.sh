@@ -34,6 +34,12 @@ elif [ "$COMMAND" == "build" ]; then
     cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
     cmake --build .
+elif [ "$COMMAND" == "build-windows" ]; then
+    conan profile detect --force
+    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+    cd build
+    cmake .. -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="conan/conan_toolchain.cmake"
+    cmake --build . --config Release
 elif [ "$COMMAND" == "thread-build" ]; then
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"

@@ -6,7 +6,8 @@
  **********************************************************************************/
 
 #pragma once
-#include <unistd.h>
+#include <io.h>
+#include <process.h>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>

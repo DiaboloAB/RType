@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.30)
 
 project(RType VERSION 1.0)
 
@@ -8,6 +8,9 @@ project(RType VERSION 1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+if (POLICY CMP0091)
+    cmake_policy(SET CMP0091 NEW)
+endif ()
 
 add_subdirectory(engine)
 add_subdirectory(libs/mobs)
@@ -37,6 +40,9 @@ target_link_libraries(r-type_client PRIVATE
     # sfml-audio
     # sfml-network
 )
+
+install(TARGETS r-type_client DESTINATION bin)
+install(TARGETS r-type_server DESTINATION bin)
 
 include(CPack)
 
