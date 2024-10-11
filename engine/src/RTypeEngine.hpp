@@ -10,6 +10,7 @@
 #include <mlg/mlg.hpp>
 
 #include "NetworkHandler/NetworkHandler.hpp"
+#include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
 // std
@@ -18,25 +19,53 @@
 
 namespace RType
 {
+/**
+ * @class Engine
+ * @brief Manages the main game engine, including network handling, runtime, registry, systems,
+ * scenes, and clocks.
+ */
 class Engine
 {
    public:
+    /**
+     * @brief Constructs a new Engine object.
+     */
     Engine();
+
+    /**
+     * @brief Constructs a new Engine object with network parameters.
+     *
+     * @param host The host address for the network.
+     * @param port The port number for the network.
+     * @param isServer Boolean indicating if this instance is a server.
+     */
     Engine(std::string host, unsigned int port, bool isServer);
+
+    /**
+     * @brief Destroys the Engine object.
+     */
     ~Engine();
 
+    /**
+     * @brief Runs the game engine.
+     */
     void run();
+
+    /**
+     * @brief Runs the game engine in server mode.
+     */
     void runServer();
 
    private:
-    mobs::Registry _registry;
-    SystemManager _systemManager;
-    SceneManager _sceneManager;
-    GameContext _gameContext;
+    std::shared_ptr<Network::NetworkHandler> _networkHandler =
+        nullptr;  ///< Network handler for managing network connections.
+    std::shared_ptr<IRuntime> _runtime = nullptr;  ///< Shared pointer to the runtime system.
 
-    std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
-    bool _isServer = false;
-
-    // Member variables
+    mobs::Registry _registry;      ///< Entity-component registry.
+    SystemManager _systemManager;  ///< Manager for handling various systems.
+    SceneManager _sceneManager;    ///< Manager for handling scenes.
+    GameContext _gameContext;      ///< Context for managing game state.
+    ClockManager _clockManager;    ///< Manager for handling clocks and timing.
+    bool _isServer = false;        ///< Boolean indicating if this instance is a server.
 };
 }  // namespace RType

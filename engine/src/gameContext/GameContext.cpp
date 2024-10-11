@@ -7,14 +7,17 @@
 
 #include "GameContext.hpp"
 
+#include "RenderSystemSFML/RenderSystemSFML.hpp"
+// std
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
 using namespace RType;
 
-GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
-    : _registry(registry), _sceneManager(sceneManager)
+GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
+                         std::shared_ptr<IRuntime> runtime)
+    : _runtime(runtime), _registry(registry), _sceneManager(sceneManager)
 {
     std::ifstream i("assets/game.json");
 
@@ -29,12 +32,6 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
     std::string defaultScene = j["defaultScene"];
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
-
-    _runtime = new RenderSystemSFML();
-    _currentTime = std::chrono::high_resolution_clock::now();
-    _deltaT = 0.0f;
-    _updateDeltaT = 0.0f;
-    _drawDeltaT = 0.0f;
 
     try
     {
@@ -53,20 +50,4 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
 GameContext::~GameContext()
 {
     // Destructor implementation
-}
-
-void GameContext::update()
-{
-    {
-        std::chrono::high_resolution_clock::time_point newTime =
-            std::chrono::high_resolution_clock::now();
-        float elapsed =
-            std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
-                .count();
-        _deltaT = elapsed;
-        _drawDeltaT += elapsed;
-        _updateDeltaT += elapsed;
-        _currentTime = newTime;
-        _sceneManager.update(*this);
-    }
 }

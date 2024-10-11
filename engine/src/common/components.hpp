@@ -79,11 +79,11 @@ struct CoolDown
 
 struct Hitbox
 {
-    mlg::vec2 size;
-    mlg::vec2 offset;
+    mlg::vec3 size;
+    mlg::vec3 offset;
     bool isEnemy;
 
-    Hitbox(mlg::vec2 size, mlg::vec2 offset, bool isEnemy)
+    Hitbox(mlg::vec3 size, mlg::vec3 offset, bool isEnemy)
         : size(size), isEnemy(isEnemy), offset(offset)
     {
     }
@@ -107,11 +107,11 @@ struct Basics
 struct Button
 {
     std::string text;
-    mlg::vec2 size;
+    mlg::vec3 size;
     std::string font;
     bool clicked;
 
-    Button(std::string text, mlg::vec2 size, std::string font)
+    Button(std::string text, mlg::vec3 size, std::string font)
         : text(text), size(size), font(font), clicked(false)
     {
     }

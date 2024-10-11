@@ -177,8 +177,8 @@ void RenderSystemSFML::unloadSprite(const std::string& spriteName)
     }
 }
 
-void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 position,
-                                  mlg::vec4 spriteCoords, mlg::vec2 scale, float rotation)
+void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec3 position,
+                                  mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
 {
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
@@ -196,7 +196,7 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 posit
     }
 }
 
-void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec2 position)
+void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec3 position)
 {
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
@@ -257,7 +257,7 @@ bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string
 }
 
 void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
-                                const mlg::vec2 position, unsigned int fontSize,
+                                const mlg::vec3 position, unsigned int fontSize,
                                 const mlg::vec3& color)
 {
     try
@@ -510,21 +510,21 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
     }
 }
 
-mlg::vec2 RenderSystemSFML::getMousePosition()
+mlg::vec3 RenderSystemSFML::getMousePosition()
 {
     sf::Vector2i position = sf::Mouse::getPosition(_window);
-    return mlg::vec2(position.x, position.y, 0);
+    return mlg::vec3(position.x, position.y, 0);
 }
 
-mlg::vec2 RenderSystemSFML::getTextureSize(const std::string& spriteName)
+mlg::vec3 RenderSystemSFML::getTextureSize(const std::string& spriteName)
 {
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
     {
         auto size = it->second.getTexture()->getSize();
-        return mlg::vec2(size.x, size.y, 0);
+        return mlg::vec3(size.x, size.y, 0);
     }
-    return mlg::vec2(0, 0, 0);
+    return mlg::vec3(0, 0, 0);
 }
 
 void RenderSystemSFML::setGameIcon(const std::string& filePath)

@@ -16,6 +16,11 @@ set(SOURCES
     src/NetworkHandler/NetworkHandler.cpp
     src/NetworkHandler/PacketHandler.cpp
     src/sceneManager/SceneManager.cpp
+    src/sceneManager/createEntity.cpp
+    src/sceneManager/addScriptsToEntity.cpp
+    src/sceneManager/initComponentCreators.cpp
+    src/sceneManager/initCppScriptCreators.cpp
+    src/clocksManager/ClockManager.cpp
     src/PacketManager/APacket.cpp
     src/PacketManager/AdiosServerPacket.cpp
     src/PacketManager/ClientEventPacket.cpp
