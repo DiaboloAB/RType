@@ -9,22 +9,46 @@
 #define ISYSTEM_H
 
 #include <gameContext/GameContext.hpp>
-
 #include "mobs/mobs.hpp"
 // std
 
 namespace RType
 {
 
+/**
+ * @class ISystem
+ * @brief Interface for systems used in the RType game engine.
+ */
 class ISystem
 {
    public:
+    /**
+     * @brief Virtual destructor for ISystem.
+     */
     ~ISystem() = default;
 
+    /**
+     * @brief Called when the system starts.
+     * 
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
     virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
 
+    /**
+     * @brief Called every frame to update the system.
+     * 
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
+    /**
+     * @brief Called every frame to draw the system.
+     * 
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
     virtual void draw(mobs::Registry &registry, GameContext &gameContext) {}
 
    private:
