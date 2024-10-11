@@ -43,7 +43,7 @@ class GameStartEvent
         for (auto &enpoint : enpointMap)
         {
             if (enpoint.second.getConnected())
-            
+            {
                 mobs::Entity newEntity =
                     gameContext._sceneManager.loadPrefab("player.json", gameContext);
                 auto &transform = registry.get<Transform>(newEntity);
