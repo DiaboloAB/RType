@@ -23,19 +23,6 @@ set(SOURCES
     src/sceneManager/initComponentCreators.cpp
     src/sceneManager/initCppScriptCreators.cpp
     src/clocksManager/ClockManager.cpp
-    src/PacketManager/APacket.cpp
-    src/PacketManager/AdiosServerPacket.cpp
-    src/PacketManager/ClientEventPacket.cpp
-    src/PacketManager/CreateEntityPacket.cpp
-    src/PacketManager/DestroyEntityPacket.cpp
-    src/PacketManager/PingPacket.cpp
-    src/PacketManager/HiClientPacket.cpp
-    src/PacketManager/HiServerPacket.cpp
-    src/PacketManager/KickClientPacket.cpp
-    src/PacketManager/MoveEntityPacket.cpp
-    src/PacketManager/PacketFactory.cpp
-    src/PacketManager/PacketValidationPacket.cpp
-    src/PacketManager/UpdateEntityPacket.cpp
     src/NetworkPacketManager/APacket.cpp
     src/NetworkPacketManager/AdiosServerPacket.cpp
     src/NetworkPacketManager/ClientEventPacket.cpp
