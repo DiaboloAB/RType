@@ -154,6 +154,7 @@ class NetworkHandler
    public:
     void setHost(const std::string host);
     void setPort(const unsigned int port);
+    void setGameState(GameState state);
 
    private:
     std::string _host = "";

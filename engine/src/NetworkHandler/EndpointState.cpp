@@ -20,7 +20,7 @@ std::chrono::time_point<std::chrono::steady_clock> EndpointState::getLastPing() 
     return this->_lastPing;
 }
 
-uint16_t EndpointState::getNetworkId() const { return this->_networkId; }
+uint32_t EndpointState::getNetworkId() const { return this->_networkId; }
 
 void EndpointState::setConnected(bool newConnected) { this->_connected = newConnected; }
 

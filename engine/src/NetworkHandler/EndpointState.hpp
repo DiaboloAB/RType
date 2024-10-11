@@ -20,7 +20,7 @@ class EndpointState
    public:
     bool getConnected() const;
     std::chrono::time_point<std::chrono::steady_clock> getLastPing() const;
-    uint16_t getNetworkId() const;
+    uint32_t getNetworkId() const;
 
    public:
     void setConnected(bool newConnected);

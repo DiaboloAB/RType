@@ -119,7 +119,7 @@ void NetworkHandler::sendToAll(const APacket &packet)
 {
     for (auto &endpoint : this->_endpointMap)
     {
-        if (endpoint.second.getConnected()) this->sendData(packet, endpoint.first);
+        if (endpoint.second.getConnected()) this->sendNewPacket(packet, endpoint.first);
     }
 }
 
@@ -167,4 +167,6 @@ GameState NetworkHandler::getGameState() const { return this->_gameState; }
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 
 void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
+
+void NetworkHandler::setGameState(GameState state) { this->_gameState = state; }
 }  // namespace RType::Network

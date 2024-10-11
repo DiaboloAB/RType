@@ -30,6 +30,7 @@ set(SOURCES
     src/NetworkPacketManager/PacketFactory.cpp
     src/NetworkPacketManager/PacketValidationPacket.cpp
     src/NetworkPacketManager/UpdateEntityPacket.cpp
+    src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
     )
 
