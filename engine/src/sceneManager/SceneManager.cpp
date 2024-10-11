@@ -52,6 +52,9 @@ SceneManager::SceneManager()
             std::cout << entry.path().filename().string() << std::endl;
         }
     }
+
+    initComponentCreators();
+    initCppScriptCreators();
 }
 
 SceneManager::~SceneManager()
@@ -119,145 +122,6 @@ void SceneManager::update(GameContext& gameContext)
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;
         _nextScene = "";
-    }
-}
-
-void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
-                                mobs::Registry& registry, GameContext& gameContext)
-{
-    try
-    {
-        bool staticObject = false;
-        std::string tag = "defaultTag";
-
-        try
-        {
-            staticObject = prefabJson["staticObject"].get<bool>();
-        }
-        catch (const std::exception& e)
-        {
-            staticObject = false;
-        }
-
-        try
-        {
-            tag = prefabJson["tag"].get<std::string>();
-        }
-        catch (const std::exception& e)
-        {
-            tag = "defaultTag";
-        }
-
-        registry.emplace<Basics>(entity, tag, staticObject);
-
-        for (const auto& componentJson : prefabJson["components"].items())
-        {
-            const std::string& componentName = componentJson.key();
-            const auto& componentData = componentJson.value();
-
-            if (componentName == "Transform")
-            {
-                registry.emplace<Transform>(
-                    entity, mlg::vec3(componentData["position"][0], componentData["position"][1],
-                                      componentData["position"][2]));
-            }
-            else if (componentName == "Sprite")
-            {
-                registry.emplace<Sprite>(entity, componentData["texture"].get<std::string>());
-            }
-            else if (componentName == "Scripts")
-            {
-                registry.emplace<Scripts>(entity);
-                auto& scripts = registry.get<Scripts>(entity);
-                for (const auto& script : componentData)
-                {
-                    scripts.addScript(script.get<std::string>(), gameContext);
-                }
-            }
-            else if (componentName == "CppScripts")
-            {
-                registry.emplace<CppScriptComponent>(entity, entity);
-                auto& scripts = registry.get<CppScriptComponent>(entity);
-                for (const auto& script : componentData)
-                {
-                    if (script.get<std::string>() == "HelloWorld")
-                    {
-                        scripts.addScript(std::make_shared<HelloWorldScript>());
-                    }
-                    else if (script.get<std::string>() == "MovePlayer")
-                    {
-                        scripts.addScript(std::make_shared<MovePlayerScript>());
-                    }
-                    else if (script.get<std::string>() == "AnimPlayer")
-                    {
-                        scripts.addScript(std::make_shared<AnimPlayerScript>());
-                    }
-                    else if (script.get<std::string>() == "AnimThruster")
-                    {
-                        scripts.addScript(std::make_shared<AnimThrusterScript>());
-                    }
-                    else if (script.get<std::string>() == "EnemyFactory")
-                    {
-                        scripts.addScript(std::make_shared<EnemyFactoryScript>());
-                    }
-                    else if (script.get<std::string>() == "RedShip")
-                    {
-                        scripts.addScript(std::make_shared<RedShipScript>());
-                    }
-                    else if (script.get<std::string>() == "PlayerShoot")
-                    {
-                        scripts.addScript(std::make_shared<PlayerShootScript>());
-                    }
-                    else if (script.get<std::string>() == "Laser")
-                    {
-                        scripts.addScript(std::make_shared<LaserScript>());
-                    }
-                    else if (script.get<std::string>() == "MoveThruster")
-                    {
-                        scripts.addScript(std::make_shared<MoveThrusterScript>());
-                    }
-                }
-            }
-            else if (componentName == "Network")
-            {
-                registry.emplace<NetworkComp>(entity, componentData["id"],
-                                              componentData["authority"].get<std::string>());
-            }
-            else if (componentName == "Timer")
-            {
-                registry.emplace<CoolDown>(entity, componentData["active"].get<bool>());
-            }
-            else if (componentName == "Hitbox")
-            {
-                registry.emplace<Hitbox>(
-                    entity, mlg::vec3(componentData["size"][0], componentData["size"][1], 0),
-                    mlg::vec3(componentData["offSet"][0], componentData["offSet"][1], 0),
-                    componentData["isEnemy"].get<bool>());
-            }
-            else if (componentName == "Animator")
-            {
-                registry.emplace<Animator>(entity);
-                auto& animator = registry.get<Animator>(entity);
-                for (const auto& animation : componentData)
-                {
-                    animator.animations.addAnimation(Animation(
-                        animation["texture"].get<std::string>(), animation["frameCount"].get<int>(),
-                        animation["speed"].get<float>(),
-                        mlg::vec2(animation["frameSize"][0], animation["frameSize"][1], 0),
-                        mlg::vec2(animation["scale"][0], animation["scale"][1], 0),
-                        animation["rotation"].get<float>(), animation["name"].get<std::string>(),
-                        animation["loop"].get<bool>()));
-                }
-            }
-            else if (componentName == "Health")
-            {
-                registry.emplace<Health>(entity, componentData["health"].get<int>());
-            }
-        }
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Error: Could not create entity" << std::endl;
     }
 }
 
