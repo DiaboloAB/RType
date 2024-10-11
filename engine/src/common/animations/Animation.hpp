@@ -16,8 +16,8 @@ class Animation
     std::string filepath;
     int frameCount;
     float speed;
-    mlg::vec2 frameSize;
-    mlg::vec2 scale;
+    mlg::vec3 frameSize;
+    mlg::vec3 scale;
     float rotation;
     std::string name;
     bool loop;
@@ -34,8 +34,8 @@ class Animation
      * @param name: name of the animation
      * @param loop: boolean to know if the animation should loop
      */
-    Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize,
-              const mlg::vec2 &scale, float rotation, std::string name, bool loop);
+    Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec3 &frameSize,
+              const mlg::vec3 &scale, float rotation, std::string name, bool loop);
     ~Animation();
 
     mlg::vec4 getSpriteCoords(int frame)
@@ -46,8 +46,8 @@ class Animation
     std::string getFilePath() { return filepath; }
     int getFrameCount() { return frameCount; }
     float getFrameDuration() { return speed; }
-    mlg::vec2 getFrameSize() { return frameSize; }
-    mlg::vec2 getScale() { return scale; }
+    mlg::vec3 getFrameSize() { return frameSize; }
+    mlg::vec3 getScale() { return scale; }
     float getRotation() { return rotation; }
     std::string getName() { return name; }
     bool getLoop() { return loop; }
