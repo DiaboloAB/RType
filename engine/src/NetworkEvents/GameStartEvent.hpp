@@ -32,8 +32,7 @@ class GameStartEvent
     static void update(asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                        GameContext &gameContext, NetworkIdHandler &idHandler)
     {
-        if (!checkSenderValidity(sender, gameContext))
-            return;
+        if (!checkSenderValidity(sender, gameContext)) return;
         float posX = 100.0;
         float posY = 100.0;
 

@@ -133,7 +133,8 @@ void NetworkHandler::deleteFromValidationList(
 void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value)
 {
     auto target = this->_endpointMap.find(endpoint);
-    if (target == this->_endpointMap.end()) {
+    if (target == this->_endpointMap.end())
+    {
         this->_endpointMap[endpoint] = EndpointState();
         this->_endpointMap[endpoint].setConnected(value);
         return;

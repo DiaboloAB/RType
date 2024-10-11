@@ -8,15 +8,15 @@
 #ifndef NETWORKSYSTEM_H
 #define NETWORKSYSTEM_H
 
+#include <NetworkEvents/NetworkEventHandler.hpp>
 #include <NetworkHandler/EndpointState.hpp>
+#include <NetworkHandler/NetworkIdHandler.hpp>
 #include <NetworkPacketManager/APacket.hpp>
 #include <NetworkPacketManager/CreateEntityPacket.hpp>
 #include <NetworkPacketManager/DestroyEntityPacket.hpp>
 #include <NetworkPacketManager/HiClientPacket.hpp>
 #include <NetworkPacketManager/HiServerPacket.hpp>
 #include <NetworkPacketManager/PacketValidationPacket.hpp>
-#include <NetworkHandler/NetworkIdHandler.hpp>
-#include <NetworkEvents/NetworkEventHandler.hpp>
 #include <common/components.hpp>
 #include <mobs/mobs.hpp>
 #include <system/ISystem.hpp>
@@ -27,7 +27,9 @@ namespace RType
 class NetworkSystem : public ISystem
 {
    public:
-    NetworkSystem() : _idHandler(Network::NetworkIdHandler()), _eventHandler(Network::NetworkEventHandler(_idHandler))
+    NetworkSystem()
+        : _idHandler(Network::NetworkIdHandler()),
+          _eventHandler(Network::NetworkEventHandler(_idHandler))
     {
         this->_systemsMap[Network::HISERVER] =
             [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
@@ -300,12 +302,16 @@ class NetworkSystem : public ISystem
                            asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                            GameContext &gameContext)
     {
-        try {
+        try
+        {
             std::shared_ptr<Network::ClientEventPacket> eventPacket =
                 std::dynamic_pointer_cast<Network::ClientEventPacket>(packet);
-            this->_eventHandler.update(eventPacket->getClientEvent(), sender, registry, gameContext);
+            this->_eventHandler.update(eventPacket->getClientEvent(), sender, registry,
+                                       gameContext);
             std::cerr << "[NETWORK LOG] Client event !" << std::endl;
-        } catch (std::exception &e) {
+        }
+        catch (std::exception &e)
+        {
             std::cerr << "[NETWORK LOG] Error in client event !" << std::endl;
         }
     }
@@ -328,7 +334,8 @@ class NetworkSystem : public ISystem
             std::shared_ptr<Network::PacketValidationPacket> validation =
                 std::dynamic_pointer_cast<Network::PacketValidationPacket>(packet);
             if (this->getActualTime() - validation->getPacketTimeStamp() >= 4) return;
-            if (validation->getPacketReceiveType() == Network::HICLIENT) {
+            if (validation->getPacketReceiveType() == Network::HICLIENT)
+            {
                 std::cerr << "Je traite un packet HICLIENT" << std::endl;
                 gameContext._networkHandler->updateEndpointMap(sender, true);
             }
