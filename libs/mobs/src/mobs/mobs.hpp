@@ -77,17 +77,12 @@ class Registry
         // return entities;
     }
 
-    void clear()
-    {
-        for (Entity entity : _entityManager)
-        {
-            kill(entity);
-        }
-    }
+    void clear();
 
-    EntityManager _entityManager;
 
    private:
+    EntityManager _entityManager;
+
     template <typename... Components>
     bool hasComponents(Entity entity)
     {

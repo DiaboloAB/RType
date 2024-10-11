@@ -51,8 +51,8 @@ void SceneManager::initComponentCreators()
             animator.animations.addAnimation(
                 Animation(animation["texture"].get<std::string>(),
                           animation["frameCount"].get<int>(), animation["speed"].get<float>(),
-                          mlg::vec2(animation["frameSize"][0], animation["frameSize"][1], 0),
-                          mlg::vec2(animation["scale"][0], animation["scale"][1], 0),
+                          mlg::vec3(animation["frameSize"][0], animation["frameSize"][1], 0),
+                          mlg::vec3(animation["scale"][0], animation["scale"][1], 0),
                           animation["rotation"].get<float>(), animation["name"].get<std::string>(),
                           animation["loop"].get<bool>()));
         }

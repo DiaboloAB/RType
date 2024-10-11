@@ -22,9 +22,28 @@ namespace RType
 class GameContext
 {
    public:
+    /**
+     * @brief Constructs a new GameContext object.
+     * 
+     * @param registry Reference to the entity-component registry.
+     * @param sceneManager Reference to the scene manager.
+     * @param runtime Shared pointer to the runtime system. Defaults to nullptr.
+     */
     GameContext(mobs::Registry &registry, SceneManager &sceneManager, std::shared_ptr<IRuntime> runtime = nullptr);
+
+    /**
+     * @brief Destroys the GameContext object.
+     */
     ~GameContext();
 
+    /**
+     * @brief Retrieves a component of a specific entity identified by its tag.
+     * 
+     * @tparam Component The type of the component to retrieve.
+     * @param tag The tag of the entity.
+     * @return Reference to the component.
+     * @throws std::runtime_error if the tag is not found.
+     */
     template <typename Component>
     Component &get(std::string tag)
     {

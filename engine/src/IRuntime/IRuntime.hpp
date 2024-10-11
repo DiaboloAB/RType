@@ -82,9 +82,9 @@ class IRuntime
      */
     virtual void updateWindow() = 0;
 
-    virtual mlg::vec2 getTextureSize(const std::string& spriteName) = 0;
+    virtual mlg::vec3 getTextureSize(const std::string& spriteName) = 0;
 
-    virtual mlg::vec2 getMousePosition() = 0;
+    virtual mlg::vec3 getMousePosition() = 0;
 
     virtual void drawRectangle(mlg::vec4& spriteCoords, bool full,
                                const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
@@ -107,10 +107,10 @@ class IRuntime
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, mlg::vec2 position, mlg::vec4 spriteRect,
-                            mlg::vec2 scale, float rotation) = 0;
+    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteRect,
+                            mlg::vec3 scale, float rotation) = 0;
 
-    virtual void drawSprite(const std::string& spriteName, mlg::vec2 position) = 0;
+    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.
@@ -119,7 +119,7 @@ class IRuntime
      * on the screen.
      */
     virtual void drawText(const std::string& fontPath, const std::string& textStr,
-                          const mlg::vec2 position, unsigned int fontSize,
+                          const mlg::vec3 position, unsigned int fontSize,
                           const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
 
     /**
