@@ -32,7 +32,7 @@ class IComponentArray
 
     /**
      * @brief Handles the destruction of an entity, removing its component.
-     * 
+     *
      * @param entity The entity to be destroyed.
      */
     virtual void entityDestroyed(Entity entity) = 0;
@@ -41,7 +41,7 @@ class IComponentArray
 /**
  * @class ComponentArray
  * @brief Manages an array of components for entities.
- * 
+ *
  * @tparam Component The type of the component.
  */
 template <typename Component>
@@ -60,7 +60,7 @@ class ComponentArray : public IComponentArray
 
     /**
      * @brief Inserts a component for a specific entity.
-     * 
+     *
      * @param entity The entity to insert the component for.
      * @param component The component to insert.
      */
@@ -72,14 +72,14 @@ class ComponentArray : public IComponentArray
 
     /**
      * @brief Removes a component from a specific entity.
-     * 
+     *
      * @param entity The entity to remove the component from.
      */
     void removeComponent(Entity entity) { _components[entity].reset(); }
 
     /**
      * @brief Retrieves the component associated with a specific entity.
-     * 
+     *
      * @param entity The entity whose component is to be retrieved.
      * @return Reference to the component.
      */
@@ -87,7 +87,7 @@ class ComponentArray : public IComponentArray
 
     /**
      * @brief Handles the destruction of an entity, removing its component.
-     * 
+     *
      * @param entity The entity to be destroyed.
      */
     void entityDestroyed(Entity entity) override
@@ -98,7 +98,7 @@ class ComponentArray : public IComponentArray
     }
 
    private:
-    std::vector<std::optional<Component>> _components; ///< Vector of optional components.
+    std::vector<std::optional<Component>> _components;  ///< Vector of optional components.
 };
 
 }  // namespace mobs

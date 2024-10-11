@@ -19,9 +19,9 @@
 
 using namespace RType;
 
-Engine::Engine() :
-    _runtime(std::make_shared<RenderSystemSFML>()),
-    _gameContext(_registry, _sceneManager, _runtime)
+Engine::Engine()
+    : _runtime(std::make_shared<RenderSystemSFML>()),
+      _gameContext(_registry, _sceneManager, _runtime)
 {
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
@@ -59,7 +59,6 @@ void Engine::run()
 
         _gameContext._deltaT = _clockManager.getDeltaT();
         _systemManager.update(_registry, _gameContext);
-
 
         if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {

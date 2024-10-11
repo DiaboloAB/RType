@@ -28,10 +28,9 @@ namespace mobs
 class Registry
 {
    public:
-
-   /**
-    * @brief Construct a new Registry object
-    */
+    /**
+     * @brief Construct a new Registry object
+     */
     Registry();
 
     /**
@@ -41,21 +40,21 @@ class Registry
 
     /**
      * @brief Create a new entity
-     * 
+     *
      * @return Entity The entity created
      */
     Entity create();
 
     /**
      * @brief Destroy an entity
-     * 
+     *
      * @param entity The entity to destroy
      */
     void kill(Entity entity);
 
     /**
      * @brief Adds a component to an entity.
-     * 
+     *
      * @tparam Component The type of the component to add.
      * @tparam Args The types of the arguments to pass to the component's constructor.
      * @param entity The entity to add the component to.
@@ -75,7 +74,7 @@ class Registry
 
     /**
      * @brief Retrieves a component of a specific entity.
-     * 
+     *
      * @tparam Component The type of the component to retrieve.
      * @param entity The entity whose component is to be retrieved.
      * @return Reference to the component.
@@ -94,24 +93,24 @@ class Registry
     {
         /**
          * @brief Returns an iterator to the beginning of the entities vector.
-         * 
+         *
          * @return Iterator to the beginning of the entities vector.
          */
         std::vector<Entity>::iterator begin() { return entities.begin(); }
 
         /**
          * @brief Returns an iterator to the end of the entities vector.
-         * 
+         *
          * @return Iterator to the end of the entities vector.
          */
         std::vector<Entity>::iterator end() { return entities.end(); }
 
-        std::vector<Entity> entities; ///< The entities in the view.
-        ComponentManager _manager; ///< The component manager.
+        std::vector<Entity> entities;  ///< The entities in the view.
+        ComponentManager _manager;     ///< The component manager.
 
         /**
          * @brief Retrieves a component of a specific entity within the view.
-         * 
+         *
          * @tparam Component The type of the component to retrieve.
          * @param entity The entity whose component is to be retrieved.
          * @return Reference to the component.
@@ -125,7 +124,7 @@ class Registry
 
     /**
      * @brief Creates a view of entities that have the specified components.
-     * 
+     *
      * @tparam Components The types of the components to filter entities by.
      * @return View The view of entities.
      */
@@ -149,12 +148,12 @@ class Registry
     void clear();
 
    private:
-    EntityManager _entityManager; ///< The entity manager.
-    ComponentManager _componentManager; ///< The component manager.
+    EntityManager _entityManager;        ///< The entity manager.
+    ComponentManager _componentManager;  ///< The component manager.
 
     /**
      * @brief Checks if an entity has the specified components.
-     * 
+     *
      * @tparam Components The types of the components to check.
      * @param entity The entity to check.
      * @return true If the entity has the specified components.
@@ -174,7 +173,6 @@ class Registry
         }
         return true;
     }
-
 };
 
 }  // namespace mobs

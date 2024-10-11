@@ -6,6 +6,7 @@
  **********************************************************************************/
 
 #include "GameContext.hpp"
+
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
 // std
 #include <fstream>
@@ -14,10 +15,9 @@
 
 using namespace RType;
 
-GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager, std::shared_ptr<IRuntime> runtime) :
-    _runtime(runtime),
-    _registry(registry),
-    _sceneManager(sceneManager)
+GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
+                         std::shared_ptr<IRuntime> runtime)
+    : _runtime(runtime), _registry(registry), _sceneManager(sceneManager)
 {
     std::ifstream i("assets/game.json");
 

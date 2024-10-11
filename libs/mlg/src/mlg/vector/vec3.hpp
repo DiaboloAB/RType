@@ -21,9 +21,9 @@ namespace mlg
 class vec3
 {
    public:
-    float x; ///< The x component of the vector.
-    float y; ///< The y component of the vector.
-    float z; ///< The z component of the vector.
+    float x;  ///< The x component of the vector.
+    float y;  ///< The y component of the vector.
+    float z;  ///< The z component of the vector.
 
     /**
      * @brief Default constructor for vec3.
@@ -32,7 +32,7 @@ class vec3
 
     /**
      * @brief Constructs a vec3 with specified x, y, and z components.
-     * 
+     *
      * @param x The x component.
      * @param y The y component.
      * @param z The z component.
@@ -41,7 +41,7 @@ class vec3
 
     /**
      * @brief Constructs a vec3 with all components set to the same value.
-     * 
+     *
      * @param value The value to set all components to.
      */
     explicit vec3(float value) : x(value), y(value), z(value) {}

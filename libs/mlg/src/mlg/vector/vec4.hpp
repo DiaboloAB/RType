@@ -20,10 +20,10 @@ namespace mlg
 class vec4
 {
    public:
-    float x; ///< The x component of the vector.
-    float y; ///< The y component of the vector.
-    float z; ///< The z component of the vector.
-    float w; ///< The w component of the vector.
+    float x;  ///< The x component of the vector.
+    float y;  ///< The y component of the vector.
+    float z;  ///< The z component of the vector.
+    float w;  ///< The w component of the vector.
 
     /**
      * @brief Default constructor for vec4.
@@ -32,7 +32,7 @@ class vec4
 
     /**
      * @brief Constructs a vec4 with specified x, y, z, and w components.
-     * 
+     *
      * @param x The x component.
      * @param y The y component.
      * @param z The z component.
@@ -42,7 +42,7 @@ class vec4
 
     /**
      * @brief Constructs a vec4 with all components set to the same value.
-     * 
+     *
      * @param value The value to set all components to.
      */
     explicit vec4(float value) : x(value), y(value), z(value), w(value) {}
@@ -51,6 +51,7 @@ class vec4
      * @brief Destructor for vec4.
      */
     ~vec4() {}
+
    private:
     // Member variables
 };

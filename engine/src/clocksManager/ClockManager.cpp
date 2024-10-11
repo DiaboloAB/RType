@@ -7,20 +7,22 @@
 
 #include "ClockManager.hpp"
 
-ClockManager::ClockManager() {
+ClockManager::ClockManager()
+{
     // Constructor implementation
 }
 
-ClockManager::~ClockManager() {
+ClockManager::~ClockManager()
+{
     // Destructor implementation
 }
 
-void ClockManager::update() {
+void ClockManager::update()
+{
     std::chrono::high_resolution_clock::time_point newTime =
         std::chrono::high_resolution_clock::now();
     float elapsed =
-        std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
-            .count();
+        std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime).count();
     _deltaT = elapsed;
     _drawDeltaT += elapsed;
     _updateDeltaT += elapsed;

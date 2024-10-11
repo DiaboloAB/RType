@@ -15,8 +15,9 @@
  * @class ClockManager
  * @brief Manages the timing and delta times for the game engine.
  */
-class ClockManager {
-public:
+class ClockManager
+{
+   public:
     /**
      * @brief Constructs a new ClockManager object.
      */
@@ -66,7 +67,10 @@ public:
      * @brief Sets the target update delta time.
      * @param targetUpdateDeltaT The target update delta time.
      */
-    void setTargetUpdateDeltaT(float targetUpdateDeltaT) { _targetUpdateDeltaT = targetUpdateDeltaT; }
+    void setTargetUpdateDeltaT(float targetUpdateDeltaT)
+    {
+        _targetUpdateDeltaT = targetUpdateDeltaT;
+    }
 
     /**
      * @brief Sets the target draw delta time.
@@ -74,14 +78,14 @@ public:
      */
     void setTargetDrawDeltaT(float targetDrawDeltaT) { _targetDrawDeltaT = targetDrawDeltaT; }
 
-private:
+   private:
     std::chrono::high_resolution_clock::time_point _currentTime =
-        std::chrono::high_resolution_clock::now(); ///< The current time.
-    float _deltaT = 0.0f; ///< The delta time.
-    float _updateDeltaT = 0.0f; ///< The update delta time.
-    float _drawDeltaT = 0.0f; ///< The draw delta time.
-    float _targetUpdateDeltaT = 1.0f / 300.0f; ///< The target update delta time.
-    float _targetDrawDeltaT = 1.0f / 60.0f; ///< The target draw delta time.
+        std::chrono::high_resolution_clock::now();  ///< The current time.
+    float _deltaT = 0.0f;                           ///< The delta time.
+    float _updateDeltaT = 0.0f;                     ///< The update delta time.
+    float _drawDeltaT = 0.0f;                       ///< The draw delta time.
+    float _targetUpdateDeltaT = 1.0f / 300.0f;      ///< The target update delta time.
+    float _targetDrawDeltaT = 1.0f / 60.0f;         ///< The target draw delta time.
 };
 
-#endif // CLOCKMANAGER_H
+#endif  // CLOCKMANAGER_H

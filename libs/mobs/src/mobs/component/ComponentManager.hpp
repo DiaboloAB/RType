@@ -35,7 +35,7 @@ class ComponentManager
 
     /**
      * @brief Registers a component type.
-     * 
+     *
      * @tparam Component The type of the component to register.
      */
     template <typename Component>
@@ -48,7 +48,7 @@ class ComponentManager
 
     /**
      * @brief Retrieves the component type identifier for a specific component.
-     * 
+     *
      * @tparam Component The type of the component.
      * @return The component type identifier.
      */
@@ -67,7 +67,7 @@ class ComponentManager
 
     /**
      * @brief Retrieves the component array for a specific component type.
-     * 
+     *
      * @tparam Component The type of the component.
      * @return Shared pointer to the component array.
      */
@@ -80,7 +80,7 @@ class ComponentManager
 
     /**
      * @brief Adds a component to an entity.
-     * 
+     *
      * @tparam Component The type of the component to add.
      * @param entity The entity to add the component to.
      * @param component The component to add.
@@ -93,7 +93,7 @@ class ComponentManager
 
     /**
      * @brief Removes a component from an entity.
-     * 
+     *
      * @tparam Component The type of the component to remove.
      * @param entity The entity to remove the component from.
      */
@@ -105,7 +105,7 @@ class ComponentManager
 
     /**
      * @brief Retrieves a component of a specific entity.
-     * 
+     *
      * @tparam Component The type of the component to retrieve.
      * @param entity The entity whose component is to be retrieved.
      * @return Reference to the component.
@@ -118,7 +118,7 @@ class ComponentManager
 
     /**
      * @brief Destroys an entity.
-     * 
+     *
      * @param entity The entity to destroy.
      */
     void entityDestroyed(Entity entity)
@@ -131,9 +131,11 @@ class ComponentManager
     }
 
    private:
-    std::unordered_map<std::type_index, ComponentType> _componentTypes; ///< Map of component types.
-    std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>> _componentArrays; ///< Map of component arrays.
-    ComponentType _nextComponentType = 0; ///< The next component type identifier.
+    std::unordered_map<std::type_index, ComponentType>
+        _componentTypes;  ///< Map of component types.
+    std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>>
+        _componentArrays;                  ///< Map of component arrays.
+    ComponentType _nextComponentType = 0;  ///< The next component type identifier.
 };
 
 }  // namespace mobs
