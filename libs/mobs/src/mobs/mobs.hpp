@@ -20,15 +20,47 @@
 namespace mobs
 {
 
+/**
+ * @brief The Registry class is the main
+ * class of the library. It is used to create
+ * entities and to manage their components.
+ */
 class Registry
 {
    public:
+
+   /**
+    * @brief Construct a new Registry object
+    */
     Registry();
+
+    /**
+     * @brief Destroy the Registry object
+     */
     ~Registry();
 
+    /**
+     * @brief Create a new entity
+     * 
+     * @return Entity The entity created
+     */
     Entity create();
+
+    /**
+     * @brief Destroy an entity
+     * 
+     * @param entity The entity to destroy
+     */
     void kill(Entity entity);
 
+    /**
+     * @brief Adds a component to an entity.
+     * 
+     * @tparam Component The type of the component to add.
+     * @tparam Args The types of the arguments to pass to the component's constructor.
+     * @param entity The entity to add the component to.
+     * @param args The arguments to pass to the component's constructor.
+     */
     template <typename Component, typename... Args>
     void emplace(Entity entity, Args &&...args)
     {
@@ -41,20 +73,49 @@ class Registry
         _componentManager.addComponent<Component>(entity, component);
     }
 
+    /**
+     * @brief Retrieves a component of a specific entity.
+     * 
+     * @tparam Component The type of the component to retrieve.
+     * @param entity The entity whose component is to be retrieved.
+     * @return Reference to the component.
+     */
     template <typename Component>
     Component &get(Entity entity)
     {
         return _componentManager.getComponent<Component>(entity);
     }
 
+    /**
+     * @struct View
+     * @brief Provides an iterable view of entities and their components.
+     */
     struct View
     {
+        /**
+         * @brief Returns an iterator to the beginning of the entities vector.
+         * 
+         * @return Iterator to the beginning of the entities vector.
+         */
         std::vector<Entity>::iterator begin() { return entities.begin(); }
+
+        /**
+         * @brief Returns an iterator to the end of the entities vector.
+         * 
+         * @return Iterator to the end of the entities vector.
+         */
         std::vector<Entity>::iterator end() { return entities.end(); }
 
-        std::vector<Entity> entities;
-        ComponentManager _manager;
+        std::vector<Entity> entities; ///< The entities in the view.
+        ComponentManager _manager; ///< The component manager.
 
+        /**
+         * @brief Retrieves a component of a specific entity within the view.
+         * 
+         * @tparam Component The type of the component to retrieve.
+         * @param entity The entity whose component is to be retrieved.
+         * @return Reference to the component.
+         */
         template <typename Component>
         Component &get(Entity entity)
         {
@@ -62,6 +123,12 @@ class Registry
         }
     };
 
+    /**
+     * @brief Creates a view of entities that have the specified components.
+     * 
+     * @tparam Components The types of the components to filter entities by.
+     * @return View The view of entities.
+     */
     template <typename... Components>
     View view()
     {
@@ -74,15 +141,25 @@ class Registry
         view.entities = entities;
         view._manager = _componentManager;
         return view;
-        // return entities;
     }
 
+    /**
+     * @brief Clears the registry.
+     */
     void clear();
 
-
    private:
-    EntityManager _entityManager;
+    EntityManager _entityManager; ///< The entity manager.
+    ComponentManager _componentManager; ///< The component manager.
 
+    /**
+     * @brief Checks if an entity has the specified components.
+     * 
+     * @tparam Components The types of the components to check.
+     * @param entity The entity to check.
+     * @return true If the entity has the specified components.
+     * @return false If the entity does not have the specified components.
+     */
     template <typename... Components>
     bool hasComponents(Entity entity)
     {
@@ -98,8 +175,6 @@ class Registry
         return true;
     }
 
-    ComponentManager _componentManager;
-    // Member variables
 };
 
 }  // namespace mobs
