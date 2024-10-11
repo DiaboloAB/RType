@@ -85,14 +85,7 @@ void Engine::runServer()
 {
     // Server server(this->_networkHandler->getHost(), this->_networkHandler->getPort());
     // server.run();
-    _systemManager.start(_registry, _gameContext);
-
-    _gameContext.setNetworkHandler(_networkHandler);
-
     while (true)
     {
-        _gameContext.update();
-
-        _systemManager.update(_registry, _gameContext);
     }
 }
