@@ -34,10 +34,40 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
     _currentTime = std::chrono::high_resolution_clock::now();
     _deltaT = 0.0f;
     _networkHandler = nullptr;
-    // Constructor implementation
+    _updateDeltaT = 0.0f;
+    _drawDeltaT = 0.0f;
+
+    try
+    {
+        std::vector<std::string> fontList = j["fontList"];
+        for (const auto &font : fontList)
+        {
+            _runtime->loadFont(font);
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
 
 GameContext::~GameContext()
 {
     // Destructor implementation
+}
+
+void GameContext::update()
+{
+    {
+        std::chrono::high_resolution_clock::time_point newTime =
+            std::chrono::high_resolution_clock::now();
+        float elapsed =
+            std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
+                .count();
+        _deltaT = elapsed;
+        _drawDeltaT += elapsed;
+        _updateDeltaT += elapsed;
+        _currentTime = newTime;
+        _sceneManager.update(*this);
+    }
 }

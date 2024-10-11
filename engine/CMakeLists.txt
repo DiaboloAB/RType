@@ -32,6 +32,7 @@ set(SOURCES
     src/NetworkPacketManager/UpdateEntityPacket.cpp
     src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
+    src/utils/hexaColorToVec3.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})

@@ -58,15 +58,25 @@ void Engine::run()
     while (_gameContext._runtime->isWindowOpen())
     {
         _gameContext._runtime->pollEvents();
-        _gameContext.update();
-
         if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
-        _systemManager.update(_registry, _gameContext);
+        _gameContext.update();
 
-        _gameContext._runtime->clearWindow();
-        _systemManager.draw(_registry, _gameContext);
-        _gameContext._runtime->updateWindow();
+        // if (_gameContext._updateDeltaT >= _gameContext._targetUpdateDeltaT)
+        // {
+        //     _gameContext._deltaT = _gameContext._updateDeltaT;
+        _systemManager.update(_registry, _gameContext);
+        //     _gameContext._updateDeltaT = 0.0f;
+        // }
+
+        if (_gameContext._drawDeltaT >= _gameContext._targetDrawDeltaT)
+        {
+            _gameContext._deltaT = _gameContext._drawDeltaT;
+            _gameContext._runtime->clearWindow();
+            _systemManager.draw(_registry, _gameContext);
+            _gameContext._runtime->updateWindow();
+            _gameContext._drawDeltaT = 0.0f;
+        }
     }
 }
 

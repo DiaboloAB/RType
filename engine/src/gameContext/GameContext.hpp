@@ -9,7 +9,6 @@
 #define GAMECONTEXT_H
 
 #include <IRuntime/IRuntime.hpp>
-#include <NetworkHandler/NetworkHandler.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <chrono>
 #include <mobs/mobs.hpp>
@@ -39,6 +38,7 @@ class GameContext
     {
         this->_networkHandler = newNetworkHandler;
     }
+    void update();
 
     template <typename Component>
     Component &get(std::string tag)
@@ -60,6 +60,12 @@ class GameContext
     }
 
     float _deltaT;
+    float _drawDeltaT;
+    float _updateDeltaT;
+
+    float _targetUpdateDeltaT = 1.0f / 300.0f;
+    float _targetDrawDeltaT = 1.0f / 60.0f;
+
     IRuntime *_runtime;
     mobs::Registry &_registry;
     SceneManager &_sceneManager;
@@ -67,6 +73,8 @@ class GameContext
 
    private:
     std::chrono::high_resolution_clock::time_point _currentTime;
+
+    void loadFonts();
 };
 
 }  // namespace RType
