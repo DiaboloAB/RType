@@ -97,10 +97,17 @@ class SceneManager
         std::function<void(mobs::Registry &, mobs::Entity, const nlohmann::json &)>;
     using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
 
-    std::unordered_map<std::string, ComponentCreator> _componentCreators;
-    std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;
+    std::unordered_map<std::string, ComponentCreator> _componentCreators; ///< Component creators.
+    std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators; ///< C++ script creators.
 
+    /**
+     * @brief Initializes the component creators.
+     */
     void initComponentCreators();
+
+    /**
+     * @brief Initializes the C++ script creators.
+     */
     void initCppScriptCreators();
 
     std::string _defaultScene;              ///< The default scene name.
