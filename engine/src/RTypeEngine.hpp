@@ -12,6 +12,7 @@
 #include "NetworkHandler/NetworkHandler.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
+#include "clocksManager/ClockManager.hpp"
 // std
 #include <chrono>
 #include <iostream>
@@ -29,14 +30,15 @@ class Engine
     void runServer();
 
    private:
+
+    std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
+    std::shared_ptr<IRuntime> _runtime = nullptr;
+
     mobs::Registry _registry;
     SystemManager _systemManager;
     SceneManager _sceneManager;
     GameContext _gameContext;
-
-    std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;
+    ClockManager _clockManager;
     bool _isServer = false;
-
-    // Member variables
 };
 }  // namespace RType

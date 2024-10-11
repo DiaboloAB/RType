@@ -19,7 +19,9 @@
 
 using namespace RType;
 
-Engine::Engine() : _gameContext(_registry, _sceneManager)
+Engine::Engine() :
+    _runtime(std::make_shared<RenderSystemSFML>()),
+    _gameContext(_registry, _sceneManager, _runtime)
 {
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
@@ -52,22 +54,22 @@ void Engine::run()
         _gameContext._runtime->pollEvents();
         if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
-        _gameContext.update();
+        _clockManager.update();
+        _sceneManager.update(_gameContext);
 
-        // if (_gameContext._updateDeltaT >= _gameContext._targetUpdateDeltaT)
-        // {
-        //     _gameContext._deltaT = _gameContext._updateDeltaT;
+        _gameContext._deltaT = _clockManager.getDeltaT();
         _systemManager.update(_registry, _gameContext);
-        //     _gameContext._updateDeltaT = 0.0f;
-        // }
 
-        if (_gameContext._drawDeltaT >= _gameContext._targetDrawDeltaT)
+
+        if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {
-            _gameContext._deltaT = _gameContext._drawDeltaT;
+            _gameContext._deltaT = _clockManager.getDrawDeltaT();
+
             _gameContext._runtime->clearWindow();
             _systemManager.draw(_registry, _gameContext);
             _gameContext._runtime->updateWindow();
-            _gameContext._drawDeltaT = 0.0f;
+
+            _clockManager.getDrawDeltaT() = 0.0f;
         }
     }
 }

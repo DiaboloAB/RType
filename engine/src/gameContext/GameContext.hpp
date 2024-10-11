@@ -11,20 +11,19 @@
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
-
 #include "common/components.hpp"
 // std
 #include <chrono>
+#include <iostream>
+#include <memory>
 
 namespace RType
 {
 class GameContext
 {
    public:
-    GameContext(mobs::Registry &registry, SceneManager &sceneManager);
+    GameContext(mobs::Registry &registry, SceneManager &sceneManager, std::shared_ptr<IRuntime> runtime = nullptr);
     ~GameContext();
-
-    void update();
 
     template <typename Component>
     Component &get(std::string tag)
@@ -45,21 +44,12 @@ class GameContext
         }
     }
 
-    float _deltaT;
-    float _drawDeltaT;
-    float _updateDeltaT;
+    std::shared_ptr<IRuntime> _runtime; ///< The runtime.
+    mobs::Registry &_registry; ///< The registry.
+    SceneManager &_sceneManager; ///< The scene manager.
 
-    float _targetUpdateDeltaT = 1.0f / 300.0f;
-    float _targetDrawDeltaT = 1.0f / 60.0f;
-
-    IRuntime *_runtime;
-    mobs::Registry &_registry;
-    SceneManager &_sceneManager;
-
+    float _deltaT = 0.0f; ///< The delta time.
    private:
-    std::chrono::high_resolution_clock::time_point _currentTime;
-
-    void loadFonts();
 };
 
 }  // namespace RType
