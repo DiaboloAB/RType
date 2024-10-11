@@ -5,15 +5,15 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef MLG_H
-#define MLG_H
+#ifndef HEXATOVEC3_H
+#define HEXATOVEC3_H
 
-#include <mlg/vector/vec3.hpp>
-#include <mlg/vector/vec4.hpp>
+#include "mlg/mlg.hpp"
 // std
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
-namespace mlg
-{
-}  // namespace mlg
+mlg::vec3 hexaColorToVec3(std::string hexa);
 
-#endif  // MLG_H
+#endif  // HEXATOVEC3_H

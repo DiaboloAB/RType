@@ -23,8 +23,8 @@ class Animation
     std::string filepath;  ///< Path to the file containing the animation.
     int frameCount;        ///< Number of frames in the animation.
     float speed;           ///< Speed of the animation.
-    mlg::vec2 frameSize;   ///< Size of each frame.
-    mlg::vec2 scale;       ///< Scale of the animation.
+    mlg::vec3 frameSize;   ///< Size of each frame.
+    mlg::vec3 scale;       ///< Scale of the animation.
     float rotation;        ///< Rotation of the animation.
     std::string name;      ///< Name of the animation.
     bool loop;             ///< Boolean to know if the animation should loop.
@@ -41,8 +41,8 @@ class Animation
      * @param name Name of the animation.
      * @param loop Boolean to know if the animation should loop.
      */
-    Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec2 &frameSize,
-              const mlg::vec2 &scale, float rotation, std::string name, bool loop);
+    Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec3 &frameSize,
+              const mlg::vec3 &scale, float rotation, std::string name, bool loop);
     /**
      * @brief Destructor for Animation.
      */
@@ -77,13 +77,13 @@ class Animation
      * @brief Get the size of each frame.
      * @return The frame size as mlg::vec2.
      */
-    mlg::vec2 getFrameSize() { return frameSize; }
+    mlg::vec3 getFrameSize() { return frameSize; }
 
     /**
      * @brief Get the scale of the animation.
      * @return The scale as mlg::vec2.
      */
-    mlg::vec2 getScale() { return scale; }
+    mlg::vec3 getScale() { return scale; }
 
     /**
      * @brief Get the rotation of the animation.

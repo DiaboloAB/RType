@@ -7,14 +7,17 @@
 
 #include "GameContext.hpp"
 
+#include "RenderSystemSFML/RenderSystemSFML.hpp"
+// std
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
 using namespace RType;
 
-GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
-    : _registry(registry), _sceneManager(sceneManager)
+GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
+                         std::shared_ptr<IRuntime> runtime)
+    : _runtime(runtime), _registry(registry), _sceneManager(sceneManager)
 {
     std::ifstream i("assets/game.json");
 
@@ -30,10 +33,18 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
 
-    _runtime = new RenderSystemSFML();
-    _currentTime = std::chrono::high_resolution_clock::now();
-    _deltaT = 0.0f;
-    // Constructor implementation
+    try
+    {
+        std::vector<std::string> fontList = j["fontList"];
+        for (const auto &font : fontList)
+        {
+            _runtime->loadFont(font);
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
 
 GameContext::~GameContext()
