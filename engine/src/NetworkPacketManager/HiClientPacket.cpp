@@ -5,19 +5,20 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "ClientEventPacket.hpp"
+#include "HiClientPacket.hpp"
 
 namespace RType::Network
 {
-ClientEventPacket::ClientEventPacket() : APacket(CLIENTEVENT) { this->_packetDataSize = 0; };
+HiClientPacket::HiClientPacket() : APacket(HICLIENT) { this->_packetDataSize = 0; }
 
-ClientEventPacket::ClientEventPacket(std::vector<char> &buffer) : APacket(buffer) {}
+HiClientPacket::HiClientPacket(std::vector<char> &buffer) : APacket(buffer) {}
 
-ClientEventPacket::~ClientEventPacket() {}
+HiClientPacket::~HiClientPacket(){};
 
-std::vector<char> ClientEventPacket::serializeData() const
+std::vector<char> HiClientPacket::serializeData() const
 {
     std::vector<char> buffer;
     return buffer;
 }
+
 }  // namespace RType::Network

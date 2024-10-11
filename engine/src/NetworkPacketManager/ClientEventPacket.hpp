@@ -7,43 +7,40 @@
 
 #pragma once
 
+#include <common/ClientEvent.hpp>
+
 #include "APacket.hpp"
 
 namespace RType::Network
 {
-
 /**
- * @class KickClientPacket
+ * @class ClientEventPacket
  *
  * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
- * main information used to kick client from server.
+ * main information used to manage client events (shoot, move, ...).
  */
-class KickClientPacket : public APacket
+class ClientEventPacket : public APacket
 {
    public:
     /**
-     * @brief Construct KickClientPacket object that will be send to client.
+     * @brief Construct ClientEventPacket object that will be send to server.
      *
-     * @param reason : Reasons why client is kick from server.
-     * @return KickClientPacket object.
+     * @return ClientEventPacket object.
      */
-    KickClientPacket(std::string reason);
+    ClientEventPacket(ClientEvent event);
 
     /**
-     * @brief Construct new KickClientPacket object with serialized data by deserializing them.
+     * @brief Construct new CLientEventPacket object with serialized data by deserializing them.
      *
      * @param buffer: Serialized packet data to deserialize.
-     * @return KickClientPacket object.
+     * @return ClientEventPacket object.
      */
-    KickClientPacket(std::vector<char> &buffer);
+    ClientEventPacket(std::vector<char> &buffer);
 
     /**
-     * @brief Destruct KickClientPacket object.
+     * @brief Destruct ClientEventPacket object.
      */
-    ~KickClientPacket();
-
-   public:
-    std::string getReason() const;
+    ~ClientEventPacket();
 
    public:
     /**
@@ -53,7 +50,10 @@ class KickClientPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
+   public:
+    ClientEvent getClientEvent() const;
+
    private:
-    std::string _reason;
+    ClientEvent _clientEvent;
 };
 }  // namespace RType::Network

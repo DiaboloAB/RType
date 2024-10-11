@@ -1,0 +1,57 @@
+{
+    "tag": "player",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [100, 100, 0] },
+          "Timer": { "active": false},
+          "Hitbox": {
+            "size": [64, 32],
+            "offSet": [0, 0],
+            "isEnemy": false
+          },
+          "Health": {
+            "health": 3
+          },
+          "Network": {
+            "id" : 0,
+            "authority" : "server"
+          },
+          "Animator": [
+            {
+              "name": "default",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/idle.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "down",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/down.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": false
+            },
+            {
+              "name": "up",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/up.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": false
+            }
+          ],
+          "CppScripts": [
+            "MovePlayer",
+            "AnimPlayer",
+            "PlayerShoot"
+          ]
+        }
+    }

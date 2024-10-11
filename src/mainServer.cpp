@@ -31,7 +31,7 @@ int main(int ac, char **av)
     {
         RType::Server::Server server(ac, av);
         RType::Engine engine(server.getHost(), server.getPort(), true);
-        engine.runServer();
+        engine.run();
         return 0;
     }
     catch (std::exception &e)

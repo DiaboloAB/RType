@@ -24,10 +24,9 @@ class HiClientPacket : public APacket
     /**
      * @brief Construct HiClientPacket object that will be send to client.
      *
-     * @param entityId : Id of the entity that will be created.
      * @return HiClientPacket object.
      */
-    HiClientPacket(uint32_t entityId);
+    HiClientPacket();
 
     /**
      * @brief Construct new HiClientPacket object with serialized data by deserializing them.
@@ -50,10 +49,6 @@ class HiClientPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
-   public:
-    uint32_t getEntityId() const;
-
    private:
-    uint32_t _entityId;
 };
 }  // namespace RType::Network

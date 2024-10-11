@@ -7,12 +7,15 @@
 
 #pragma once
 
+#include <NetworkHandler/EndpointState.hpp>
 #include <NetworkHandler/PacketHandler.hpp>
-#include <PacketManager/APacket.hpp>
-#include <PacketManager/PacketFactory.hpp>
+#include <NetworkPacketManager/APacket.hpp>
+#include <NetworkPacketManager/PacketFactory.hpp>
 #include <asio.hpp>
+#include <chrono>
 #include <iostream>
 #include <list>
+#include <map>
 #include <queue>
 #include <string>
 #include <thread>
@@ -20,6 +23,13 @@
 
 namespace RType::Network
 {
+
+enum GameState : uint8_t
+{
+    IN_MENU = 0,
+    IN_GAME = 1,
+};
+
 class NetworkHandler
 {
    public:
@@ -55,6 +65,7 @@ class NetworkHandler
      */
     void sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
+   public:
     /**
      * @brief Method that send packets from an endpoint to another using async method from asio
      * network library.
@@ -94,6 +105,29 @@ class NetworkHandler
     void deleteFromValidationList(const std::shared_ptr<PacketValidationPacket> &validation,
                                   const asio::ip::udp::endpoint &endpoint);
 
+    /**
+     * @brief Update value of the key element (endpoint) in the map if it exist.
+     * Add it to map else.
+     *
+     * @param endpoint: Key of the map element.
+     * @param value: New value of the element.
+     */
+    void updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value);
+
+    /**
+     * @brief Remove endpoint inside enpoint map if this endpoint exist
+     *
+     * @param endpoint: Endpoint to remove
+     */
+    void removeEndpointFromMap(asio::ip::udp::endpoint &endpoint);
+
+    /**
+     * @brief send packet to all conected endpoint
+     *
+     * @param packet: packet to send.
+     */
+    void sendToAll(const APacket &packet);
+
    public:
     class NetworkHandlerError : public std::exception
     {
@@ -114,19 +148,23 @@ class NetworkHandler
     bool getIsServer() const;
     std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
     getPacketQueue() const;
+    std::map<asio::ip::udp::endpoint, EndpointState> getEndpointMap() const;
+    GameState getGameState() const;
 
    public:
     void setHost(const std::string host);
     void setPort(const unsigned int port);
+    void setGameState(GameState state);
 
    private:
     std::string _host = "";
     unsigned int _port = 0;
     bool _isServer = false;
+    GameState _gameState = IN_MENU;
     std::array<char, 1024> _recvBuffer;
     asio::io_context _io_context;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-    std::list<std::pair<asio::ip::udp::endpoint, bool>> _endpointList = {};
+    std::map<asio::ip::udp::endpoint, EndpointState> _endpointMap = {};
     std::thread _thread;
     PacketFactory _factory;
     PacketHandler _packetHandler;
