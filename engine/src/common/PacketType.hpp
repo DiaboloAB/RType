@@ -9,7 +9,8 @@
 
 #include <cstdint>
 
-namespace RType::Network {
+namespace RType::Network
+{
 enum PacketType : uint8_t
 {
     NONE = 0,

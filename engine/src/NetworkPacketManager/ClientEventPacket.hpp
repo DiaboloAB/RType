@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include "APacket.hpp"
 #include <common/ClientEvent.hpp>
+
+#include "APacket.hpp"
 
 namespace RType::Network
 {
@@ -49,10 +50,10 @@ class ClientEventPacket : public APacket
      */
     std::vector<char> serializeData() const override;
 
-    public:
-        ClientEvent getClientEvent() const;
+   public:
+    ClientEvent getClientEvent() const;
 
-    private:
-        ClientEvent _clientEvent;
+   private:
+    ClientEvent _clientEvent;
 };
 }  // namespace RType::Network

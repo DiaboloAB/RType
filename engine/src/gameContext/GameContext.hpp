@@ -77,6 +77,7 @@ class GameContext
 
     float _deltaT = 0.0f;  ///< The delta time.
     std::shared_ptr<Network::NetworkHandler> _networkHandler;
+
    private:
 };
 

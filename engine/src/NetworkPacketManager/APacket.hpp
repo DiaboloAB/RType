@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <common/PacketType.hpp>
 #include <chrono>
+#include <common/PacketType.hpp>
 #include <cstdint>
 #include <cstring>
 #include <exception>

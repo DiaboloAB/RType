@@ -9,7 +9,8 @@
 
 #include <cstdint>
 
-namespace RType::Network {
+namespace RType::Network
+{
 enum ClientEvent : uint8_t
 {
     GAME_START = 0,
