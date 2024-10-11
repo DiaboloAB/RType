@@ -32,7 +32,8 @@ class GameStartEvent
     static void update(asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                        GameContext &gameContext, NetworkIdHandler &idHandler)
     {
-        if (!checkSenderValidity(sender, gameContext)) return;
+        if (!checkSenderValidity(sender, gameContext))
+            return;
         float posX = 100.0;
         float posY = 100.0;
 
@@ -42,14 +43,14 @@ class GameStartEvent
         for (auto &enpoint : enpointMap)
         {
             if (enpoint.second.getConnected())
-            {
+            
                 mobs::Entity newEntity =
-                    gameContext._sceneManager.loadPrefab("RedShip.json", gameContext);
+                    gameContext._sceneManager.loadPrefab("player.json", gameContext);
                 auto &transform = registry.get<Transform>(newEntity);
                 transform.position = mlg::vec3(posX, posY, 0.0f);
                 auto &networkComp = registry.get<NetworkComp>(newEntity);
                 networkComp.id = idHandler.generateNetworkId();
-                auto entiyPacket = CreateEntityPacket(networkComp.id, posX, posY, "RedShip.json");
+                auto entiyPacket = CreateEntityPacket(networkComp.id, posX, posY, "player.json");
                 enpoint.second.setNetworkId(networkComp.id);
                 networkHandler->sendToAll(entiyPacket);
                 if (posY >= 1500)
@@ -59,6 +60,7 @@ class GameStartEvent
                 }
                 else
                     posY += 100;
+                std::cerr << "CREATE ENTITY & SEND" << std::endl;
             }
         }
     }

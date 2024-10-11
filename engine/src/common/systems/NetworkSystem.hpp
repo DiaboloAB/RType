@@ -15,6 +15,8 @@
 #include <NetworkPacketManager/HiClientPacket.hpp>
 #include <NetworkPacketManager/HiServerPacket.hpp>
 #include <NetworkPacketManager/PacketValidationPacket.hpp>
+#include <NetworkHandler/NetworkIdHandler.hpp>
+#include <NetworkEvents/NetworkEventHandler.hpp>
 #include <common/components.hpp>
 #include <mobs/mobs.hpp>
 #include <system/ISystem.hpp>
@@ -25,7 +27,7 @@ namespace RType
 class NetworkSystem : public ISystem
 {
    public:
-    NetworkSystem()
+    NetworkSystem() : _idHandler(Network::NetworkIdHandler()), _eventHandler(Network::NetworkEventHandler(_idHandler))
     {
         this->_systemsMap[Network::HISERVER] =
             [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
@@ -90,6 +92,7 @@ class NetworkSystem : public ISystem
         if (endpointMap.count(sender) == 0)
             gameContext._networkHandler->updateEndpointMap(sender, false);
         gameContext._networkHandler->sendNewPacket(packetToSend, sender);
+        std::cerr << "[NETWORK LOG] HiServer : New client set." << std::endl;
     }
 
     /**
@@ -112,6 +115,7 @@ class NetworkSystem : public ISystem
         if (endpointMap.count(sender) == 1)
             gameContext._networkHandler->updateEndpointMap(sender, true);
         gameContext._networkHandler->sendNewPacket(packetToSend, sender);
+        std::cerr << "[NETWORK LOG] Client connected to server !" << std::endl;
     }
 
     /**
@@ -167,6 +171,7 @@ class NetworkSystem : public ISystem
         auto target = endpointMap.find(sender);
         if (target == endpointMap.end() || !target->second.getConnected()) return;
         gameContext._networkHandler->updateEndpointMap(sender, true);
+        std::cerr << "[NETWORK LOG] Ping recep !" << std::endl;
     }
 
     /**
@@ -207,6 +212,7 @@ class NetworkSystem : public ISystem
             auto validation = Network::PacketValidationPacket(createPacket->getPacketType(),
                                                               createPacket->getPacketTimeStamp());
             gameContext._networkHandler->sendNewPacket(validation, sender);
+            std::cerr << "[NETWORK LOG] Entity Created !" << std::endl;
         }
         catch (std::exception &e)
         {
@@ -241,6 +247,7 @@ class NetworkSystem : public ISystem
             auto validation = Network::PacketValidationPacket(destroyPacket->getPacketType(),
                                                               destroyPacket->getPacketTimeStamp());
             gameContext._networkHandler->sendNewPacket(validation, sender);
+            std::cerr << "[NETWORK LOG] Entity Destroy !" << std::endl;
         }
         catch (std::exception &e)
         {
@@ -293,7 +300,14 @@ class NetworkSystem : public ISystem
                            asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                            GameContext &gameContext)
     {
-        return;
+        try {
+            std::shared_ptr<Network::ClientEventPacket> eventPacket =
+                std::dynamic_pointer_cast<Network::ClientEventPacket>(packet);
+            this->_eventHandler.update(eventPacket->getClientEvent(), sender, registry, gameContext);
+            std::cerr << "[NETWORK LOG] Client event !" << std::endl;
+        } catch (std::exception &e) {
+            std::cerr << "[NETWORK LOG] Error in client event !" << std::endl;
+        }
     }
 
     /**
@@ -314,7 +328,12 @@ class NetworkSystem : public ISystem
             std::shared_ptr<Network::PacketValidationPacket> validation =
                 std::dynamic_pointer_cast<Network::PacketValidationPacket>(packet);
             if (this->getActualTime() - validation->getPacketTimeStamp() >= 4) return;
+            if (validation->getPacketReceiveType() == Network::HICLIENT) {
+                std::cerr << "Je traite un packet HICLIENT" << std::endl;
+                gameContext._networkHandler->updateEndpointMap(sender, true);
+            }
             gameContext._networkHandler->deleteFromValidationList(validation, sender);
+            std::cerr << "[NETWORK LOG] Validation receive." << std::endl;
         }
         catch (std::exception &e)
         {
@@ -346,6 +365,7 @@ class NetworkSystem : public ISystem
                 packet = packetQueue.front().first;
                 sender = packetQueue.front().second;
                 type = packet->getPacketType();
+                this->_systemsMap[packet->getPacketType()](packet, sender, registry, gameContext);
             }
             catch (std::exception &e)
             {
@@ -394,6 +414,8 @@ class NetworkSystem : public ISystem
                                                                asio::ip::udp::endpoint &,
                                                                mobs::Registry &, GameContext &)>>
         _systemsMap;
+    Network::NetworkIdHandler _idHandler;
+    Network::NetworkEventHandler _eventHandler;
 };
 }  // namespace RType
 

@@ -9,7 +9,7 @@
 
 namespace RType::Network
 {
-ClientEventPacket::ClientEventPacket(ClientEvent clientEvent, uint32_t clientNetworkId)
+ClientEventPacket::ClientEventPacket(ClientEvent clientEvent)
     : APacket(CLIENTEVENT), _clientEvent(clientEvent)
 {
     this->_packetDataSize = sizeof(uint8_t);
