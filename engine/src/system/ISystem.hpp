@@ -9,6 +9,7 @@
 #define ISYSTEM_H
 
 #include <gameContext/GameContext.hpp>
+
 #include "mobs/mobs.hpp"
 // std
 
@@ -29,7 +30,7 @@ class ISystem
 
     /**
      * @brief Called when the system starts.
-     * 
+     *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
@@ -37,7 +38,7 @@ class ISystem
 
     /**
      * @brief Called every frame to update the system.
-     * 
+     *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
@@ -45,7 +46,7 @@ class ISystem
 
     /**
      * @brief Called every frame to draw the system.
-     * 
+     *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
