@@ -9,6 +9,7 @@
 #define GAMECONTEXT_H
 
 #include <IRuntime/IRuntime.hpp>
+#include <NetworkHandler/NetworkHandler.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <chrono>
 #include <mobs/mobs.hpp>
@@ -24,20 +25,11 @@ class GameContext
     GameContext(mobs::Registry &registry, SceneManager &sceneManager);
     ~GameContext();
 
-    void update()
-    {
-        std::chrono::high_resolution_clock::time_point newTime =
-            std::chrono::high_resolution_clock::now();
-        _deltaT = std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
-                      .count();
-        _currentTime = newTime;
-        _sceneManager.update(*this);
-    }
-
     void setNetworkHandler(std::shared_ptr<Network::NetworkHandler> newNetworkHandler)
     {
         this->_networkHandler = newNetworkHandler;
     }
+
     void update();
 
     template <typename Component>
