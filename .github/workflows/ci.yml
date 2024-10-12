@@ -49,7 +49,7 @@ jobs:
 
       - name: Check for binaries
         run: |
-          if [ -f ../r-type_client ] && [ -f ../r-type_server ]; then
+          if [ -f r-type_client ] && [ -f r-type_server ]; then
             echo "Build successful: Binaries found"
           else
             echo "Build failed: Binaries not found"
