@@ -71,6 +71,28 @@ class GameContext
         }
     }
 
+    /**
+     * @brief Put the entity in the destroy queue.
+     * 
+     * @param entity The entity to destroy.
+     */
+    void destroyEntity(Entity entity)
+    {
+        _entitiesToDestroy.push(entity);
+    }
+
+    /**
+     * @brief Destroys all entities in the destroy queue.
+     */
+    void destroyEntities()
+    {
+        while (!_entitiesToDestroy.empty())
+        {
+            _registry.destroy(_entitiesToDestroy.front());
+            _entitiesToDestroy.pop();
+        }
+    }
+
     std::shared_ptr<IRuntime> _runtime;  ///< The runtime.
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
@@ -79,6 +101,7 @@ class GameContext
     std::shared_ptr<Network::NetworkHandler> _networkHandler;
 
    private:
+    std::queue<Entity> _entitiesToDestroy;  ///< The entities to destroy.
 };
 
 }  // namespace RType
