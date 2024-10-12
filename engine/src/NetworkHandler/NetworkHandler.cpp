@@ -160,7 +160,7 @@ NetworkHandler::getPacketQueue() const
     return this->_packetHandler.getReceiveQueue();
 }
 
-std::map<asio::ip::udp::endpoint, EndpointState> NetworkHandler::getEndpointMap() const
+std::map<asio::ip::udp::endpoint, EndpointState> &NetworkHandler::getEndpointMap()
 {
     return this->_endpointMap;
 }

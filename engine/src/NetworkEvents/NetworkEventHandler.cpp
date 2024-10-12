@@ -27,6 +27,18 @@ NetworkEventHandler::NetworkEventHandler(NetworkIdHandler &idHandler) : _idHandl
         this->_eventMap[MOVE_LEFT] = [this](asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                                          GameContext &gameContext, NetworkIdHandler &idHandler)
     { return MoveLeftEvent::update(sender, registry, gameContext, idHandler); };
+        this->_eventMap[STOP_MOVE_UP] = [this](asio::ip::udp::endpoint &sender, mobs::Registry &registry,
+                                         GameContext &gameContext, NetworkIdHandler &idHandler)
+    { return StopMoveUpEvent::update(sender, registry, gameContext, idHandler); };
+        this->_eventMap[STOP_MOVE_DOWN] = [this](asio::ip::udp::endpoint &sender, mobs::Registry &registry,
+                                         GameContext &gameContext, NetworkIdHandler &idHandler)
+    { return StopMoveDownEvent::update(sender, registry, gameContext, idHandler); };
+        this->_eventMap[STOP_MOVE_RIGHT] = [this](asio::ip::udp::endpoint &sender, mobs::Registry &registry,
+                                         GameContext &gameContext, NetworkIdHandler &idHandler)
+    { return StopMoveRightEvent::update(sender, registry, gameContext, idHandler); };
+        this->_eventMap[STOP_MOVE_LEFT] = [this](asio::ip::udp::endpoint &sender, mobs::Registry &registry,
+                                         GameContext &gameContext, NetworkIdHandler &idHandler)
+    { return StopMoveLeftEvent::update(sender, registry, gameContext, idHandler); };
 }
 
 NetworkEventHandler::~NetworkEventHandler() {}

@@ -17,6 +17,7 @@
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/TimerSystem.hpp"
 #include "common/systems/forward.hpp"
+#include "common/systems/NetworkMoveSystem.hpp"
 
 using namespace RType;
 
@@ -33,6 +34,7 @@ Engine::Engine()
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<NetworkMoveSystem>();
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
@@ -50,6 +52,7 @@ Engine::Engine(std::string host, unsigned int port, bool isServer)
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<NetworkMoveSystem>();
 }
 
 Engine::~Engine()
@@ -63,27 +66,27 @@ void Engine::run()
 
     _gameContext.setNetworkHandler(_networkHandler);
 
+    _registry.kill(0);
+
     while (_gameContext._runtime->isWindowOpen())
     {
         _gameContext._runtime->pollEvents();
         if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
-        if (_gameContext._runtime->getKey(KeyCode::Enter) &&
+        if (_gameContext._runtime->getKeyDown(KeyCode::Enter) &&
             !_gameContext._networkHandler->getIsServer())
         {
             Network::HiServerPacket packet = Network::HiServerPacket();
             _gameContext._networkHandler->sendNewPacket(
                 packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
-            sleep(1);
         }
 
-        if (_gameContext._runtime->getKey(KeyCode::P) &&
+        if (_gameContext._runtime->getKeyDown(KeyCode::P) &&
             !_gameContext._networkHandler->getIsServer())
         {
             Network::ClientEventPacket packet = Network::ClientEventPacket(Network::GAME_START);
             _gameContext._networkHandler->sendNewPacket(
                 packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
-            sleep(1);
         }
 
         _clockManager.update();
