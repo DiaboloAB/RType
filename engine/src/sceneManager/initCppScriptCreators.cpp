@@ -34,7 +34,7 @@ void SceneManager::initCppScriptCreators()
     _cppScriptCreators["PlayerShoot"] = []() { return std::make_shared<PlayerShootScript>(); };
     _cppScriptCreators["Laser"] = []() { return std::make_shared<LaserScript>(); };
     _cppScriptCreators["MoveThruster"] = []() { return std::make_shared<MoveThrusterScript>(); };
-    _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MovePlayerScript>(); };
+    _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MoveAllyScript>(); };
     _cppScriptCreators["Credit"] = []() { return std::make_shared<CreditScript>(); };
     _cppScriptCreators["GameManager"] = []() { return std::make_shared<GameManager>(); };
 }
