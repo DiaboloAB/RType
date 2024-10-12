@@ -27,25 +27,17 @@ jobs:
           source venv/bin/activate
           pip install conan
 
-      - name: Cache Conan
-        uses: actions/cache@v3
-        with:
-          path: ~/.conan
-          key: ${{ runner.os }}-conan-${{ hashFiles('conanfile.py', 'conanfile.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-conan-
-
       - name: Conan install dependencies
         run: |
           source venv/bin/activate
           conan profile detect --force
-          conan install . --output-folder=build/conan -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+          conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
 
       - name: Build project with CMake
         run: |
           cd build
           cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-          cmake --build . -j $(nproc)
+          cmake --build .
 
       - name: Check for binaries
         run: |
