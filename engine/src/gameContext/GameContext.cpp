@@ -45,6 +45,7 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
     {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+    this->_networkHandler = nullptr;
 }
 
 GameContext::~GameContext()

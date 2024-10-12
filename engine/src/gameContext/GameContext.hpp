@@ -8,6 +8,7 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
+#include <NetworkHandler/NetworkHandler.hpp>
 #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
@@ -37,6 +38,11 @@ class GameContext
      * @brief Destroys the GameContext object.
      */
     ~GameContext();
+
+    void setNetworkHandler(std::shared_ptr<Network::NetworkHandler> newNetworkHandler)
+    {
+        this->_networkHandler = newNetworkHandler;
+    }
 
     /**
      * @brief Retrieves a component of a specific entity identified by its tag.
@@ -70,6 +76,8 @@ class GameContext
     SceneManager &_sceneManager;         ///< The scene manager.
 
     float _deltaT = 0.0f;  ///< The delta time.
+    std::shared_ptr<Network::NetworkHandler> _networkHandler;
+
    private:
 };
 

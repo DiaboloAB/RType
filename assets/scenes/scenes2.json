@@ -1,20 +1,6 @@
 {
     "entities": [
       {
-        "tag": "entity1",
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [100, 100, 0] },
-          "Sprite": { "texture": "assets/graphics/player.png" },
-          "Scripts": [
-            "player.lua"
-          ],
-          "CppScripts": [
-            "HelloWorld"
-          ]
-        }
-      },
-      {
         "tag": "background",
         "staticObject": true,
         "components": {
@@ -22,5 +8,5 @@
           "Sprite": { "texture": "assets/graphics/background.png" }
         }
       }
-    ]
+  ]
 }

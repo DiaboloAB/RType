@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 
-#include "PacketManager/CreateEntityPacket.hpp"
+#include "NetworkPacketManager/CreateEntityPacket.hpp"
 #include "RTypeEngine.hpp"
 
 static void displayUsage(void)

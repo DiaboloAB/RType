@@ -19,7 +19,6 @@
 #include "DestroyEntityPacket.hpp"
 #include "HiClientPacket.hpp"
 #include "HiServerPacket.hpp"
-#include "KickClientPacket.hpp"
 #include "MoveEntityPacket.hpp"
 #include "PacketValidationPacket.hpp"
 #include "PingPacket.hpp"

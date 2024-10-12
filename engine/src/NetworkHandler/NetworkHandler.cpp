@@ -16,13 +16,15 @@ NetworkHandler::NetworkHandler(std::string host, unsigned int port, bool isServe
     asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), isServer ? port : 0);
     this->_socket = std::make_shared<asio::ip::udp::socket>(_io_context, endpoint);
 
+    EndpointState newEndpointState;
+
     if (!isServer)
     {
         asio::ip::udp::resolver resolver(this->_io_context);
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(host, std::to_string(port));
         asio::ip::udp::endpoint serverEndpoint = *endpoints.begin();
-        this->_endpointList.push_back(std::make_pair(serverEndpoint, true));
+        this->_endpointMap.insert_or_assign(serverEndpoint, newEndpointState);
     }
 
     this->receiveData();
@@ -81,6 +83,10 @@ void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
 {
     std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
     std::shared_ptr<APacket> packet = nullptr;
+    auto sender = this->_endpointMap.find(remoteEndpoint);
+    if (this->_gameState == IN_GAME &&
+        (sender == this->_endpointMap.end() || !sender->second.getConnected()))
+        return;
     try
     {
         packet = this->_factory.createPacketFromBuffer(buffer);
@@ -109,11 +115,39 @@ void NetworkHandler::receiveData()
         });
 }
 
+void NetworkHandler::sendToAll(const APacket &packet)
+{
+    for (auto &endpoint : this->_endpointMap)
+    {
+        if (endpoint.second.getConnected()) this->sendNewPacket(packet, endpoint.first);
+    }
+}
+
 void NetworkHandler::deleteFromValidationList(
     const std::shared_ptr<PacketValidationPacket> &validation,
     const asio::ip::udp::endpoint &endpoint)
 {
     this->_packetHandler.deleteFromValidationList(validation, endpoint);
+}
+
+void NetworkHandler::updateEndpointMap(asio::ip::udp::endpoint endpoint, bool value)
+{
+    auto target = this->_endpointMap.find(endpoint);
+    if (target == this->_endpointMap.end())
+    {
+        this->_endpointMap[endpoint] = EndpointState();
+        this->_endpointMap[endpoint].setConnected(value);
+        return;
+    }
+    target->second.setLastPing(std::chrono::steady_clock::now());
+    target->second.setConnected(value);
+}
+
+void NetworkHandler::removeEndpointFromMap(asio::ip::udp::endpoint &endpoint)
+{
+    auto target = this->_endpointMap.find(endpoint);
+    if (target == this->_endpointMap.end()) return;
+    this->_endpointMap.erase(endpoint);
 }
 
 std::string NetworkHandler::getHost() const { return this->_host; }
@@ -126,9 +160,18 @@ NetworkHandler::getPacketQueue() const
     return this->_packetHandler.getReceiveQueue();
 }
 
+std::map<asio::ip::udp::endpoint, EndpointState> NetworkHandler::getEndpointMap() const
+{
+    return this->_endpointMap;
+}
+
 bool NetworkHandler::getIsServer() const { return this->_isServer; }
+
+GameState NetworkHandler::getGameState() const { return this->_gameState; }
 
 void NetworkHandler::setHost(const std::string host) { this->_host = host; }
 
 void NetworkHandler::setPort(const unsigned int port) { this->_port = port; }
+
+void NetworkHandler::setGameState(GameState state) { this->_gameState = state; }
 }  // namespace RType::Network
