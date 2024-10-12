@@ -39,7 +39,7 @@ class Engine
      * @param port The port number for the network.
      * @param isServer Boolean indicating if this instance is a server.
      */
-    Engine(std::string host, unsigned int port, bool isServer);
+    Engine(std::string host, unsigned int port, bool isServer, bool graphical = true);
 
     /**
      * @brief Destroys the Engine object.
@@ -52,6 +52,7 @@ class Engine
     void run();
 
    private:
+    bool _graphical = true;        ///< Boolean indicating if the engine is graphical.
     std::shared_ptr<Network::NetworkHandler> _networkHandler =
         nullptr;  ///< Network handler for managing network connections.
     std::shared_ptr<IRuntime> _runtime = nullptr;  ///< Shared pointer to the runtime system.
@@ -61,6 +62,5 @@ class Engine
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     GameContext _gameContext;      ///< Context for managing game state.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
-    bool _graphical = true;        ///< Boolean indicating if the engine is graphical.
 };
 }  // namespace RType

@@ -22,8 +22,7 @@
 using namespace RType;
 
 Engine::Engine()
-    : _runtime(_graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
-                          : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
+    : _runtime((std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()),
       _gameContext(_registry, _sceneManager, _runtime)
 {
     std::cout << "----- Engine -----" << std::endl;
@@ -41,8 +40,8 @@ Engine::Engine()
     std::cout << "Engine Status: Running" << std::endl;
 }
 
-Engine::Engine(std::string host, unsigned int port, bool isServer)
-    : _graphical(isServer),
+Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphical)
+    : _graphical(graphical),
       _runtime(_graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
                           : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
       _gameContext(_registry, _sceneManager, _runtime)
