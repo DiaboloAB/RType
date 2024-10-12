@@ -16,3 +16,19 @@ target_include_directories(mobs_lib PUBLIC
 )
 
 add_library(mobs::mobs ALIAS mobs_lib)
+
+option(TESTS "Build tests" OFF)
+
+if (TESTS)
+
+    enable_testing()
+
+    add_executable(test_mobs
+        tests/test_entity.cpp
+        )
+
+    target_link_libraries(test_mobs PRIVATE gtest gtest_main mobs_lib)
+
+    add_test(NAME ECSTest COMMAND test_mobs)
+
+endif()
