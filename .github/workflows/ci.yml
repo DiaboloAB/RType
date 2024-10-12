@@ -9,6 +9,43 @@ on:
       - '**'
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install Conan
+      - name: Install Conan
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install conan
+
+      # Conan profile detection and install dependencies
+      - name: Conan install dependencies
+        run: |
+          conan profile detect --force
+          conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+
+      # Build with CMake
+      - name: Build project with CMake
+        run: |
+          cd build
+          cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+
+      # Verify that binaries exist
+      - name: Check for binaries
+        run: |
+          if [ -f ../r-type_client ] && [ -f ../r-type_server ]; then
+            echo "Build successful: Binaries found"
+          else
+            echo "Build failed: Binaries not found"
+            exit 1
+          fi
   check-style:
     runs-on: ubuntu-latest
     steps:
