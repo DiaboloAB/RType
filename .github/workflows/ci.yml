@@ -17,16 +17,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Install Conan
-      - name: Install Conan
+      # Install dependencies for Python and Virtual Environment
+      - name: Install Python and venv
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-pip
-          pip3 install conan
+          sudo apt-get install -y python3 python3-venv
+
+      # Set up a Python virtual environment and install Conan
+      - name: Set up virtual environment and install Conan
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install conan
 
       # Conan profile detection and install dependencies
       - name: Conan install dependencies
         run: |
+          source venv/bin/activate
           conan profile detect --force
           conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
 
