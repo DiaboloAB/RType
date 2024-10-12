@@ -32,7 +32,7 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
     std::string defaultScene = j["defaultScene"];
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
-
+    std::cout << "Scene loaded" << std::endl;
     try
     {
         std::vector<std::string> fontList = j["fontList"];
@@ -45,7 +45,9 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
     {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+    std::cout << "Fonts loaded" << std::endl;
     this->_networkHandler = nullptr;
+    std::cout << "Game context created" << std::endl;
 }
 
 GameContext::~GameContext()

@@ -7,6 +7,7 @@
 
 #include "RTypeEngine.hpp"
 
+#include "IRuntime/NullRuntime/NullRuntime.hpp"
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
 #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
@@ -21,7 +22,8 @@
 using namespace RType;
 
 Engine::Engine()
-    : _runtime(std::make_shared<RenderSystemSFML>()),
+    : _runtime(_graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
+                          : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
       _gameContext(_registry, _sceneManager, _runtime)
 {
     _systemManager.addSystem<ScriptSystem>();
@@ -36,11 +38,12 @@ Engine::Engine()
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
-    : _runtime(std::make_shared<RenderSystemSFML>()),
+    : _graphical(isServer),
+      _runtime(_graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
+                          : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
       _gameContext(_registry, _sceneManager, _runtime)
 {
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
-    this->_isServer = isServer;
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ForwardSystem>();
@@ -59,6 +62,7 @@ Engine::~Engine()
 
 void Engine::run()
 {
+    std::cout << "Engine is running" << std::endl;
     _systemManager.start(_registry, _gameContext);
 
     _gameContext.setNetworkHandler(_networkHandler);
@@ -96,22 +100,11 @@ void Engine::run()
         {
             _gameContext._deltaT = _clockManager.getDrawDeltaT();
 
-            _gameContext._runtime->clearWindow();
+            _runtime->clearWindow();
             _systemManager.draw(_registry, _gameContext);
-            _gameContext._runtime->updateWindow();
+            _runtime->updateWindow();
 
             _clockManager.getDrawDeltaT() = 0.0f;
         }
-    }
-}
-
-void Engine::runServer()
-{
-    // Server server(this->_networkHandler->getHost(), this->_networkHandler->getPort());
-    // server.run();
-    //_systemManager.start(_registry, _gameContext);
-
-    while (true)
-    {
     }
 }
