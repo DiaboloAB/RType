@@ -147,6 +147,16 @@ class Registry
      */
     void clear();
 
+    template <typename Component>
+    bool hasComponent(Entity entity)
+    {
+        Signature signature = _entityManager.getSignature(entity);
+        ComponentType componentType = _componentManager.getComponentType<Component>();
+
+        if (componentType == 255) return false;
+        return signature.test(_componentManager.getComponentType<Component>());
+    }
+
    private:
     EntityManager _entityManager;        ///< The entity manager.
     ComponentManager _componentManager;  ///< The component manager.

@@ -6,27 +6,25 @@ on:
       - '**'
   pull_request:
     branches:
-      - '**'
+      - main
+      - dev
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Install Python and venv
         run: |
           sudo apt-get update
           sudo apt-get install -y python3 python3-venv
-
       - name: Set up virtual environment and install Conan
         run: |
           python3 -m venv venv
           source venv/bin/activate
           pip install conan
-
       - name: Cache Conan dependencies
         uses: actions/cache@v3
         with:
@@ -34,19 +32,16 @@ jobs:
           key: ${{ runner.os }}-conan-${{ hashFiles('**/conanfile.txt') }}
           restore-keys: |
             ${{ runner.os }}-conan-
-
       - name: Conan install dependencies
         run: |
           source venv/bin/activate
           conan profile detect --force
           conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-
       - name: Build project with CMake
         run: |
           cd build
           cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
           cmake --build .
-
       - name: Check for binaries
         run: |
           if [ -f r-type_client ] && [ -f r-type_server ]; then
