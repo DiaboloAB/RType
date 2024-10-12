@@ -279,10 +279,17 @@ class NetworkSystem : public ISystem
             {
                 auto &networkC = view.get<NetworkComp>(entity);
                 if (networkC.id == movePacket->getEntityId()) {
-                    auto &transform = registry.get<Transform>(entity);
+                    auto &transform = view.get<Transform>(entity);
                     transform.position.x = movePacket->getPosX();
                     transform.position.y = movePacket->getPosY();
-                    //std::cerr << "[NETWORK LOG] Entity Move !" << std::endl; 
+                    try {
+                        std::cerr << "[NETWORK LOG] Entity Move !" << std::endl; 
+                        auto &ally = view.get<Ally>(entity);
+                        ally.moveDirection.x = movePacket->getDirectionX();
+                        ally.moveDirection.y = movePacket->getDirectionY();
+                    } catch (std::exception &e) {
+                        std::cerr << "[NETWORK LOG] No ally component" << std::endl;
+                    }
                     return;
                 }
             }
