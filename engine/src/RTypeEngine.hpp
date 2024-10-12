@@ -52,7 +52,7 @@ class Engine
     void run();
 
    private:
-    bool _graphical = true;        ///< Boolean indicating if the engine is graphical.
+    bool _graphical = true;  ///< Boolean indicating if the engine is graphical.
     std::shared_ptr<Network::NetworkHandler> _networkHandler =
         nullptr;  ///< Network handler for managing network connections.
     std::shared_ptr<IRuntime> _runtime = nullptr;  ///< Shared pointer to the runtime system.
