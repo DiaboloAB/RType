@@ -389,12 +389,14 @@ class NetworkSystem : public ISystem
                 packet = packetQueue.front().first;
                 sender = packetQueue.front().second;
                 type = packet->getPacketType();
-                this->_systemsMap[packet->getPacketType()](packet, sender, registry, gameContext);
+                this->_systemsMap[type](packet, sender, registry, gameContext);
             }
             catch (std::exception &e)
             {
                 std::cerr << "[manageQueue ERROR] Unable to get packet or packetType" << std::endl;
-                return;
+                packetQueue.pop();
+                gameContext._networkHandler->popQueue();
+                continue;
             }
 
             try
