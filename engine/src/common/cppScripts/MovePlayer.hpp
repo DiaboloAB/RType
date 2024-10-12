@@ -51,6 +51,7 @@ class MovePlayerScript : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
+            std::cerr << "JE KEY UP" << std::endl;
             gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_RIGHT));
         }
     }

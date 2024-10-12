@@ -33,9 +33,20 @@ namespace RType::Network {
                 if (!checkSenderValidity(sender, gameContext)) return;
                 auto &networkHandler = gameContext._networkHandler;
                 auto senderData = networkHandler->getEndpointMap().find(sender);
-                if (senderData->second.getDirY() > 0.0)
-                    return;
-                senderData->second.setDirY(senderData->second.getDirY() + 1.0);
+                mobs::Registry::View view = registry.view<Ally>();
+                for (auto &entity : view)
+                {
+                    auto &networkC = view.get<NetworkComp>(entity);
+                    if (networkC.id == senderData->second.getNetworkId()) {
+                        auto &transform = view.get<Transform>(entity);
+                        auto &allyComp = view.get<Ally>(entity);
+                        if (allyComp.moveDirection.y > 0.0)
+                            return;
+                        allyComp.moveDirection.y += 1.0;
+                        networkHandler->sendToAll(MoveEntityPacket(networkC.id, transform.position.x, transform.position.y,
+                        allyComp.moveDirection.x, allyComp.moveDirection.y));
+                    }
+                }
             }
     };
 }

@@ -19,6 +19,7 @@ class MoveAllyScript : public RType::ICppScript
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
+        std::cerr << "Je move ally" << std::endl;
         auto &transform = registry.get<Transform>(_entity);
         auto &ally = registry.get<Ally>(_entity);
         int speed = 600;
