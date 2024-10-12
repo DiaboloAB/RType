@@ -123,6 +123,14 @@ struct Input
     bool selected = false;
 };
 
+struct Ally
+{
+    mlg::vec3 moveDirection;
+
+    Ally(mlg::vec3 moveDirection) : moveDirection(moveDirection) {}
+    Ally() : moveDirection(mlg::vec3(0.0f)) {}
+};
+
 }  // namespace RType
 
 #endif  // COMPONENTS_H

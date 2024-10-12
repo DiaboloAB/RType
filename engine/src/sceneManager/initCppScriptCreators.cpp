@@ -11,6 +11,7 @@
 #include "common/cppScripts/AnimThruster.hpp"
 #include "common/cppScripts/EnemyFactory.hpp"
 #include "common/cppScripts/Laser.hpp"
+#include "common/cppScripts/MoveAlly.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
 #include "common/cppScripts/MoveThruster.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
@@ -31,4 +32,5 @@ void SceneManager::initCppScriptCreators()
     _cppScriptCreators["PlayerShoot"] = []() { return std::make_shared<PlayerShootScript>(); };
     _cppScriptCreators["Laser"] = []() { return std::make_shared<LaserScript>(); };
     _cppScriptCreators["MoveThruster"] = []() { return std::make_shared<MoveThrusterScript>(); };
+    _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MovePlayerScript>(); };
 }

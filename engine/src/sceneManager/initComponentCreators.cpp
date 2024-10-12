@@ -60,4 +60,7 @@ void SceneManager::initComponentCreators()
     _componentCreators["Health"] =
         [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
     { registry.emplace<Health>(entity, componentData["health"].get<int>()); };
+    _componentCreators["Ally"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    { registry.emplace<Ally>(entity); };
 }
