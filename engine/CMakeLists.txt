@@ -13,6 +13,7 @@ set(SOURCES
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
     src/common/animations/Animation.cpp
+    src/common/animations/AnimationList.cpp
     src/NetworkHandler/NetworkHandler.cpp
     src/NetworkHandler/PacketHandler.cpp
     src/NetworkHandler/EndpointState.cpp

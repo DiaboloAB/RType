@@ -22,22 +22,22 @@ class AnimPlayerScript : public RType::ICppScript
         int speed = 300;
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
-            Animations &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("up");
         }
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
         {
-            Animations &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("default");
         }
         if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
-            Animations &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("down");
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
-            Animations &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("default");
         }
     }
