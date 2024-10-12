@@ -27,6 +27,14 @@ jobs:
           source venv/bin/activate
           pip install conan
 
+      - name: Cache Conan dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.conan
+          key: ${{ runner.os }}-conan-${{ hashFiles('**/conanfile.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-conan-
+
       - name: Conan install dependencies
         run: |
           source venv/bin/activate
