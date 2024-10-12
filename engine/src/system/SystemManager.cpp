@@ -21,6 +21,7 @@ SystemManager::~SystemManager()
 
 void SystemManager::start(mobs::Registry &registry, GameContext &gameContext)
 {
+    std::cout << "SystemManager: Starting systems" << std::endl;
     for (auto &system : _systems)
     {
         system->start(registry, gameContext);

@@ -37,6 +37,22 @@ class ISystem
     virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**
+     * @brief Called when a new object or scene is loaded.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void load(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
+     * @brief Called when the system stops.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void stop(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
      * @brief Called every frame to update the system.
      *
      * @param registry Reference to the entity-component registry.

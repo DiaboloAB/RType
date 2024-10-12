@@ -9,7 +9,7 @@
 
 using namespace mobs;
 
-Registry::Registry() {}
+Registry::Registry() { std::cout << "----- Registry -----" << std::endl; }
 
 Registry::~Registry() {}
 

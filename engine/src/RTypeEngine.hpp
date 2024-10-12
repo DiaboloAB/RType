@@ -51,11 +51,6 @@ class Engine
      */
     void run();
 
-    /**
-     * @brief Runs the game engine in server mode.
-     */
-    void runServer();
-
    private:
     std::shared_ptr<Network::NetworkHandler> _networkHandler =
         nullptr;  ///< Network handler for managing network connections.
@@ -66,6 +61,6 @@ class Engine
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     GameContext _gameContext;      ///< Context for managing game state.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
-    bool _isServer = false;        ///< Boolean indicating if this instance is a server.
+    bool _graphical = true;        ///< Boolean indicating if the engine is graphical.
 };
 }  // namespace RType
