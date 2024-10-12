@@ -8,6 +8,10 @@
 #pragma once
 
 #include <NetworkEvents/GameStartEvent.hpp>
+#include <NetworkEvents/MoveUpEvent.hpp>
+#include <NetworkEvents/MoveDownEvent.hpp>
+#include <NetworkEvents/MoveLeftEvent.hpp>
+#include <NetworkEvents/MoveRightEvent.hpp>
 #include <NetworkHandler/NetworkIdHandler.hpp>
 #include <NetworkPacketManager/ClientEventPacket.hpp>
 #include <asio.hpp>
