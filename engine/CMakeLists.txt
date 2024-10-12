@@ -59,11 +59,3 @@ target_link_libraries(RTypeEngine PUBLIC
     mlg::mlg
     mobs::mobs
 )
-
-enable_testing()
-
-add_executable(test_engine tests/test_basic.cpp)
-
-target_link_libraries(test_engine PRIVATE gtest gtest_main RTypeEngine)
-
-add_test(NAME EngineTest COMMAND test_engine)

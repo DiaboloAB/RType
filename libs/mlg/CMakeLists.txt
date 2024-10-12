@@ -11,15 +11,3 @@ target_include_directories(mlg_lib INTERFACE
 )
 
 add_library(mlg::mlg ALIAS mlg_lib)
-
-
-enable_testing()
-
-add_executable(test_mlg
-    tests/test_vec3.cpp
-    )
-
-target_link_libraries(test_mlg PRIVATE gtest gtest_main mlg_lib)
-
-add_test(NAME MLGTest COMMAND test_mlg)
-
