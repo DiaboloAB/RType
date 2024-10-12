@@ -44,12 +44,12 @@ class GameStartEvent
             if (endpoint.second.getConnected())
             {
                 mobs::Entity newEntity =
-                    gameContext._sceneManager.loadPrefab("player.json", gameContext);
+                    gameContext._sceneManager.loadPrefab("ally.json", gameContext);
                 auto &transform = registry.get<Transform>(newEntity);
                 transform.position = mlg::vec3(posX, posY, 0.0f);
                 auto &networkComp = registry.get<NetworkComp>(newEntity);
                 networkComp.id = idHandler.generateNetworkId();
-                auto entiyPacket = CreateEntityPacket(networkComp.id, posX, posY, "player.json");
+                auto entiyPacket = CreateEntityPacket(networkComp.id, posX, posY, "ally.json");
                 endpoint.second.setNetworkId(networkComp.id);
                 networkHandler->sendToAll(entiyPacket);
                 if (posY >= 1500)
