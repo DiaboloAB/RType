@@ -38,10 +38,10 @@ class GameStartEvent
 
         auto networkHandler = gameContext._networkHandler;
         networkHandler->setGameState(IN_GAME);
-        auto enpointMap = networkHandler->getEndpointMap();
-        for (auto &enpoint : enpointMap)
+        auto endpointMap = networkHandler->getEndpointMap();
+        for (auto &endpoint : endpointMap)
         {
-            if (enpoint.second.getConnected())
+            if (endpoint.second.getConnected())
             {
                 mobs::Entity newEntity =
                     gameContext._sceneManager.loadPrefab("player.json", gameContext);
@@ -50,7 +50,7 @@ class GameStartEvent
                 auto &networkComp = registry.get<NetworkComp>(newEntity);
                 networkComp.id = idHandler.generateNetworkId();
                 auto entiyPacket = CreateEntityPacket(networkComp.id, posX, posY, "player.json");
-                enpoint.second.setNetworkId(networkComp.id);
+                endpoint.second.setNetworkId(networkComp.id);
                 networkHandler->sendToAll(entiyPacket);
                 if (posY >= 1500)
                 {

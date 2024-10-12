@@ -270,7 +270,25 @@ class NetworkSystem : public ISystem
                           asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                           GameContext &gameContext)
     {
-        return;
+        try {
+            std::shared_ptr<Network::MoveEntityPacket> movePacket =
+                    std::dynamic_pointer_cast<Network::MoveEntityPacket>(packet);
+            if (this->getActualTime() - movePacket->getPacketTimeStamp() >= 2) return;
+            mobs::Registry::View view = registry.view<NetworkComp>();
+            for (auto &entity : view)
+            {
+                auto &networkC = view.get<NetworkComp>(entity);
+                if (networkC.id == movePacket->getEntityId()) {
+                    auto &transform = registry.get<Transform>(entity);
+                    transform.position.x = movePacket->getPosX();
+                    transform.position.y = movePacket->getPosY();
+                    std::cerr << "[NETWORK LOG] Entity Move !" << std::endl; 
+                    return;
+                }
+            }
+        } catch (std::exception &e) {
+            std::cerr << "[NETWORK LOG] Error while moving entity : " << e.what() << std::endl;
+        }
     }
 
     /**
