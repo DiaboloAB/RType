@@ -38,7 +38,7 @@ class GameStartEvent
 
         auto networkHandler = gameContext._networkHandler;
         networkHandler->setGameState(IN_GAME);
-        auto endpointMap = networkHandler->getEndpointMap();
+        auto &endpointMap = networkHandler->getEndpointMap();
         for (auto &endpoint : endpointMap)
         {
             if (endpoint.second.getConnected())

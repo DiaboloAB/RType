@@ -21,52 +21,37 @@ class MovePlayerScript : public RType::ICppScript
     {
         if (!gameContext._networkHandler || gameContext._networkHandler->getIsServer())
             return;
-        int speed = 600;
-        if (gameContext._runtime->getKey(KeyCode::UpArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
             gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::MOVE_UP));
-            //auto &transform = registry.get<Transform>(_entity);
-            //if (transform.position.y < 0)
-            //{
-            //    transform.position.y = 0;
-            //    return;
-            //}
-            //transform.position.y -= speed * gameContext._deltaT;
         }
-        if (gameContext._runtime->getKey(KeyCode::DownArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
             gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::MOVE_DOWN));
-            //auto &transform = registry.get<Transform>(_entity);
-            //Hitbox &hitbox = registry.get<Hitbox>(_entity);
-            //if (transform.position.y > 1080 - hitbox.size.y)
-            //{
-            //    transform.position.y = 1080 - hitbox.size.y;
-            //    return;
-            //}
-            //transform.position.y += speed * gameContext._deltaT;
         }
-        if (gameContext._runtime->getKey(KeyCode::LeftArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
         {
             gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::MOVE_LEFT));
-            // auto &transform = registry.get<Transform>(_entity);
-            // if (transform.position.x < 0)
-            // {
-            //     transform.position.x = 0;
-            //     return;
-            // }
-            // transform.position.x -= speed * gameContext._deltaT;
         }
-        if (gameContext._runtime->getKey(KeyCode::RightArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
             gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::MOVE_RIGHT));
-            // auto &transform = registry.get<Transform>(_entity);
-            // auto &hitbox = registry.get<Hitbox>(_entity);
-            // if (transform.position.x > 1920 - hitbox.size.x)
-            // {
-            //     transform.position.x = 1920 - hitbox.size.x;
-            //     return;
-            // }
-            // transform.position.x += speed * gameContext._deltaT;
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
+        {
+            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_UP));
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
+        {
+            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_DOWN));
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
+        {
+            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_LEFT));
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
+        {
+            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_RIGHT));
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }

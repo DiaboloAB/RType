@@ -282,7 +282,7 @@ class NetworkSystem : public ISystem
                     auto &transform = registry.get<Transform>(entity);
                     transform.position.x = movePacket->getPosX();
                     transform.position.y = movePacket->getPosY();
-                    std::cerr << "[NETWORK LOG] Entity Move !" << std::endl; 
+                    //std::cerr << "[NETWORK LOG] Entity Move !" << std::endl; 
                     return;
                 }
             }
@@ -326,7 +326,7 @@ class NetworkSystem : public ISystem
                 std::dynamic_pointer_cast<Network::ClientEventPacket>(packet);
             this->_eventHandler.update(eventPacket->getClientEvent(), sender, registry,
                                        gameContext);
-            std::cerr << "[NETWORK LOG] Client event !" << std::endl;
+            //std::cerr << "[NETWORK LOG] Client event !" << std::endl;
         }
         catch (std::exception &e)
         {
@@ -354,11 +354,9 @@ class NetworkSystem : public ISystem
             if (this->getActualTime() - validation->getPacketTimeStamp() >= 4) return;
             if (validation->getPacketReceiveType() == Network::HICLIENT)
             {
-                std::cerr << "Je traite un packet HICLIENT" << std::endl;
                 gameContext._networkHandler->updateEndpointMap(sender, true);
             }
             gameContext._networkHandler->deleteFromValidationList(validation, sender);
-            std::cerr << "[NETWORK LOG] Validation receive." << std::endl;
         }
         catch (std::exception &e)
         {
@@ -376,6 +374,7 @@ class NetworkSystem : public ISystem
      */
     void manageQueue(mobs::Registry &registry, GameContext &gameContext)
     {
+        //std::cerr << "JE LOG AU DEBUT DE MANAGE" << std::endl;
         std::queue<std::pair<std::shared_ptr<Network::APacket>, asio::ip::udp::endpoint>>
             packetQueue = gameContext._networkHandler->getPacketQueue();
 
@@ -410,6 +409,7 @@ class NetworkSystem : public ISystem
                 return;
             }
         }
+        //std::cerr << "JE LOG A LA FIN DE MANAGE" << std::endl;
         return;
     }
 

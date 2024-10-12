@@ -148,7 +148,7 @@ class NetworkHandler
     bool getIsServer() const;
     std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
     getPacketQueue() const;
-    std::map<asio::ip::udp::endpoint, EndpointState> getEndpointMap() const;
+    std::map<asio::ip::udp::endpoint, EndpointState> &getEndpointMap();
     GameState getGameState() const;
 
    public:
