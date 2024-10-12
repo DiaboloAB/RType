@@ -18,7 +18,7 @@
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/TimerSystem.hpp"
 #include "common/systems/forward.hpp"
-#include "common/systems/NetworkMoveSystem.hpp"
+//#include "common/systems/NetworkMoveSystem.hpp"
 
 using namespace RType;
 
@@ -37,7 +37,7 @@ Engine::Engine()
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
-    _systemManager.addSystem<NetworkMoveSystem>();
+    //_systemManager.addSystem<NetworkMoveSystem>();
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -58,7 +58,7 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
-    _systemManager.addSystem<NetworkMoveSystem>();
+    //_systemManager.addSystem<NetworkMoveSystem>();
 }
 
 Engine::~Engine()
