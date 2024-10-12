@@ -11,6 +11,16 @@
 
 namespace RType::Network
 {
+/**
+ * @class EndpointState
+ * @brief Represents the state of a network endpoint, tracking its connection status, last ping
+ * time, and network ID.
+ *
+ * This class includes both getter and setter methods for its internal state, allowing for
+ * the state of an endpoint to be easily modified and accessed.
+ *
+ * @note This class is thread-unsafe and should be managed carefully in multi-threaded environments.
+ */
 class EndpointState
 {
    public:

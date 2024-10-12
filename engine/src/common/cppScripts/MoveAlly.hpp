@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef ANIMTHRUSTER_HPP
-#define ANIMTHRUSTER_HPP
+#ifndef MOVEALLY_HPP
+#define MOVEALLY_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -14,22 +14,16 @@
 namespace RType
 {
 
-class AnimThrusterScript : public RType::ICppScript
+class MoveAllyScript : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        int speed = 300;
-        if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
-        {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
-            animations.playAnim("low");
-        }
-        if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
-        {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
-            animations.playAnim("default");
-        }
+        auto &transform = registry.get<Transform>(_entity);
+        auto &ally = registry.get<Ally>(_entity);
+        int speed = 600;
+        transform.position.x += ally.moveDirection.x * speed * gameContext._deltaT;
+        transform.position.y += ally.moveDirection.y * speed * gameContext._deltaT;
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
 
@@ -39,4 +33,4 @@ class AnimThrusterScript : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // ANIMTHRUSTER_HPP
+#endif  // MOVEALLY_HPP

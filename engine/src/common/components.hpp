@@ -10,7 +10,7 @@
 
 #include <mlg/mlg.hpp>
 
-#include "animations/Animation.hpp"
+#include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
 #include "timer/Timer.hpp"
 
@@ -62,7 +62,7 @@ struct Sprite
 
 struct Animator
 {
-    Animations animations = Animations();
+    AnimationList animations = AnimationList();
 
     Animator() {}
 };
@@ -121,6 +121,14 @@ struct Input
 {
     std::string input = "";
     bool selected = false;
+};
+
+struct Ally
+{
+    mlg::vec3 moveDirection;
+
+    Ally(mlg::vec3 moveDirection) : moveDirection(moveDirection) {}
+    Ally() : moveDirection(mlg::vec3(0.0f)) {}
 };
 
 }  // namespace RType

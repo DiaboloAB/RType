@@ -554,7 +554,6 @@ void RenderSystemSFML::loadFont(const std::string& filePath)
             throw std::runtime_error("Erreur lors du chargement de la police : " + filePath);
         }
         _fonts[filePath] = font;
-        std::cout << "Police chargée : " << filePath << std::endl;
     }
     catch (const std::exception& e)
     {

@@ -32,7 +32,7 @@ class SpriteSystem : public ISystem
         auto viewAnim = registry.view<Animator>();
         for (auto entity : viewAnim)
         {
-            Animations &animations = viewAnim.get<Animator>(entity).animations;
+            AnimationList &animations = viewAnim.get<Animator>(entity).animations;
             for (auto &anim : animations.animations)
             {
                 gameContext._runtime->loadSprite(anim.getFilePath());
@@ -68,12 +68,12 @@ class SpriteSystem : public ISystem
         auto viewAnim = registry.view<Transform, Animator>();
         for (auto entity : viewAnim)
         {
-            Animations &animations = viewAnim.get<Animator>(entity).animations;
+            AnimationList &animations = viewAnim.get<Animator>(entity).animations;
             auto &transform = viewAnim.get<Transform>(entity);
 
             animations.time += gameContext._deltaT;
             Animation currentAnim = animations.getAnimation();
-            float frameSpeed = 1.0f / currentAnim.getFrameDuration();
+            float frameSpeed = 1.0f / currentAnim.getFrameSpeed();
 
             if (animations.time > frameSpeed)
             {
