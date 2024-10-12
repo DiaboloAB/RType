@@ -26,6 +26,8 @@ Engine::Engine()
                           : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
       _gameContext(_registry, _sceneManager, _runtime)
 {
+    std::cout << "----- Engine -----" << std::endl;
+
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ForwardSystem>();
@@ -35,6 +37,8 @@ Engine::Engine()
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
+
+    std::cout << "Engine Status: Running" << std::endl;
 }
 
 Engine::Engine(std::string host, unsigned int port, bool isServer)
@@ -62,7 +66,6 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    std::cout << "Engine is running" << std::endl;
     _systemManager.start(_registry, _gameContext);
 
     _gameContext.setNetworkHandler(_networkHandler);

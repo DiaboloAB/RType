@@ -7,10 +7,7 @@
 
 #include "ClockManager.hpp"
 
-ClockManager::ClockManager()
-{
-    // Constructor implementation
-}
+ClockManager::ClockManager() { std::cout << "----- Clock manager -----" << std::endl; }
 
 ClockManager::~ClockManager()
 {

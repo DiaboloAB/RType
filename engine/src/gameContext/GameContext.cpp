@@ -19,6 +19,8 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
                          std::shared_ptr<IRuntime> runtime)
     : _runtime(runtime), _registry(registry), _sceneManager(sceneManager)
 {
+    std::cout << "----- Game context -----" << std::endl;
+
     std::ifstream i("assets/game.json");
 
     if (!i.is_open())
@@ -32,22 +34,22 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
     std::string defaultScene = j["defaultScene"];
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
-    std::cout << "Scene loaded" << std::endl;
+
+    std::cout << "Font list" << std::endl;
     try
     {
         std::vector<std::string> fontList = j["fontList"];
         for (const auto &font : fontList)
         {
             _runtime->loadFont(font);
+            std::cout << "\t- " << font << std::endl;
         }
     }
     catch (const std::exception &e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
     }
-    std::cout << "Fonts loaded" << std::endl;
     this->_networkHandler = nullptr;
-    std::cout << "Game context created" << std::endl;
 }
 
 GameContext::~GameContext()
