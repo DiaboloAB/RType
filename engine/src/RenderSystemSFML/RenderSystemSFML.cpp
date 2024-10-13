@@ -215,8 +215,8 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
 
-    sf::Color sfcolor(static_cast<sf::Uint8>(color.x * 255), static_cast<sf::Uint8>(color.y * 255),
-                      static_cast<sf::Uint8>(color.z * 255));
+    sf::Color sfcolor(static_cast<sf::Uint8>(color.x), static_cast<sf::Uint8>(color.y),
+                      static_cast<sf::Uint8>(color.z));
 
     if (full)
     {

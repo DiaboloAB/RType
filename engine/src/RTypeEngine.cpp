@@ -40,7 +40,6 @@ Engine::Engine()
     _systemManager.addSystem<NetworkSystem>();
     _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
-    _systemManager.addSystem<NetworkMoveSystem>();
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -61,6 +60,8 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<DrawableSystem>();
+    _systemManager.addSystem<AudioSystem>();
 }
 
 Engine::~Engine()

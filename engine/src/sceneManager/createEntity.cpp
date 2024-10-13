@@ -44,26 +44,30 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 
         for (const auto& componentJson : prefabJson["components"].items())
         {
-            const std::string& componentName = componentJson.key();
-            const auto& data = componentJson.value();
+            try {
+                const std::string& componentName = componentJson.key();
+                const auto& data = componentJson.value();
 
-            if (componentName == "Scripts")
-            {
-                registry.emplace<Scripts>(entity);
-                auto& scripts = registry.get<Scripts>(entity);
-                for (const auto& script : data)
+                if (componentName == "Scripts")
                 {
-                    scripts.addScript(script.get<std::string>(), gameContext);
+                    registry.emplace<Scripts>(entity);
+                    auto& scripts = registry.get<Scripts>(entity);
+                    for (const auto& script : data)
+                    {
+                        scripts.addScript(script.get<std::string>(), gameContext);
+                    }
                 }
-            }
-            if (componentName == "CppScripts")
-            {
-                addScriptsToEntity(registry, entity, data);
-            }
-            auto it = _componentCreators.find(componentName);
-            if (it != _componentCreators.end())
-            {
-                it->second(registry, entity, data);
+                if (componentName == "CppScripts")
+                {
+                    addScriptsToEntity(registry, entity, data);
+                }
+                auto it = _componentCreators.find(componentName);
+                if (it != _componentCreators.end())
+                {
+                    it->second(registry, entity, data);
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "Error: Could not create component" << std::endl;
             }
         }
     }

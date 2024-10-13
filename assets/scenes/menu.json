@@ -30,31 +30,7 @@
       {
         "staticObject": false,
         "components": {
-          "Transform": { "position": [100, 300, 0] },
-          "Text" : {
-            "text": "Join",
-            "font": "assets/fonts/r-type.ttf",
-            "fontSize": 16,
-            "color": [255, 255, 255]
-          }
-        }
-      },
-      {
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [100, 340, 0] },
-          "Text" : {
-            "text": "Ready",
-            "font": "assets/fonts/r-type.ttf",
-            "fontSize": 16,
-            "color": [255, 255, 255]
-          }
-        }
-      },
-      {
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [100, 380, 0] },
+          "Transform": { "position": [100, 600, 0] },
           "Text" : {
             "text": "PORT ; 4242",
             "font": "assets/fonts/r-type.ttf",
@@ -66,7 +42,7 @@
       {
         "staticObject": false,
         "components": {
-          "Transform": { "position": [100, 420, 0] },
+          "Transform": { "position": [100, 640, 0] },
           "Text" : {
             "text": "IP ; 127.0.0.1",
             "font": "assets/fonts/r-type.ttf",
@@ -78,7 +54,7 @@
       {
         "staticObject": false,
         "components": {
-          "Transform": { "position": [100, 460, 0] },
+          "Transform": { "position": [100, 680, 0] },
           "Text" : {
             "text": "Options",
             "font": "assets/fonts/r-type.ttf",
@@ -90,9 +66,9 @@
       {
         "staticObject": false,
         "components": {
-          "Transform": { "position": [100, 500, 0] },
+          "Transform": { "position": [100, 720, 0] },
           "Text" : {
-            "text": "Credits",
+            "text": "Quit",
             "font": "assets/fonts/r-type.ttf",
             "fontSize": 16,
             "color": [255, 255, 255]
@@ -101,13 +77,46 @@
       },
       {
         "staticObject": false,
+        "tag": "Solo",
         "components": {
-          "Transform": { "position": [100, 540, 0] },
-          "Text" : {
-            "text": "Quit",
+          "Transform": { "position": [100, 300, 0] },
+          "Button": {
+            "size": [200, 40],
+            "text": "Solo",
             "font": "assets/fonts/r-type.ttf",
-            "fontSize": 16,
-            "color": [255, 255, 255]
+            "color": [0, 0, 255],
+            "target": "GameManager",
+            "action": "Solo"
+          }
+        }
+      },
+      {
+        "staticObject": false,
+        "tag": "Multi",
+        "components": {
+          "Transform": { "position": [100, 350, 0] },
+          "Button": {
+            "size": [200, 40],
+            "text": "Multi",
+            "font": "assets/fonts/r-type.ttf",
+            "color": [0, 0, 255],
+            "target": "GameManager",
+            "action": "Multi"
+          }
+        }
+      },
+      {
+        "staticObject": false,
+        "tag": "Credit",
+        "components": {
+          "Transform": { "position": [100, 400, 0] },
+          "Button": {
+            "size": [200, 40],
+            "text": "Credits",
+            "font": "assets/fonts/r-type.ttf",
+            "color": [0, 0, 255],
+            "target": "GameManager",
+            "action": "Credit"
           }
         }
       },

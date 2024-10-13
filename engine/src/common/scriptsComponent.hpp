@@ -96,6 +96,14 @@ struct CppScriptComponent
         scripts.push_back(std::move(script));
     }
 
+    void callAllFunctions(const std::string& functionName, mobs::Registry& registry, GameContext& gameContext)
+    {
+        for (auto& script : scripts)
+        {
+            script->callFunction(functionName, registry, gameContext);
+        }
+    }
+
     CppScriptComponent(mobs::Entity entity) : entity(entity) {}
 };
 

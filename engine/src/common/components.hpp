@@ -110,10 +110,17 @@ struct Button
     std::string text;
     mlg::vec3 size;
     std::string font;
-    bool clicked;
+    mlg::vec3 color;
 
-    Button(std::string text, mlg::vec3 size, std::string font)
-        : text(text), size(size), font(font), clicked(false)
+    std::string target = "";
+    std::string action = "";
+
+    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color)
+        : text(text), size(size), font(font), color(color)
+    {
+    }
+    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color, std::string target, std::string action)
+        : text(text), size(size), font(font), color(color), target(target), action(action)
     {
     }
 };

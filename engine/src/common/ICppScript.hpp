@@ -72,7 +72,7 @@ class ICppScript
      * @param args The arguments to pass to the function.
      */
     virtual void callFunction(const std::string &functionName, mobs::Registry &registry,
-                              GameContext &gameContext, const std::vector<std::string> &args)
+                              GameContext &gameContext)
     {
     }
 
