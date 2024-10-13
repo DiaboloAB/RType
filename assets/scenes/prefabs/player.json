@@ -50,7 +50,7 @@
             }
           ],
           "CppScripts": [
-            "MovePlayer",
+            "NetworkMovePlayer",
             "AnimPlayer",
             "PlayerShoot",
             "MoveAlly"

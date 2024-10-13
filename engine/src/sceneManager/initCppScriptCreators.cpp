@@ -17,6 +17,7 @@
 #include "common/cppScripts/PlayerShoot.hpp"
 #include "common/cppScripts/RedShipScript.hpp"
 #include "common/cppScripts/helloworld.hpp"
+#include "common/cppScripts/NetworkMovePlayer.hpp"
 #include "common/scriptsComponent.hpp"
 
 using namespace RType;
@@ -33,4 +34,5 @@ void SceneManager::initCppScriptCreators()
     _cppScriptCreators["Laser"] = []() { return std::make_shared<LaserScript>(); };
     _cppScriptCreators["MoveThruster"] = []() { return std::make_shared<MoveThrusterScript>(); };
     _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MoveAllyScript>(); };
+    _cppScriptCreators["NetworkMovePlayer"] = []() { return std::make_shared<NetworkMovePlayerScript>(); };
 }
