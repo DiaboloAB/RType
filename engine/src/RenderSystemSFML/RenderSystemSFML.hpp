@@ -202,14 +202,14 @@ class RenderSystemSFML : public RType::IRuntime
      * "assets/music/background.ogg").
      * @return `true` if the music was preloaded successfully, `false` otherwise.
      */
-    bool loadMusic(const std::string& musicName, const std::string& filePath) override;
+    bool loadMusic(const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded music.
      * @param musicName The unique name of the preloaded music to play.
      * @param loop Whether the music should loop continuously (default is `true`).
      */
-    void playMusic(const std::string& musicName, bool loop = true) override;
+    void playMusic(const std::string& filePath, bool loop = true) override;
 
     /**
      * @brief Stops the currently playing music.
@@ -234,13 +234,13 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the sound file to load.
      * @return `true` if the sound was preloaded successfully, `false` otherwise.
      */
-    bool loadSound(const std::string& soundName, const std::string& filePath) override;
+    bool loadSound(const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded sound.
      * @param soundName The unique name of the preloaded sound to play.
      */
-    void playSound(const std::string& soundName) override;
+    void playSound(const std::string& filePath) override;
 
     /**
      * @brief Unloads a specific sound from the cache.

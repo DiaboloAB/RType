@@ -15,6 +15,7 @@
 #include "common/systems/HealthSystem.hpp"
 #include "common/systems/NetworkSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
+#include "common/systems/AudioSystem.hpp"
 #include "common/systems/ScrollSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/TimerSystem.hpp"
@@ -38,6 +39,7 @@ Engine::Engine()
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
     _systemManager.addSystem<DrawableSystem>();
+    _systemManager.addSystem<AudioSystem>();
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -67,8 +69,8 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    _systemManager.start(_registry, _gameContext);
     _systemManager.load(_registry, _gameContext);
+    _systemManager.start(_registry, _gameContext);
 
     _gameContext.setNetworkHandler(_networkHandler);
 

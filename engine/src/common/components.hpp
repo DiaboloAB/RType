@@ -18,6 +18,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 
 namespace RType
 {
@@ -160,6 +161,19 @@ struct Paragraph
         {
             lines.push_back(line);
         }
+    }
+};
+
+struct Audio
+{
+    std::vector<std::string> sounds;
+    std::vector<std::string> musics;
+
+    std::queue<std::string> audioQueue;
+
+    Audio(std::vector<std::string> sounds, std::vector<std::string> musics)
+        : sounds(sounds), musics(musics)
+    {
     }
 };
 

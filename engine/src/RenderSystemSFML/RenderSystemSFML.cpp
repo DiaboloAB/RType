@@ -231,11 +231,11 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
     _window.draw(rectangle);
 }
 
-bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string& filePath)
+bool RenderSystemSFML::loadMusic(const std::string& filePath)
 {
     try
     {
-        if (_musics.find(musicName) != _musics.end())
+        if (_musics.find(filePath) != _musics.end())
         {
             return true;
         }
@@ -246,7 +246,7 @@ bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string
             throw std::runtime_error("Erreur lors du chargement de la musique : " + filePath);
         }
 
-        _musics[musicName] = std::move(music);
+        _musics[filePath] = std::move(music);
         return true;
     }
     catch (const std::exception& e)
@@ -291,7 +291,7 @@ void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& 
     }
 }
 
-void RenderSystemSFML::playMusic(const std::string& musicName, bool loop)
+void RenderSystemSFML::playMusic(const std::string& filePath, bool loop)
 {
     if (_currentMusic != nullptr)
     {
@@ -300,7 +300,7 @@ void RenderSystemSFML::playMusic(const std::string& musicName, bool loop)
 
     try
     {
-        auto it = _musics.find(musicName);
+        auto it = _musics.find(filePath);
         if (it != _musics.end())
         {
             _currentMusic = it->second.get();
@@ -309,7 +309,7 @@ void RenderSystemSFML::playMusic(const std::string& musicName, bool loop)
         }
         else
         {
-            throw std::runtime_error("Erreur : musique non trouvée (" + musicName + ")");
+            throw std::runtime_error("Erreur : musique non trouvée (" + filePath + ")");
         }
     }
     catch (const std::exception& e)
@@ -341,11 +341,11 @@ void RenderSystemSFML::unloadMusic(const std::string& musicName)
     }
 }
 
-bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string& filePath)
+bool RenderSystemSFML::loadSound(const std::string& filePath)
 {
     try
     {
-        if (_soundBuffers.find(soundName) != _soundBuffers.end())
+        if (_soundBuffers.find(filePath) != _soundBuffers.end())
         {
             return true;
         }
@@ -356,7 +356,7 @@ bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string
             throw std::runtime_error("Erreur lors du chargement du son : " + filePath);
         }
 
-        _soundBuffers[soundName] = std::move(buffer);
+        _soundBuffers[filePath] = std::move(buffer);
         return true;
     }
     catch (const std::exception& e)
@@ -366,11 +366,11 @@ bool RenderSystemSFML::loadSound(const std::string& soundName, const std::string
     }
 }
 
-void RenderSystemSFML::playSound(const std::string& soundName)
+void RenderSystemSFML::playSound(const std::string& filePath)
 {
     try
     {
-        auto it = _soundBuffers.find(soundName);
+        auto it = _soundBuffers.find(filePath);
         if (it != _soundBuffers.end())
         {
             sf::Sound sound;
@@ -380,7 +380,7 @@ void RenderSystemSFML::playSound(const std::string& soundName)
         }
         else
         {
-            throw std::runtime_error("Erreur : son non trouvé (" + soundName + ")");
+            throw std::runtime_error("Erreur : son non trouvé (" + filePath + ")");
         }
     }
     catch (const std::exception& e)

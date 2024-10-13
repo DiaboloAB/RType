@@ -110,6 +110,23 @@
             "color": [255, 255, 255]
           }
         }
+      },
+      {
+        "staticObject": true,
+        "tag": "GameManager",
+        "components": {
+          "Transform": { "position": [100, 580, 0] },
+          "Audio": {
+            "sounds" : {
+            },
+            "musics" : {
+              "menu" : "assets/sounds/menu.ogg"
+            }
+          },
+          "CppScripts": [
+            "GameManager"
+          ]
+        }
       }
   ]
 }

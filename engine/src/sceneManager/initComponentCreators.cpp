@@ -83,4 +83,22 @@ void SceneManager::initComponentCreators()
         int fontSize = componentData["fontSize"].get<int>();
         registry.emplace<Paragraph>(entity, text, color, font, fontSize);
     };
+    _componentCreators["Audio"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        std::vector<std::string> sounds;
+        std::vector<std::string> musics;
+
+        for (const auto &sound : componentData["sounds"])
+        {
+            sounds.push_back(sound.get<std::string>());
+        }
+
+        for (const auto &music : componentData["musics"])
+        {
+            musics.push_back(music.get<std::string>());
+        }
+
+        registry.emplace<Audio>(entity, sounds, musics);
+    };
 }

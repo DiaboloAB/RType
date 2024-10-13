@@ -201,7 +201,7 @@ class IRuntime
      *
      * This method must be implemented to load a music file into memory.
      */
-    virtual bool loadMusic(const std::string& musicName, const std::string& filePath) = 0;
+    virtual bool loadMusic(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to play a music file.
@@ -211,7 +211,7 @@ class IRuntime
      * This method must be implemented to play a music file that has been loaded
      * into memory.
      */
-    virtual void playMusic(const std::string& musicName, bool loop = true) = 0;
+    virtual void playMusic(const std::string& filePath, bool loop = true) = 0;
 
     /**
      * @brief Pure virtual method to stop the currently playing music.
@@ -236,7 +236,7 @@ class IRuntime
      *
      * This method must be implemented to load a sound file into memory.
      */
-    virtual bool loadSound(const std::string& soundName, const std::string& filePath) = 0;
+    virtual bool loadSound(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to play a sound file.
@@ -245,7 +245,7 @@ class IRuntime
      * This method must be implemented to play a sound file that has been loaded
      * into memory.
      */
-    virtual void playSound(const std::string& soundName) = 0;
+    virtual void playSound(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to unload a sound file from memory.

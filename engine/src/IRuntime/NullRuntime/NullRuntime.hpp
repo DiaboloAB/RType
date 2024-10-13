@@ -53,18 +53,18 @@ class NullRuntime : public IRuntime
     }
     void unloadTexture(const std::string& textureName) override {}
     void unloadSprite(const std::string& spriteName) override {}
-    bool loadMusic(const std::string& musicName, const std::string& filePath) override
+    bool loadMusic(const std::string& filePath) override
     {
         return false;
     }
-    void playMusic(const std::string& musicName, bool loop) override {}
+    void playMusic(const std::string& filePath, bool loop) override {}
     void stopCurrentMusic() override {}
     void unloadMusic(const std::string& musicName) override {}
-    bool loadSound(const std::string& soundName, const std::string& filePath) override
+    bool loadSound(const std::string& filePath) override
     {
         return false;
     }
-    void playSound(const std::string& soundName) override {}
+    void playSound(const std::string& filePath) override {}
     void unloadSound(const std::string& soundName) override {}
     void setFramerateLimit(unsigned int limit) override {}
     void setVerticalSyncEnabled(bool enabled) override {}
