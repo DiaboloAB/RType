@@ -75,7 +75,7 @@ class NetworkHandler
      */
     void sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
-    public:
+   public:
     /**
      * @brief Method that receive packets from an endpoint using async method from asio network
      * library and send it to the handler.
