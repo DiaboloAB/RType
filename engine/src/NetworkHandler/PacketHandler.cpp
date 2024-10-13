@@ -1,9 +1,9 @@
-/*
-** EPITECH PROJECT, 2024
-** RType
-** File description:
-** PacketHandler.cpp
-*/
+/**********************************************************************************
+ * Project: RType
+ * Description: A GAME ENGINE THAT ROARS !
+ * Author: Alexis BOITEL, Raphael MABILLE, Morgan LARGEOT, Maxence LARGEOT, Arthur DORIEL
+ * Date, Location: 2024, Rennes
+ **********************************************************************************/
 
 #include "PacketHandler.hpp"
 
@@ -46,7 +46,7 @@ void PacketHandler::deleteFromValidationList(
             validation->getPacketReceiveTimeStamp() && endpoint == packetInValidation->second)
         {
             this->_validationList.erase(packetInValidation);
-            break;
+            return;
         }
         else
             packetInValidation++;

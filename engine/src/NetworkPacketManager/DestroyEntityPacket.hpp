@@ -13,34 +13,37 @@ namespace RType::Network
 {
 
 /**
- * @class HiClientPacket
+ * @class DestroyEntityPacket
  *
  * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
- * main information used to ping server from new client.
+ * main information used to destroy entities.
  */
-class HiClientPacket : public APacket
+class DestroyEntityPacket : public APacket
 {
    public:
     /**
-     * @brief Construct HiClientPacket object that will be send to client.
+     * @brief Construct DestroyEntityPacket object that will be send to server or client.
      *
-     * @param entityId : Id of the entity that will be created.
-     * @return HiClientPacket object.
+     * @param entityId : Network Id of the entity that will be destroyed.
+     * @return DestroyEntityPacket object.
      */
-    HiClientPacket(uint32_t entityId);
+    DestroyEntityPacket(uint32_t entityId);
 
     /**
-     * @brief Construct new HiClientPacket object with serialized data by deserializing them.
+     * @brief Construct new DestroyEntityPacket object with serialized data by deserializing them.
      *
      * @param buffer: Serialized packet data to deserialize.
-     * @return HiClientPacket object.
+     * @return DestroyEntityPacket object.
      */
-    HiClientPacket(std::vector<char> &buffer);
+    DestroyEntityPacket(std::vector<char> &buffer);
 
     /**
-     * @brief Destruct HiClientPacket object.
+     * @brief Destruct DestroyEntityPacket object.
      */
-    ~HiClientPacket();
+    ~DestroyEntityPacket() override;
+
+   public:
+    uint32_t getEntityId() const;
 
    public:
     /**
@@ -49,9 +52,6 @@ class HiClientPacket : public APacket
      * @return std::vector<char> that represent serialization of entityId to binary.
      */
     std::vector<char> serializeData() const override;
-
-   public:
-    uint32_t getEntityId() const;
 
    private:
     uint32_t _entityId;

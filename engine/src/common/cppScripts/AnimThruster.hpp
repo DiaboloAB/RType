@@ -22,12 +22,12 @@ class AnimThrusterScript : public RType::ICppScript
         int speed = 300;
         if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
-            Animations &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("low");
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
-            Animations &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(_entity).animations;
             animations.playAnim("default");
         }
     }

@@ -55,9 +55,6 @@ class ColisionSystem : public ISystem
                     auto &basic = registry.get<Basics>(entity);
                     auto &basic2 = registry.get<Basics>(entity2);
 
-                    std::cout << basic.tag << " hp: " << health1.health << " " << basic2.tag
-                              << " hp: " << health2.health << std::endl;
-
                     if (health1.health > health2.health)
                     {
                         health1.health -= health2.health;

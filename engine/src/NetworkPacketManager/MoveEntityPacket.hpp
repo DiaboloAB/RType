@@ -27,8 +27,8 @@ class MoveEntityPacket : public APacket
      * @param entityId : Id of the entity that will be moved.
      * @param posX : X position of the entity.
      * @param posY : Y position of the entity.
-     * @param directionX : ?
-     * @param directionY : ?
+     * @param directionX : X direction of the entity
+     * @param directionY : Y direction of the entity
      * @return MoveEntityPacket object.
      */
     MoveEntityPacket(uint32_t entityId, float posX, float posY, float directionX, float directionY);

@@ -22,9 +22,9 @@ PacketValidationPacket::PacketValidationPacket(std::vector<char> &buffer) : APac
     char *data = buffer.data();
     data += this->getHeaderSize();
 
-    std::memcpy(&this->_packetType, data, sizeof(PacketType));
+    std::memcpy(&this->_packetReceiveType, data, sizeof(PacketType));
     data += sizeof(PacketType);
-    std::memcpy(&this->_packetTimeStamp, data, sizeof(uint64_t));
+    std::memcpy(&this->_packetReceiveTimeStamp, data, sizeof(uint64_t));
 }
 
 PacketValidationPacket::~PacketValidationPacket(){};
@@ -35,9 +35,9 @@ std::vector<char> PacketValidationPacket::serializeData() const
     buffer.resize(sizeof(PacketType) + sizeof(uint64_t));
     char *data = buffer.data();
 
-    std::memcpy(data, &this->_packetType, sizeof(PacketType));
+    std::memcpy(data, &this->_packetReceiveType, sizeof(PacketType));
     data += sizeof(PacketType);
-    std::memcpy(data, &this->_packetTimeStamp, sizeof(uint64_t));
+    std::memcpy(data, &this->_packetReceiveTimeStamp, sizeof(uint64_t));
     return buffer;
 }
 

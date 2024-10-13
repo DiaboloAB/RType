@@ -7,15 +7,20 @@
 
 #include "GameContext.hpp"
 
+#include "RenderSystemSFML/RenderSystemSFML.hpp"
+// std
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
 using namespace RType;
 
-GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
-    : _registry(registry), _sceneManager(sceneManager)
+GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
+                         std::shared_ptr<IRuntime> runtime)
+    : _runtime(runtime), _registry(registry), _sceneManager(sceneManager)
 {
+    std::cout << "----- Game context -----" << std::endl;
+
     std::ifstream i("assets/game.json");
 
     if (!i.is_open())
@@ -30,43 +35,24 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager)
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
 
-    _runtime = new RenderSystemSFML();
-    _currentTime = std::chrono::high_resolution_clock::now();
-    _deltaT = 0.0f;
-    _updateDeltaT = 0.0f;
-    _drawDeltaT = 0.0f;
-
+    std::cout << "Font list" << std::endl;
     try
     {
         std::vector<std::string> fontList = j["fontList"];
         for (const auto &font : fontList)
         {
             _runtime->loadFont(font);
+            std::cout << "\t- " << font << std::endl;
         }
     }
     catch (const std::exception &e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+    this->_networkHandler = nullptr;
 }
 
 GameContext::~GameContext()
 {
     // Destructor implementation
-}
-
-void GameContext::update()
-{
-    {
-        std::chrono::high_resolution_clock::time_point newTime =
-            std::chrono::high_resolution_clock::now();
-        float elapsed =
-            std::chrono::duration<float, std::chrono::seconds::period>(newTime - _currentTime)
-                .count();
-        _deltaT = elapsed;
-        _drawDeltaT += elapsed;
-        _updateDeltaT += elapsed;
-        _currentTime = newTime;
-        _sceneManager.update(*this);
-    }
 }

@@ -13,22 +13,30 @@ set(SOURCES
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
     src/common/animations/Animation.cpp
+    src/common/animations/AnimationList.cpp
     src/NetworkHandler/NetworkHandler.cpp
     src/NetworkHandler/PacketHandler.cpp
+    src/NetworkHandler/EndpointState.cpp
+    src/NetworkHandler/NetworkIdHandler.cpp
     src/sceneManager/SceneManager.cpp
-    src/PacketManager/APacket.cpp
-    src/PacketManager/AdiosServerPacket.cpp
-    src/PacketManager/ClientEventPacket.cpp
-    src/PacketManager/CreateEntityPacket.cpp
-    src/PacketManager/DestroyEntityPacket.cpp
-    src/PacketManager/PingPacket.cpp
-    src/PacketManager/HiClientPacket.cpp
-    src/PacketManager/HiServerPacket.cpp
-    src/PacketManager/KickClientPacket.cpp
-    src/PacketManager/MoveEntityPacket.cpp
-    src/PacketManager/PacketFactory.cpp
-    src/PacketManager/PacketValidationPacket.cpp
-    src/PacketManager/UpdateEntityPacket.cpp
+    src/sceneManager/createEntity.cpp
+    src/sceneManager/addScriptsToEntity.cpp
+    src/sceneManager/initComponentCreators.cpp
+    src/sceneManager/initCppScriptCreators.cpp
+    src/clocksManager/ClockManager.cpp
+    src/NetworkPacketManager/APacket.cpp
+    src/NetworkPacketManager/AdiosServerPacket.cpp
+    src/NetworkPacketManager/ClientEventPacket.cpp
+    src/NetworkPacketManager/CreateEntityPacket.cpp
+    src/NetworkPacketManager/DestroyEntityPacket.cpp
+    src/NetworkPacketManager/PingPacket.cpp
+    src/NetworkPacketManager/HiClientPacket.cpp
+    src/NetworkPacketManager/HiServerPacket.cpp
+    src/NetworkPacketManager/MoveEntityPacket.cpp
+    src/NetworkPacketManager/PacketFactory.cpp
+    src/NetworkPacketManager/PacketValidationPacket.cpp
+    src/NetworkPacketManager/UpdateEntityPacket.cpp
+    src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
     src/utils/hexaColorToVec3.cpp
     )
@@ -52,10 +60,16 @@ target_link_libraries(RTypeEngine PUBLIC
     mobs::mobs
 )
 
-enable_testing()
+option(TESTS "Build tests" OFF)
 
-add_executable(test_engine tests/test_basic.cpp)
+if (TESTS)
 
-target_link_libraries(test_engine PRIVATE gtest gtest_main RTypeEngine)
+    enable_testing()
 
-add_test(NAME EngineTest COMMAND test_engine)
+    add_executable(test_engine tests/test_basic.cpp)
+
+    target_link_libraries(test_engine PRIVATE gtest gtest_main RTypeEngine)
+
+    add_test(NAME EngineTest COMMAND test_engine)
+
+endif()

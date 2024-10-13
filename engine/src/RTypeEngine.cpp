@@ -7,10 +7,14 @@
 
 #include "RTypeEngine.hpp"
 
+#include "IRuntime/NullRuntime/NullRuntime.hpp"
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/AudioSystem.hpp"
 #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
+#include "common/systems/DrawableSystem.hpp"
 #include "common/systems/HealthSystem.hpp"
+#include "common/systems/NetworkSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/ScrollSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
@@ -19,8 +23,12 @@
 
 using namespace RType;
 
-Engine::Engine() : _gameContext(_registry, _sceneManager)
+Engine::Engine()
+    : _runtime((std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()),
+      _gameContext(_registry, _sceneManager, _runtime)
 {
+    std::cout << "----- Engine -----" << std::endl;
+
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ForwardSystem>();
@@ -29,13 +37,31 @@ Engine::Engine() : _gameContext(_registry, _sceneManager)
     _systemManager.addSystem<ColisionSystem>();
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
+    _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<DrawableSystem>();
+    _systemManager.addSystem<AudioSystem>();
+
+    std::cout << "Engine Status: Running" << std::endl;
 }
 
-Engine::Engine(std::string host, unsigned int port, bool isServer)
-    : _gameContext(_registry, _sceneManager)
+Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphical)
+    : _graphical(graphical),
+      _runtime(_graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
+                          : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
+      _gameContext(_registry, _sceneManager, _runtime)
 {
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
-    this->_isServer = isServer;
+    _systemManager.addSystem<ScriptSystem>();
+    _systemManager.addSystem<SpriteSystem>();
+    _systemManager.addSystem<ForwardSystem>();
+    _systemManager.addSystem<CppScriptsSystem>();
+    _systemManager.addSystem<TimerSystem>();
+    _systemManager.addSystem<ColisionSystem>();
+    _systemManager.addSystem<HealthSystem>();
+    _systemManager.addSystem<ScrollSystem>();
+    _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<DrawableSystem>();
+    _systemManager.addSystem<AudioSystem>();
 }
 
 Engine::~Engine()
@@ -45,38 +71,47 @@ Engine::~Engine()
 
 void Engine::run()
 {
+    _systemManager.load(_registry, _gameContext);
     _systemManager.start(_registry, _gameContext);
+
+    _gameContext.setNetworkHandler(_networkHandler);
 
     while (_gameContext._runtime->isWindowOpen())
     {
         _gameContext._runtime->pollEvents();
         if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
-        _gameContext.update();
-
-        // if (_gameContext._updateDeltaT >= _gameContext._targetUpdateDeltaT)
-        // {
-        //     _gameContext._deltaT = _gameContext._updateDeltaT;
-        _systemManager.update(_registry, _gameContext);
-        //     _gameContext._updateDeltaT = 0.0f;
-        // }
-
-        if (_gameContext._drawDeltaT >= _gameContext._targetDrawDeltaT)
+        if (_gameContext._runtime->getKeyDown(KeyCode::Enter) &&
+            !_gameContext._networkHandler->getIsServer())
         {
-            _gameContext._deltaT = _gameContext._drawDeltaT;
-            _gameContext._runtime->clearWindow();
-            _systemManager.draw(_registry, _gameContext);
-            _gameContext._runtime->updateWindow();
-            _gameContext._drawDeltaT = 0.0f;
+            Network::HiServerPacket packet = Network::HiServerPacket();
+            _gameContext._networkHandler->sendNewPacket(
+                packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
         }
-    }
-}
 
-void Engine::runServer()
-{
-    // Server server(this->_networkHandler->getHost(), this->_networkHandler->getPort());
-    // server.run();
-    while (true)
-    {
+        if (_gameContext._runtime->getKeyDown(KeyCode::P) &&
+            !_gameContext._networkHandler->getIsServer())
+        {
+            Network::ClientEventPacket packet = Network::ClientEventPacket(Network::GAME_START);
+            _gameContext._networkHandler->sendNewPacket(
+                packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
+        }
+
+        _clockManager.update();
+        if (_sceneManager.update(_gameContext)) _systemManager.load(_registry, _gameContext);
+
+        _gameContext._deltaT = _clockManager.getDeltaT();
+        _systemManager.update(_registry, _gameContext);
+
+        if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
+        {
+            _gameContext._deltaT = _clockManager.getDrawDeltaT();
+
+            _runtime->clearWindow();
+            _systemManager.draw(_registry, _gameContext);
+            _runtime->updateWindow();
+
+            _clockManager.getDrawDeltaT() = 0.0f;
+        }
     }
 }

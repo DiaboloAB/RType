@@ -41,7 +41,7 @@ class ScrollSystem : public ISystem
             {
                 continue;
             }
-            transform.position.x -= 20 * gameContext._deltaT;
+            // transform.position.x -= 20 * gameContext._deltaT;
             if (transform.position.x < -100)
             {
                 registry.kill(entity);

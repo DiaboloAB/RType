@@ -13,33 +13,33 @@ namespace RType::Network
 {
 
 /**
- * @class ClientEventPacket
+ * @class HiClientPacket
  *
  * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
- * main information used to manage client events (shoot, move, ...).
+ * main information used to ping server from new client.
  */
-class ClientEventPacket : public APacket
+class HiClientPacket : public APacket
 {
    public:
     /**
-     * @brief Construct ClientEventPacket object that will be send to server.
+     * @brief Construct HiClientPacket object that will be send to client.
      *
-     * @return ClientEventPacket object.
+     * @return HiClientPacket object.
      */
-    ClientEventPacket();
+    HiClientPacket();
 
     /**
-     * @brief Construct new CLientEventPacket object with serialized data by deserializing them.
+     * @brief Construct new HiClientPacket object with serialized data by deserializing them.
      *
      * @param buffer: Serialized packet data to deserialize.
-     * @return ClientEventPacket object.
+     * @return HiClientPacket object.
      */
-    ClientEventPacket(std::vector<char> &buffer);
+    HiClientPacket(std::vector<char> &buffer);
 
     /**
-     * @brief Destruct ClientEventPacket object.
+     * @brief Destruct HiClientPacket object.
      */
-    ~ClientEventPacket();
+    ~HiClientPacket();
 
    public:
     /**
@@ -48,5 +48,7 @@ class ClientEventPacket : public APacket
      * @return empty std::vector<char> because nothing to serialize.
      */
     std::vector<char> serializeData() const override;
+
+   private:
 };
 }  // namespace RType::Network

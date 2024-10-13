@@ -4,7 +4,7 @@
         "tag": "player",
         "staticObject": false,
         "components": {
-          "Transform": { "position": [100, 100, 0] },
+          "Transform": { "position": [-10000, -10000, 0] },
           "Timer": { "active": false},
           "Hitbox": {
             "size": [64, 32],
@@ -57,7 +57,7 @@
         "tag": "thruster",
         "staticObject": false,
         "components": {
-          "Transform": { "position": [36, 84, 0] },
+          "Transform": { "position": [-10000, -10000, 0] },
           "Animator": [
             {
               "name": "default",

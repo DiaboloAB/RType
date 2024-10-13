@@ -30,8 +30,8 @@ int main(int ac, char **av)
     try
     {
         RType::Server::Server server(ac, av);
-        RType::Engine engine(server.getHost(), server.getPort(), true);
-        engine.runServer();
+        RType::Engine engine(server.getHost(), server.getPort(), true, false);
+        engine.run();
         return 0;
     }
     catch (std::exception &e)

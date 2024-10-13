@@ -124,28 +124,28 @@ class RenderSystemSFML : public RType::IRuntime
      * @param scale The scale to apply to the sprite.
      * @param rotation The rotation to apply to the sprite in degrees.
      */
-    void drawSprite(const std::string& spriteName, mlg::vec2 position, mlg::vec4 spriteCoords,
-                    mlg::vec2 scale, float rotation) override;
+    void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteCoords,
+                    mlg::vec3 scale, float rotation) override;
 
     /**
      * @brief Draws a sprite on the window at a specific position.
      * @param spriteName The name of the sprite.
      * @param position The position where the sprite will be drawn.
      */
-    void drawSprite(const std::string& spriteName, mlg::vec2 position) override;
+    void drawSprite(const std::string& spriteName, mlg::vec3 position) override;
 
     /**
      * @brief Retrieves the size of a sprite's texture.
      * @param spriteName The name of the sprite.
-     * @return The size of the texture as a `mlg::vec2`.
+     * @return The size of the texture as a `mlg::vec3`.
      */
-    mlg::vec2 getTextureSize(const std::string& spriteName) override;
+    mlg::vec3 getTextureSize(const std::string& spriteName) override;
 
     /**
      * @brief Gets the current position of the mouse cursor.
-     * @return The mouse position as a `mlg::vec2`.
+     * @return The mouse position as a `mlg::vec3`.
      */
-    mlg::vec2 getMousePosition() override;
+    mlg::vec3 getMousePosition() override;
 
     /**
      * @brief Sets the window icon from a specified image file.
@@ -161,8 +161,9 @@ class RenderSystemSFML : public RType::IRuntime
      * @param fontSize The size of the font.
      * @param textColor The color of the text.
      */
-    void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec2 position,
-                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
+    void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
+                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
+                  bool centered = false) override;
 
     /**
      * @brief Draws a rectangle on the window.
@@ -202,14 +203,14 @@ class RenderSystemSFML : public RType::IRuntime
      * "assets/music/background.ogg").
      * @return `true` if the music was preloaded successfully, `false` otherwise.
      */
-    bool loadMusic(const std::string& musicName, const std::string& filePath) override;
+    bool loadMusic(const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded music.
      * @param musicName The unique name of the preloaded music to play.
      * @param loop Whether the music should loop continuously (default is `true`).
      */
-    void playMusic(const std::string& musicName, bool loop = true) override;
+    void playMusic(const std::string& filePath, bool loop = true) override;
 
     /**
      * @brief Stops the currently playing music.
@@ -234,13 +235,13 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the sound file to load.
      * @return `true` if the sound was preloaded successfully, `false` otherwise.
      */
-    bool loadSound(const std::string& soundName, const std::string& filePath) override;
+    bool loadSound(const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded sound.
      * @param soundName The unique name of the preloaded sound to play.
      */
-    void playSound(const std::string& soundName) override;
+    void playSound(const std::string& filePath) override;
 
     /**
      * @brief Unloads a specific sound from the cache.

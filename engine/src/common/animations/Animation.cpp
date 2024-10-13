@@ -8,7 +8,7 @@
 #include "Animation.hpp"
 
 Animation::Animation(const std::string &filepath, int frameCount, float speed,
-                     const mlg::vec2 &frameSize, const mlg::vec2 &scale, float rotation,
+                     const mlg::vec3 &frameSize, const mlg::vec3 &scale, float rotation,
                      std::string name, bool loop)
     : filepath(filepath),
       frameCount(frameCount),
@@ -22,3 +22,8 @@ Animation::Animation(const std::string &filepath, int frameCount, float speed,
 }
 
 Animation::~Animation() {}
+
+mlg::vec4 Animation::getSpriteCoords(int frame)
+{
+    return mlg::vec4(frame * frameSize.x, 0, frameSize.x, frameSize.y);
+}

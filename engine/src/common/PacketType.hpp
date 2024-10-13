@@ -5,19 +5,28 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "ClientEventPacket.hpp"
+#pragma once
+
+#include <cstdint>
 
 namespace RType::Network
 {
-ClientEventPacket::ClientEventPacket() : APacket(CLIENTEVENT) { this->_packetDataSize = 0; };
-
-ClientEventPacket::ClientEventPacket(std::vector<char> &buffer) : APacket(buffer) {}
-
-ClientEventPacket::~ClientEventPacket() {}
-
-std::vector<char> ClientEventPacket::serializeData() const
+/**
+ * @enum PacketType
+ * @brief Defines all possible types of packets that can be sent or received.
+ */
+enum PacketType : uint8_t
 {
-    std::vector<char> buffer;
-    return buffer;
-}
+    NONE = 0,
+    HISERVER = 1,
+    HICLIENT = 2,
+    ADIOSSERVER = 3,
+    PING = 4,
+    CREATEENTITY = 5,
+    DESTROYENTITY = 6,
+    MOVEENTITY = 7,
+    UPDATEENTITY = 8,
+    CLIENTEVENT = 9,
+    PACKETVALIDATION = 10,
+};
 }  // namespace RType::Network
