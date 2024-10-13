@@ -60,10 +60,16 @@ target_link_libraries(RTypeEngine PUBLIC
     mobs::mobs
 )
 
-enable_testing()
+option(TESTS "Build tests" OFF)
 
-add_executable(test_engine tests/test_basic.cpp)
+if (TESTS)
 
-target_link_libraries(test_engine PRIVATE gtest gtest_main RTypeEngine)
+    enable_testing()
 
-add_test(NAME EngineTest COMMAND test_engine)
+    add_executable(test_engine tests/test_basic.cpp)
+
+    target_link_libraries(test_engine PRIVATE gtest gtest_main RTypeEngine)
+
+    add_test(NAME EngineTest COMMAND test_engine)
+
+endif()

@@ -9,8 +9,10 @@
 
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "common/systems/AudioSystem.hpp"
 #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
+#include "common/systems/DrawableSystem.hpp"
 #include "common/systems/HealthSystem.hpp"
 #include "common/systems/NetworkSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
@@ -36,6 +38,8 @@ Engine::Engine()
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<DrawableSystem>();
+    _systemManager.addSystem<AudioSystem>();
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -56,6 +60,8 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
     _systemManager.addSystem<HealthSystem>();
     _systemManager.addSystem<ScrollSystem>();
     _systemManager.addSystem<NetworkSystem>();
+    _systemManager.addSystem<DrawableSystem>();
+    _systemManager.addSystem<AudioSystem>();
 }
 
 Engine::~Engine()
@@ -65,6 +71,7 @@ Engine::~Engine()
 
 void Engine::run()
 {
+    _systemManager.load(_registry, _gameContext);
     _systemManager.start(_registry, _gameContext);
 
     _gameContext.setNetworkHandler(_networkHandler);
@@ -91,7 +98,7 @@ void Engine::run()
         }
 
         _clockManager.update();
-        _sceneManager.update(_gameContext);
+        if (_sceneManager.update(_gameContext)) _systemManager.load(_registry, _gameContext);
 
         _gameContext._deltaT = _clockManager.getDeltaT();
         _systemManager.update(_registry, _gameContext);

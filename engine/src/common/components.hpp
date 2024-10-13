@@ -16,6 +16,7 @@
 
 // std
 #include <iostream>
+#include <queue>
 #include <string>
 #include <vector>
 
@@ -109,10 +110,18 @@ struct Button
     std::string text;
     mlg::vec3 size;
     std::string font;
-    bool clicked;
+    mlg::vec3 color;
 
-    Button(std::string text, mlg::vec3 size, std::string font)
-        : text(text), size(size), font(font), clicked(false)
+    std::string target = "";
+    std::string action = "";
+
+    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color)
+        : text(text), size(size), font(font), color(color)
+    {
+    }
+    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color, std::string target,
+           std::string action)
+        : text(text), size(size), font(font), color(color), target(target), action(action)
     {
     }
 };
@@ -129,6 +138,51 @@ struct Ally
 
     Ally(mlg::vec3 moveDirection) : moveDirection(moveDirection) {}
     Ally() : moveDirection(mlg::vec3(0.0f)) {}
+};
+
+struct Text
+{
+    std::string text;
+    mlg::vec3 color;
+    std::string font;
+    int fontSize;
+
+    Text(std::string text, mlg::vec3 color, std::string font, int fontSize)
+        : text(text), color(color), font(font), fontSize(fontSize)
+    {
+    }
+};
+
+struct Paragraph
+{
+    std::vector<std::string> lines;
+    mlg::vec3 color;
+    std::string font;
+    int fontSize;
+
+    Paragraph(std::string text, mlg::vec3 color, std::string font, int fontSize)
+        : color(color), font(font), fontSize(fontSize)
+    {
+        std::istringstream stream(text);
+        std::string line;
+        while (std::getline(stream, line))
+        {
+            lines.push_back(line);
+        }
+    }
+};
+
+struct Audio
+{
+    std::vector<std::string> sounds;
+    std::vector<std::string> musics;
+
+    std::queue<std::string> audioQueue;
+
+    Audio(std::vector<std::string> sounds, std::vector<std::string> musics)
+        : sounds(sounds), musics(musics)
+    {
+    }
 };
 
 }  // namespace RType

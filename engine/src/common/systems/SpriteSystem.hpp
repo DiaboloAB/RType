@@ -20,7 +20,7 @@ class SpriteSystem : public ISystem
     SpriteSystem() {}
     ~SpriteSystem() {}
 
-    void start(mobs::Registry &registry, GameContext &gameContext) override
+    void load(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Sprite>();
         for (auto entity : view)

@@ -41,7 +41,8 @@ class NullRuntime : public IRuntime
     }
     void drawSprite(const std::string& spriteName, mlg::vec3 position) override {}
     void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
-                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override
+                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
+                  bool centered = false) override
     {
     }
     void FullScreenWindow() override {}
@@ -52,18 +53,12 @@ class NullRuntime : public IRuntime
     }
     void unloadTexture(const std::string& textureName) override {}
     void unloadSprite(const std::string& spriteName) override {}
-    bool loadMusic(const std::string& musicName, const std::string& filePath) override
-    {
-        return false;
-    }
-    void playMusic(const std::string& musicName, bool loop) override {}
+    bool loadMusic(const std::string& filePath) override { return false; }
+    void playMusic(const std::string& filePath, bool loop) override {}
     void stopCurrentMusic() override {}
     void unloadMusic(const std::string& musicName) override {}
-    bool loadSound(const std::string& soundName, const std::string& filePath) override
-    {
-        return false;
-    }
-    void playSound(const std::string& soundName) override {}
+    bool loadSound(const std::string& filePath) override { return false; }
+    void playSound(const std::string& filePath) override {}
     void unloadSound(const std::string& soundName) override {}
     void setFramerateLimit(unsigned int limit) override {}
     void setVerticalSyncEnabled(bool enabled) override {}

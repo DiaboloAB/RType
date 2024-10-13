@@ -69,7 +69,7 @@ class SceneManager
      *
      * @param gameContext The context of the game.
      */
-    void update(GameContext &gameContext);
+    bool update(GameContext &gameContext);
 
    private:
     /**
