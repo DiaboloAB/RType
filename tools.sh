@@ -5,6 +5,7 @@ usage() {
     echo "Commands:"
     echo "  clean: Clean build directory."
     echo "  build: Build project."
+    echo "  thread-build: Build project with 4 threads."
     echo "  rebuild: Rebuild project."
     echo "  runtest: Run tests."
     echo "  run: Run project."
@@ -23,8 +24,8 @@ COMMAND=$1
 if [ "$COMMAND" == "runtest" ]; then
     echo "Running tests..."
     cd build
-    ./test_basic
-    ./libs/ecs/test_ecs
+    ./libs/mobs/test_mobs
+    ./libs/mlg/test_mlg
     ./engine/test_engine
     cd ..
 elif [ "$COMMAND" == "build" ]; then
@@ -33,6 +34,18 @@ elif [ "$COMMAND" == "build" ]; then
     cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
     cmake --build .
+elif [ "$COMMAND" == "build-test" ]; then
+    conan profile detect --force
+    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+    cd build
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=ON
+    cmake --build .
+elif [ "$COMMAND" == "thread-build" ]; then
+    conan profile detect --force
+    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+    cd build
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+    cmake --build . -- -j 4
 elif [ "$COMMAND" == "pack" ]; then
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
@@ -42,7 +55,8 @@ elif [ "$COMMAND" == "pack" ]; then
 elif [ "$COMMAND" == "clean" ]; then
     echo "Cleaning project..."
     rm -rf build
-    rm RType
+    rm r-type_client
+    rm r-type_server
     rm CMakeUserPresets.json
 elif [ "$COMMAND" == "rebuild" ]; then
     echo "Rebuilding project..."
@@ -50,7 +64,7 @@ elif [ "$COMMAND" == "rebuild" ]; then
     $0 build
 elif [ "$COMMAND" == "run" ]; then
     echo "Running project..."
-    ./RType
+    ./r-type_client
     cd ..
 elif [ "$COMMAND" == "check-clang" ]; then
     if [ $# -ne 2 ]; then

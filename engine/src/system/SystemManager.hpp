@@ -17,12 +17,31 @@
 namespace RType
 {
 
+/**
+ * @class SystemManager
+ * @brief Manages all systems in the game engine.
+ */
 class SystemManager
 {
    public:
+    /**
+     * @brief Constructs a new SystemManager object.
+     */
     SystemManager();
+
+    /**
+     * @brief Destroys the SystemManager object.
+     */
     ~SystemManager();
 
+    /**
+     * @brief Adds a new system to the manager.
+     *
+     * @tparam T The type of the system to add.
+     * @tparam Args The types of the arguments to pass to the system's constructor.
+     * @param args The arguments to pass to the system's constructor.
+     * @return T& A reference to the newly added system.
+     */
     template <typename T, typename... Args>
     T &addSystem(Args &&...args)
     {
@@ -32,37 +51,48 @@ class SystemManager
         return ref;
     }
 
-    void start(ECS::Registry &registry, GameContext &gameContext)
-    {
-        for (auto &system : _systems)
-        {
-            system->start(registry, gameContext);
-        }
-    }
+    /**
+     * @brief Starts all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void start(mobs::Registry &registry, GameContext &gameContext);
 
-    void update(ECS::Registry &registry, GameContext &gameContext)
-    {
-        for (auto &system : _systems)
-        {
-            system->update(registry, gameContext);
-        }
-    }
+    /**
+     * @brief Stops all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void stop(mobs::Registry &registry, GameContext &gameContext);
 
-    void draw(ECS::Registry &registry, GameContext &gameContext)
-    {
-        for (auto &system : _systems)
-        {
-            system->draw(registry, gameContext);
-        }
-    }
+    /**
+     * @brief Loads all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void load(mobs::Registry &registry, GameContext &gameContext);
 
-    // Getters
+    /**
+     * @brief Updates all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void update(mobs::Registry &registry, GameContext &gameContext);
 
-    // Setters
+    /**
+     * @brief Draws all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void draw(mobs::Registry &registry, GameContext &gameContext);
 
    private:
-    // Member variables
-    std::vector<std::unique_ptr<ISystem>> _systems;
+    std::vector<std::unique_ptr<ISystem>> _systems;  ///< Container for all systems.
 };
 
 }  // namespace RType

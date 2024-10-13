@@ -22,11 +22,11 @@ class ForwardSystem : public ISystem
     ForwardSystem() {}
     ~ForwardSystem() {}
 
-    void update(ECS::Registry &registry, GameContext &gameContext) override
+    void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         float deltaTime = gameContext._deltaT;
         auto view = registry.view<Transform>();
-
+        return;
         for (auto entity : view)
         {
             auto &transform = view.get<Transform>(entity);
@@ -46,6 +46,14 @@ class ForwardSystem : public ISystem
             if (gameContext._runtime->getKey(KeyCode::RightArrow))
             {
                 transform.position.x += speed * deltaTime;
+            }
+            if (gameContext._runtime->getKeyDown(KeyCode::Space))
+            {
+                gameContext._sceneManager._nextScene = "scenes1.json";
+            }
+            if (gameContext._runtime->getKeyDown(KeyCode::H))
+            {
+                std::cout << "Hello World" << std::endl;
             }
         }
     }

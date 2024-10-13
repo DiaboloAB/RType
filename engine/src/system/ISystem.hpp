@@ -10,22 +10,63 @@
 
 #include <gameContext/GameContext.hpp>
 
-#include "RTypeECS.hpp"
+#include "mobs/mobs.hpp"
 // std
 
 namespace RType
 {
 
+/**
+ * @class ISystem
+ * @brief Interface for systems used in the RType game engine.
+ */
 class ISystem
 {
    public:
+    /**
+     * @brief Virtual destructor for ISystem.
+     */
     ~ISystem() = default;
 
-    virtual void start(ECS::Registry &registry, GameContext &gameContext) {}
+    /**
+     * @brief Called when the system starts.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
 
-    virtual void update(ECS::Registry &registry, GameContext &gameContext) {}
+    /**
+     * @brief Called when a new object or scene is loaded.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void load(mobs::Registry &registry, GameContext &gameContext) {}
 
-    virtual void draw(ECS::Registry &registry, GameContext &gameContext) {}
+    /**
+     * @brief Called when the system stops.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void stop(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
+     * @brief Called every frame to update the system.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
+     * @brief Called every frame to draw the system.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void draw(mobs::Registry &registry, GameContext &gameContext) {}
 
    private:
     // Member variables

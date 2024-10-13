@@ -3,6 +3,10 @@
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
-    "firstScene": "menu",
-    "network": true
+    "defaultScene": "menu.json",
+    "network": true,
+    "fontList": [
+        "assets/fonts/Roboto-Medium.ttf",
+        "assets/fonts/r-type.ttf"
+    ]
 }

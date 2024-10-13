@@ -7,34 +7,15 @@
 
 #include "RenderSystemSFML.hpp"
 
-/**
- * @namespace RType
- * @brief Contains all game systems and components related to the RType game.
- */
 namespace RType
 {
 
-/**
- * @brief Constructor for the RenderSystem.
- *
- * Initializes the game window with a resolution of 1920x1080 in windowed mode by default.
- * The window will be used to render all graphical content.
- */
 RenderSystemSFML::RenderSystemSFML()
     : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false)
 {
-    // Initialization code here
 }
 
-/**
- * @brief Destructor for the RenderSystem.
- *
- * Cleans up resources and can be used to close the game window when necessary.
- */
-RenderSystemSFML::~RenderSystemSFML()
-{
-    // Release resources if needed (e.g., _window.close() if needed)
-}
+RenderSystemSFML::~RenderSystemSFML() {}
 
 void RenderSystemSFML::pollEvents()
 {
@@ -80,7 +61,10 @@ bool RenderSystemSFML::getKeyUp(KeyCode key)
     auto it = _previousKeys.find(static_cast<int>(key));
     if (it != _previousKeys.end())
     {
-        return it->second;
+        if (it->second == true && _currentKeys[static_cast<int>(key)] == false)
+        {
+            return true;
+        }
     }
     return false;
 }
@@ -90,121 +74,120 @@ bool RenderSystemSFML::getKeyDown(KeyCode key)
     auto it = _currentKeys.find(static_cast<int>(key));
     if (it != _currentKeys.end())
     {
-        return it->second;
+        if (it->second == true && _previousKeys[static_cast<int>(key)] == false)
+        {
+            return true;
+        }
     }
     return false;
 }
 
-/**
- * @brief Clears the game window by filling it with a black background.
- *
- * This function is called before drawing new objects or frames, resetting the window to a black
- * screen.
- */
 void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }
 
-/**
- * @brief Updates the game window to display the rendered content.
- *
- * This function refreshes the window to display everything that has been drawn since the last call
- * to clearWindow().
- */
 void RenderSystemSFML::updateWindow() { _window.display(); }
 
-/**
- * @brief Toggles between fullscreen and windowed mode.
- *
- * Switches the window from fullscreen mode to windowed mode (1920x1080) or vice versa.
- * The current state is tracked by the `_isFullScreen` flag.
- */
 void RenderSystemSFML::FullScreenWindow()
 {
     sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
 
-    if (_isFullScreen)
+    try
     {
-        // Switch to windowed mode
-        _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
-        _isFullScreen = false;
+        if (_isFullScreen)
+        {
+            _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
+            _isFullScreen = false;
+        }
+        else
+        {
+            _window.create(fullscreenMode, "RType", sf::Style::Fullscreen);
+            _isFullScreen = true;
+        }
     }
-    else
+    catch (const std::exception& e)
     {
-        // Switch to fullscreen mode
-        _window.create(fullscreenMode, "RType", sf::Style::Fullscreen);
-        _isFullScreen = true;
+        std::cerr << "Erreur lors du changement de mode plein écran : " << e.what() << std::endl;
     }
 }
 
-/**
- * @brief Loads a texture from file and stores it in a cache.
- * @param textureName The unique name of the texture.
- * @param filePath The file path of the texture to load.
- * @return `true` if the texture was loaded successfully, `false` otherwise.
- */
 bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::string& filePath)
 {
-    auto texture = std::make_unique<sf::Texture>();
-    if (!texture->loadFromFile(filePath))
+    try
     {
-        std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
+        auto texture = std::make_unique<sf::Texture>();
+        if (!texture->loadFromFile(filePath))
+        {
+            throw std::runtime_error("Erreur lors du chargement de la texture : " + filePath);
+        }
+        _textures[textureName] = std::move(texture);
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
         return false;
     }
-    _textures[textureName] = std::move(texture);
-    return true;
 }
 
-/**
- * @brief Unloads a specific texture from the cache.
- * @param textureName The unique name of the texture to unload.
- */
 void RenderSystemSFML::unloadTexture(const std::string& textureName)
 {
     auto it = _textures.find(textureName);
     if (it != _textures.end())
     {
-        _textures.erase(it);  // Libère la mémoire associée à la texture
+        _textures.erase(it);
     }
 }
 
-/**
- * @brief Loads a sprite using a texture from the cache.
- * @param textureName The name of the texture to use for the sprite.
- */
-void RenderSystemSFML::loadSprite(const std::string& spriteName, const std::string& textureName,
-                                  const std::string& filePath)
+void RenderSystemSFML::loadSprite(const std::string& filePath)
 {
-    if (loadTexture(textureName, filePath) == false)
+    try
     {
-        return;
+        if (!loadTexture(filePath, filePath))
+        {
+            throw std::runtime_error("Erreur lors du chargement du sprite : " + filePath);
+        }
+
+        auto it = _textures.find(filePath);
+        if (it != _textures.end())
+        {
+            sf::Sprite sprite;
+            sprite.setTexture(*it->second);
+            _sprites[filePath] = sprite;
+        }
+        else
+        {
+            throw std::runtime_error("Erreur : texture non trouvée (" + filePath + ")");
+        }
     }
-    auto it = _textures.find(textureName);
-    if (it != _textures.end())
+    catch (const std::exception& e)
     {
-        sf::Sprite sprite;
-        sprite.setTexture(*it->second);
-        _sprites[spriteName] = sprite;  // Ajoute le sprite à la map avec son nom unique
-    }
-    else
-    {
-        std::cerr << "Erreur : texture non trouvée (" << textureName << ")" << std::endl;
+        std::cerr << "Erreur : " << e.what() << std::endl;
     }
 }
 
-/**
- * @brief Draws a sprite on the game window.
- *
- * Placeholder function for drawing sprites. It is currently not implemented but intended for future
- * use.
- */
-void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float y)
+void RenderSystemSFML::unloadSprite(const std::string& spriteName)
 {
     auto it = _sprites.find(spriteName);
     if (it != _sprites.end())
     {
-        // Met à jour la position du sprite
-        it->second.setPosition(x, y);
+        _sprites.erase(it);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
+    }
+}
 
-        // Dessine le sprite avec la nouvelle position
+void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec3 position,
+                                  mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
+{
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end())
+    {
+        sf::IntRect spriteRect(spriteCoords.x, spriteCoords.y, spriteCoords.z, spriteCoords.w);
+        it->second.setTextureRect(spriteRect);
+        it->second.setPosition(position.x, position.y);
+        it->second.setScale(scale.x, scale.y);
+        it->second.setRotation(rotation);
         _window.draw(it->second);
     }
     else
@@ -213,23 +196,206 @@ void RenderSystemSFML::drawSprite(const std::string& spriteName, float x, float 
     }
 }
 
-void RenderSystemSFML::drawAllSprites()
+void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec3 position)
 {
-    for (const auto& pair : _sprites)
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end())
     {
-        _window.draw(pair.second);  // Dessine chaque sprite dans la map
+        it->second.setPosition(position.x, position.y);
+        _window.draw(it->second);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
     }
 }
 
-/**
- * @brief Draws text on the game window.
- *
- * Placeholder function for drawing text. It is currently not implemented but intended for future
- * use.
- */
-void RenderSystemSFML::drawText()
+void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color)
 {
-    // To be implemented
+    sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
+    rectangle.setPosition(spriteCoords.x, spriteCoords.y);
+
+    sf::Color sfcolor(static_cast<sf::Uint8>(color.x), static_cast<sf::Uint8>(color.y),
+                      static_cast<sf::Uint8>(color.z));
+
+    if (full)
+    {
+        rectangle.setFillColor(sfcolor);
+    }
+    else
+    {
+        rectangle.setFillColor(sf::Color::Transparent);
+        rectangle.setOutlineThickness(1);
+        rectangle.setOutlineColor(sfcolor);
+    }
+    _window.draw(rectangle);
+}
+
+bool RenderSystemSFML::loadMusic(const std::string& filePath)
+{
+    try
+    {
+        if (_musics.find(filePath) != _musics.end())
+        {
+            return true;
+        }
+
+        auto music = std::make_unique<sf::Music>();
+        if (!music->openFromFile(filePath))
+        {
+            throw std::runtime_error("Erreur lors du chargement de la musique : " + filePath);
+        }
+
+        _musics[filePath] = std::move(music);
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+        return false;
+    }
+}
+
+void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
+                                const mlg::vec3 position, unsigned int fontSize,
+                                const mlg::vec3& color, bool centered)
+{
+    try
+    {
+        if (_fonts.find(fontPath) == _fonts.end())
+        {
+            throw std::runtime_error("Erreur : police non reconnue (" + fontPath + ")");
+        }
+
+        sf::Font& font = _fonts[fontPath];
+        sf::Text text;
+        text.setFont(font);
+        text.setString(textStr);
+        text.setCharacterSize(fontSize);
+        text.setPosition(position.x, position.y);
+        if (centered)
+        {
+            sf::FloatRect textRect = text.getLocalBounds();
+            text.setOrigin(textRect.left + textRect.width / 2.0f,
+                           textRect.top + textRect.height / 2.0f);
+        }
+
+        text.setFillColor(sf::Color(static_cast<sf::Uint8>(color.x),
+                                    static_cast<sf::Uint8>(color.y),
+                                    static_cast<sf::Uint8>(color.z)));
+        _window.draw(text);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}
+
+void RenderSystemSFML::playMusic(const std::string& filePath, bool loop)
+{
+    if (_currentMusic != nullptr)
+    {
+        _currentMusic->stop();
+    }
+
+    try
+    {
+        auto it = _musics.find(filePath);
+        if (it != _musics.end())
+        {
+            _currentMusic = it->second.get();
+            _currentMusic->setLoop(loop);
+            _currentMusic->play();
+        }
+        else
+        {
+            throw std::runtime_error("Erreur : musique non trouvée (" + filePath + ")");
+        }
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}
+
+void RenderSystemSFML::stopCurrentMusic()
+{
+    if (_currentMusic != nullptr)
+    {
+        _currentMusic->stop();
+        _currentMusic = nullptr;
+    }
+}
+
+void RenderSystemSFML::unloadMusic(const std::string& musicName)
+{
+    auto it = _musics.find(musicName);
+    if (it != _musics.end())
+    {
+        if (_currentMusic == it->second.get())
+        {
+            _currentMusic->stop();
+            _currentMusic = nullptr;
+        }
+        _musics.erase(it);
+    }
+}
+
+bool RenderSystemSFML::loadSound(const std::string& filePath)
+{
+    try
+    {
+        if (_soundBuffers.find(filePath) != _soundBuffers.end())
+        {
+            return true;
+        }
+
+        auto buffer = std::make_unique<sf::SoundBuffer>();
+        if (!buffer->loadFromFile(filePath))
+        {
+            throw std::runtime_error("Erreur lors du chargement du son : " + filePath);
+        }
+
+        _soundBuffers[filePath] = std::move(buffer);
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+        return false;
+    }
+}
+
+void RenderSystemSFML::playSound(const std::string& filePath)
+{
+    try
+    {
+        auto it = _soundBuffers.find(filePath);
+        if (it != _soundBuffers.end())
+        {
+            sf::Sound sound;
+            sound.setBuffer(*it->second);
+            _sounds.push_back(sound);
+            _sounds.back().play();
+        }
+        else
+        {
+            throw std::runtime_error("Erreur : son non trouvé (" + filePath + ")");
+        }
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}
+
+void RenderSystemSFML::unloadSound(const std::string& soundName)
+{
+    auto it = _soundBuffers.find(soundName);
+    if (it != _soundBuffers.end())
+    {
+        _soundBuffers.erase(it);
+    }
 }
 
 KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
@@ -326,8 +492,14 @@ KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
             return KeyCode::Alpha8;
         case sf::Keyboard::Num9:
             return KeyCode::Alpha9;
+        case sf::Keyboard::Comma:
+            return KeyCode::Comma;
+        case sf::Keyboard::Period:
+            return KeyCode::Dot;
+        case sf::Keyboard::Dash:
+            return KeyCode::Tiret;
         default:
-            return KeyCode::None;  // Default case, adjust as needed
+            return KeyCode::None;
     }
 }
 
@@ -346,8 +518,68 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
         case sf::Mouse::XButton2:
             return KeyCode::Mouse5;
         default:
-            return KeyCode::None;  // Default case, adjust as needed
+            return KeyCode::None;
     }
+}
+
+mlg::vec3 RenderSystemSFML::getMousePosition()
+{
+    sf::Vector2i position = sf::Mouse::getPosition(_window);
+    sf::Vector2f worldPos = _window.mapPixelToCoords(position);
+
+    return mlg::vec3(worldPos.x, worldPos.y, 0);
+}
+
+mlg::vec3 RenderSystemSFML::getTextureSize(const std::string& spriteName)
+{
+    auto it = _sprites.find(spriteName);
+    if (it != _sprites.end())
+    {
+        auto size = it->second.getTexture()->getSize();
+        return mlg::vec3(size.x, size.y, 0);
+    }
+    return mlg::vec3(0, 0, 0);
+}
+
+void RenderSystemSFML::setGameIcon(const std::string& filePath)
+{
+    try
+    {
+        sf::Image icon;
+        if (!icon.loadFromFile(filePath))
+        {
+            throw std::runtime_error("Erreur lors du chargement de l'icône du jeu : " + filePath);
+        }
+        _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}
+
+void RenderSystemSFML::loadFont(const std::string& filePath)
+{
+    sf::Font font;
+    try
+    {
+        if (!font.loadFromFile(filePath))
+        {
+            throw std::runtime_error("Erreur lors du chargement de la police : " + filePath);
+        }
+        _fonts[filePath] = font;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erreur : " << e.what() << std::endl;
+    }
+}
+
+void RenderSystemSFML::setFramerateLimit(unsigned int limit) { _window.setFramerateLimit(limit); }
+
+void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
+{
+    _window.setVerticalSyncEnabled(enabled);
 }
 
 }  // namespace RType

@@ -34,3 +34,5 @@ cmake_install.cmake
 build/
 CMakeUserPresets.json
 RType
+r-type_server
+r-type_client

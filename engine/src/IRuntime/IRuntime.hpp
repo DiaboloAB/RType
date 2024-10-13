@@ -11,6 +11,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <mlg/mlg.hpp>
 #include <string>
 #include <vector>
 
@@ -82,21 +83,45 @@ class IRuntime
     virtual void updateWindow() = 0;
 
     /**
-     * @brief Pure virtual method to load a texture for a sprite.
-     * @param textureName The unique name of the texture.
-     * @param filePath The file path of the texture to load.
+     * @brief Pure virtual method to set the window title.
+     * @param title The title to set for the window.
      *
-     * This method must be implemented to load a texture from a file and store it in memory.
+     * This method must be implemented to set the title of the window.
      */
-    virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
+    virtual mlg::vec3 getTextureSize(const std::string& spriteName) = 0;
 
     /**
-     * @brief Pure virtual method to unload a texture from memory.
-     * @param textureName The unique name of the texture to unload.
+     * @brief Pure virtual method to set the window title.
+     * @param title The title to set for the window.
      *
-     * This method must be implemented to remove a texture from memory when it is no longer needed.
+     * This method must be implemented to set the title of the window.
      */
-    virtual void unloadTexture(const std::string& textureName) = 0;
+    virtual mlg::vec3 getMousePosition() = 0;
+
+    /**
+     * @brief Pure virtual method to set the window title.
+     * @param title The title to set for the window.
+     *
+     * This method must be implemented to set the title of the window.
+     */
+    virtual void drawRectangle(mlg::vec4& spriteCoords, bool full,
+                               const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
+
+    /**
+     * @brief Pure virtual method to set the window icon.
+     * @param filePath The path to the icon file.
+     *
+     * This method must be implemented to set the icon of the window.
+     */
+    virtual void setGameIcon(const std::string& filePath) = 0;
+
+    /**
+     * @brief Pure virtual method to set the window title.
+     * @param title The title to set for the window.
+     *
+     * This method must be implemented to set the title of the window.
+     */
+    virtual void loadFont(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to load a sprite using a previously loaded texture.
@@ -104,8 +129,7 @@ class IRuntime
      *
      * This method must be implemented to assign a texture to a sprite.
      */
-    virtual void loadSprite(const std::string& spriteName, const std::string& textureName,
-                            const std::string& filePath) = 0;
+    virtual void loadSprite(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to draw a sprite on the window.
@@ -113,7 +137,9 @@ class IRuntime
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, float x, float y) = 0;
+    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteRect,
+                            mlg::vec3 scale, float rotation) = 0;
+    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.
@@ -121,7 +147,10 @@ class IRuntime
      * Must be implemented to handle displaying text (such as scores or information)
      * on the screen.
      */
-    virtual void drawText() = 0;
+    virtual void drawText(const std::string& fontPath, const std::string& textStr,
+                          const mlg::vec3 position, unsigned int fontSize,
+                          const mlg::vec3& color = mlg::vec3(0, 0, 0),
+                          const bool centered = false) = 0;
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
@@ -140,6 +169,107 @@ class IRuntime
      * window has been closed, prompting a shutdown of the rendering loop.
      */
     virtual bool isWindowOpen() = 0;
+
+    /**
+     * @brief Pure virtual method to close the window.
+     *
+     * This method must be implemented to close the window and end the rendering loop.
+     */
+    virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
+
+    /**
+     * @brief Pure virtual method to unload a texture from memory.
+     * @param textureName The name of the texture to unload.
+     *
+     * This method must be implemented to remove a texture from memory.
+     */
+    virtual void unloadTexture(const std::string& textureName) = 0;
+
+    /**
+     * @brief Pure virtual method to unload a sprite from memory.
+     * @param spriteName The name of the sprite to unload.
+     *
+     * This method must be implemented to remove a sprite from memory.
+     */
+    virtual void unloadSprite(const std::string& spriteName) = 0;
+
+    /**
+     * @brief Pure virtual method to load a music file.
+     * @param musicName The name to assign to the music.
+     * @param filePath The path to the music file.
+     * @return `true` if the music was loaded successfully, `false` otherwise.
+     *
+     * This method must be implemented to load a music file into memory.
+     */
+    virtual bool loadMusic(const std::string& filePath) = 0;
+
+    /**
+     * @brief Pure virtual method to play a music file.
+     * @param musicName The name of the music to play.
+     * @param loop `true` to loop the music, `false` to play it once.
+     *
+     * This method must be implemented to play a music file that has been loaded
+     * into memory.
+     */
+    virtual void playMusic(const std::string& filePath, bool loop = true) = 0;
+
+    /**
+     * @brief Pure virtual method to stop the currently playing music.
+     *
+     * This method must be implemented to stop the currently playing music.
+     */
+    virtual void stopCurrentMusic() = 0;
+
+    /**
+     * @brief Pure virtual method to unload a music file from memory.
+     * @param musicName The name of the music to unload.
+     *
+     * This method must be implemented to remove a music file from memory.
+     */
+    virtual void unloadMusic(const std::string& musicName) = 0;
+
+    /**
+     * @brief Pure virtual method to load a sound file.
+     * @param soundName The name to assign to the sound.
+     * @param filePath The path to the sound file.
+     * @return `true` if the sound was loaded successfully, `false` otherwise.
+     *
+     * This method must be implemented to load a sound file into memory.
+     */
+    virtual bool loadSound(const std::string& filePath) = 0;
+
+    /**
+     * @brief Pure virtual method to play a sound file.
+     * @param soundName The name of the sound to play.
+     *
+     * This method must be implemented to play a sound file that has been loaded
+     * into memory.
+     */
+    virtual void playSound(const std::string& filePath) = 0;
+
+    /**
+     * @brief Pure virtual method to unload a sound file from memory.
+     * @param soundName The name of the sound to unload.
+     *
+     * This method must be implemented to remove a sound file from memory.
+     */
+    virtual void unloadSound(const std::string& soundName) = 0;
+
+    /**
+     * @brief Pure virtual method to set the framerate limit.
+     * @param limit The framerate limit to set.
+     *
+     * This method must be implemented to set the maximum framerate for the game.
+     */
+    virtual void setFramerateLimit(unsigned int limit) = 0;
+
+    /**
+     * @brief Pure virtual method to set the vertical sync.
+     * @param enabled `true` to enable vertical sync, `false` to disable it.
+     *
+     * This method must be implemented to enable or disable vertical sync.
+     */
+    virtual void setVerticalSyncEnabled(bool enabled) = 0;
 
    private:
     // No private member data defined in this interface.
