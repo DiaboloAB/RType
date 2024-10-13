@@ -21,10 +21,18 @@ class MoveAllyScript : public RType::ICppScript
     {
         auto &transform = registry.get<Transform>(_entity);
         auto &ally = registry.get<Ally>(_entity);
+        auto &hitbox = registry.get<Hitbox>(_entity);
         int speed = 600;
-        transform.position.x += ally.moveDirection.x * speed * gameContext._deltaT;
-        transform.position.y += ally.moveDirection.y * speed * gameContext._deltaT;
+        transform.position.x += ally.moveDirection.x * (speed * gameContext._deltaT);
+        transform.position.y += ally.moveDirection.y * (speed * gameContext._deltaT);
+        if (transform.position.x < 0) transform.position.x = 0;
+        if (transform.position.x > 1920 - hitbox.size.x)
+            transform.position.x = 1920 - hitbox.size.x;
+        if (transform.position.y < 0) transform.position.y = 0;
+        if (transform.position.y > 1080 - hitbox.size.y)
+            transform.position.y = 1080 - hitbox.size.y;
     }
+
     void setEntity(mobs::Entity entity) override { _entity = entity; }
 
    private:

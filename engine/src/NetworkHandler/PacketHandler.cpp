@@ -46,7 +46,7 @@ void PacketHandler::deleteFromValidationList(
             validation->getPacketReceiveTimeStamp() && endpoint == packetInValidation->second)
         {
             this->_validationList.erase(packetInValidation);
-            break;
+            return;
         }
         else
             packetInValidation++;

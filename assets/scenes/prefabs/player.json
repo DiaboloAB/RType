@@ -3,6 +3,7 @@
         "staticObject": false,
         "components": {
           "Transform": { "position": [100, 100, 0] },
+          "Ally": {},
           "Timer": { "active": false},
           "Hitbox": {
             "size": [64, 32],
@@ -49,9 +50,10 @@
             }
           ],
           "CppScripts": [
-            "MovePlayer",
+            "NetworkMovePlayer",
             "AnimPlayer",
-            "PlayerShoot"
+            "PlayerShoot",
+            "MoveAlly"
           ]
         }
     }

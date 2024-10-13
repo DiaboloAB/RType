@@ -74,22 +74,20 @@ void Engine::run()
         _gameContext._runtime->pollEvents();
         if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
-        if (_gameContext._runtime->getKey(KeyCode::Enter) &&
+        if (_gameContext._runtime->getKeyDown(KeyCode::Enter) &&
             !_gameContext._networkHandler->getIsServer())
         {
             Network::HiServerPacket packet = Network::HiServerPacket();
             _gameContext._networkHandler->sendNewPacket(
                 packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
-            sleep(1);
         }
 
-        if (_gameContext._runtime->getKey(KeyCode::P) &&
+        if (_gameContext._runtime->getKeyDown(KeyCode::P) &&
             !_gameContext._networkHandler->getIsServer())
         {
             Network::ClientEventPacket packet = Network::ClientEventPacket(Network::GAME_START);
             _gameContext._networkHandler->sendNewPacket(
                 packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
-            sleep(1);
         }
 
         _clockManager.update();

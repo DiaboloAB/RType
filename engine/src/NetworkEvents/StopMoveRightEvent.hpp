@@ -14,7 +14,7 @@
 
 namespace RType::Network
 {
-class MoveLeftEvent
+class StopMoveRightEvent
 {
    public:
     static bool checkSenderValidity(asio::ip::udp::endpoint &sender, GameContext &gameContext)
