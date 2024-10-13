@@ -65,7 +65,7 @@ class NetworkHandler
      */
     void sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
-   public:
+   private:
     /**
      * @brief Method that send packets from an endpoint to another using async method from asio
      * network library.
@@ -75,6 +75,7 @@ class NetworkHandler
      */
     void sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
+    public:
     /**
      * @brief Method that receive packets from an endpoint using async method from asio network
      * library and send it to the handler.

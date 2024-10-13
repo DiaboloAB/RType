@@ -31,12 +31,4 @@ void EndpointState::setLastPing(std::chrono::time_point<std::chrono::steady_cloc
 
 void EndpointState::setNetworkId(uint32_t newNetworkId) { this->_networkId = newNetworkId; }
 
-void EndpointState::setDirX(float dirX) { this->_dirX = dirX; }
-
-float EndpointState::getDirX() const { return this->_dirX; }
-
-void EndpointState::setDirY(float dirY) { this->_dirY = dirY; }
-
-float EndpointState::getDirY() const { return this->_dirY; }
-
 }  // namespace RType::Network

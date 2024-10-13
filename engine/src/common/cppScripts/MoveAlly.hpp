@@ -25,7 +25,6 @@ class MoveAllyScript : public RType::ICppScript
         int speed = 600;
         transform.position.x += ally.moveDirection.x * (speed * gameContext._deltaT);
         transform.position.y += ally.moveDirection.y * (speed * gameContext._deltaT);
-            //std::cerr << "DIR X [" << ally.moveDirection.x << "] DIR Y [" << ally.moveDirection.y << "]" << std::endl;
         if (transform.position.x < 0)
             transform.position.x = 0;
         if (transform.position.x > 1920 - hitbox.size.x)

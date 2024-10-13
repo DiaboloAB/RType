@@ -31,21 +31,15 @@ class EndpointState
     bool getConnected() const;
     std::chrono::time_point<std::chrono::steady_clock> getLastPing() const;
     uint32_t getNetworkId() const;
-    float getDirX() const;
-    float getDirY() const;
 
    public:
     void setConnected(bool newConnected);
     void setLastPing(std::chrono::time_point<std::chrono::steady_clock> newLastPing);
     void setNetworkId(uint32_t newNetworkId);
-    void setDirX(float dirX);
-    void setDirY(float dirY);
 
    private:
     bool _connected = false;
     std::chrono::time_point<std::chrono::steady_clock> _lastPing = std::chrono::steady_clock::now();
     uint32_t _networkId = 0;
-    float _dirX = 0.0;
-    float _dirY = 0.0;
 };
 }  // namespace RType::Network
