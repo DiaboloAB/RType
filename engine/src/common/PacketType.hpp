@@ -29,4 +29,4 @@ enum PacketType : uint8_t
     CLIENTEVENT = 9,
     PACKETVALIDATION = 10,
 };
-}
+}  // namespace RType::Network

@@ -29,4 +29,4 @@ enum ClientEvent : uint8_t
     SHOOT = 9,
     HOLD_SHOOT = 10,
 };
-}
+}  // namespace RType::Network
