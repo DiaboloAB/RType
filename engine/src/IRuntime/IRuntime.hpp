@@ -149,7 +149,8 @@ class IRuntime
      */
     virtual void drawText(const std::string& fontPath, const std::string& textStr,
                           const mlg::vec3 position, unsigned int fontSize,
-                          const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
+                          const mlg::vec3& color = mlg::vec3(0, 0, 0),
+                          const bool centered = false) = 0;
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.

@@ -108,7 +108,7 @@ mobs::Entity SceneManager::loadPrefab(const std::string& prefabName, GameContext
     return entity;
 }
 
-void SceneManager::update(GameContext& gameContext)
+bool SceneManager::update(GameContext& gameContext)
 {
     if (_nextScene != "")
     {
@@ -122,7 +122,9 @@ void SceneManager::update(GameContext& gameContext)
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;
         _nextScene = "";
+        return true;
     }
+    return false;
 }
 
 }  // namespace RType

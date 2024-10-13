@@ -63,4 +63,24 @@ void SceneManager::initComponentCreators()
     _componentCreators["Ally"] =
         [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
     { registry.emplace<Ally>(entity); };
+    _componentCreators["Text"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        mlg::vec3 color = mlg::vec3(componentData["color"][0], componentData["color"][1],
+                                    componentData["color"][2]);
+        std::string font = componentData["font"].get<std::string>();
+        std::string text = componentData["text"].get<std::string>();
+        int fontSize = componentData["fontSize"].get<int>();
+        registry.emplace<Text>(entity, text, color, font, fontSize);
+    };
+    _componentCreators["Paragraph"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        mlg::vec3 color = mlg::vec3(componentData["color"][0], componentData["color"][1],
+                                    componentData["color"][2]);
+        std::string font = componentData["font"].get<std::string>();
+        std::string text = componentData["text"].get<std::string>();
+        int fontSize = componentData["fontSize"].get<int>();
+        registry.emplace<Paragraph>(entity, text, color, font, fontSize);
+    };
 }

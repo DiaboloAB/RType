@@ -24,11 +24,29 @@ class DrawableSystem : public ISystem
 
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto view = registry.view<Button>();
+        auto view = registry.view<Text, Transform>();
         for (auto entity : view)
         {
-            auto &button = view.get<Button>(entity);
-            // gameContext._runtime->drawText(button.text, button.position);
+            auto &text = view.get<Text>(entity);
+            auto &transform = view.get<Transform>(entity);
+            gameContext._runtime->drawText(text.font, text.text, transform.position, text.fontSize,
+                                           text.color);
+        }
+
+        auto view2 = registry.view<Paragraph, Transform>();
+        for (auto entity : view2)
+        {
+            auto &paragraph = view2.get<Paragraph>(entity);
+            auto &transform = view2.get<Transform>(entity);
+            int i = 0;
+            for (auto line : paragraph.lines)
+            {
+                gameContext._runtime->drawText(
+                    paragraph.font, line,
+                    mlg::vec3(transform.position.x, transform.position.y + i, transform.position.z),
+                    paragraph.fontSize, paragraph.color, true);
+                i += paragraph.fontSize + 5;
+            }
         }
     }
     // Getters

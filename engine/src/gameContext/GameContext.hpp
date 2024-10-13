@@ -73,13 +73,10 @@ class GameContext
 
     /**
      * @brief Put the entity in the destroy queue.
-     * 
+     *
      * @param entity The entity to destroy.
      */
-    void destroyEntity(Entity entity)
-    {
-        _entitiesToDestroy.push(entity);
-    }
+    void destroyEntity(mobs::Entity entity) { _entitiesToDestroy.push(entity); }
 
     /**
      * @brief Destroys all entities in the destroy queue.
@@ -88,7 +85,7 @@ class GameContext
     {
         while (!_entitiesToDestroy.empty())
         {
-            _registry.destroy(_entitiesToDestroy.front());
+            _registry.kill(_entitiesToDestroy.front());
             _entitiesToDestroy.pop();
         }
     }
@@ -101,7 +98,7 @@ class GameContext
     std::shared_ptr<Network::NetworkHandler> _networkHandler;
 
    private:
-    std::queue<Entity> _entitiesToDestroy;  ///< The entities to destroy.
+    std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.
 };
 
 }  // namespace RType

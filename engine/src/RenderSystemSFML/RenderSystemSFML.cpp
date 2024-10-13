@@ -258,7 +258,7 @@ bool RenderSystemSFML::loadMusic(const std::string& musicName, const std::string
 
 void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
                                 const mlg::vec3 position, unsigned int fontSize,
-                                const mlg::vec3& color)
+                                const mlg::vec3& color, bool centered)
 {
     try
     {
@@ -273,10 +273,16 @@ void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& 
         text.setString(textStr);
         text.setCharacterSize(fontSize);
         text.setPosition(position.x, position.y);
+        if (centered)
+        {
+            sf::FloatRect textRect = text.getLocalBounds();
+            text.setOrigin(textRect.left + textRect.width / 2.0f,
+                           textRect.top + textRect.height / 2.0f);
+        }
 
-        text.setFillColor(sf::Color(static_cast<sf::Uint8>(color.x * 255),
-                                    static_cast<sf::Uint8>(color.y * 255),
-                                    static_cast<sf::Uint8>(color.z * 255)));
+        text.setFillColor(sf::Color(static_cast<sf::Uint8>(color.x),
+                                    static_cast<sf::Uint8>(color.y),
+                                    static_cast<sf::Uint8>(color.z)));
         _window.draw(text);
     }
     catch (const std::exception& e)
@@ -486,6 +492,12 @@ KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
             return KeyCode::Alpha8;
         case sf::Keyboard::Num9:
             return KeyCode::Alpha9;
+        case sf::Keyboard::Comma:
+            return KeyCode::Comma;
+        case sf::Keyboard::Period:
+            return KeyCode::Dot;
+        case sf::Keyboard::Dash:
+            return KeyCode::Tiret;
         default:
             return KeyCode::None;
     }

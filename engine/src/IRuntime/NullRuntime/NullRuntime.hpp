@@ -41,7 +41,8 @@ class NullRuntime : public IRuntime
     }
     void drawSprite(const std::string& spriteName, mlg::vec3 position) override {}
     void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
-                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override
+                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
+                  bool centered = false) override
     {
     }
     void FullScreenWindow() override {}

@@ -47,7 +47,6 @@
             }
           ],
           "CppScripts": [
-            "MoveAlly",
             "MovePlayer",
             "AnimPlayer",
             "PlayerShoot"

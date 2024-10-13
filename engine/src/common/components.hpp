@@ -131,6 +131,38 @@ struct Ally
     Ally() : moveDirection(mlg::vec3(0.0f)) {}
 };
 
+struct Text
+{
+    std::string text;
+    mlg::vec3 color;
+    std::string font;
+    int fontSize;
+
+    Text(std::string text, mlg::vec3 color, std::string font, int fontSize)
+        : text(text), color(color), font(font), fontSize(fontSize)
+    {
+    }
+};
+
+struct Paragraph
+{
+    std::vector<std::string> lines;
+    mlg::vec3 color;
+    std::string font;
+    int fontSize;
+
+    Paragraph(std::string text, mlg::vec3 color, std::string font, int fontSize)
+        : color(color), font(font), fontSize(fontSize)
+    {
+        std::istringstream stream(text);
+        std::string line;
+        while (std::getline(stream, line))
+        {
+            lines.push_back(line);
+        }
+    }
+};
+
 }  // namespace RType
 
 #endif  // COMPONENTS_H
