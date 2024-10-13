@@ -50,8 +50,7 @@
             }
           ],
           "CppScripts": [
-            "MoveAlly",
-            "MovePlayer"
+            "MoveAlly"
           ]
         }
     }
