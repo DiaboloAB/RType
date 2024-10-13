@@ -11,6 +11,10 @@
 
 namespace RType::Network
 {
+/**
+ * @enum ClientEvent
+ * @brief Defines all possible client events that can be sent or received.
+ */
 enum ClientEvent : uint8_t
 {
     GAME_START = 0,
@@ -25,4 +29,4 @@ enum ClientEvent : uint8_t
     SHOOT = 9,
     HOLD_SHOOT = 10,
 };
-}
+}  // namespace RType::Network

@@ -45,7 +45,7 @@ class HiClientPacket : public APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of entityId to binary.
+     * @return empty std::vector<char> because nothing to serialize.
      */
     std::vector<char> serializeData() const override;
 

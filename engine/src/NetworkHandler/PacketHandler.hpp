@@ -16,6 +16,11 @@
 
 namespace RType::Network
 {
+/** @class PacketHandler
+ *
+ * @brief This class is used to manage all the packets communication between client & server.
+ * It manage a receiveQueue and a validation list for packets which need a validation Packet.
+ */
 class PacketHandler
 {
    public:

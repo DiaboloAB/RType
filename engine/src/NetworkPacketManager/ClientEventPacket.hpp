@@ -25,6 +25,7 @@ class ClientEventPacket : public APacket
     /**
      * @brief Construct ClientEventPacket object that will be send to server.
      *
+     * @param event: Network client event (GAMESTART, ...).
      * @return ClientEventPacket object.
      */
     ClientEventPacket(ClientEvent event);
@@ -46,7 +47,7 @@ class ClientEventPacket : public APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return empty std::vector<char> because nothing to serialize.
+     * @return std::vector<char> representing the serialization of _clientEvent to binary.
      */
     std::vector<char> serializeData() const override;
 

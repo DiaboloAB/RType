@@ -11,6 +11,10 @@
 
 namespace RType::Network
 {
+/**
+ * @enum PacketType
+ * @brief Defines all possible types of packets that can be sent or received.
+ */
 enum PacketType : uint8_t
 {
     NONE = 0,
@@ -25,4 +29,4 @@ enum PacketType : uint8_t
     CLIENTEVENT = 9,
     PACKETVALIDATION = 10,
 };
-}
+}  // namespace RType::Network

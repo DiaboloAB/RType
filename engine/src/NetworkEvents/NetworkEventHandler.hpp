@@ -26,13 +26,34 @@
 
 namespace RType::Network
 {
+/**
+ * @class NetworkEventHandler
+ *
+ * @brief Class used to invoke the update functions of event classes (e.g., MoveRightEvent, ...).
+ * This class serves as the entry point for handling various game events.
+ */
 class NetworkEventHandler
 {
    public:
+    /**
+     * @brief Constructor for the NetworkEventHandler class.
+     * @param idHandler Reference to the idHandler used by various event classes to generate new
+     * network IDs.
+     */
     NetworkEventHandler(NetworkIdHandler &idHandler);
+
     ~NetworkEventHandler();
 
    public:
+    /**
+     * @brief Calls the update function of the event class associated with the event passed as
+     * parameter.
+     *
+     * @param event Game event to handle.
+     * @param sender Endpoint of the entity sending the event.
+     * @param registry Entity-component registry.
+     * @param gameContext Context for managing the game state.
+     */
     void update(ClientEvent event, asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                 GameContext &gameContext);
 

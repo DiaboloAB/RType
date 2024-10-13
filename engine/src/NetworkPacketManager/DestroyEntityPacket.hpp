@@ -24,7 +24,7 @@ class DestroyEntityPacket : public APacket
     /**
      * @brief Construct DestroyEntityPacket object that will be send to server or client.
      *
-     * @param entityId : Id of the entity that will be destroyed.
+     * @param entityId : Network Id of the entity that will be destroyed.
      * @return DestroyEntityPacket object.
      */
     DestroyEntityPacket(uint32_t entityId);

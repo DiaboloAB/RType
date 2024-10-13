@@ -14,9 +14,23 @@
 
 namespace RType::Network
 {
+/**
+ * @class MoveUpEvent
+ *
+ * @brief Class used to manage in-game entities when a MOVE_UP
+ * event is received by the server.
+ */
 class MoveUpEvent
 {
    public:
+    /**
+     * @brief Checks if the sender of this event is authorized to send it and
+     * whether the receiver is the server.
+     *
+     * @param sender: Sender endpoint of the game event.
+     * @param gameContext Context for managing the game state.
+     * @return True if the sender is valid, False otherwise.
+     */
     static bool checkSenderValidity(asio::ip::udp::endpoint &sender, GameContext &gameContext)
     {
         auto networkHandler = gameContext._networkHandler;
@@ -29,6 +43,15 @@ class MoveUpEvent
         return true;
     }
 
+    /**
+     * @brief Updates the client's direction to move upward. Sends the updated direction to other
+     * clients to ensure they move this client upward as well.
+     *
+     * @param sender: Sender endpoint of the game event.
+     * @param registry: Entity-component registry.
+     * @param gameContext: Context for managing the game state.
+     * @param idHandler: Network id handler
+     */
     static void update(asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                        GameContext &gameContext, NetworkIdHandler &idHandler)
     {
