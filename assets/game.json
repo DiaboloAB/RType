@@ -3,7 +3,7 @@
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
-    "defaultScene": "credits.json",
+    "defaultScene": "scenes1.json",
     "network": true,
     "fontList": [
         "assets/fonts/Roboto-Medium.ttf",
