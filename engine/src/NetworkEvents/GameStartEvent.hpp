@@ -29,18 +29,18 @@ class GameStartEvent
         return true;
     }
 
-    static std::list<uint32_t> initServerEntities(std::map<asio::ip::udp::endpoint, RType::Network::EndpointState> &endpointMap, 
-                                                  mobs::Registry &registry, GameContext &gameContext, NetworkIdHandler &idHandler)
+    static std::list<uint32_t> initServerEntities(
+        std::map<asio::ip::udp::endpoint, RType::Network::EndpointState> &endpointMap,
+        mobs::Registry &registry, GameContext &gameContext, NetworkIdHandler &idHandler)
     {
         float posX = 100.0;
         float posY = 100.0;
         std::list<uint32_t> connectedNid;
 
-        for (auto &endpoint : endpointMap) {
-            if (!endpoint.second.getConnected())
-                continue;
-            mobs::Entity newEntity =
-                    gameContext._sceneManager.loadPrefab("ally.json", gameContext);
+        for (auto &endpoint : endpointMap)
+        {
+            if (!endpoint.second.getConnected()) continue;
+            mobs::Entity newEntity = gameContext._sceneManager.loadPrefab("ally.json", gameContext);
             auto &transform = registry.get<Transform>(newEntity);
             transform.position = mlg::vec3(posX, posY, 0.0f);
             auto &networkComp = registry.get<NetworkComp>(newEntity);
@@ -58,16 +58,21 @@ class GameStartEvent
         return connectedNid;
     }
 
-    static void sendClientEntities(std::pair<const asio::ip::udp::endpoint, RType::Network::EndpointState> &endpoint,
-                                   std::list<uint32_t> connectedNid, std::shared_ptr<RType::Network::NetworkHandler> networkHandler)
+    static void sendClientEntities(
+        std::pair<const asio::ip::udp::endpoint, RType::Network::EndpointState> &endpoint,
+        std::list<uint32_t> connectedNid,
+        std::shared_ptr<RType::Network::NetworkHandler> networkHandler)
     {
         float posX = 100.0;
         float posY = 100.0;
-        for (auto &nid : connectedNid) {
+        for (auto &nid : connectedNid)
+        {
             if (nid == endpoint.second.getNetworkId())
-                networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "player.json"), endpoint.first);
+                networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "player.json"),
+                                              endpoint.first);
             else
-                networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "ally.json"), endpoint.first);
+                networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "ally.json"),
+                                              endpoint.first);
             if (posY >= 900)
             {
                 posX += 100;
@@ -85,8 +90,10 @@ class GameStartEvent
         auto networkHandler = gameContext._networkHandler;
         networkHandler->setGameState(IN_GAME);
         auto &endpointMap = networkHandler->getEndpointMap();
-        std::list<uint32_t> connectedNid = initServerEntities(endpointMap, registry, gameContext, idHandler);
-        for (auto &endpoint : endpointMap) {
+        std::list<uint32_t> connectedNid =
+            initServerEntities(endpointMap, registry, gameContext, idHandler);
+        for (auto &endpoint : endpointMap)
+        {
             if (endpoint.second.getConnected())
                 sendClientEntities(endpoint, connectedNid, networkHandler);
         }

@@ -270,30 +270,37 @@ class NetworkSystem : public ISystem
                           asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                           GameContext &gameContext)
     {
-        try {
+        try
+        {
             std::shared_ptr<Network::MoveEntityPacket> movePacket =
-                    std::dynamic_pointer_cast<Network::MoveEntityPacket>(packet);
+                std::dynamic_pointer_cast<Network::MoveEntityPacket>(packet);
             if (this->getActualTime() - movePacket->getPacketTimeStamp() >= 2) return;
             mobs::Registry::View view = registry.view<NetworkComp>();
             for (auto &entity : view)
             {
                 auto &networkC = view.get<NetworkComp>(entity);
-                if (networkC.id == movePacket->getEntityId()) {
+                if (networkC.id == movePacket->getEntityId())
+                {
                     auto &transform = view.get<Transform>(entity);
                     transform.position.x = movePacket->getPosX();
                     transform.position.y = movePacket->getPosY();
-                    try {
-                        std::cerr << "[NETWORK LOG] Entity Move !" << std::endl; 
+                    try
+                    {
+                        std::cerr << "[NETWORK LOG] Entity Move !" << std::endl;
                         auto &ally = view.get<Ally>(entity);
                         ally.moveDirection.x = movePacket->getDirectionX();
                         ally.moveDirection.y = movePacket->getDirectionY();
-                    } catch (std::exception &e) {
+                    }
+                    catch (std::exception &e)
+                    {
                         std::cerr << "[NETWORK LOG] No ally component" << std::endl;
                     }
                     return;
                 }
             }
-        } catch (std::exception &e) {
+        }
+        catch (std::exception &e)
+        {
             std::cerr << "[NETWORK LOG] Error while moving entity : " << e.what() << std::endl;
         }
     }
@@ -333,7 +340,7 @@ class NetworkSystem : public ISystem
                 std::dynamic_pointer_cast<Network::ClientEventPacket>(packet);
             this->_eventHandler.update(eventPacket->getClientEvent(), sender, registry,
                                        gameContext);
-            //std::cerr << "[NETWORK LOG] Client event !" << std::endl;
+            // std::cerr << "[NETWORK LOG] Client event !" << std::endl;
         }
         catch (std::exception &e)
         {
@@ -381,7 +388,7 @@ class NetworkSystem : public ISystem
      */
     void manageQueue(mobs::Registry &registry, GameContext &gameContext)
     {
-        //std::cerr << "JE LOG AU DEBUT DE MANAGE" << std::endl;
+        // std::cerr << "JE LOG AU DEBUT DE MANAGE" << std::endl;
         std::queue<std::pair<std::shared_ptr<Network::APacket>, asio::ip::udp::endpoint>>
             packetQueue = gameContext._networkHandler->getPacketQueue();
 
@@ -418,7 +425,7 @@ class NetworkSystem : public ISystem
                 return;
             }
         }
-        //std::cerr << "JE LOG A LA FIN DE MANAGE" << std::endl;
+        // std::cerr << "JE LOG A LA FIN DE MANAGE" << std::endl;
         return;
     }
 

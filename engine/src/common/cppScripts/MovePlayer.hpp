@@ -19,8 +19,7 @@ class MovePlayerScript : public RType::ICppScript
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (!gameContext._networkHandler || gameContext._networkHandler->getIsServer())
-            return;
+        if (!gameContext._networkHandler || gameContext._networkHandler->getIsServer()) return;
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
             gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::MOVE_UP));
@@ -39,19 +38,23 @@ class MovePlayerScript : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
         {
-            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_UP));
+            gameContext._networkHandler->sendToAll(
+                Network::ClientEventPacket(Network::STOP_MOVE_UP));
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
-            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_DOWN));
+            gameContext._networkHandler->sendToAll(
+                Network::ClientEventPacket(Network::STOP_MOVE_DOWN));
         }
         if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
         {
-            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_LEFT));
+            gameContext._networkHandler->sendToAll(
+                Network::ClientEventPacket(Network::STOP_MOVE_LEFT));
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
-            gameContext._networkHandler->sendToAll(Network::ClientEventPacket(Network::STOP_MOVE_RIGHT));
+            gameContext._networkHandler->sendToAll(
+                Network::ClientEventPacket(Network::STOP_MOVE_RIGHT));
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
