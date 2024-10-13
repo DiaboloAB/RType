@@ -525,7 +525,9 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
 mlg::vec3 RenderSystemSFML::getMousePosition()
 {
     sf::Vector2i position = sf::Mouse::getPosition(_window);
-    return mlg::vec3(position.x, position.y, 0);
+    sf::Vector2f worldPos = _window.mapPixelToCoords(position);
+
+    return mlg::vec3(worldPos.x, worldPos.y, 0);
 }
 
 mlg::vec3 RenderSystemSFML::getTextureSize(const std::string& spriteName)
