@@ -15,6 +15,7 @@
 #include "common/cppScripts/MoveAlly.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
 #include "common/cppScripts/MoveThruster.hpp"
+#include "common/cppScripts/NetworkMovePlayer.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
 #include "common/cppScripts/RedShipScript.hpp"
 #include "common/cppScripts/helloworld.hpp"
