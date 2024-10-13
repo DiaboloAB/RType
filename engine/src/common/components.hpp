@@ -16,9 +16,9 @@
 
 // std
 #include <iostream>
+#include <queue>
 #include <string>
 #include <vector>
-#include <queue>
 
 namespace RType
 {
@@ -119,7 +119,8 @@ struct Button
         : text(text), size(size), font(font), color(color)
     {
     }
-    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color, std::string target, std::string action)
+    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color, std::string target,
+           std::string action)
         : text(text), size(size), font(font), color(color), target(target), action(action)
     {
     }

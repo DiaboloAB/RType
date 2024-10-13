@@ -11,10 +11,12 @@
 #include <system/ISystem.hpp>
 // std
 
-namespace RType {
+namespace RType
+{
 
-class AudioSystem : public ISystem {
-public:
+class AudioSystem : public ISystem
+{
+   public:
     AudioSystem() {}
     ~AudioSystem() {}
 
@@ -39,17 +41,19 @@ public:
     {
         auto view = registry.view<Audio>();
         for (auto entity : view)
-        {   
+        {
             auto& audio = view.get<Audio>(entity);
             if (audio.audioQueue.size() > 0)
             {
                 auto sound = audio.audioQueue.front();
                 audio.audioQueue.pop();
-                if (std::find(audio.musics.begin(), audio.musics.end(), sound) != audio.musics.end())
+                if (std::find(audio.musics.begin(), audio.musics.end(), sound) !=
+                    audio.musics.end())
                 {
                     gameContext._runtime->playMusic(sound, true);
                 }
-                else if (std::find(audio.sounds.begin(), audio.sounds.end(), sound) != audio.sounds.end())
+                else if (std::find(audio.sounds.begin(), audio.sounds.end(), sound) !=
+                         audio.sounds.end())
                 {
                     gameContext._runtime->playSound(sound);
                 }
@@ -61,10 +65,10 @@ public:
 
     // Setters
 
-private:
+   private:
     // Member variables
 };
 
 }  // namespace RType
 
-#endif // AUDIOSYSTEM_H
+#endif  // AUDIOSYSTEM_H

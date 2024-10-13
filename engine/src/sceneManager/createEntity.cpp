@@ -44,7 +44,8 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 
         for (const auto& componentJson : prefabJson["components"].items())
         {
-            try {
+            try
+            {
                 const std::string& componentName = componentJson.key();
                 const auto& data = componentJson.value();
 
@@ -66,7 +67,9 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                 {
                     it->second(registry, entity, data);
                 }
-            } catch (const std::exception& e) {
+            }
+            catch (const std::exception& e)
+            {
                 std::cerr << "Error: Could not create component" << std::endl;
             }
         }

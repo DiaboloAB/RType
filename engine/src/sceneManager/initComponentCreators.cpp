@@ -106,12 +106,11 @@ void SceneManager::initComponentCreators()
     {
         mlg::vec3 size = mlg::vec3(componentData["size"][0], componentData["size"][1], 0);
         mlg::vec3 color = mlg::vec3(componentData["color"][0], componentData["color"][1],
-                                   componentData["color"][2]);
+                                    componentData["color"][2]);
         std::string font = componentData["font"].get<std::string>();
         std::string text = componentData["text"].get<std::string>();
         std::string target = componentData["target"].get<std::string>();
         std::string action = componentData["action"].get<std::string>();
         registry.emplace<Button>(entity, text, size, font, color, target, action);
-
     };
 }
