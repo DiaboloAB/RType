@@ -24,6 +24,11 @@
 namespace RType::Network
 {
 
+/**
+ * @enum GameState
+ * @brief Represents the current game state to prevent handling packets from
+ * non-connected clients while IN_GAME is active.
+ */
 enum GameState : uint8_t
 {
     IN_MENU = 0,

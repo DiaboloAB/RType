@@ -24,7 +24,7 @@ class CreateEntityPacket : public APacket
     /**
      * @brief Construct CreateEntityPacket object that will be send to server or client.
      *
-     * @param entityId : Id of the entity that will be created.
+     * @param entityId : Network Id of the entity that will be created.
      * @param posX : X position in the game at creation.
      * @param posY : Y position in the game at creation.
      * @param entityToCreate : Name of the prefab used to create entity.

@@ -24,6 +24,8 @@ class PacketValidationPacket : public APacket
     /**
      * @brief Construct PacketValidationPacket object that will be send to client or server.
      *
+     * @param packetType: Type of the packet it validates.
+     * @param packetTimeStamp: Timestamp of the packet it validates.
      * @return PacketValidationPacket object.
      */
     PacketValidationPacket(PacketType packetType, uint64_t packetTimeStamp);
@@ -46,8 +48,8 @@ class PacketValidationPacket : public APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of packetType, packetTimeStamp to
-     * binary.
+     * @return std::vector<char> that represent serialization of packetReceiveType,
+     * packetReceiveTimeStamp to binary.
      */
     std::vector<char> serializeData() const override;
 

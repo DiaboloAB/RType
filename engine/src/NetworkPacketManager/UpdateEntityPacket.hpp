@@ -24,7 +24,7 @@ class UpdateEntityPacket : public APacket
     /**
      * @brief Construct UpdateEntityPacket object that will be send to client.
      *
-     * @param entityId : Id of the entity that will be moved.
+     * @param entityId : Network Id of the entity that will be moved.
      * @param score : Score of the player
      * @return UpdateEntityPacket object.
      */
