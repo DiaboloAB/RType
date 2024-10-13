@@ -72,6 +72,7 @@ void Engine::run()
 {
     _systemManager.load(_registry, _gameContext);
     _systemManager.start(_registry, _gameContext);
+    _systemManager.load(_registry, _gameContext);
 
     _gameContext.setNetworkHandler(_networkHandler);
 
