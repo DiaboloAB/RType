@@ -43,3 +43,19 @@ void SystemManager::draw(mobs::Registry &registry, GameContext &gameContext)
         system->draw(registry, gameContext);
     }
 }
+
+void SystemManager::load(mobs::Registry &registry, GameContext &gameContext)
+{
+    for (auto &system : _systems)
+    {
+        system->load(registry, gameContext);
+    }
+}
+
+void SystemManager::stop(mobs::Registry &registry, GameContext &gameContext)
+{
+    for (auto &system : _systems)
+    {
+        system->stop(registry, gameContext);
+    }
+}

@@ -9,7 +9,9 @@
 #include "common/components.hpp"
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
+#include "common/cppScripts/Credit.hpp"
 #include "common/cppScripts/EnemyFactory.hpp"
+#include "common/cppScripts/GameManager.hpp"
 #include "common/cppScripts/Laser.hpp"
 #include "common/cppScripts/MoveAlly.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
@@ -34,6 +36,8 @@ void SceneManager::initCppScriptCreators()
     _cppScriptCreators["Laser"] = []() { return std::make_shared<LaserScript>(); };
     _cppScriptCreators["MoveThruster"] = []() { return std::make_shared<MoveThrusterScript>(); };
     _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MoveAllyScript>(); };
+    _cppScriptCreators["Credit"] = []() { return std::make_shared<CreditScript>(); };
+    _cppScriptCreators["GameManager"] = []() { return std::make_shared<GameManager>(); };
     _cppScriptCreators["NetworkMovePlayer"] = []()
     { return std::make_shared<NetworkMovePlayerScript>(); };
 }

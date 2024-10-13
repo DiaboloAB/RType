@@ -60,6 +60,22 @@ class SystemManager
     void start(mobs::Registry &registry, GameContext &gameContext);
 
     /**
+     * @brief Stops all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void stop(mobs::Registry &registry, GameContext &gameContext);
+
+    /**
+     * @brief Loads all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void load(mobs::Registry &registry, GameContext &gameContext);
+
+    /**
      * @brief Updates all systems.
      *
      * @param registry The registry containing all entities and components.

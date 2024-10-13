@@ -63,4 +63,54 @@ void SceneManager::initComponentCreators()
     _componentCreators["Ally"] =
         [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
     { registry.emplace<Ally>(entity); };
+    _componentCreators["Text"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        mlg::vec3 color = mlg::vec3(componentData["color"][0], componentData["color"][1],
+                                    componentData["color"][2]);
+        std::string font = componentData["font"].get<std::string>();
+        std::string text = componentData["text"].get<std::string>();
+        int fontSize = componentData["fontSize"].get<int>();
+        registry.emplace<Text>(entity, text, color, font, fontSize);
+    };
+    _componentCreators["Paragraph"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        mlg::vec3 color = mlg::vec3(componentData["color"][0], componentData["color"][1],
+                                    componentData["color"][2]);
+        std::string font = componentData["font"].get<std::string>();
+        std::string text = componentData["text"].get<std::string>();
+        int fontSize = componentData["fontSize"].get<int>();
+        registry.emplace<Paragraph>(entity, text, color, font, fontSize);
+    };
+    _componentCreators["Audio"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        std::vector<std::string> sounds;
+        std::vector<std::string> musics;
+
+        for (const auto &sound : componentData["sounds"])
+        {
+            sounds.push_back(sound.get<std::string>());
+        }
+
+        for (const auto &music : componentData["musics"])
+        {
+            musics.push_back(music.get<std::string>());
+        }
+
+        registry.emplace<Audio>(entity, sounds, musics);
+    };
+    _componentCreators["Button"] =
+        [](mobs::Registry &registry, mobs::Entity entity, const nlohmann::json &componentData)
+    {
+        mlg::vec3 size = mlg::vec3(componentData["size"][0], componentData["size"][1], 0);
+        mlg::vec3 color = mlg::vec3(componentData["color"][0], componentData["color"][1],
+                                    componentData["color"][2]);
+        std::string font = componentData["font"].get<std::string>();
+        std::string text = componentData["text"].get<std::string>();
+        std::string target = componentData["target"].get<std::string>();
+        std::string action = componentData["action"].get<std::string>();
+        registry.emplace<Button>(entity, text, size, font, color, target, action);
+    };
 }
