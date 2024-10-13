@@ -19,6 +19,7 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include <sstream>
 
 namespace RType
 {

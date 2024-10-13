@@ -44,7 +44,28 @@ target_link_libraries(r-type_client PRIVATE
 install(TARGETS r-type_client DESTINATION bin)
 install(TARGETS r-type_server DESTINATION bin)
 
+# Specify the directory where your assets are stored
+set(GAME_ASSETS_DIR "./assets")
+
+# Install the assets to the target directory in the package
+install(DIRECTORY ${GAME_ASSETS_DIR} DESTINATION "bin/")
+
+
+# Include CPack for packaging
 include(CPack)
+
+# Set the project name and version
+set(CPACK_PACKAGE_NAME "RType")
+set(CPACK_PACKAGE_VERSION "1.0")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "RType by Les marmoteurs")
+set(CPACK_PACKAGE_VENDOR "Les marmoteurs inc.")
+
+# Optionally set other options for packaging type (ZIP, DEB, RPM, etc.)
+set(CPACK_GENERATOR "ZIP")
+
+# Specify the installation directory structure
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "MyGame")
+
 
 target_include_directories(r-type_client PUBLIC
     "${PROJECT_BINARY_DIR}"
