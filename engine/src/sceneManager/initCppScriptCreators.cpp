@@ -19,6 +19,7 @@
 #include "common/cppScripts/RedShipScript.hpp"
 #include "common/cppScripts/helloworld.hpp"
 #include "common/cppScripts/GameManager.hpp"
+#include "common/cppScripts/NetworkMovePlayer.hpp"
 #include "common/scriptsComponent.hpp"
 
 using namespace RType;
@@ -37,4 +38,5 @@ void SceneManager::initCppScriptCreators()
     _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MoveAllyScript>(); };
     _cppScriptCreators["Credit"] = []() { return std::make_shared<CreditScript>(); };
     _cppScriptCreators["GameManager"] = []() { return std::make_shared<GameManager>(); };
+    _cppScriptCreators["NetworkMovePlayer"] = []() { return std::make_shared<NetworkMovePlayerScript>(); };
 }
