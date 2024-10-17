@@ -1,8 +1,9 @@
 /**********************************************************************************
- * Project: RType
- * Description: A GAME ENGINE THAT ROARS !
- * Author: Alexis BOITEL, Raphael MABILLE, Morgan LARGEOT, Maxence LARGEOT, Arthur DORIEL
- * Date, Location: 2024, Rennes
+ *  Project: Dimension Network
+ *  Description: Networking Game Library
+ *  Author: Morgan LARGEOT, Maxence LARGEOT
+ *  Create Time: 2024-10-17
+ *  Location: Rennes
  **********************************************************************************/
 
 #include "APacket.hpp"
@@ -90,4 +91,4 @@ uint32_t APacket::getHeaderSize() const
 {
     return sizeof(uint32_t) + sizeof(uint8_t) + sizeof(uint64_t) + sizeof(uint16_t);
 }
-}  // namespace RType::Network
+}  // namespace dimension
