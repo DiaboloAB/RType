@@ -5,7 +5,7 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include <NetworkEvents/NetworkEventHandler.hpp>
+#include "NetworkEvents/NetworkEventHandler.hpp"
 
 namespace RType::Network
 {

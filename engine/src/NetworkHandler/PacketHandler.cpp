@@ -14,11 +14,11 @@ PacketHandler::PacketHandler(){};
 
 PacketHandler::~PacketHandler(){};
 
-void PacketHandler::insertToReceiveQueue(const std::shared_ptr<APacket> &packet,
+void PacketHandler::insertToReceiveQueue(const std::shared_ptr<dimension::APacket> &packet,
                                          const asio::ip::udp::endpoint &enpoint)
 {
     this->_receiveQueue.push(
-        std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>(packet, enpoint));
+        std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>(packet, enpoint));
 }
 
 void PacketHandler::popReceiveQueue()
@@ -26,11 +26,11 @@ void PacketHandler::popReceiveQueue()
     if (!this->_receiveQueue.empty()) this->_receiveQueue.pop();
 }
 
-void PacketHandler::insertToValidationList(const APacket &packet,
+void PacketHandler::insertToValidationList(const dimension::APacket &packet,
                                            const asio::ip::udp::endpoint &endpoint)
 {
     this->_validationList.emplace_back(
-        std::pair<const APacket &, const asio::ip::udp::endpoint &>(packet, endpoint));
+        std::pair<const dimension::APacket &, const asio::ip::udp::endpoint &>(packet, endpoint));
 }
 
 void PacketHandler::deleteFromValidationList(
@@ -40,7 +40,7 @@ void PacketHandler::deleteFromValidationList(
     for (auto packetInValidation = this->_validationList.begin();
          packetInValidation != this->_validationList.end();)
     {
-        PacketType packetType = packetInValidation->first.getPacketType();
+        PacketType packetType = (PacketType)packetInValidation->first.getPacketType();
         uint64_t packetTimeStamp = packetInValidation->first.getPacketTimeStamp();
         if (validation->getPacketReceiveType() == packetType &&
             validation->getPacketReceiveTimeStamp() && endpoint == packetInValidation->second)
@@ -53,9 +53,9 @@ void PacketHandler::deleteFromValidationList(
     }
 }
 
-bool PacketHandler::needPacketValidation(const APacket &packet) const
+bool PacketHandler::needPacketValidation(const dimension::APacket &packet) const
 {
-    PacketType type = packet.getPacketType();
+    PacketType type = (PacketType)packet.getPacketType();
     for (auto &typeValidation : this->_needValidation)
     {
         if (typeValidation == type) return true;
@@ -63,13 +63,13 @@ bool PacketHandler::needPacketValidation(const APacket &packet) const
     return false;
 }
 
-std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>>
+std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
 PacketHandler::getReceiveQueue() const
 {
     return this->_receiveQueue;
 }
 
-std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>>
+std::list<std::pair<const dimension::APacket &, const asio::ip::udp::endpoint &>>
 PacketHandler::getValidationList() const
 {
     return this->_validationList;

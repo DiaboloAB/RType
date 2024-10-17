@@ -27,12 +27,14 @@ target_link_libraries(r-type_server PRIVATE
     RTypeEngine
     mobs::mobs
     mlg::mlg
+    dimension::dimension
 )
 
 target_link_libraries(r-type_client PRIVATE
     RTypeEngine
     mobs::mobs
     mlg::mlg
+    dimension::dimension
     # asio::asio
     # sfml-graphics
     # sfml-audio

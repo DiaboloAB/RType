@@ -7,10 +7,6 @@
 
 #pragma once
 
-#include <NetworkHandler/EndpointState.hpp>
-#include <NetworkHandler/PacketHandler.hpp>
-#include <NetworkPacketManager/APacket.hpp>
-#include <NetworkPacketManager/PacketFactory.hpp>
 #include <asio.hpp>
 #include <chrono>
 #include <iostream>
@@ -20,6 +16,11 @@
 #include <string>
 #include <thread>
 #include <utility>
+
+#include "APacket.hpp"
+#include "networkPacket/PacketFactory.hpp"
+#include "NetworkHandler/EndpointState.hpp"
+#include "NetworkHandler/PacketHandler.hpp"
 
 namespace RType::Network
 {
@@ -68,7 +69,7 @@ class NetworkHandler
      * @param packet: Packet to send (HiServer, ...).
      * @param endpoint: Endpoint target to send packet to.
      */
-    void sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
+    void sendNewPacket(const dimension::APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
    private:
     /**
@@ -78,7 +79,7 @@ class NetworkHandler
      * @param packet: Packet to send.
      * @param endpoint: Endpoint target to send packet to.
      */
-    void sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
+    void sendData(const dimension::APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
    public:
     /**
@@ -94,7 +95,7 @@ class NetworkHandler
      * @param recvBuffer: Buffer of the packet received that will be deserialized.
      * @param remoteEndoint: Endpoint of the sender of the packet.
      */
-    void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint);
+    void handleData(std::array<char, 1024> recvBuffer, asio::ip::udp::endpoint remoteEndpoint, std::size_t bytesRecvd);
 
     /**
      * @brief Method that pop the first element of packetQueue if not empty.
@@ -132,7 +133,7 @@ class NetworkHandler
      *
      * @param packet: packet to send.
      */
-    void sendToAll(const APacket &packet);
+    void sendToAll(const dimension::APacket &packet);
 
    public:
     class NetworkHandlerError : public std::exception
@@ -152,7 +153,7 @@ class NetworkHandler
     std::string getHost() const;
     unsigned int getPort() const;
     bool getIsServer() const;
-    std::queue<std::pair<std::shared_ptr<RType::Network::APacket>, asio::ip::udp::endpoint>>
+    std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
     getPacketQueue() const;
     std::map<asio::ip::udp::endpoint, EndpointState> &getEndpointMap();
     GameState getGameState() const;

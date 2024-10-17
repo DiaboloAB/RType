@@ -24,18 +24,17 @@ set(SOURCES
     src/sceneManager/initComponentCreators.cpp
     src/sceneManager/initCppScriptCreators.cpp
     src/clocksManager/ClockManager.cpp
-    src/NetworkPacketManager/APacket.cpp
-    src/NetworkPacketManager/AdiosServerPacket.cpp
-    src/NetworkPacketManager/ClientEventPacket.cpp
-    src/NetworkPacketManager/CreateEntityPacket.cpp
-    src/NetworkPacketManager/DestroyEntityPacket.cpp
-    src/NetworkPacketManager/PingPacket.cpp
-    src/NetworkPacketManager/HiClientPacket.cpp
-    src/NetworkPacketManager/HiServerPacket.cpp
-    src/NetworkPacketManager/MoveEntityPacket.cpp
-    src/NetworkPacketManager/PacketFactory.cpp
-    src/NetworkPacketManager/PacketValidationPacket.cpp
-    src/NetworkPacketManager/UpdateEntityPacket.cpp
+    src/networkPacket/packets/AdiosServerPacket.cpp
+    src/networkPacket/packets/ClientEventPacket.cpp
+    src/networkPacket/packets/CreateEntityPacket.cpp
+    src/networkPacket/packets/DestroyEntityPacket.cpp
+    src/networkPacket/packets/PingPacket.cpp
+    src/networkPacket/packets/HiClientPacket.cpp
+    src/networkPacket/packets/HiServerPacket.cpp
+    src/networkPacket/packets/MoveEntityPacket.cpp
+    src/networkPacket/packets/PacketValidationPacket.cpp
+    src/networkPacket/packets/UpdateEntityPacket.cpp
+    src/networkPacket/PacketFactory.cpp
     src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
     src/utils/hexaColorToVec3.cpp
@@ -58,6 +57,7 @@ target_link_libraries(RTypeEngine PUBLIC
     asio::asio
     mlg::mlg
     mobs::mobs
+    dimension::dimension
 )
 
 option(TESTS "Build tests" OFF)

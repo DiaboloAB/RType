@@ -7,12 +7,13 @@
 
 #pragma once
 
-#include <NetworkPacketManager/APacket.hpp>
-#include <NetworkPacketManager/PacketValidationPacket.hpp>
 #include <asio.hpp>
 #include <list>
 #include <memory>
 #include <queue>
+
+#include "APacket.hpp"
+#include "networkPacket/packets/PacketValidationPacket.hpp"
 
 namespace RType::Network
 {
@@ -34,7 +35,7 @@ class PacketHandler
      * @param packet: Packet receive to insert.
      * @param endpoint: Sender enpoint.
      */
-    void insertToReceiveQueue(const std::shared_ptr<APacket> &packet,
+    void insertToReceiveQueue(const std::shared_ptr<dimension::APacket> &packet,
                               const asio::ip::udp::endpoint &endpoint);
 
     /**
@@ -48,7 +49,7 @@ class PacketHandler
      * @param packet: Packet which needs validation.
      * @param endpoint: Endpoint target where packet is send.
      */
-    void insertToValidationList(const APacket &packet, const asio::ip::udp::endpoint &endpoint);
+    void insertToValidationList(const dimension::APacket &packet, const asio::ip::udp::endpoint &endpoint);
 
     /**
      * @brief Delete packet keeped in validation list if a validation of this packet is received.
@@ -66,17 +67,17 @@ class PacketHandler
      * @param packet: Packet to verify
      * @return True if packet needs a validation, false otherwise.
      */
-    bool needPacketValidation(const APacket &packet) const;
+    bool needPacketValidation(const dimension::APacket &packet) const;
 
    public:
-    std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getReceiveQueue()
+    std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> getReceiveQueue()
         const;
-    std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>> getValidationList()
+    std::list<std::pair<const dimension::APacket &, const asio::ip::udp::endpoint &>> getValidationList()
         const;
 
    private:
-    std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> _receiveQueue;
-    std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>> _validationList;
+    std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _receiveQueue;
+    std::list<std::pair<const dimension::APacket &, const asio::ip::udp::endpoint &>> _validationList;
     std::list<PacketType> _needValidation = {HICLIENT, CREATEENTITY, DESTROYENTITY};
 };
 }  // namespace RType::Network

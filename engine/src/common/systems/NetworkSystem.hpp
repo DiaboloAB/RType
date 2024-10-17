@@ -8,18 +8,17 @@
 #ifndef NETWORKSYSTEM_H
 #define NETWORKSYSTEM_H
 
-#include <NetworkEvents/NetworkEventHandler.hpp>
-#include <NetworkHandler/EndpointState.hpp>
-#include <NetworkHandler/NetworkIdHandler.hpp>
-#include <NetworkPacketManager/APacket.hpp>
-#include <NetworkPacketManager/CreateEntityPacket.hpp>
-#include <NetworkPacketManager/DestroyEntityPacket.hpp>
-#include <NetworkPacketManager/HiClientPacket.hpp>
-#include <NetworkPacketManager/HiServerPacket.hpp>
-#include <NetworkPacketManager/PacketValidationPacket.hpp>
-#include <common/components.hpp>
-#include <mobs/mobs.hpp>
-#include <system/ISystem.hpp>
+#include "NetworkEvents/NetworkEventHandler.hpp"
+#include "NetworkHandler/EndpointState.hpp"
+#include "NetworkHandler/NetworkIdHandler.hpp"
+#include "networkPacket/packets/CreateEntityPacket.hpp"
+#include "networkPacket/packets/DestroyEntityPacket.hpp"
+#include "networkPacket/packets/HiClientPacket.hpp"
+#include "networkPacket/packets/HiServerPacket.hpp"
+#include "networkPacket/packets/PacketValidationPacket.hpp"
+#include "common/components.hpp"
+#include "mobs/mobs.hpp"
+#include "system/ISystem.hpp"
 
 namespace RType
 {
@@ -32,43 +31,43 @@ class NetworkSystem : public ISystem
           _eventHandler(Network::NetworkEventHandler(_idHandler))
     {
         this->_systemsMap[Network::HISERVER] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleHiServer(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::HICLIENT] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleHiClient(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::ADIOSSERVER] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleAdiosServer(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::PING] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handlePing(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::CREATEENTITY] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleCreateEntity(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::DESTROYENTITY] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleDestroyEntity(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::MOVEENTITY] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleMoveEntity(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::UPDATEENTITY] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleUpdateEntity(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::CLIENTEVENT] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handleClientEvent(packet, sender, registry, gameContext); };
         this->_systemsMap[Network::PACKETVALIDATION] =
-            [this](std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+            [this](std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                    mobs::Registry &registry, GameContext &gameContext)
         { handlePacketValidation(packet, sender, registry, gameContext); };
     }
@@ -84,7 +83,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleHiServer(std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+    void handleHiServer(std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                         mobs::Registry &registry, GameContext &gameContext)
     {
         if (!gameContext._networkHandler->getIsServer()) return;
@@ -106,7 +105,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleHiClient(std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+    void handleHiClient(std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                         mobs::Registry &registry, GameContext &gameContext)
     {
         if (gameContext._networkHandler->getIsServer()) return;
@@ -129,7 +128,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleAdiosServer(std::shared_ptr<Network::APacket> &packet,
+    void handleAdiosServer(std::shared_ptr<dimension::APacket> &packet,
                            asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                            GameContext &gameContext)
     {
@@ -164,7 +163,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handlePing(std::shared_ptr<Network::APacket> &packet, asio::ip::udp::endpoint &sender,
+    void handlePing(std::shared_ptr<dimension::APacket> &packet, asio::ip::udp::endpoint &sender,
                     mobs::Registry &registry, GameContext &gameContext)
     {
         std::map<asio::ip::udp::endpoint, Network::EndpointState> endpointMap =
@@ -185,7 +184,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleCreateEntity(std::shared_ptr<Network::APacket> &packet,
+    void handleCreateEntity(std::shared_ptr<dimension::APacket> &packet,
                             asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                             GameContext &gameContext)
     {
@@ -200,7 +199,7 @@ class NetworkSystem : public ISystem
                 if (networkC.id == createPacket->getEntityId())
                 {
                     auto validation = Network::PacketValidationPacket(
-                        createPacket->getPacketType(), createPacket->getPacketTimeStamp());
+                        (Network::PacketType)createPacket->getPacketType(), createPacket->getPacketTimeStamp());
                     gameContext._networkHandler->sendNewPacket(validation, sender);
                     return;
                 }
@@ -211,7 +210,7 @@ class NetworkSystem : public ISystem
             transform.position = mlg::vec3(createPacket->getPosX(), createPacket->getPosY(), 0.0f);
             auto &networkComp = registry.get<NetworkComp>(newEntity);
             networkComp.id = createPacket->getEntityId();
-            auto validation = Network::PacketValidationPacket(createPacket->getPacketType(),
+            auto validation = Network::PacketValidationPacket((Network::PacketType)createPacket->getPacketType(),
                                                               createPacket->getPacketTimeStamp());
             gameContext._networkHandler->sendNewPacket(validation, sender);
             std::cerr << "[NETWORK LOG] Entity Created !" << std::endl;
@@ -231,7 +230,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleDestroyEntity(std::shared_ptr<Network::APacket> &packet,
+    void handleDestroyEntity(std::shared_ptr<dimension::APacket> &packet,
                              asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                              GameContext &gameContext)
     {
@@ -246,7 +245,7 @@ class NetworkSystem : public ISystem
                 auto &networkC = view.get<NetworkComp>(entity);
                 if (networkC.id == destroyPacket->getEntityId()) registry.kill(entity);
             }
-            auto validation = Network::PacketValidationPacket(destroyPacket->getPacketType(),
+            auto validation = Network::PacketValidationPacket((Network::PacketType)destroyPacket->getPacketType(),
                                                               destroyPacket->getPacketTimeStamp());
             gameContext._networkHandler->sendNewPacket(validation, sender);
             std::cerr << "[NETWORK LOG] Entity Destroy !" << std::endl;
@@ -266,7 +265,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleMoveEntity(std::shared_ptr<Network::APacket> &packet,
+    void handleMoveEntity(std::shared_ptr<dimension::APacket> &packet,
                           asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                           GameContext &gameContext)
     {
@@ -314,7 +313,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleUpdateEntity(std::shared_ptr<Network::APacket> &packet,
+    void handleUpdateEntity(std::shared_ptr<dimension::APacket> &packet,
                             asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                             GameContext &gameContext)
     {
@@ -330,7 +329,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handleClientEvent(std::shared_ptr<Network::APacket> &packet,
+    void handleClientEvent(std::shared_ptr<dimension::APacket> &packet,
                            asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                            GameContext &gameContext)
     {
@@ -357,7 +356,7 @@ class NetworkSystem : public ISystem
      * @param gameContext: Object that allow access to engine attributes & methods.
      *
      */
-    void handlePacketValidation(std::shared_ptr<Network::APacket> &packet,
+    void handlePacketValidation(std::shared_ptr<dimension::APacket> &packet,
                                 asio::ip::udp::endpoint &sender, mobs::Registry &registry,
                                 GameContext &gameContext)
     {
@@ -389,10 +388,10 @@ class NetworkSystem : public ISystem
     void manageQueue(mobs::Registry &registry, GameContext &gameContext)
     {
         // std::cerr << "JE LOG AU DEBUT DE MANAGE" << std::endl;
-        std::queue<std::pair<std::shared_ptr<Network::APacket>, asio::ip::udp::endpoint>>
+        std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
             packetQueue = gameContext._networkHandler->getPacketQueue();
 
-        std::shared_ptr<Network::APacket> packet;
+        std::shared_ptr<dimension::APacket> packet;
         asio::ip::udp::endpoint sender;
         Network::PacketType type;
 
@@ -402,7 +401,7 @@ class NetworkSystem : public ISystem
             {
                 packet = packetQueue.front().first;
                 sender = packetQueue.front().second;
-                type = packet->getPacketType();
+                type = (Network::PacketType)packet->getPacketType();
                 this->_systemsMap[type](packet, sender, registry, gameContext);
             }
             catch (std::exception &e)
@@ -451,7 +450,7 @@ class NetworkSystem : public ISystem
     }
 
    private:
-    std::unordered_map<Network::PacketType, std::function<void(std::shared_ptr<Network::APacket> &,
+    std::unordered_map<Network::PacketType, std::function<void(std::shared_ptr<dimension::APacket> &,
                                                                asio::ip::udp::endpoint &,
                                                                mobs::Registry &, GameContext &)>>
         _systemsMap;

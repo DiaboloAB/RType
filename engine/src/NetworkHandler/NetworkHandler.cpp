@@ -35,7 +35,7 @@ NetworkHandler::~NetworkHandler() { this->_thread.join(); };
 
 void NetworkHandler::resendValidationList()
 {
-    std::list<std::pair<const APacket &, const asio::ip::udp::endpoint &>> validationList =
+    std::list<std::pair<const dimension::APacket &, const asio::ip::udp::endpoint &>> validationList =
         this->_packetHandler.getValidationList();
     for (auto &pairInLst : validationList)
     {
@@ -43,7 +43,7 @@ void NetworkHandler::resendValidationList()
     }
 }
 
-void NetworkHandler::sendNewPacket(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
+void NetworkHandler::sendNewPacket(const dimension::APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
     if (this->_packetHandler.needPacketValidation(packet))
         this->_packetHandler.insertToValidationList(packet, endpoint);
@@ -52,7 +52,7 @@ void NetworkHandler::sendNewPacket(const APacket &packet, const asio::ip::udp::e
 
 void NetworkHandler::popQueue() { this->_packetHandler.popReceiveQueue(); }
 
-void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoint &endpoint)
+void NetworkHandler::sendData(const dimension::APacket &packet, const asio::ip::udp::endpoint &endpoint)
 {
     std::vector<char> packetData;
 
@@ -60,7 +60,7 @@ void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoi
     {
         packetData = packet.serialize();
     }
-    catch (APacket::PacketException &e)
+    catch (dimension::APacket::PacketException &e)
     {
         std::cerr << "[sendData ERROR]: Problème de serialisation" << std::endl;
         return;
@@ -79,10 +79,11 @@ void NetworkHandler::sendData(const APacket &packet, const asio::ip::udp::endpoi
 }
 
 void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
-                                asio::ip::udp::endpoint remoteEndpoint)
+                                asio::ip::udp::endpoint remoteEndpoint,
+                                std::size_t bytesRecvd)
 {
-    std::vector<char> buffer(recvBuffer.begin(), recvBuffer.end());
-    std::shared_ptr<APacket> packet = nullptr;
+    std::vector<char> buffer(recvBuffer.begin(), recvBuffer.begin() + bytesRecvd);
+    std::shared_ptr<dimension::APacket> packet = nullptr;
     auto sender = this->_endpointMap.find(remoteEndpoint);
     if (this->_gameState == IN_GAME &&
         (sender == this->_endpointMap.end() || !sender->second.getConnected()))
@@ -93,7 +94,7 @@ void NetworkHandler::handleData(std::array<char, 1024> recvBuffer,
     }
     catch (std::exception &e)
     {
-        std::cerr << "[sendData ERROR]: Problème de deserialisation des packets" << std::endl;
+        std::cerr << "[sendData ERROR]: Problème de deserialisation des packets : " << e.what() << std::endl;
         return;
     }
     this->_packetHandler.insertToReceiveQueue(packet, remoteEndpoint);
@@ -105,17 +106,17 @@ void NetworkHandler::receiveData()
 
     this->_socket->async_receive_from(
         asio::buffer(_recvBuffer), *remoteEndpoint,
-        [this, remoteEndpoint](std::error_code ec, std::size_t bytes_recvd)
+        [this, remoteEndpoint](std::error_code ec, std::size_t bytesRecvd)
         {
             if (!ec)
-                this->handleData(_recvBuffer, *remoteEndpoint);
+                this->handleData(_recvBuffer, *remoteEndpoint, bytesRecvd);
             else
                 std::cerr << "[receiveData ERROR]: Problème de réception de données" << std::endl;
             return this->receiveData();
         });
 }
 
-void NetworkHandler::sendToAll(const APacket &packet)
+void NetworkHandler::sendToAll(const dimension::APacket &packet)
 {
     for (auto &endpoint : this->_endpointMap)
     {
@@ -154,7 +155,7 @@ std::string NetworkHandler::getHost() const { return this->_host; }
 
 unsigned int NetworkHandler::getPort() const { return this->_port; }
 
-std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>>
+std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
 NetworkHandler::getPacketQueue() const
 {
     return this->_packetHandler.getReceiveQueue();
