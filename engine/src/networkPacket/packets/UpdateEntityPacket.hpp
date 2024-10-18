@@ -22,16 +22,13 @@ namespace RType::Network
 class UpdateEntityPacket : public dimension::APacket
 {
    public:
-    UpdateEntityPacket(uint8_t type) : APacket(type){this->_packetDataSize = sizeof(uint32_t) + sizeof(uint32_t);};
-
     /**
-     * @brief Construct UpdateEntityPacket object that will be send to client.
+     * @brief Construct UpdateEntityPacket object that will be send to sever.
      *
-     * @param entityId : Network Id of the entity that will be moved.
-     * @param score : Score of the player
-     * @return UpdateEntityPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty UpdateEntityPacket object.
      */
-    UpdateEntityPacket(uint32_t entityId, uint32_t score);
+    UpdateEntityPacket(uint8_t type);
 
     /**
      * @brief Construct new UpdateEntityPacket object with serialized data by deserializing them.
@@ -50,16 +47,20 @@ class UpdateEntityPacket : public dimension::APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of entityId, score to binary.
+     * @return std::vector<char> that represent serialization of networkId, score to binary.
      */
     std::vector<char> serializeData() const override;
 
    public:
-    uint32_t getEntityId() const;
+    uint32_t getNetworkId() const;
     uint32_t getScore() const;
 
+    public:
+        void setNetworkId(const uint32_t &networkId);
+        void setScore(const uint32_t &score);
+
    private:
-    uint32_t _entityId;
+    uint32_t _networkId;
     uint32_t _score;
 };
 }  // namespace RType::Network

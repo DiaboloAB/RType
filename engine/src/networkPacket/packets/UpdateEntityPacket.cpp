@@ -9,8 +9,7 @@
 
 namespace RType::Network
 {
-UpdateEntityPacket::UpdateEntityPacket(uint32_t entityId, uint32_t score)
-    : APacket(UPDATEENTITY), _entityId(entityId), _score(score)
+UpdateEntityPacket::UpdateEntityPacket(uint8_t type) : APacket(type)
 {
     this->_packetDataSize = sizeof(uint32_t) + sizeof(uint32_t);
 }
@@ -20,7 +19,7 @@ UpdateEntityPacket::UpdateEntityPacket(std::vector<char> &buffer) : APacket(buff
     char *data = buffer.data();
     data += this->getHeaderSize();
 
-    std::memcpy(&this->_entityId, data, sizeof(uint32_t));
+    std::memcpy(&this->_networkId, data, sizeof(uint32_t));
     data += sizeof(uint32_t);
     std::memcpy(&this->_score, data, sizeof(uint32_t));
 }
@@ -33,13 +32,18 @@ std::vector<char> UpdateEntityPacket::serializeData() const
     buffer.resize(sizeof(uint32_t) + sizeof(uint32_t));
     char *data = buffer.data();
 
-    std::memcpy(data, &this->_entityId, sizeof(uint32_t));
+    std::memcpy(data, &this->_networkId, sizeof(uint32_t));
     data += sizeof(uint32_t);
     std::memcpy(data, &this->_score, sizeof(uint32_t));
     return buffer;
 }
 
-uint32_t UpdateEntityPacket::getEntityId() const { return this->_entityId; }
+uint32_t UpdateEntityPacket::getNetworkId() const { return this->_networkId; }
 
 uint32_t UpdateEntityPacket::getScore() const { return this->_score; }
+
+void UpdateEntityPacket::setNetworkId(const uint32_t &networkId) { this->_networkId = networkId; }
+
+void UpdateEntityPacket::setScore(const uint32_t &score) { this->_score = score; }
+
 }  // namespace RType::Network

@@ -10,16 +10,9 @@
 namespace RType::Network
 {
 
-CreateEntityPacket::CreateEntityPacket(uint32_t entityId, float posX, float posY,
-                                       std::string entityToCreate)
-    : APacket(CREATEENTITY),
-      _entityId(entityId),
-      _posX(posX),
-      _posY(posY),
-      _entityToCreate(entityToCreate)
+CreateEntityPacket::CreateEntityPacket(uint8_t type) : APacket(type) 
 {
-    this->_packetDataSize =
-        sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size();
+    this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size();
 }
 
 CreateEntityPacket::CreateEntityPacket(std::vector<char> &buffer) : APacket(buffer)
@@ -27,7 +20,7 @@ CreateEntityPacket::CreateEntityPacket(std::vector<char> &buffer) : APacket(buff
     char *data = buffer.data();
     data += this->getHeaderSize();
 
-    std::memcpy(&this->_entityId, data, sizeof(uint32_t));
+    std::memcpy(&this->_networkId, data, sizeof(uint32_t));
     data += sizeof(uint32_t);
     std::memcpy(&this->_posX, data, sizeof(float));
     data += sizeof(float);
@@ -45,7 +38,7 @@ std::vector<char> CreateEntityPacket::serializeData() const
     buffer.resize(sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size());
     char *data = buffer.data();
 
-    std::memcpy(data, &this->_entityId, sizeof(uint32_t));
+    std::memcpy(data, &this->_networkId, sizeof(uint32_t));
     data += sizeof(uint32_t);
     std::memcpy(data, &this->_posX, sizeof(float));
     data += sizeof(float);
@@ -55,11 +48,23 @@ std::vector<char> CreateEntityPacket::serializeData() const
     return buffer;
 }
 
-uint32_t CreateEntityPacket::getEntityId() const { return this->_entityId; }
+uint32_t CreateEntityPacket::getNetworkId() const { return this->_networkId; }
 
 float CreateEntityPacket::getPosX() const { return this->_posX; }
 
 float CreateEntityPacket::getPosY() const { return this->_posY; }
 
 std::string CreateEntityPacket::getEntityToCreate() const { return this->_entityToCreate; }
+
+void CreateEntityPacket::setNetworkId(const uint32_t &networkId) { this->_networkId = networkId; }
+
+void CreateEntityPacket::setPosX(const float &posX) { this->_posX = posX; }
+
+void CreateEntityPacket::setPosY(const float &posY) { this->_posX = posY; }
+
+void CreateEntityPacket::setEntityToCreate(const std::string &entityToCreate) {
+    this->_entityToCreate = entityToCreate;
+    this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) +
+        this->_entityToCreate.size();
+}
 }  // namespace RType::Network

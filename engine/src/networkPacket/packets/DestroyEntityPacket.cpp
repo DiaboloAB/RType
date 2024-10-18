@@ -9,18 +9,14 @@
 
 namespace RType::Network
 {
-DestroyEntityPacket::DestroyEntityPacket(uint32_t entityId)
-    : APacket(DESTROYENTITY), _entityId(entityId)
-{
-    this->_packetDataSize = sizeof(uint32_t);
-}
+DestroyEntityPacket::DestroyEntityPacket(uint8_t type) : APacket(type) { this->_packetDataSize = sizeof(uint32_t); }
 
 DestroyEntityPacket::DestroyEntityPacket(std::vector<char> &buffer) : APacket(buffer)
 {
     char *data = buffer.data();
     data += this->getHeaderSize();
 
-    std::memcpy(&this->_entityId, data, sizeof(uint32_t));
+    std::memcpy(&this->_networkId, data, sizeof(uint32_t));
 }
 
 DestroyEntityPacket::~DestroyEntityPacket(){};
@@ -31,9 +27,11 @@ std::vector<char> DestroyEntityPacket::serializeData() const
     buffer.resize(sizeof(uint32_t));
     char *data = buffer.data();
 
-    std::memcpy(data, &this->_entityId, sizeof(uint32_t));
+    std::memcpy(data, &this->_networkId, sizeof(uint32_t));
     return buffer;
 }
 
-uint32_t DestroyEntityPacket::getEntityId() const { return this->getEntityId(); }
+uint32_t DestroyEntityPacket::getNetworkId() const { return this->_networkId; }
+
+void DestroyEntityPacket::setNetworkId(const uint32_t &networkId) { this->_networkId = networkId; }
 }  // namespace RType::Network

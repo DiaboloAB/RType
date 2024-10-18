@@ -23,9 +23,10 @@ class HiClientPacket : public dimension::APacket
 {
    public:
     /**
-     * @brief Construct HiClientPacket object that will be send to client.
+     * @brief Construct HiClientPacket object that will be send to sever.
      *
-     * @return HiClientPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty HiClientPacket object.
      */
     HiClientPacket(uint8_t type);
 

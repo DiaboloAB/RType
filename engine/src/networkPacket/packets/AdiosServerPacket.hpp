@@ -25,6 +25,7 @@ class AdiosServerPacket : public dimension::APacket
     /**
      * @brief Construct AdiosServerPacket object that will be send to sever.
      *
+     * @param type packetType define by class index in packetManager registration.
      * @return AdiosServerPacket object.
      */
     AdiosServerPacket(uint8_t type);

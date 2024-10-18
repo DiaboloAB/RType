@@ -22,20 +22,13 @@ namespace RType::Network
 class MoveEntityPacket : public dimension::APacket
 {
    public:
-    MoveEntityPacket(uint8_t type) : APacket(type) { this->_packetDataSize =
-        sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float); };
-
     /**
-     * @brief Construct MoveEntityPacket object that will be send to server or client.
+     * @brief Construct MoveEntityPacket object that will be send to sever.
      *
-     * @param entityId : Id of the entity that will be moved.
-     * @param posX : X position of the entity.
-     * @param posY : Y position of the entity.
-     * @param directionX : X direction of the entity
-     * @param directionY : Y direction of the entity
-     * @return MoveEntityPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty MoveEntityPacket object.
      */
-    MoveEntityPacket(uint32_t entityId, float posX, float posY, float directionX, float directionY);
+    MoveEntityPacket(uint8_t type);
 
     /**
      * @brief Construct new MoveEntityPacket object with serialized data by deserializing them.
@@ -54,27 +47,27 @@ class MoveEntityPacket : public dimension::APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of entityId, posX, posY, directionX,
+     * @return std::vector<char> that represent serialization of networkId, posX, posY, directionX,
      * directionY to binary.
      */
     std::vector<char> serializeData() const override;
 
    public:
-    uint32_t getEntityId() const;
+    uint32_t getNetworkId() const;
     float getPosX() const;
     float getPosY() const;
     float getDirectionX() const;
     float getDirectionY() const;
 
     public:
-        void setEntityId(const uint32_t &entityId) {this->_entityId = entityId; };
-        void setPosX(const float &posX) { this->_posX = posX; };
-        void setPosY(const float &posY) { this->_posX = posY; };
-        void setDirectionX(const float &directionX) { this->_directionX = directionX; };
-        void setDirectionY(const float &directionY) { this->_directionY = directionY; };
+        void setNetworkId(const uint32_t &networkId);
+        void setPosX(const float &posX);
+        void setPosY(const float &posY);
+        void setDirectionX(const float &directionX);
+        void setDirectionY(const float &directionY);
 
    private:
-    uint32_t _entityId;
+    uint32_t _networkId;
     float _posX;
     float _posY;
     float _directionX;

@@ -9,11 +9,7 @@
 
 namespace RType::Network
 {
-ClientEventPacket::ClientEventPacket(ClientEvent clientEvent)
-    : APacket(CLIENTEVENT), _clientEvent(clientEvent)
-{
-    this->_packetDataSize = sizeof(uint8_t);
-};
+ClientEventPacket::ClientEventPacket(uint8_t type)  : APacket(type) {this->_packetDataSize = sizeof(uint8_t);}
 
 ClientEventPacket::ClientEventPacket(std::vector<char> &buffer) : APacket(buffer)
 {
@@ -36,4 +32,6 @@ std::vector<char> ClientEventPacket::serializeData() const
 }
 
 ClientEvent ClientEventPacket::getClientEvent() const { return this->_clientEvent; }
+
+void ClientEventPacket::setClientEvent(const ClientEvent &event) { this->_clientEvent = event; }
 }  // namespace RType::Network

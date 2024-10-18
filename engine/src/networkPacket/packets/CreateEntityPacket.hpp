@@ -22,19 +22,13 @@ namespace RType::Network
 class CreateEntityPacket : public dimension::APacket
 {
    public:
-    CreateEntityPacket(uint8_t type) : APacket(type) { this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + 
-    this->_entityToCreate.size();};
-
     /**
-     * @brief Construct CreateEntityPacket object that will be send to server or client.
+     * @brief Construct CreateEntityPacket object that will be send to sever.
      *
-     * @param entityId : Network Id of the entity that will be created.
-     * @param posX : X position in the game at creation.
-     * @param posY : Y position in the game at creation.
-     * @param entityToCreate : Name of the prefab used to create entity.
-     * @return CreateEntityPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty CreateEntityPacket object.
      */
-    CreateEntityPacket(uint32_t entityId, float posX, float posY, std::string entityToCreate);
+    CreateEntityPacket(uint8_t type);
 
     /**
      * @brief Construct new CreateEntityPacket object with serialized data by deserializing them.
@@ -53,29 +47,25 @@ class CreateEntityPacket : public dimension::APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of entityId, posX, posY,
+     * @return std::vector<char> that represent serialization of networkId, posX, posY,
      * entityToCreate to binary.
      */
     std::vector<char> serializeData() const override;
 
    public:
-    uint32_t getEntityId() const;
+    uint32_t getNetworkId() const;
     float getPosX() const;
     float getPosY() const;
     std::string getEntityToCreate() const;
 
     public:
-        void setEntityId(const uint32_t &entityId) {this->_entityId = entityId; };
-        void setPosX(const float &posX) { this->_posX = posX; };
-        void setPosY(const float &posY) { this->_posX = posY; };
-        void setEntityToCreate(const std::string &entityToCreate) {
-            this->_entityToCreate = entityToCreate;
-            this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) +
-                this->_entityToCreate.size();
-        };
+        void setNetworkId(const uint32_t &networkId);
+        void setPosX(const float &posX);
+        void setPosY(const float &posY);
+        void setEntityToCreate(const std::string &entityToCreate);
 
    private:
-    uint32_t _entityId;
+    uint32_t _networkId;
     float _posX;
     float _posY;
     std::string _entityToCreate;

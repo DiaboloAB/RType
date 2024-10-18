@@ -23,9 +23,10 @@ class HiServerPacket : public dimension::APacket
 {
    public:
     /**
-     * @brief Construct HiServerPacket object that will be send to server.
+     * @brief Construct HiServerPacket object that will be send to sever.
      *
-     * @return HiServerPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty HiServerPacket object.
      */
     HiServerPacket(uint8_t type);
 

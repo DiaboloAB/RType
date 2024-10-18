@@ -10,17 +10,9 @@
 namespace RType::Network
 {
 
-MoveEntityPacket::MoveEntityPacket(uint32_t entityId, float posX, float posY, float directionX,
-                                   float directionY)
-    : APacket(MOVEENTITY),
-      _entityId(entityId),
-      _posX(posX),
-      _posY(posY),
-      _directionX(directionX),
-      _directionY(directionY)
-{
-    this->_packetDataSize =
-        sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float);
+MoveEntityPacket::MoveEntityPacket(uint8_t type) : APacket(type) 
+{ 
+    this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float);
 }
 
 MoveEntityPacket::MoveEntityPacket(std::vector<char> &buffer) : APacket(buffer)
@@ -28,7 +20,7 @@ MoveEntityPacket::MoveEntityPacket(std::vector<char> &buffer) : APacket(buffer)
     char *data = buffer.data();
     data += this->getHeaderSize();
 
-    std::memcpy(&this->_entityId, data, sizeof(uint32_t));
+    std::memcpy(&this->_networkId, data, sizeof(uint32_t));
     data += sizeof(uint32_t);
     std::memcpy(&this->_posX, data, sizeof(float));
     data += sizeof(float);
@@ -47,7 +39,7 @@ std::vector<char> MoveEntityPacket::serializeData() const
     buffer.resize(sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float));
     char *data = buffer.data();
 
-    std::memcpy(data, &this->_entityId, sizeof(uint32_t));
+    std::memcpy(data, &this->_networkId, sizeof(uint32_t));
     data += sizeof(uint32_t);
     std::memcpy(data, &this->_posX, sizeof(float));
     data += sizeof(float);
@@ -59,7 +51,7 @@ std::vector<char> MoveEntityPacket::serializeData() const
     return buffer;
 }
 
-uint32_t MoveEntityPacket::getEntityId() const { return this->_entityId; }
+uint32_t MoveEntityPacket::getNetworkId() const { return this->_networkId; }
 
 float MoveEntityPacket::getPosX() const { return this->_posX; }
 
@@ -68,5 +60,15 @@ float MoveEntityPacket::getPosY() const { return this->_posY; }
 float MoveEntityPacket::getDirectionX() const { return this->_directionX; }
 
 float MoveEntityPacket::getDirectionY() const { return this->_directionY; }
+
+void MoveEntityPacket::setNetworkId(const uint32_t &networkId) {this->_networkId = networkId; }
+
+void MoveEntityPacket::setPosX(const float &posX) { this->_posX = posX; }
+
+void MoveEntityPacket::setPosY(const float &posY) { this->_posX = posY; }
+
+void MoveEntityPacket::setDirectionX(const float &directionX) { this->_directionX = directionX; }
+
+void MoveEntityPacket::setDirectionY(const float &directionY) { this->_directionY = directionY; }
 
 }  // namespace RType::Network

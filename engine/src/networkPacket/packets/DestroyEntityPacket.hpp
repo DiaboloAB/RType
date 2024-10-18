@@ -22,15 +22,13 @@ namespace RType::Network
 class DestroyEntityPacket : public dimension::APacket
 {
    public:
-    DestroyEntityPacket(uint8_t type) : APacket(type){this->_packetDataSize = sizeof(uint32_t);};
-
     /**
-     * @brief Construct DestroyEntityPacket object that will be send to server or client.
+     * @brief Construct DestroyEntityPacket object that will be send to sever.
      *
-     * @param entityId : Network Id of the entity that will be destroyed.
-     * @return DestroyEntityPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty DestroyEntityPacket object.
      */
-    DestroyEntityPacket(uint32_t entityId);
+    DestroyEntityPacket(uint8_t type);
 
     /**
      * @brief Construct new DestroyEntityPacket object with serialized data by deserializing them.
@@ -46,17 +44,20 @@ class DestroyEntityPacket : public dimension::APacket
     ~DestroyEntityPacket() override;
 
    public:
-    uint32_t getEntityId() const;
-
-   public:
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of entityId to binary.
+     * @return std::vector<char> that represent serialization of networkId to binary.
      */
     std::vector<char> serializeData() const override;
+    
+   public:
+    uint32_t getNetworkId() const;
+
+    public:
+        void setNetworkId(const uint32_t &networkId);
 
    private:
-    uint32_t _entityId;
+    uint32_t _networkId;
 };
 }  // namespace RType::Network

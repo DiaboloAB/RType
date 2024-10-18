@@ -22,16 +22,13 @@ namespace RType::Network
 class PacketValidationPacket : public dimension::APacket
 {
    public:
-    PacketValidationPacket(uint8_t type) : APacket(type) {this->_packetDataSize = sizeof(uint8_t) + sizeof(uint64_t);};
-
     /**
-     * @brief Construct PacketValidationPacket object that will be send to client or server.
+     * @brief Construct PacketValidationPacket object that will be send to sever.
      *
-     * @param packetType: Type of the packet it validates.
-     * @param packetTimeStamp: Timestamp of the packet it validates.
-     * @return PacketValidationPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty PacketValidationPacket object.
      */
-    PacketValidationPacket(PacketType packetType, uint64_t packetTimeStamp);
+    PacketValidationPacket(uint8_t type);
 
     /**
      * @brief Construct new PacketValidationPacket object with serialized data by deserializing
@@ -61,8 +58,8 @@ class PacketValidationPacket : public dimension::APacket
     uint64_t getPacketReceiveTimeStamp() const;
 
     public:
-        void setPacketReceiveType(const uint8_t &receiveType) {this->_packetReceiveType = receiveType;};
-        void setPacketReceiveTimeStamp(const uint64_t &receiveTimeStamp) {this->_packetReceiveTimeStamp = receiveTimeStamp;};
+        void setPacketReceiveType(const uint8_t &receiveType);
+        void setPacketReceiveTimeStamp(const uint64_t &receiveTimeStamp);
 
    private:
     uint8_t _packetReceiveType;

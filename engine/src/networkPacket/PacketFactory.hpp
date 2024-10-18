@@ -82,6 +82,14 @@ class PacketFactory
             }
         }
 
+        uint8_t getTypeFromIndex(std::type_index packetIndex) const {
+            try {
+                return this->_packetManager.getTypeFromIndex(packetIndex);
+            } catch (std::exception &e) {
+                throw;
+            }
+        }
+
    private:
     dimension::PacketManager _packetManager;
 };

@@ -22,15 +22,13 @@ namespace RType::Network
 class ClientEventPacket : public dimension::APacket
 {
    public:
-    ClientEventPacket(uint8_t type) : APacket(type){this->_packetDataSize = sizeof(uint8_t);};
-
     /**
-     * @brief Construct ClientEventPacket object that will be send to server.
+     * @brief Construct ClientEventPacket object that will be send to sever.
      *
-     * @param event: Network client event (GAMESTART, ...).
-     * @return ClientEventPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty ClientEventPacket object.
      */
-    ClientEventPacket(ClientEvent event);
+    ClientEventPacket(uint8_t type);
 
     /**
      * @brief Construct new CLientEventPacket object with serialized data by deserializing them.
@@ -57,7 +55,7 @@ class ClientEventPacket : public dimension::APacket
     ClientEvent getClientEvent() const;
 
     public:
-        void setClientEvent(const ClientEvent &event) {this->_clientEvent = event;};
+        void setClientEvent(const ClientEvent &event);
 
    private:
     ClientEvent _clientEvent;

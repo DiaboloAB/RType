@@ -23,9 +23,10 @@ class PingPacket : public dimension::APacket
 {
    public:
     /**
-     * @brief Construct PingPacket object that will be send to server or client.
+     * @brief Construct PingPacket object that will be send to sever.
      *
-     * @return PingPacket object.
+     * @param type packet type define by class index in packetManager registration.
+     * @return empty PingPacket object.
      */
     PingPacket(uint8_t type);
 
