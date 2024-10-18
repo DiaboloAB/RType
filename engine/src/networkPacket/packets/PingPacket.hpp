@@ -27,7 +27,7 @@ class PingPacket : public dimension::APacket
      *
      * @return PingPacket object.
      */
-    PingPacket();
+    PingPacket(uint8_t type);
 
     /**
      * @brief Construct new PingPacket object with serialized data by deserializing them.

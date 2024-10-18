@@ -38,14 +38,23 @@ class PacketManager
      * enabling dynamic packet handling and instantiation based on the packet type.
      *
      * @tparam Packet The type of the packet to be registered.
+     * @return uint8_t representing id of the packet type registered.
      */
     template <typename Packet>
-    void registerPacketToSend()
+    std::uint8_t registerPacket()
     {
         static_assert(std::is_base_of<APacket, Packet>::value,
                       "Registration Error : Packet must derive from APacket !");
-        this->_packetToSendFactory[std::type_index(typeid(Packet))] = []()
-        { return std::make_shared<Packet>(); };
+        if (this->_typeId == 255)
+            throw PacketManagerError("PacketManagerError: Maximum size of packet is registered.");
+        std::type_index index(typeid(Packet));
+        this->_packetToSendFactory[index] = [](uint8_t typeId)
+        { return std::make_shared<Packet>(typeId); };
+        this->_packetToDeserializeFactory[index] = [](std::vector<char> &buffer)
+        { return std::make_shared<Packet>(buffer); };
+        this->_idMap.emplace(this->_typeId, index);
+        this->_typeId++;
+        return this->_typeId - 1;
     };
 
     /**
@@ -61,28 +70,11 @@ class PacketManager
     std::shared_ptr<Packet> createPacketToSend()
     {
         const std::type_index typeIndex(typeid(Packet));
-        if (this->_packetToSendFactory.find(typeIndex) == this->_packetToSendFactory.end())
-            throw PacketManagerError("PacketManagerError : Packet Type not registered !");
-        return this->_packetToSendFactory[typeIndex]();
+        for (auto &packetId : this->_idMap)
+            if (packetId.second == typeIndex)
+                return std::dynamic_pointer_cast<Packet>(this->_packetToSendFactory[typeIndex](packetId.first));
+        throw PacketManagerError("PacketManagerError : Packet Type not registered !");
     };
-
-    /**
-     * @brief Registers a packet type for deserialization.
-     *
-     * Links a packet type identifier with its constructor to deserialize a vector of chars
-     * into the appropriate packet.
-     *
-     * @tparam Packet The packet class derived from APacket.
-     * @param packetType Identifier for the packet type.
-     */
-    template <typename Packet>
-    void registerPacketDeserialization(uint8_t packetType)
-    {
-        static_assert(std::is_base_of<APacket, Packet>::value,
-                      "Registration Error : Packet must derive from APacket !");
-        this->_packetToDeserializeFactory[packetType] = [](std::vector<char> &buffer)
-        { return std::make_shared<Packet>(buffer); };
-    }
 
     /**
      * @brief Creates a Packet from serialized data contained in a buffer.
@@ -98,11 +90,8 @@ class PacketManager
         try
         {
             uint8_t packetType = APacket::getPacketTypeFromBuffer(buffer);
-            if (this->_packetToDeserializeFactory.find(packetType) ==
-                this->_packetToDeserializeFactory.end())
-                throw PacketManagerError(
-                    "PacketManagerError : Packet Type not registered to be deserialized !");
-            std::shared_ptr<APacket> packet = this->_packetToDeserializeFactory[packetType](buffer);
+            std::type_index index = this->getIndexFromType(packetType);
+            std::shared_ptr<APacket> packet = this->_packetToDeserializeFactory[index](buffer);
             if (packet->getPacketSize() > buffer.size())
                 throw PacketManagerError(
                     "PacketManagerError : Incomplete deserialzation due to incomplete buffer !");
@@ -120,11 +109,20 @@ class PacketManager
         }
     };
 
+    public:
+        std::type_index getIndexFromType(uint8_t packetType) const {
+            if (this->_idMap.find(packetType) == this->_idMap.end())
+                throw PacketManagerError("PacketManagerError : Packet type not registered.");
+            return this->_idMap.at(packetType);
+        }
+
    private:
-    std::unordered_map<std::type_index, std::function<std::shared_ptr<APacket>()>>
+    std::unordered_map<std::type_index, std::function<std::shared_ptr<APacket>(uint8_t type)>>
         _packetToSendFactory;
-    std::unordered_map<uint8_t, std::function<std::shared_ptr<APacket>(std::vector<char> &)>>
+    std::unordered_map<std::type_index, std::function<std::shared_ptr<APacket>(std::vector<char> &)>>
         _packetToDeserializeFactory;
+    std::unordered_map<std::uint8_t, std::type_index> _idMap;
+    uint8_t _typeId = 0;
 
    public:
     class PacketManagerError : public std::exception

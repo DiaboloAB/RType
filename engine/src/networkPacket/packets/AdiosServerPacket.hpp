@@ -27,7 +27,7 @@ class AdiosServerPacket : public dimension::APacket
      *
      * @return AdiosServerPacket object.
      */
-    AdiosServerPacket();
+    AdiosServerPacket(uint8_t type);
 
     /**
      * @brief Construct new AdiosServerPacket object with serialized data by deserializing them.

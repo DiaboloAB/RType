@@ -9,7 +9,7 @@
 
 namespace RType::Network
 {
-HiServerPacket::HiServerPacket() : APacket(HISERVER) { this->_packetDataSize = 0; }
+HiServerPacket::HiServerPacket(uint8_t type) : APacket(type) { this->_packetDataSize = 0; }
 
 HiServerPacket::HiServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 

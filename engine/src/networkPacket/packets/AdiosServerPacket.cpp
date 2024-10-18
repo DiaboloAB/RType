@@ -9,7 +9,7 @@
 
 namespace RType::Network
 {
-AdiosServerPacket::AdiosServerPacket() : APacket(ADIOSSERVER) { this->_packetDataSize = 0; }
+AdiosServerPacket::AdiosServerPacket(uint8_t type) : APacket(type) { this->_packetDataSize = 0; }
 
 AdiosServerPacket::AdiosServerPacket(std::vector<char> &buffer) : APacket(buffer) {}
 

@@ -9,7 +9,7 @@
 
 namespace RType::Network
 {
-PingPacket::PingPacket() : APacket(PING) { this->_packetDataSize = 0; }
+PingPacket::PingPacket(uint8_t type) : APacket(type) { this->_packetDataSize = 0; }
 
 PingPacket::PingPacket(std::vector<char> &buffer) : APacket(buffer) {}
 

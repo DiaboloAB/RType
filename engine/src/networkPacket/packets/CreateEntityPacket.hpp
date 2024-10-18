@@ -22,7 +22,8 @@ namespace RType::Network
 class CreateEntityPacket : public dimension::APacket
 {
    public:
-    CreateEntityPacket() : APacket(CREATEENTITY){};
+    CreateEntityPacket(uint8_t type) : APacket(type) { this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + 
+    this->_entityToCreate.size();};
 
     /**
      * @brief Construct CreateEntityPacket object that will be send to server or client.
@@ -62,6 +63,16 @@ class CreateEntityPacket : public dimension::APacket
     float getPosX() const;
     float getPosY() const;
     std::string getEntityToCreate() const;
+
+    public:
+        void setEntityId(const uint32_t &entityId) {this->_entityId = entityId; };
+        void setPosX(const float &posX) { this->_posX = posX; };
+        void setPosY(const float &posY) { this->_posX = posY; };
+        void setEntityToCreate(const std::string &entityToCreate) {
+            this->_entityToCreate = entityToCreate;
+            this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) +
+                this->_entityToCreate.size();
+        };
 
    private:
     uint32_t _entityId;

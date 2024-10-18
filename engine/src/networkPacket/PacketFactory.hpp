@@ -73,9 +73,14 @@ class PacketFactory
         }
     }
 
-    private:
-        void initRegisterSendCreator();
-        void initRegisterDeserializationCreator();
+    public:
+        std::type_index getIndexFromType(uint8_t packetType) const {
+            try {
+                return this->_packetManager.getIndexFromType(packetType);
+            } catch (std::exception &e) {
+                throw;
+            }
+        }
 
    private:
     dimension::PacketManager _packetManager;

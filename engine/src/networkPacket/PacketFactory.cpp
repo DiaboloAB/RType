@@ -11,35 +11,18 @@ namespace RType::Network
 {
 PacketFactory::PacketFactory()
 {
-    this->initRegisterSendCreator();
-    this->initRegisterDeserializationCreator();
+    this->_packetManager.registerPacket<HiServerPacket>();
+    this->_packetManager.registerPacket<HiClientPacket>();
+    this->_packetManager.registerPacket<AdiosServerPacket>();
+    this->_packetManager.registerPacket<PingPacket>();
+    this->_packetManager.registerPacket<CreateEntityPacket>();
+    this->_packetManager.registerPacket<DestroyEntityPacket>();
+    this->_packetManager.registerPacket<MoveEntityPacket>();
+    this->_packetManager.registerPacket<UpdateEntityPacket>();
+    this->_packetManager.registerPacket<ClientEventPacket>();
+    this->_packetManager.registerPacket<PacketValidationPacket>();
 }
 
 PacketFactory::~PacketFactory() {}
 
-void PacketFactory::initRegisterSendCreator() {
-    this->_packetManager.registerPacketToSend<HiServerPacket>();
-    this->_packetManager.registerPacketToSend<HiClientPacket>();
-    this->_packetManager.registerPacketToSend<AdiosServerPacket>();
-    this->_packetManager.registerPacketToSend<PingPacket>();
-    this->_packetManager.registerPacketToSend<CreateEntityPacket>();
-    this->_packetManager.registerPacketToSend<DestroyEntityPacket>();
-    this->_packetManager.registerPacketToSend<MoveEntityPacket>();
-    this->_packetManager.registerPacketToSend<UpdateEntityPacket>();
-    this->_packetManager.registerPacketToSend<ClientEventPacket>();
-    this->_packetManager.registerPacketToSend<PacketValidationPacket>();
-}
-
-void PacketFactory::initRegisterDeserializationCreator() {
-    this->_packetManager.registerPacketDeserialization<HiServerPacket>(HISERVER);
-    this->_packetManager.registerPacketDeserialization<HiClientPacket>(HICLIENT);
-    this->_packetManager.registerPacketDeserialization<AdiosServerPacket>(ADIOSSERVER);
-    this->_packetManager.registerPacketDeserialization<PingPacket>(PING);
-    this->_packetManager.registerPacketDeserialization<CreateEntityPacket>(CREATEENTITY);
-    this->_packetManager.registerPacketDeserialization<DestroyEntityPacket>(DESTROYENTITY);
-    this->_packetManager.registerPacketDeserialization<MoveEntityPacket>(MOVEENTITY);
-    this->_packetManager.registerPacketDeserialization<UpdateEntityPacket>(UPDATEENTITY);
-    this->_packetManager.registerPacketDeserialization<ClientEventPacket>(CLIENTEVENT);
-    this->_packetManager.registerPacketDeserialization<PacketValidationPacket>(PACKETVALIDATION);
-}
 }  // namespace RType::Network

@@ -22,7 +22,8 @@ namespace RType::Network
 class MoveEntityPacket : public dimension::APacket
 {
    public:
-    MoveEntityPacket() : APacket(MOVEENTITY){};
+    MoveEntityPacket(uint8_t type) : APacket(type) { this->_packetDataSize =
+        sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float); };
 
     /**
      * @brief Construct MoveEntityPacket object that will be send to server or client.
@@ -64,6 +65,13 @@ class MoveEntityPacket : public dimension::APacket
     float getPosY() const;
     float getDirectionX() const;
     float getDirectionY() const;
+
+    public:
+        void setEntityId(const uint32_t &entityId) {this->_entityId = entityId; };
+        void setPosX(const float &posX) { this->_posX = posX; };
+        void setPosY(const float &posY) { this->_posX = posY; };
+        void setDirectionX(const float &directionX) { this->_directionX = directionX; };
+        void setDirectionY(const float &directionY) { this->_directionY = directionY; };
 
    private:
     uint32_t _entityId;

@@ -27,7 +27,7 @@ class HiServerPacket : public dimension::APacket
      *
      * @return HiServerPacket object.
      */
-    HiServerPacket();
+    HiServerPacket(uint8_t type);
 
     /**
      * @brief Construct new HiServerPacket object with serialized data by deserializing them.

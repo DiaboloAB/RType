@@ -22,7 +22,7 @@ namespace RType::Network
 class DestroyEntityPacket : public dimension::APacket
 {
    public:
-    DestroyEntityPacket() : APacket(DESTROYENTITY){};
+    DestroyEntityPacket(uint8_t type) : APacket(type){this->_packetDataSize = sizeof(uint32_t);};
 
     /**
      * @brief Construct DestroyEntityPacket object that will be send to server or client.

@@ -22,7 +22,7 @@ namespace RType::Network
 class PacketValidationPacket : public dimension::APacket
 {
    public:
-    PacketValidationPacket() : APacket(PACKETVALIDATION){};
+    PacketValidationPacket(uint8_t type) : APacket(type) {this->_packetDataSize = sizeof(uint8_t) + sizeof(uint64_t);};
 
     /**
      * @brief Construct PacketValidationPacket object that will be send to client or server.
@@ -57,11 +57,15 @@ class PacketValidationPacket : public dimension::APacket
     std::vector<char> serializeData() const override;
 
    public:
-    PacketType getPacketReceiveType() const;
+    uint8_t getPacketReceiveType() const;
     uint64_t getPacketReceiveTimeStamp() const;
 
+    public:
+        void setPacketReceiveType(const uint8_t &receiveType) {this->_packetReceiveType = receiveType;};
+        void setPacketReceiveTimeStamp(const uint64_t &receiveTimeStamp) {this->_packetReceiveTimeStamp = receiveTimeStamp;};
+
    private:
-    PacketType _packetReceiveType;
+    uint8_t _packetReceiveType;
     uint64_t _packetReceiveTimeStamp;
 };
 }  // namespace RType::Network

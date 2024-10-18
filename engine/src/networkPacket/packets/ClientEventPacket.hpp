@@ -22,7 +22,7 @@ namespace RType::Network
 class ClientEventPacket : public dimension::APacket
 {
    public:
-    ClientEventPacket() : APacket(CLIENTEVENT){};
+    ClientEventPacket(uint8_t type) : APacket(type){this->_packetDataSize = sizeof(uint8_t);};
 
     /**
      * @brief Construct ClientEventPacket object that will be send to server.
@@ -55,6 +55,9 @@ class ClientEventPacket : public dimension::APacket
 
    public:
     ClientEvent getClientEvent() const;
+
+    public:
+        void setClientEvent(const ClientEvent &event) {this->_clientEvent = event;};
 
    private:
     ClientEvent _clientEvent;

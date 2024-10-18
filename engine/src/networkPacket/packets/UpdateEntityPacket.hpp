@@ -22,7 +22,7 @@ namespace RType::Network
 class UpdateEntityPacket : public dimension::APacket
 {
    public:
-    UpdateEntityPacket() : APacket(UPDATEENTITY){};
+    UpdateEntityPacket(uint8_t type) : APacket(type){this->_packetDataSize = sizeof(uint32_t) + sizeof(uint32_t);};
 
     /**
      * @brief Construct UpdateEntityPacket object that will be send to client.
