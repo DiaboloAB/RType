@@ -116,6 +116,13 @@ class PacketManager
             return this->_idMap.at(packetType);
         }
 
+        uint8_t getTypeFromIndex(std::type_index packetIndex) const {
+            for (auto &registered : this->_idMap)
+                if (registered.second == packetIndex)
+                    return registered.first;
+            throw PacketManagerError("PacketManagerError : Packet index not registered.");
+        }
+
    private:
     std::unordered_map<std::type_index, std::function<std::shared_ptr<APacket>(uint8_t type)>>
         _packetToSendFactory;
