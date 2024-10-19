@@ -40,6 +40,9 @@ Engine::Engine()
     _systemManager.addSystem<NetworkSystem>();
     _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
+    std::shared_ptr<dimension::APacketFactory> factory = std::make_shared<dimension::APacketFactory>(Network::PacketFactory());
+    this->_client = std::make_shared<dimension::DimensionClient>(factory);
+
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -62,6 +65,8 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
     _systemManager.addSystem<NetworkSystem>();
     _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
+    std::shared_ptr<dimension::APacketFactory> factory = std::make_shared<dimension::APacketFactory>(Network::PacketFactory());
+    this->_client = std::make_shared<dimension::DimensionClient>(factory);
 }
 
 Engine::~Engine()
@@ -84,9 +89,11 @@ void Engine::run()
         if (_gameContext._runtime->getKeyDown(KeyCode::Enter) &&
             !_gameContext._networkHandler->getIsServer())
         {
-            Network::HiServerPacket packet = Network::HiServerPacket();
+            auto packet = this->_packetFactory.createEmptyPacket<Network::HiServerPacket>();
             _gameContext._networkHandler->sendNewPacket(
-                packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
+                *packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
+            if (this->_client != nullptr)
+                this->_client->connectServer("127.0.0.1", 8581);
         }
 
         if (_gameContext._runtime->getKeyDown(KeyCode::P) &&

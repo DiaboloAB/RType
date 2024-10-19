@@ -55,12 +55,14 @@ void PacketHandler::deleteFromValidationList(
 
 bool PacketHandler::needPacketValidation(const dimension::APacket &packet) const
 {
-    PacketType type = (PacketType)packet.getPacketType();
-    for (auto &typeValidation : this->_needValidation)
-    {
-        if (typeValidation == type) return true;
-    }
-    return false;
+        uint8_t type = packet.getPacketType();
+        std::type_index index = this->_packetFactory.getIndexFromType(type);
+
+        for (auto &typeValidation : this->_needValidation)
+        {
+            if (index == typeValidation) return true;
+        }
+        return false;
 }
 
 std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>

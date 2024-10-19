@@ -11,9 +11,12 @@
 #include <list>
 #include <memory>
 #include <queue>
+#include <typeindex>
 
 #include "APacket.hpp"
+#include "networkPacket/PacketFactory.hpp"
 #include "networkPacket/packets/PacketValidationPacket.hpp"
+#include "networkPacket/packets/HiClientPacket.hpp"
 
 namespace RType::Network
 {
@@ -76,8 +79,9 @@ class PacketHandler
         const;
 
    private:
+    PacketFactory _packetFactory;
     std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _receiveQueue;
     std::list<std::pair<const dimension::APacket &, const asio::ip::udp::endpoint &>> _validationList;
-    std::list<PacketType> _needValidation = {HICLIENT, CREATEENTITY, DESTROYENTITY};
+    std::list<std::type_index> _needValidation = {std::type_index(typeid(HiClientPacket))};
 };
 }  // namespace RType::Network

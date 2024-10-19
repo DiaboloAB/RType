@@ -12,7 +12,9 @@
 #include "NetworkHandler/NetworkHandler.hpp"
 #include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
+#include "networkPacket/PacketFactory.hpp"
 #include "system/SystemManager.hpp"
+#include "endpoint/client/Client.hpp"
 // std
 #include <chrono>
 #include <iostream>
@@ -62,5 +64,7 @@ class Engine
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     GameContext _gameContext;      ///< Context for managing game state.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
+    Network::PacketFactory _packetFactory;
+    std::shared_ptr<dimension::DimensionClient> _client = nullptr;
 };
 }  // namespace RType

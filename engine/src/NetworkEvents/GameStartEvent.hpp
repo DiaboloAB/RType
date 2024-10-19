@@ -61,29 +61,30 @@ class GameStartEvent
         std::map<asio::ip::udp::endpoint, RType::Network::EndpointState> &endpointMap,
         mobs::Registry &registry, GameContext &gameContext, NetworkIdHandler &idHandler)
     {
-        float posX = 100.0;
-        float posY = 100.0;
+        //float posX = 100.0;
+        //float posY = 100.0;
         std::list<uint32_t> connectedNid;
-
-        for (auto &endpoint : endpointMap)
-        {
-            if (!endpoint.second.getConnected()) continue;
-            mobs::Entity newEntity = gameContext._sceneManager.loadPrefab("ally.json", gameContext);
-            auto &transform = registry.get<Transform>(newEntity);
-            transform.position = mlg::vec3(posX, posY, 0.0f);
-            auto &networkComp = registry.get<NetworkComp>(newEntity);
-            networkComp.id = idHandler.generateNetworkId();
-            endpoint.second.setNetworkId(networkComp.id);
-            connectedNid.emplace_back(networkComp.id);
-            if (posY >= 900)
-            {
-                posX += 100;
-                posY = 100;
-            }
-            else
-                posY += 100;
-        }
         return connectedNid;
+//
+        //for (auto &endpoint : endpointMap)
+        //{
+        //    if (!endpoint.second.getConnected()) continue;
+        //    mobs::Entity newEntity = gameContext._sceneManager.loadPrefab("ally.json", gameContext);
+        //    auto &transform = registry.get<Transform>(newEntity);
+        //    transform.position = mlg::vec3(posX, posY, 0.0f);
+        //    auto &networkComp = registry.get<NetworkComp>(newEntity);
+        //    networkComp.id = idHandler.generateNetworkId();
+        //    endpoint.second.setNetworkId(networkComp.id);
+        //    connectedNid.emplace_back(networkComp.id);
+        //    if (posY >= 900)
+        //    {
+        //        posX += 100;
+        //        posY = 100;
+        //    }
+        //    else
+        //        posY += 100;
+        //}
+        //return connectedNid;
     }
 
     /**
@@ -103,12 +104,12 @@ class GameStartEvent
         float posY = 100.0;
         for (auto &nid : connectedNid)
         {
-            if (nid == endpoint.second.getNetworkId())
-                networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "player.json"),
-                                              endpoint.first);
-            else
-                networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "ally.json"),
-                                              endpoint.first);
+            //if (nid == endpoint.second.getNetworkId())
+            //    networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "player.json"),
+            //                                  endpoint.first);
+            //else
+            //    networkHandler->sendNewPacket(CreateEntityPacket(nid, posX, posY, "ally.json"),
+            //                                  endpoint.first);
             if (posY >= 900)
             {
                 posX += 100;

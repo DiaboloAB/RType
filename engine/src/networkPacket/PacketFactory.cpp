@@ -9,7 +9,7 @@
 
 namespace RType::Network
 {
-PacketFactory::PacketFactory()
+PacketFactory::PacketFactory() : dimension::APacketFactory()
 {
     this->_packetManager.registerPacket<HiServerPacket>();
     this->_packetManager.registerPacket<HiClientPacket>();

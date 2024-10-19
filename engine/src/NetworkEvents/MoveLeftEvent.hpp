@@ -69,9 +69,9 @@ class MoveLeftEvent
                 auto &allyComp = view.get<Ally>(entity);
                 if (allyComp.moveDirection.x < 0.0) return;
                 allyComp.moveDirection.x -= 1.0;
-                networkHandler->sendToAll(
-                    MoveEntityPacket(networkC.id, transform.position.x, transform.position.y,
-                                     allyComp.moveDirection.x, allyComp.moveDirection.y));
+               //networkHandler->sendToAll(
+               //    MoveEntityPacket(networkC.id, transform.position.x, transform.position.y,
+               //                     allyComp.moveDirection.x, allyComp.moveDirection.y));
             }
         }
     }
