@@ -87,11 +87,11 @@ void Engine::run()
         if (_gameContext._runtime->getKey(KeyCode::Close)) break;
 
         if (_gameContext._runtime->getKeyDown(KeyCode::Enter) &&
-            !_gameContext._networkHandler->getIsServer())
+            !_gameContext._networkHandler)
         {
-            auto packet = this->_packetFactory.createEmptyPacket<Network::HiServerPacket>();
-            _gameContext._networkHandler->sendNewPacket(
-                *packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
+            //auto packet = this->_packetFactory.createEmptyPacket<Network::HiServerPacket>();
+            //_gameContext._networkHandler->sendNewPacket(
+            //    *packet, _gameContext._networkHandler->getEndpointMap().begin()->first);
             if (this->_client != nullptr)
                 this->_client->connectServer("127.0.0.1", 8581);
         }

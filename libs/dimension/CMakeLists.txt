@@ -8,6 +8,9 @@ set(SOURCES
     src/dimension/packet/APacket.cpp
     src/dimension/packet/PacketManager.cpp
     src/dimension/packet/APacketFactory.cpp
+    src/dimension/packet/basics/AdiosServer.cpp
+    src/dimension/packet/basics/HiServer.cpp
+    src/dimension/packet/basics/HiClient.cpp
     src/dimension/endpoint/AEndpoint.cpp
     src/dimension/endpoint/client/Client.cpp
     )
@@ -18,6 +21,7 @@ target_include_directories(dimension_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/packet
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/packet/basics
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint/client
 )

@@ -8,6 +8,10 @@
 
 #pragma once
 
+#include "AdiosServer.hpp"
+#include "HiServer.hpp"
+#include "HiClient.hpp"
+
 #include "PacketManager.hpp"
 
 namespace dimension
