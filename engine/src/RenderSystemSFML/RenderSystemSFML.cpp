@@ -7,207 +7,240 @@
 
 #include "RenderSystemSFML.hpp"
 
-namespace RType
-{
+namespace RType {
 
 RenderSystemSFML::RenderSystemSFML()
-    : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false)
+    : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false), _nextSpriteId(1)
 {
 }
 
-RenderSystemSFML::~RenderSystemSFML() {}
+RenderSystemSFML::~RenderSystemSFML()
+{
+    // Les shared_ptr se gèrent automatiquement, donc pas besoin de libérer manuellement les ressources ici.
+}
 
 void RenderSystemSFML::pollEvents()
 {
-    _previousKeys = _currentKeys;
     sf::Event event = {};
-    while (_window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-        {
-            _currentKeys[KeyCode::Close] = true;
-        }
-        if (event.type == sf::Event::KeyPressed)
-        {
-            _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = true;
-        }
-        if (event.type == sf::Event::KeyReleased)
-        {
-            _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = false;
-        }
-        if (event.type == sf::Event::MouseButtonPressed)
-        {
-            _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = true;
-        }
-        if (event.type == sf::Event::MouseButtonReleased)
-        {
-            _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = false;
+    while (_window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            _window.close();
         }
     }
 }
 
 bool RenderSystemSFML::getKey(KeyCode key)
 {
-    auto it = _currentKeys.find(static_cast<int>(key));
-    if (it != _currentKeys.end())
-    {
-        return it->second;
-    }
-    return false;
+    // Logique de gestion des touches SFML
+    return sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key));
 }
 
 bool RenderSystemSFML::getKeyUp(KeyCode key)
 {
-    auto it = _previousKeys.find(static_cast<int>(key));
-    if (it != _previousKeys.end())
-    {
-        if (it->second == true && _currentKeys[static_cast<int>(key)] == false)
-        {
-            return true;
-        }
-    }
+    // À implémenter si nécessaire (gestion des événements de relâchement)
     return false;
 }
 
 bool RenderSystemSFML::getKeyDown(KeyCode key)
 {
-    auto it = _currentKeys.find(static_cast<int>(key));
-    if (it != _currentKeys.end())
-    {
-        if (it->second == true && _previousKeys[static_cast<int>(key)] == false)
-        {
-            return true;
-        }
-    }
+    // À implémenter si nécessaire (gestion des événements d'appui)
     return false;
 }
 
-void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }
-
-void RenderSystemSFML::updateWindow() { _window.display(); }
-
-void RenderSystemSFML::FullScreenWindow()
+void RenderSystemSFML::clearWindow()
 {
-    sf::VideoMode fullscreenMode = sf::VideoMode::getDesktopMode();
+    _window.clear(sf::Color::Black);
+}
 
-    try
-    {
-        if (_isFullScreen)
-        {
-            _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
-            _isFullScreen = false;
-        }
-        else
-        {
-            _window.create(fullscreenMode, "RType", sf::Style::Fullscreen);
-            _isFullScreen = true;
-        }
+void RenderSystemSFML::updateWindow()
+{
+    _window.display();
+}
+
+std::shared_ptr<sf::Texture> RenderSystemSFML::loadTexture(const std::string& filePath)
+{
+    // Si la texture est déjà chargée, retourner la texture existante
+    if (_textures.find(filePath) != _textures.end()) {
+        return _textures[filePath];
     }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur lors du changement de mode plein écran : " << e.what() << std::endl;
+
+    // Sinon, charger la texture
+    auto texture = std::make_shared<sf::Texture>();
+    if (!texture->loadFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
+        return nullptr;
+    }
+
+    // Ajouter la texture au cache
+    _textures[filePath] = texture;
+    return texture;
+}
+
+int RenderSystemSFML::loadSprite(const std::string& filePath)
+{
+    // Charger la texture
+    auto texture = loadTexture(filePath);
+    if (!texture) {
+        return -1;  // En cas d'échec de chargement de la texture
+    }
+
+    // Créer un sprite avec la texture chargée
+    auto sprite = std::make_shared<sf::Sprite>();
+    sprite->setTexture(*texture);
+
+    // Assigner un ID unique au sprite
+    int spriteId = _nextSpriteId++;
+
+    // Stocker le sprite dans le cache des sprites
+    _spriteCache[spriteId] = sprite;
+
+    return spriteId;
+}
+
+void RenderSystemSFML::unloadSprite(int spriteId)
+{
+    // Vérifier si le sprite existe
+    if (_spriteCache.find(spriteId) != _spriteCache.end()) {
+        _spriteCache.erase(spriteId);
+        // Le `shared_ptr` s'occupera de libérer la mémoire si aucune autre référence n'existe
+    } else {
+        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
     }
 }
 
-bool RenderSystemSFML::loadTexture(const std::string& textureName, const std::string& filePath)
+void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
 {
-    try
-    {
-        auto texture = std::make_unique<sf::Texture>();
-        if (!texture->loadFromFile(filePath))
-        {
-            throw std::runtime_error("Erreur lors du chargement de la texture : " + filePath);
-        }
-        _textures[textureName] = std::move(texture);
-        return true;
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
-        return false;
-    }
-}
-
-void RenderSystemSFML::unloadTexture(const std::string& textureName)
-{
-    auto it = _textures.find(textureName);
-    if (it != _textures.end())
-    {
-        _textures.erase(it);
-    }
-}
-
-void RenderSystemSFML::loadSprite(const std::string& filePath)
-{
-    try
-    {
-        if (!loadTexture(filePath, filePath))
-        {
-            throw std::runtime_error("Erreur lors du chargement du sprite : " + filePath);
-        }
-
-        auto it = _textures.find(filePath);
-        if (it != _textures.end())
-        {
-            sf::Sprite sprite;
-            sprite.setTexture(*it->second);
-            _sprites[filePath] = sprite;
-        }
-        else
-        {
-            throw std::runtime_error("Erreur : texture non trouvée (" + filePath + ")");
-        }
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
-}
-
-void RenderSystemSFML::unloadSprite(const std::string& spriteName)
-{
-    auto it = _sprites.find(spriteName);
-    if (it != _sprites.end())
-    {
-        _sprites.erase(it);
-    }
-    else
-    {
-        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
-    }
-}
-
-void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec3 position,
-                                  mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
-{
-    auto it = _sprites.find(spriteName);
-    if (it != _sprites.end())
+    auto it = _spriteCache.find(spriteId);
+    if (it != _spriteCache.end())
     {
         sf::IntRect spriteRect(spriteCoords.x, spriteCoords.y, spriteCoords.z, spriteCoords.w);
-        it->second.setTextureRect(spriteRect);
-        it->second.setPosition(position.x, position.y);
-        it->second.setScale(scale.x, scale.y);
-        it->second.setRotation(rotation);
-        _window.draw(it->second);
+        it->second->setTextureRect(spriteRect);
+
+        it->second->setPosition(position.x, position.y);
+        it->second->setScale(scale.x, scale.y);
+        it->second->setRotation(rotation);
+
+        _window.draw(*it->second);
     }
     else
     {
-        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
+        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
     }
 }
 
-void RenderSystemSFML::drawSprite(const std::string& spriteName, mlg::vec3 position)
+void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position)
 {
-    auto it = _sprites.find(spriteName);
-    if (it != _sprites.end())
+    auto it = _spriteCache.find(spriteId);
+    if (it != _spriteCache.end())
     {
-        it->second.setPosition(position.x, position.y);
-        _window.draw(it->second);
+        it->second->setPosition(position.x, position.y);
+
+        _window.draw(*it->second);
     }
     else
     {
-        std::cerr << "Erreur : sprite non trouvé (" << spriteName << ")" << std::endl;
+        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
     }
+}
+
+void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
+{
+    int spriteId = loadSprite(filePath);
+
+    if (spriteId == -1) {
+        std::cerr << "Erreur : impossible de charger le sprite depuis " << filePath << std::endl;
+        return;
+    }
+
+    auto it = _spriteCache.find(spriteId);
+    if (it != _spriteCache.end())
+    {
+        sf::IntRect spriteRect(spriteCoords.x, spriteCoords.y, spriteCoords.z, spriteCoords.w);
+        it->second->setTextureRect(spriteRect);
+
+        it->second->setPosition(position.x, position.y);
+        it->second->setScale(scale.x, scale.y);
+        it->second->setRotation(rotation);
+
+        _window.draw(*it->second);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé pour le fichier " << filePath << std::endl;
+    }
+}
+
+void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 position)
+{
+    int spriteId = loadSprite(filePath);
+
+    if (spriteId == -1) {
+        std::cerr << "Erreur : impossible de charger le sprite depuis " << filePath << std::endl;
+        return;
+    }
+
+    auto it = _spriteCache.find(spriteId);
+    if (it != _spriteCache.end())
+    {
+        it->second->setPosition(position.x, position.y);
+
+        _window.draw(*it->second);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé pour le fichier " << filePath << std::endl;
+    }
+}
+
+mlg::vec3 RenderSystemSFML::getTextureSize(int spriteId)
+{
+    auto it = _spriteCache.find(spriteId);
+    if (it != _spriteCache.end()) {
+        sf::Vector2u size = it->second->getTexture()->getSize();
+        return mlg::vec3(size.x, size.y, 0);
+    }
+    return mlg::vec3(0, 0, 0);
+}
+
+mlg::vec3 RenderSystemSFML::getMousePosition()
+{
+    sf::Vector2i position = sf::Mouse::getPosition(_window);
+    return mlg::vec3(position.x, position.y, 0);
+}
+
+void RenderSystemSFML::setGameIcon(const std::string& filePath)
+{
+    sf::Image icon;
+    if (!icon.loadFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement de l'icône du jeu : " << filePath << std::endl;
+        return;
+    }
+    _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+}
+
+void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position, unsigned int fontSize, const mlg::vec3& color, bool centered)
+{
+    sf::Font font;
+    if (!font.loadFromFile(fontPath)) {
+        std::cerr << "Erreur lors du chargement de la police : " << fontPath << std::endl;
+        return;
+    }
+
+    sf::Text text;
+    text.setFont(font);
+    text.setString(textStr);
+    text.setCharacterSize(fontSize);
+    text.setPosition(position.x, position.y);
+
+    sf::Color sfColor(color.x, color.y, color.z);
+    text.setFillColor(sfColor);
+
+    if (centered) {
+        sf::FloatRect textRect = text.getLocalBounds();
+        text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    }
+
+    _window.draw(text);
 }
 
 void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color)
@@ -215,113 +248,55 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
     sf::RectangleShape rectangle(sf::Vector2f(spriteCoords.z, spriteCoords.w));
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
 
-    sf::Color sfcolor(static_cast<sf::Uint8>(color.x), static_cast<sf::Uint8>(color.y),
-                      static_cast<sf::Uint8>(color.z));
-
-    if (full)
-    {
+    sf::Color sfcolor(color.x, color.y, color.z);
+    if (full) {
         rectangle.setFillColor(sfcolor);
-    }
-    else
-    {
+    } else {
         rectangle.setFillColor(sf::Color::Transparent);
         rectangle.setOutlineThickness(1);
         rectangle.setOutlineColor(sfcolor);
     }
+
     _window.draw(rectangle);
+}
+
+void RenderSystemSFML::FullScreenWindow()
+{
+    if (_isFullScreen) {
+        _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
+        _isFullScreen = false;
+    } else {
+        _window.create(sf::VideoMode::getDesktopMode(), "RType", sf::Style::Fullscreen);
+        _isFullScreen = true;
+    }
 }
 
 bool RenderSystemSFML::loadMusic(const std::string& filePath)
 {
-    try
-    {
-        if (_musics.find(filePath) != _musics.end())
-        {
-            return true;
-        }
-
-        auto music = std::make_unique<sf::Music>();
-        if (!music->openFromFile(filePath))
-        {
-            throw std::runtime_error("Erreur lors du chargement de la musique : " + filePath);
-        }
-
-        _musics[filePath] = std::move(music);
-        return true;
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
+    auto music = std::make_unique<sf::Music>();
+    if (!music->openFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement de la musique : " << filePath << std::endl;
         return false;
     }
-}
-
-void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
-                                const mlg::vec3 position, unsigned int fontSize,
-                                const mlg::vec3& color, bool centered)
-{
-    try
-    {
-        if (_fonts.find(fontPath) == _fonts.end())
-        {
-            throw std::runtime_error("Erreur : police non reconnue (" + fontPath + ")");
-        }
-
-        sf::Font& font = _fonts[fontPath];
-        sf::Text text;
-        text.setFont(font);
-        text.setString(textStr);
-        text.setCharacterSize(fontSize);
-        text.setPosition(position.x, position.y);
-        if (centered)
-        {
-            sf::FloatRect textRect = text.getLocalBounds();
-            text.setOrigin(textRect.left + textRect.width / 2.0f,
-                           textRect.top + textRect.height / 2.0f);
-        }
-
-        text.setFillColor(sf::Color(static_cast<sf::Uint8>(color.x),
-                                    static_cast<sf::Uint8>(color.y),
-                                    static_cast<sf::Uint8>(color.z)));
-        _window.draw(text);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
+    _musics[filePath] = std::move(music);
+    return true;
 }
 
 void RenderSystemSFML::playMusic(const std::string& filePath, bool loop)
 {
-    if (_currentMusic != nullptr)
-    {
-        _currentMusic->stop();
-    }
-
-    try
-    {
-        auto it = _musics.find(filePath);
-        if (it != _musics.end())
-        {
-            _currentMusic = it->second.get();
-            _currentMusic->setLoop(loop);
-            _currentMusic->play();
-        }
-        else
-        {
-            throw std::runtime_error("Erreur : musique non trouvée (" + filePath + ")");
-        }
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
+    auto it = _musics.find(filePath);
+    if (it != _musics.end()) {
+        _currentMusic = it->second.get();
+        _currentMusic->setLoop(loop);
+        _currentMusic->play();
+    } else {
+        std::cerr << "Erreur : musique non trouvée (" << filePath << ")" << std::endl;
     }
 }
 
 void RenderSystemSFML::stopCurrentMusic()
 {
-    if (_currentMusic != nullptr)
-    {
+    if (_currentMusic) {
         _currentMusic->stop();
         _currentMusic = nullptr;
     }
@@ -329,253 +304,52 @@ void RenderSystemSFML::stopCurrentMusic()
 
 void RenderSystemSFML::unloadMusic(const std::string& musicName)
 {
-    auto it = _musics.find(musicName);
-    if (it != _musics.end())
-    {
-        if (_currentMusic == it->second.get())
-        {
-            _currentMusic->stop();
-            _currentMusic = nullptr;
-        }
-        _musics.erase(it);
-    }
+    _musics.erase(musicName);
 }
 
 bool RenderSystemSFML::loadSound(const std::string& filePath)
 {
-    try
-    {
-        if (_soundBuffers.find(filePath) != _soundBuffers.end())
-        {
-            return true;
-        }
-
-        auto buffer = std::make_unique<sf::SoundBuffer>();
-        if (!buffer->loadFromFile(filePath))
-        {
-            throw std::runtime_error("Erreur lors du chargement du son : " + filePath);
-        }
-
-        _soundBuffers[filePath] = std::move(buffer);
-        return true;
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
+    auto buffer = std::make_unique<sf::SoundBuffer>();
+    if (!buffer->loadFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement du son : " << filePath << std::endl;
         return false;
     }
+    _soundBuffers[filePath] = std::move(buffer);
+    return true;
 }
 
 void RenderSystemSFML::playSound(const std::string& filePath)
 {
-    try
-    {
-        auto it = _soundBuffers.find(filePath);
-        if (it != _soundBuffers.end())
-        {
-            sf::Sound sound;
-            sound.setBuffer(*it->second);
-            _sounds.push_back(sound);
-            _sounds.back().play();
-        }
-        else
-        {
-            throw std::runtime_error("Erreur : son non trouvé (" + filePath + ")");
-        }
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
+    auto it = _soundBuffers.find(filePath);
+    if (it != _soundBuffers.end()) {
+        sf::Sound sound;
+        sound.setBuffer(*it->second);
+        _sounds.push_back(sound);
+        _sounds.back().play();
+    } else {
+        std::cerr << "Erreur : son non trouvé (" << filePath << ")" << std::endl;
     }
 }
 
 void RenderSystemSFML::unloadSound(const std::string& soundName)
 {
-    auto it = _soundBuffers.find(soundName);
-    if (it != _soundBuffers.end())
-    {
-        _soundBuffers.erase(it);
-    }
-}
-
-KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
-{
-    switch (key)
-    {
-        case sf::Keyboard::A:
-            return KeyCode::A;
-        case sf::Keyboard::B:
-            return KeyCode::B;
-        case sf::Keyboard::C:
-            return KeyCode::C;
-        case sf::Keyboard::D:
-            return KeyCode::D;
-        case sf::Keyboard::E:
-            return KeyCode::E;
-        case sf::Keyboard::F:
-            return KeyCode::F;
-        case sf::Keyboard::G:
-            return KeyCode::G;
-        case sf::Keyboard::H:
-            return KeyCode::H;
-        case sf::Keyboard::I:
-            return KeyCode::I;
-        case sf::Keyboard::J:
-            return KeyCode::J;
-        case sf::Keyboard::K:
-            return KeyCode::K;
-        case sf::Keyboard::L:
-            return KeyCode::L;
-        case sf::Keyboard::M:
-            return KeyCode::M;
-        case sf::Keyboard::N:
-            return KeyCode::N;
-        case sf::Keyboard::O:
-            return KeyCode::O;
-        case sf::Keyboard::P:
-            return KeyCode::P;
-        case sf::Keyboard::Q:
-            return KeyCode::Q;
-        case sf::Keyboard::R:
-            return KeyCode::R;
-        case sf::Keyboard::S:
-            return KeyCode::S;
-        case sf::Keyboard::T:
-            return KeyCode::T;
-        case sf::Keyboard::U:
-            return KeyCode::U;
-        case sf::Keyboard::V:
-            return KeyCode::V;
-        case sf::Keyboard::W:
-            return KeyCode::W;
-        case sf::Keyboard::X:
-            return KeyCode::X;
-        case sf::Keyboard::Y:
-            return KeyCode::Y;
-        case sf::Keyboard::Z:
-            return KeyCode::Z;
-        case sf::Keyboard::Up:
-            return KeyCode::UpArrow;
-        case sf::Keyboard::Down:
-            return KeyCode::DownArrow;
-        case sf::Keyboard::Left:
-            return KeyCode::LeftArrow;
-        case sf::Keyboard::Right:
-            return KeyCode::RightArrow;
-        case sf::Keyboard::Escape:
-            return KeyCode::Escape;
-        case sf::Keyboard::Space:
-            return KeyCode::Space;
-        case sf::Keyboard::Enter:
-            return KeyCode::Enter;
-        case sf::Keyboard::Backspace:
-            return KeyCode::Backspace;
-        case sf::Keyboard::Tab:
-            return KeyCode::Tab;
-        case sf::Keyboard::Num0:
-            return KeyCode::Alpha0;
-        case sf::Keyboard::Num1:
-            return KeyCode::Alpha1;
-        case sf::Keyboard::Num2:
-            return KeyCode::Alpha2;
-        case sf::Keyboard::Num3:
-            return KeyCode::Alpha3;
-        case sf::Keyboard::Num4:
-            return KeyCode::Alpha4;
-        case sf::Keyboard::Num5:
-            return KeyCode::Alpha5;
-        case sf::Keyboard::Num6:
-            return KeyCode::Alpha6;
-        case sf::Keyboard::Num7:
-            return KeyCode::Alpha7;
-        case sf::Keyboard::Num8:
-            return KeyCode::Alpha8;
-        case sf::Keyboard::Num9:
-            return KeyCode::Alpha9;
-        case sf::Keyboard::Comma:
-            return KeyCode::Comma;
-        case sf::Keyboard::Period:
-            return KeyCode::Dot;
-        case sf::Keyboard::Dash:
-            return KeyCode::Tiret;
-        default:
-            return KeyCode::None;
-    }
-}
-
-KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
-{
-    switch (button)
-    {
-        case sf::Mouse::Left:
-            return KeyCode::Mouse0;
-        case sf::Mouse::Right:
-            return KeyCode::Mouse2;
-        case sf::Mouse::Middle:
-            return KeyCode::Mouse3;
-        case sf::Mouse::XButton1:
-            return KeyCode::Mouse4;
-        case sf::Mouse::XButton2:
-            return KeyCode::Mouse5;
-        default:
-            return KeyCode::None;
-    }
-}
-
-mlg::vec3 RenderSystemSFML::getMousePosition()
-{
-    sf::Vector2i position = sf::Mouse::getPosition(_window);
-    sf::Vector2f worldPos = _window.mapPixelToCoords(position);
-
-    return mlg::vec3(worldPos.x, worldPos.y, 0);
-}
-
-mlg::vec3 RenderSystemSFML::getTextureSize(const std::string& spriteName)
-{
-    auto it = _sprites.find(spriteName);
-    if (it != _sprites.end())
-    {
-        auto size = it->second.getTexture()->getSize();
-        return mlg::vec3(size.x, size.y, 0);
-    }
-    return mlg::vec3(0, 0, 0);
-}
-
-void RenderSystemSFML::setGameIcon(const std::string& filePath)
-{
-    try
-    {
-        sf::Image icon;
-        if (!icon.loadFromFile(filePath))
-        {
-            throw std::runtime_error("Erreur lors du chargement de l'icône du jeu : " + filePath);
-        }
-        _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
+    _soundBuffers.erase(soundName);
 }
 
 void RenderSystemSFML::loadFont(const std::string& filePath)
 {
     sf::Font font;
-    try
-    {
-        if (!font.loadFromFile(filePath))
-        {
-            throw std::runtime_error("Erreur lors du chargement de la police : " + filePath);
-        }
-        _fonts[filePath] = font;
+    if (!font.loadFromFile(filePath)) {
+        std::cerr << "Erreur lors du chargement de la police : " << filePath << std::endl;
+        return;
     }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
+    _fonts[filePath] = font;
 }
 
-void RenderSystemSFML::setFramerateLimit(unsigned int limit) { _window.setFramerateLimit(limit); }
+void RenderSystemSFML::setFramerateLimit(unsigned int limit)
+{
+    _window.setFramerateLimit(limit);
+}
 
 void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
 {

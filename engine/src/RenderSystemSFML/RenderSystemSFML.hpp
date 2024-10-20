@@ -89,56 +89,51 @@ class RenderSystemSFML : public RType::IRuntime
     void updateWindow() override;
 
     /**
-     * @brief Loads a texture from file and stores it in a cache.
-     * @param textureName The unique name of the texture.
+     * @brief Loads a texture from file and stores it in a cache using a shared pointer.
+     * If the texture is already loaded, it returns the existing one.
      * @param filePath The file path of the texture to load.
-     * @return `true` if the texture was loaded successfully, `false` otherwise.
+     * @return A shared pointer to the loaded texture.
      */
-    bool loadTexture(const std::string& textureName, const std::string& filePath);
+    std::shared_ptr<sf::Texture> loadTexture(const std::string& filePath);
 
     /**
-     * @brief Unloads a specific texture from the cache.
-     * @param textureName The unique name of the texture to unload.
+     * @brief Loads a sprite using a shared texture and returns its unique ID.
+     * @param filePath The file path of the texture to use for the sprite.
+     * @return The unique ID of the loaded sprite.
      */
-    void unloadTexture(const std::string& textureName);
+    int loadSprite(const std::string& filePath) override;
 
     /**
-     * @brief Loads a sprite using a texture from the cache.
-     * @param textureName The name of the texture to use for the sprite.
+     * @brief Unloads a specific sprite by its ID and decrements reference count.
+     * The texture and sprite are automatically deallocated when no more entities use them.
+     * @param spriteId The unique ID of the sprite to unload.
      */
-    void loadSprite(const std::string& filePath) override;
+    void unloadSprite(int spriteId) override;
 
     /**
-     * @brief Unloads a specific sprite and its associated texture from the cache.
-     * @param spriteName The unique name of the sprite to unload.
+     * @brief Draws a sprite on the window by its ID.
+     * @param spriteId The unique ID of the sprite.
      */
-    void unloadSprite(const std::string& spriteName) override;
+    void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect,
+                            mlg::vec3 scale, float rotation) override;
 
     /**
-     * @brief Draws a sprite on the window at a specific position, with given coordinates, scale,
-     * and rotation.
-     * @param spriteName The name of the sprite.
-     * @param position The position where the sprite will be drawn.
-     * @param spriteCoords The coordinates and size of the sprite within the texture.
-     * @param scale The scale to apply to the sprite.
-     * @param rotation The rotation to apply to the sprite in degrees.
+     * @brief Draws a sprite on the window by its file path.
+     * @param filePath The file path of the sprite's texture.
      */
-    void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteCoords,
-                    mlg::vec3 scale, float rotation) override;
+    void drawSprite(int spriteId, mlg::vec3 position) override;
+
+    virtual void drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteRect,
+                            mlg::vec3 scale, float rotation) override;
+
+    virtual void drawSprite(const std::string& filePath, mlg::vec3 position) override;
 
     /**
-     * @brief Draws a sprite on the window at a specific position.
-     * @param spriteName The name of the sprite.
-     * @param position The position where the sprite will be drawn.
-     */
-    void drawSprite(const std::string& spriteName, mlg::vec3 position) override;
-
-    /**
-     * @brief Retrieves the size of a sprite's texture.
-     * @param spriteName The name of the sprite.
+     * @brief Retrieves the size of a sprite's texture by its ID.
+     * @param spriteId The unique ID of the sprite.
      * @return The size of the texture as a `mlg::vec3`.
      */
-    mlg::vec3 getTextureSize(const std::string& spriteName) override;
+    mlg::vec3 getTextureSize(int spriteId) override;
 
     /**
      * @brief Gets the current position of the mouse cursor.
@@ -197,7 +192,6 @@ class RenderSystemSFML : public RType::IRuntime
 
     /**
      * @brief Preloads a music file and stores it in a cache.
-     * @param musicName The unique name used to reference the music.
      * @param filePath The file path of the music file to load (e.g.,
      * "assets/music/background.ogg").
      * @return `true` if the music was preloaded successfully, `false` otherwise.
@@ -213,24 +207,17 @@ class RenderSystemSFML : public RType::IRuntime
 
     /**
      * @brief Stops the currently playing music.
-     *
-     * This function stops the playback of any music currently playing. It does not unload
-     * the music from memory.
      */
     void stopCurrentMusic() override;
 
     /**
      * @brief Unloads a specific music from the cache.
      * @param musicName The unique name of the preloaded music to unload.
-     *
-     * This function removes a preloaded music from the cache, freeing the memory associated
-     * with it. If the music is currently playing, it will be stopped before being unloaded.
      */
     void unloadMusic(const std::string& musicName) override;
 
     /**
      * @brief Preloads a sound buffer from a file and stores it in a cache.
-     * @param soundName The unique name used to reference the sound.
      * @param filePath The file path of the sound file to load.
      * @return `true` if the sound was preloaded successfully, `false` otherwise.
      */
@@ -238,16 +225,13 @@ class RenderSystemSFML : public RType::IRuntime
 
     /**
      * @brief Plays a preloaded sound.
-     * @param soundName The unique name of the preloaded sound to play.
+     * @param filePath The file path of the preloaded sound to play.
      */
     void playSound(const std::string& filePath) override;
 
     /**
      * @brief Unloads a specific sound from the cache.
      * @param soundName The unique name of the preloaded sound to unload.
-     *
-     * This function removes a preloaded sound from the cache, freeing the memory associated with
-     * it.
      */
     void unloadSound(const std::string& soundName) override;
 
@@ -264,18 +248,22 @@ class RenderSystemSFML : public RType::IRuntime
    private:
     bool _isFullScreen;
     sf::RenderWindow _window;
-    std::map<std::string, std::unique_ptr<sf::Texture>> _textures;
-    std::map<std::string, sf::Sprite> _sprites;
+
+    std::unordered_map<std::string, std::shared_ptr<sf::Texture>> _textures;
+    std::unordered_map<int, std::shared_ptr<sf::Sprite>> _spriteCache;
+
+    int _nextSpriteId;
+
     std::map<std::string, std::unique_ptr<sf::Music>> _musics;
     sf::Music* _currentMusic = nullptr;
     std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _soundBuffers;
     std::vector<sf::Sound> _sounds;
+    std::map<std::string, sf::Font> _fonts;
 
     KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
     sf::Image _icon;
-    std::map<std::string, sf::Font> _fonts;
 };
 }  // namespace RType

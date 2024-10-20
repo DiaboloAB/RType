@@ -88,7 +88,7 @@ class IRuntime
      *
      * This method must be implemented to set the title of the window.
      */
-    virtual mlg::vec3 getTextureSize(const std::string& spriteName) = 0;
+    virtual mlg::vec3 getTextureSize(int spriteId) = 0;
 
     /**
      * @brief Pure virtual method to set the window title.
@@ -129,7 +129,7 @@ class IRuntime
      *
      * This method must be implemented to assign a texture to a sprite.
      */
-    virtual void loadSprite(const std::string& filePath) = 0;
+    virtual int loadSprite(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to draw a sprite on the window.
@@ -137,9 +137,13 @@ class IRuntime
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteRect,
+    virtual void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect,
                             mlg::vec3 scale, float rotation) = 0;
-    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position) = 0;
+    virtual void drawSprite(int spriteId, mlg::vec3 position) = 0;
+
+    virtual void drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteRect,
+                            mlg::vec3 scale, float rotation) = 0;
+    virtual void drawSprite(const std::string& filePath, mlg::vec3 position) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.
@@ -176,7 +180,7 @@ class IRuntime
      *
      * This method must be implemented to remove a sprite from memory.
      */
-    virtual void unloadSprite(const std::string& spriteName) = 0;
+    virtual void unloadSprite(int spriteId) = 0;
 
     /**
      * @brief Pure virtual method to load a music file.
