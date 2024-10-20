@@ -171,21 +171,6 @@ class IRuntime
     virtual bool isWindowOpen() = 0;
 
     /**
-     * @brief Pure virtual method to close the window.
-     *
-     * This method must be implemented to close the window and end the rendering loop.
-     */
-    virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
-
-    /**
-     * @brief Pure virtual method to unload a texture from memory.
-     * @param textureName The name of the texture to unload.
-     *
-     * This method must be implemented to remove a texture from memory.
-     */
-    virtual void unloadTexture(const std::string& textureName) = 0;
-
-    /**
      * @brief Pure virtual method to unload a sprite from memory.
      * @param spriteName The name of the sprite to unload.
      *

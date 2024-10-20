@@ -47,11 +47,6 @@ class NullRuntime : public IRuntime
     }
     void FullScreenWindow() override {}
     bool isWindowOpen() override { return true; }
-    bool loadTexture(const std::string& textureName, const std::string& filePath) override
-    {
-        return false;
-    }
-    void unloadTexture(const std::string& textureName) override {}
     void unloadSprite(const std::string& spriteName) override {}
     bool loadMusic(const std::string& filePath) override { return false; }
     void playMusic(const std::string& filePath, bool loop) override {}

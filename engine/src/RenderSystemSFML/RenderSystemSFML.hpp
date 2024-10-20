@@ -94,13 +94,13 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the texture to load.
      * @return `true` if the texture was loaded successfully, `false` otherwise.
      */
-    bool loadTexture(const std::string& textureName, const std::string& filePath) override;
+    bool loadTexture(const std::string& textureName, const std::string& filePath);
 
     /**
      * @brief Unloads a specific texture from the cache.
      * @param textureName The unique name of the texture to unload.
      */
-    void unloadTexture(const std::string& textureName) override;
+    void unloadTexture(const std::string& textureName);
 
     /**
      * @brief Loads a sprite using a texture from the cache.
