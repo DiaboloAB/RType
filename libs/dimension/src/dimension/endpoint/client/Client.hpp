@@ -19,9 +19,6 @@ class DimensionClient : public AEndpoint
       ~DimensionClient();
    public:
       void connectServer(std::string host, unsigned int port);
-   protected:
-      void handleDataReceived(std::array<char, 1024> &buffer,
-                asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv) override;
    private:
       std::shared_ptr<asio::ip::udp::endpoint> _serverEndpoint = nullptr;
 };

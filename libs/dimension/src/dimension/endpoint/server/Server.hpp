@@ -17,10 +17,6 @@ class DimensionServer : public AEndpoint {
    public:
       DimensionServer(std::shared_ptr<APacketFactory> &factory, std::string host, unsigned int port);
       ~DimensionServer();
-   
-   private:
-      void handleDataReceived(std::array<char, 1024> &buffer,
-                asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv) override;
 
    private:
 };
