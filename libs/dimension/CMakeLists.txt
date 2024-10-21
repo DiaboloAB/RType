@@ -11,6 +11,13 @@ set(SOURCES
     src/dimension/packet/basics/AdiosServer.cpp
     src/dimension/packet/basics/HiServer.cpp
     src/dimension/packet/basics/HiClient.cpp
+    src/dimension/packet/basics/CreateEntity.cpp
+    src/dimension/packet/basics/DestroyEntity.cpp
+    src/dimension/packet/basics/MoveEntity.cpp
+    src/dimension/packet/basics/ClientEvent.cpp
+    src/dimension/packet/basics/PacketValidation.cpp
+    src/dimension/packet/basics/UpdateEntity.cpp
+    src/dimension/packet/basics/Ping.cpp
     src/dimension/endpoint/AEndpoint.cpp
     src/dimension/endpoint/client/Client.cpp
     )

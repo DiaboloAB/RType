@@ -12,43 +12,51 @@
 
 namespace dimension
 {
-
 /**
- * @class Ping
+ * @class ClientEvent
  *
  * @brief Class used to create a Packet that can be serialize and deserialize. This packet hold
- * main information used to verify if client or server is still alive.
+ * main information used to manage client events (shoot, move, ...).
  */
-class Ping : public APacket
+class ClientEvent : public dimension::APacket
 {
    public:
     /**
-     * @brief Construct Ping object that will be send to sever.
+     * @brief Construct ClientEvent object that will be send to sever.
      *
      * @param type packet type define by class index in packetManager registration.
-     * @return empty Ping object.
+     * @return empty ClientEvent object.
      */
-    Ping(uint8_t type);
+    ClientEvent(uint8_t type);
 
     /**
-     * @brief Construct new Ping object with serialized data by deserializing them.
+     * @brief Construct new ClientEvent object with serialized data by deserializing them.
      *
      * @param buffer: Serialized packet data to deserialize.
-     * @return Ping object.
+     * @return ClientEvent object.
      */
-    Ping(std::vector<char> &buffer);
+    ClientEvent(std::vector<char> &buffer);
 
     /**
-     * @brief Destruct Ping object.
+     * @brief Destruct ClientEvent object.
      */
-    ~Ping();
+    ~ClientEvent();
 
    public:
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return empty std::vector<char> because nothing to serialize.
+     * @return std::vector<char> representing the serialization of _clientEvent to binary.
      */
     std::vector<char> serializeData() const override;
+
+   public:
+    uint8_t getClientEvent() const;
+
+    public:
+        void setClientEvent(const uint8_t &event);
+
+   private:
+    uint8_t _clientEvent;
 };
 }  // namespace dimension

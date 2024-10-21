@@ -11,6 +11,13 @@
 #include "AdiosServer.hpp"
 #include "HiServer.hpp"
 #include "HiClient.hpp"
+#include "CreateEntity.hpp"
+#include "DestroyEntity.hpp"
+#include "MoveEntity.hpp"
+#include "ClientEvent.hpp"
+#include "PacketValidation.hpp"
+#include "UpdateEntity.hpp"
+#include "Ping.hpp"
 
 #include "PacketManager.hpp"
 
