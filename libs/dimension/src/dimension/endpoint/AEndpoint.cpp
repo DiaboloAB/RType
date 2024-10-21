@@ -55,7 +55,7 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp
 
     try
     {
-        packet = _packetFactory->createPacketFromBuffer(packetBuffer);
+        packet = this->_packetFactory->createPacketFromBuffer(packetBuffer);
     }
     catch (std::exception &e)
     {
@@ -64,7 +64,7 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp
         return;
     }
 
-    std::lock_guard<std::mutex> lock(_queueMutex);
-    _rcvQueue.push(std::make_pair(packet, endpoint));
+    std::lock_guard<std::mutex> lock(this->_queueMutex);
+    this->_rcvQueue.push(std::make_pair(packet, endpoint));
 }
 }
