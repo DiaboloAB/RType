@@ -47,4 +47,24 @@ void AEndpoint::receive() {
             return this->receive();
         });
 };
+
+void AEndpoint::handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv)
+{
+    std::vector<char> packetBuffer(*buffer.begin(), *buffer.begin() + bytesRcv);
+    std::shared_ptr<dimension::APacket> packet = nullptr;
+
+    try
+    {
+        packet = _packetFactory->createPacketFromBuffer(packetBuffer);
+    }
+    catch (std::exception &e)
+    {
+        throw EndpointError(std::string("\x1B[31m[EndpointError]\x1B[0m: Packet deserialization failed {")
+            + e.what() + "}");
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(_queueMutex);
+    _rcvQueue.push(std::make_pair(packet, endpoint));
+}
 }

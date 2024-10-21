@@ -9,6 +9,8 @@
 #pragma once
 
 #include <iostream>
+#include <queue>
+#include <mutex>
 
 #include "IEndpoint.hpp"
 #include "APacketFactory.hpp"
@@ -24,8 +26,8 @@ namespace dimension {
 
         protected:
             void receive() override;
-            virtual void handleDataReceived(std::array<char, 1024> &buffer,
-                asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv) = 0;
+            void handleDataReceived(std::array<char, 1024> &buffer,
+                asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv) override;
 
         protected:
             std::shared_ptr<asio::io_context> _io_context = nullptr;
@@ -35,6 +37,10 @@ namespace dimension {
 
         private:
             std::array<char, 1024> _rcvBuffer;
+
+        private:
+            std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _rcvQueue;
+            std::mutex _queueMutex;
 
         public:
             class EndpointError : public std::exception
