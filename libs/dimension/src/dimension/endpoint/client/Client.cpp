@@ -37,10 +37,4 @@ namespace dimension {
             std::cerr << "\x1B[31m[DimensionClient ERROR]\x1B[0m: "<< e.what() << std::endl;
         }
     }
-
-    void DimensionClient::handleDataReceived(std::array<char, 1024> &buffer,
-                asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv)
-    {
-        return;
-    }
 }
