@@ -11,6 +11,7 @@
 #include <iostream>
 #include <queue>
 #include <mutex>
+#include <list>
 
 #include "IEndpoint.hpp"
 #include "APacketFactory.hpp"
@@ -22,7 +23,12 @@ namespace dimension {
             virtual ~AEndpoint() = default;
 
         public:
-            void send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint) override;
+            void send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket = true) override;
+
+        public:
+            void popReceiveQueue() override;
+            void deleteFromValidationList(const std::shared_ptr<PacketValidation> &validation,
+                                          const asio::ip::udp::endpoint &endpoint) override;
 
         protected:
             void receive() override;
@@ -41,6 +47,10 @@ namespace dimension {
         private:
             std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _rcvQueue;
             std::mutex _queueMutex;
+
+        private:
+            std::list<std::pair<std::shared_ptr<dimension::APacket> &, const asio::ip::udp::endpoint &>> _validationList;
+            std::mutex _listMutex;
 
         public:
             class EndpointError : public std::exception

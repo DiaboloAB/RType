@@ -10,9 +10,19 @@
 
 namespace dimension {
 
+
+/*********************************************************************************************************************
+_______________________________________________ CONSTRUCTOR & DESTRUCTOR ____________________________________________
+*********************************************************************************************************************/
+
 AEndpoint::AEndpoint(std::shared_ptr<APacketFactory> &factory) : _packetFactory(factory) {}
 
-void AEndpoint::send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint)
+
+/*********************************************************************************************************************
+_______________________________________________ NETWORK COMMUNICATION _______________________________________________
+*********************************************************************************************************************/
+
+void AEndpoint::send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket)
 {
     std::vector<char> packetData;
     try {
@@ -20,6 +30,13 @@ void AEndpoint::send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endp
     } catch (std::exception &e) {
         throw EndpointError(std::string("\x1B[31m[EndpointError]\x1B[0m: Packet serialization failed {")
             + e.what() + "}");
+    }
+
+    if (isNewPacket) {
+        std::lock_guard<std::mutex> lock(this->_listMutex);
+        this->_validationList.emplace_back(
+            std::pair<std::shared_ptr<dimension::APacket> &,
+            const asio::ip::udp::endpoint &>(packet, endpoint));
     }
 
     this->_socket->async_send_to(asio::buffer(packetData), endpoint,
@@ -66,5 +83,37 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp
 
     std::lock_guard<std::mutex> lock(this->_queueMutex);
     this->_rcvQueue.push(std::make_pair(packet, endpoint));
+}
+
+/*********************************************************************************************************************
+_______________________________________________ LIST & QUEUE HANDLING _______________________________________________
+*********************************************************************************************************************/
+void AEndpoint::popReceiveQueue()
+{
+    if (!this->_rcvQueue.empty()) {
+        std::lock_guard<std::mutex> lock(this->_queueMutex);
+        this->_rcvQueue.pop();
+    }
+}
+
+void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation> &validation,
+                                          const asio::ip::udp::endpoint &endpoint)
+{
+    for (auto packetInValidation = this->_validationList.begin();
+         packetInValidation != this->_validationList.end();)
+    {
+        uint8_t packetType = packetInValidation->first->getPacketType();
+        uint64_t packetTimeStamp = packetInValidation->first->getPacketTimeStamp();
+        if (validation->getPacketReceiveType() == packetType &&
+            validation->getPacketReceiveTimeStamp() == packetTimeStamp &&
+            endpoint == packetInValidation->second)
+        {
+            std::lock_guard<std::mutex> lock(this->_listMutex);
+            this->_validationList.erase(packetInValidation);
+            return;
+        }
+        else
+            packetInValidation++;
+    }
 }
 }
