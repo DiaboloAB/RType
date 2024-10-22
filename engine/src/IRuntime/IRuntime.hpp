@@ -225,7 +225,7 @@ class IRuntime
      *
      * This method must be implemented to load a sound file into memory.
      */
-    virtual bool loadSound(const std::string& filePath) = 0;
+    virtual int loadSound(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to play a sound file.
@@ -234,7 +234,7 @@ class IRuntime
      * This method must be implemented to play a sound file that has been loaded
      * into memory.
      */
-    virtual void playSound(const std::string& filePath) = 0;
+    virtual void playSound(const int soundID) = 0;
 
     /**
      * @brief Pure virtual method to unload a sound file from memory.
@@ -242,7 +242,7 @@ class IRuntime
      *
      * This method must be implemented to remove a sound file from memory.
      */
-    virtual void unloadSound(const std::string& soundName) = 0;
+    virtual void unloadSound(const int soundID) = 0;
 
     /**
      * @brief Pure virtual method to set the framerate limit.
@@ -259,6 +259,8 @@ class IRuntime
      * This method must be implemented to enable or disable vertical sync.
      */
     virtual void setVerticalSyncEnabled(bool enabled) = 0;
+
+    virtual void updateSounds() = 0;
 
    private:
     // No private member data defined in this interface.

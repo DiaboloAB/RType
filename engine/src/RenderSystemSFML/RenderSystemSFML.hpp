@@ -221,19 +221,19 @@ class RenderSystemSFML : public RType::IRuntime
      * @param filePath The file path of the sound file to load.
      * @return `true` if the sound was preloaded successfully, `false` otherwise.
      */
-    bool loadSound(const std::string& filePath) override;
+    int loadSound(const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded sound.
      * @param filePath The file path of the preloaded sound to play.
      */
-    void playSound(const std::string& filePath) override;
+    void playSound(const int soundID) override;
 
     /**
      * @brief Unloads a specific sound from the cache.
      * @param soundName The unique name of the preloaded sound to unload.
      */
-    void unloadSound(const std::string& soundName) override;
+    void unloadSound(const int soundID) override;
 
     /**
      * @brief Loads a font from a file.
@@ -244,6 +244,8 @@ class RenderSystemSFML : public RType::IRuntime
     void setFramerateLimit(unsigned int limit) override;
 
     void setVerticalSyncEnabled(bool enabled) override;
+
+    void updateSounds() override;
 
    private:
     bool _isFullScreen;
@@ -257,13 +259,15 @@ class RenderSystemSFML : public RType::IRuntime
     std::map<std::string, std::unique_ptr<sf::Music>> _musics;
     sf::Music* _currentMusic = nullptr;
     std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _soundBuffers;
-    std::vector<sf::Sound> _sounds;
-    std::map<std::string, sf::Font> _fonts;
+    std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _soundCache;
+    std::vector<sf::Sound> _activeSounds;
+    int _nextSoundId;
 
     KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
     sf::Image _icon;
+    std::map<std::string, sf::Font> _fonts;
 };
 }  // namespace RType

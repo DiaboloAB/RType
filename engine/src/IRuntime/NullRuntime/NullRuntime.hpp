@@ -57,11 +57,12 @@ class NullRuntime : public IRuntime
     void playMusic(const std::string& filePath, bool loop) override {}
     void stopCurrentMusic() override {}
     void unloadMusic(const std::string& musicName) override {}
-    bool loadSound(const std::string& filePath) override { return false; }
-    void playSound(const std::string& filePath) override {}
-    void unloadSound(const std::string& soundName) override {}
+    int loadSound(const std::string& filePath) override { return false; }
+    void playSound(const int soundID) override {}
+    void unloadSound(const int soundID) override {}
     void setFramerateLimit(unsigned int limit) override {}
     void setVerticalSyncEnabled(bool enabled) override {}
+    void updateSounds() override {};
 
    private:
     // Member variables

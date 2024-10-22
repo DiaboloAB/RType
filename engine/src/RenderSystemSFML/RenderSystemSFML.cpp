@@ -307,33 +307,42 @@ void RenderSystemSFML::unloadMusic(const std::string& musicName)
     _musics.erase(musicName);
 }
 
-bool RenderSystemSFML::loadSound(const std::string& filePath)
-{
-    auto buffer = std::make_unique<sf::SoundBuffer>();
-    if (!buffer->loadFromFile(filePath)) {
-        std::cerr << "Erreur lors du chargement du son : " << filePath << std::endl;
-        return false;
+int RenderSystemSFML::loadSound(const std::string& filePath) {
+    int soundId = _nextSoundId++;
+
+    auto soundBuffer = std::make_shared<sf::SoundBuffer>();
+    if (!soundBuffer->loadFromFile(filePath)) {
+        std::cerr << "Erreur : impossible de charger le son depuis " << filePath << std::endl;
+        return -1;
     }
-    _soundBuffers[filePath] = std::move(buffer);
-    return true;
+
+    _soundCache[soundId] = soundBuffer;
+
+    return soundId;
 }
 
-void RenderSystemSFML::playSound(const std::string& filePath)
-{
-    auto it = _soundBuffers.find(filePath);
-    if (it != _soundBuffers.end()) {
-        sf::Sound sound;
+void RenderSystemSFML::updateSounds() {
+    _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
+        [](const sf::Sound& sound) {
+            return sound.getStatus() == sf::Sound::Stopped;
+        }),
+        _activeSounds.end());
+}
+
+void RenderSystemSFML::playSound(int soundId) {
+    auto it = _soundCache.find(soundId);
+    if (it != _soundCache.end()) {
+        _activeSounds.emplace_back();
+        sf::Sound& sound = _activeSounds.back();
         sound.setBuffer(*it->second);
-        _sounds.push_back(sound);
-        _sounds.back().play();
+        sound.play();
     } else {
-        std::cerr << "Erreur : son non trouvé (" << filePath << ")" << std::endl;
+        std::cerr << "Erreur : son avec l'ID " << soundId << " non trouvé." << std::endl;
     }
 }
 
-void RenderSystemSFML::unloadSound(const std::string& soundName)
-{
-    _soundBuffers.erase(soundName);
+void RenderSystemSFML::unloadSound(int soundId) {
+    _soundCache.erase(soundId);
 }
 
 void RenderSystemSFML::loadFont(const std::string& filePath)
