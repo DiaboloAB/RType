@@ -59,25 +59,24 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
         }
     }
 
-
     std::string defaultScene = j["defaultScene"];
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);
 
-    std::cout << "Font list" << std::endl;
-    try
-    {
-        std::vector<std::string> fontList = j["fontList"];
-        for (const auto &font : fontList)
-        {
-            _runtime->loadFont(font);
-            std::cout << "\t- " << font << std::endl;
-        }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
+    // std::cout << "Font list" << std::endl;
+    // try
+    // {
+    //     std::vector<std::string> fontList = j["fontList"];
+    //     for (const auto &font : fontList)
+    //     {
+    //         _runtime->loadFont(font);
+    //         std::cout << "\t- " << font << std::endl;
+    //     }
+    // }
+    // catch (const std::exception &e)
+    // {
+    //     std::cerr << "Error: " << e.what() << std::endl;
+    // }
     this->_networkHandler = nullptr;
 }
 
