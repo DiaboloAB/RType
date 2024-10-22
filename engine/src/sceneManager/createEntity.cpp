@@ -27,40 +27,21 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         registry.emplace<Basics>(entity, tag, staticObject);
 
         addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
-        for (const auto& componentJson : prefabJson["components"].items())
-        {
-            try
-            {
-                const std::string& componentName = componentJson.key();
-                const auto& data = componentJson.value();
+        addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);
 
-                if (componentName == "Scripts")
-                {
-                    registry.emplace<Scripts>(entity);
-                    auto& scripts = registry.get<Scripts>(entity);
-                    for (const auto& script : data)
-                    {
-                        scripts.addScript(script.get<std::string>(), gameContext);
-                    }
-                }
-                if (componentName == "CppScripts")
-                {
-                    addScriptsToEntity(registry, entity, data);
-                }
-                // auto it = _componentCreators.find(componentName);
-                // if (it != _componentCreators.end())
-                // {
-                //     it->second(registry, entity, data);
-                // }
-            }
-            catch (const std::exception& e)
-            {
-                std::cerr << "Error: Could not create component" << std::endl;
-            }
+        if (prefabJson.contains("Scripts"))
+        {
+            registry.emplace<Scripts>(entity);
+            auto& scripts = registry.get<Scripts>(entity);
+            // for (const auto& script : prefabJson["Scripts"])
+            //     scripts.addScript(std::string("assets/") + script.get<std::string>(), gameContext);
         }
+
+        if (prefabJson.contains("CppScripts"))
+            addScriptsToEntity(registry, entity, prefabJson["CppScripts"]);
     }
     catch (const std::exception& e)
     {
-        std::cerr << "Error: Could not create entity" << std::endl;
+        std::cerr << "Error: Could not create entity: " << e.what() << std::endl;
     }
 }

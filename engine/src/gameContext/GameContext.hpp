@@ -95,7 +95,7 @@ class GameContext
     SceneManager &_sceneManager;         ///< The scene manager.
 
     float _deltaT = 0.0f;  ///< The delta time.
-    std::shared_ptr<Network::NetworkHandler> _networkHandler;
+    std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;  ///< The network handler.
 
    private:
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.

@@ -2,5 +2,5 @@ function update(registry, gameContext)
     -- if getKey("RightArrow") then
     --     print("RightArrow")
     -- end
-    -- print(gameContext.deltaTime)
+    print(gameContext.deltaTime)
 end

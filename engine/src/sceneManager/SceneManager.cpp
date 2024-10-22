@@ -31,29 +31,6 @@ namespace RType
 
 SceneManager::SceneManager()
 {
-    // std::cout << "----- Scene manager -----" << std::endl;
-    // const std::string path = "assets/scenes/";
-    // std::cout << "Scenes list:" << std::endl;
-    // for (const auto& entry : std::filesystem::directory_iterator(path))
-    // {
-    //     if (entry.is_regular_file())
-    //     {
-    //         _scenesList.push_back(entry.path().filename().string());
-    //         std::cout << "\t- " << entry.path().filename().string() << std::endl;
-    //     }
-    // }
-
-    // const std::string prefabPath = "assets/scenes/prefabs/";
-    // std::cout << "Prefabs list:" << std::endl;
-    // for (const auto& entry : std::filesystem::directory_iterator(prefabPath))
-    // {
-    //     if (entry.is_regular_file())
-    //     {
-    //         _prefabsList.push_back(entry.path().filename().string());
-    //         std::cout << "\t- " << entry.path().filename().string() << std::endl;
-    //     }
-    // }
-
     initComponentCreators();
     initCppScriptCreators();
 }
@@ -65,46 +42,50 @@ SceneManager::~SceneManager()
 
 void SceneManager::loadScene(const std::string& sceneName, GameContext& gameContext)
 {
-    // std::cout << "Loading scene: " << sceneName << std::endl;
-    // if (std::find(_scenesList.begin(), _scenesList.end(), sceneName) == _scenesList.end())
-    // {
-    //     std::cerr << "Error: Scene not found" << std::endl;
-    //     throw std::runtime_error("Scene not found");
-    // }
-    // std::ifstream i("assets/scenes/" + sceneName);
-    // if (!i.is_open())
-    // {
-    //     std::cerr << "Error: Could not open file" << std::endl;
-    //     throw std::runtime_error("Could not open file");
-    // }
-    // nlohmann::json sceneJson;
-    // i >> sceneJson;
-    // for (const auto& entityJson : sceneJson["entities"])
-    // {
-    //     mobs::Entity entity = gameContext._registry.create();
+    if (_scenes.find(sceneName) == _scenes.end())
+    {
+        std::cerr << "Error: Scene not found" << std::endl;
+        throw std::runtime_error("Scene not found");
+    }
+    std::ifstream i(std::string("assets/") + _scenes[sceneName]);
+    if (!i.is_open())
+    {
+        std::cerr << "Error: Could not open file" << std::endl;
+        throw std::runtime_error("Could not open file");
+    }
+    std::cout << "Loading scene: " << sceneName << std::endl;
 
-    //     createEntity(entityJson, entity, gameContext._registry, gameContext);
-    // }
+
+    nlohmann::json sceneJson;
+    i >> sceneJson;
+    for (const auto& entityJson : sceneJson["entities"])
+    {
+        mobs::Entity entity = gameContext._registry.create();
+        createEntity(entityJson, entity, gameContext._registry, gameContext);
+    }
 }
 
 mobs::Entity SceneManager::loadPrefab(const std::string& prefabName, GameContext& gameContext)
 {
-    // if (std::find(_prefabsList.begin(), _prefabsList.end(), prefabName) == _prefabsList.end())
-    // {
-    //     std::cerr << "Error: Prefab not found" << std::endl;
-    //     throw std::runtime_error("Prefab not found");
-    // }
-    // std::ifstream i("assets/scenes/prefabs/" + prefabName);
-    // if (!i.is_open())
-    // {
-    //     std::cerr << "Error: Could not open file" << std::endl;
-    //     throw std::runtime_error("Could not open file");
-    // }
-    // std::cout << "Loading prefab: " << prefabName << std::endl;
-    // nlohmann::json prefabJson;
-    // i >> prefabJson;
+    if (_prefabs.find(prefabName) == _prefabs.end())
+    {
+        std::cerr << "Error: Prefab not found" << std::endl;
+        throw std::runtime_error("Prefab not found");
+    }
+
+    std::ifstream i(std::string("assets/") + _prefabs[prefabName]);
+    if (!i.is_open())
+    {
+        std::cerr << "Error: Could not open file" << std::endl;
+        throw std::runtime_error("Could not open file");
+    }
+
+    std::cout << "Loading prefab: " << prefabName << std::endl;
+
+    nlohmann::json prefabJson;
+    i >> prefabJson;
     mobs::Entity entity = gameContext._registry.create();
-    // createEntity(prefabJson, entity, gameContext._registry, gameContext);
+    createEntity(prefabJson, entity, gameContext._registry, gameContext);
     return entity;
 }
 
@@ -112,7 +93,6 @@ bool SceneManager::update(GameContext& gameContext)
 {
     if (_nextScene != "")
     {
-        // gameContext._registry.clear();
         auto view = gameContext._registry.view<Basics>();
         for (auto entity : view)
         {

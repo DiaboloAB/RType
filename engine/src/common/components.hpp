@@ -59,6 +59,7 @@ struct Sprite
 {
     std::string filePath;
 
+    Sprite() {}
     Sprite(std::string filePath) : filePath(filePath) {}
 };
 

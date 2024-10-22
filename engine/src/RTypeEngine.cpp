@@ -28,16 +28,18 @@ using namespace RType;
 Engine::Engine()
 {
     std::cout << "----- Engine -----" << std::endl;
-
+    std::cout << "Engine Status: Initializing" << std::endl;
+    std::cout << "Engine Status: Constructing runtime" << std::endl;
+    _runtime = std::make_shared<RenderSystemSFML>();
+    std::cout << "Engine Status: Constructing game context" << std::endl;
+    _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
+    std::cout << "Engine Status: Loading game" << std::endl;
     try {
         loadGame();
     } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return;
     }
-
-    _runtime = std::make_shared<RenderSystemSFML>();
-    _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
 
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
@@ -88,6 +90,39 @@ void Engine::loadGame()
     if (!i.is_open()) throw std::runtime_error("Configuration file (assets/game.json) not found");
 
     i >> _gameConfig;
+
+    std::cout << "Scenes list" << std::endl;
+
+    std::map<std::string, std::string> scenesMap;
+    if (_gameConfig.contains("scenes") && _gameConfig["scenes"].is_array()) {
+        for (const auto& scene : _gameConfig["scenes"]) {
+            if (scene.contains("name") && scene.contains("path")) {
+                std::string name = scene["name"];
+                std::string path = scene["path"];
+                scenesMap[name] = path;
+                std::cout << "\t- \"" << name << "\" : " << path << std::endl;
+            }
+        }
+    }
+    _sceneManager.setScenes(scenesMap);
+
+    std::cout << "Prefab list" << std::endl;
+
+    std::map<std::string, std::string> prefabsMap;
+    if (_gameConfig.contains("prefabs") && _gameConfig["prefabs"].is_array()) {
+        for (const auto& prefab : _gameConfig["prefabs"]) {
+            if (prefab.contains("name") && prefab.contains("path")) {
+                std::string name = prefab["name"];
+                std::string path = prefab["path"];
+                prefabsMap[name] = path;
+                std::cout << "\t- \"" << name << "\" : " << path << std::endl;
+            }
+        }
+    }
+    _sceneManager.setPrefabs(prefabsMap);
+
+    std::cout << "Default scene: " << _gameConfig["defaultScene"] << std::endl;
+    _sceneManager.loadScene(_gameConfig["defaultScene"], *_gameContext);
 }
 
 void Engine::run()
