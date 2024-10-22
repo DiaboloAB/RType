@@ -18,6 +18,13 @@ class DimensionClient : public AEndpoint
       DimensionClient(std::shared_ptr<APacketFactory> &factory);
       ~DimensionClient();
    public:
+
+      /**
+       * @brief Establish a connection between the client and the server.
+       *
+       * @param host Host of the server to connect to.
+       * @param port Port of the server to connect to.
+       */
       void connectServer(std::string host, unsigned int port);
    private:
       std::shared_ptr<asio::ip::udp::endpoint> _serverEndpoint = nullptr;
