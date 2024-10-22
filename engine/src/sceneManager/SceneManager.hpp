@@ -70,6 +70,8 @@ class SceneManager
      * @param gameContext The context of the game.
      */
     bool update(GameContext &gameContext);
+    void setScenes(const std::map<std::string, std::string> &scenes) { _scenes = scenes; }
+    void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
 
    private:
     /**
@@ -82,6 +84,19 @@ class SceneManager
      */
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
                       mobs::Registry &registry, GameContext &gameContext);
+
+    template <typename T>
+    void addComponentIfExists(std::string ComponentName,
+        const nlohmann::json& data, mobs::Registry& registry, mobs::Entity entity)
+    {
+        if (data.contains(ComponentName))
+        {
+            std::cout << "Adding component " << ComponentName << " to entity " << entity << std::endl;
+            T component;
+            data.at(ComponentName).get_to(component);
+            registry.emplace<T>(entity, component);
+        }
+    }
 
     /**
      * @brief Adds scripts to an entity.
@@ -100,6 +115,7 @@ class SceneManager
     std::unordered_map<std::string, ComponentCreator> _componentCreators;  ///< Component creators.
     std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
 
+
     /**
      * @brief Initializes the component creators.
      */
@@ -112,8 +128,10 @@ class SceneManager
 
     std::string _defaultScene;              ///< The default scene name.
     std::string _currentScene;              ///< The current scene name.
-    std::vector<std::string> _scenesList;   ///< List of all scenes.
-    std::vector<std::string> _prefabsList;  ///< List of all prefabs.
+    std::map<std::string, std::string> _scenes;  ///< The scenes.
+    std::map<std::string, std::string> _prefabs; ///< The prefabs.
+    // std::vector<std::string> _scenesList;   ///< List of all scenes.
+    // std::vector<std::string> _prefabsList;  ///< List of all prefabs.
 };
 
 }  // namespace RType

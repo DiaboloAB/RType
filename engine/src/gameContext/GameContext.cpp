@@ -31,6 +31,35 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
     nlohmann::json j;
     i >> j;
 
+    std::cout << "Scenes list" << std::endl;
+
+    std::map<std::string, std::string> scenesMap;
+    if (j.contains("scenes") && j["scenes"].is_array()) {
+        for (const auto& scene : j["scenes"]) {
+            if (scene.contains("name") && scene.contains("path")) {
+                std::string name = scene["name"];
+                std::string path = scene["path"];
+                scenesMap[name] = path;
+                std::cout << "\t- " << name << " : " << path << std::endl;
+            }
+        }
+    }
+    sceneManager.setScenes(scenesMap);
+
+    std::cout << "Prefab list" << std::endl;
+    std::map<std::string, std::string> prefabsMap;
+    if (j.contains("prefabs") && j["prefabs"].is_array()) {
+        for (const auto& prefab : j["prefabs"]) {
+            if (prefab.contains("name") && prefab.contains("path")) {
+                std::string name = prefab["name"];
+                std::string path = prefab["path"];
+                prefabsMap[name] = path;
+                std::cout << "\t- " << name << " : " << path << std::endl;
+            }
+        }
+    }
+
+
     std::string defaultScene = j["defaultScene"];
     std::cout << "Default scene: " << defaultScene << std::endl;
     _sceneManager.loadScene(defaultScene, *this);

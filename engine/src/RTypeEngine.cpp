@@ -29,6 +29,7 @@ Engine::Engine()
 {
     std::cout << "----- Engine -----" << std::endl;
 
+
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<ForwardSystem>();

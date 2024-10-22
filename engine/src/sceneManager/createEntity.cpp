@@ -9,6 +9,7 @@
 #include "common/components.hpp"
 #include "common/scriptsComponent.hpp"
 #include "gameContext/GameContext.hpp"
+#include "common/fromJson.hpp"
 // std
 #include <iostream>
 
@@ -19,29 +20,13 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 {
     try
     {
-        bool staticObject = false;
-        std::string tag = "defaultTag";
-
-        try
-        {
-            staticObject = prefabJson["staticObject"].get<bool>();
-        }
-        catch (const std::exception& e)
-        {
-            staticObject = false;
-        }
-
-        try
-        {
-            tag = prefabJson["tag"].get<std::string>();
-        }
-        catch (const std::exception& e)
-        {
-            tag = "defaultTag";
-        }
+        bool staticObject = prefabJson.value("staticObject", false);
+        std::string tag = prefabJson.value("tag", "defaultTag");
+        std::string layer = prefabJson.value("layer", "defaultLayer");
 
         registry.emplace<Basics>(entity, tag, staticObject);
 
+        addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
         for (const auto& componentJson : prefabJson["components"].items())
         {
             try
@@ -62,11 +47,11 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                 {
                     addScriptsToEntity(registry, entity, data);
                 }
-                auto it = _componentCreators.find(componentName);
-                if (it != _componentCreators.end())
-                {
-                    it->second(registry, entity, data);
-                }
+                // auto it = _componentCreators.find(componentName);
+                // if (it != _componentCreators.end())
+                // {
+                //     it->second(registry, entity, data);
+                // }
             }
             catch (const std::exception& e)
             {

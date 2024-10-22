@@ -1,0 +1,11 @@
+{
+    "entities": [
+      {
+        "tag": "player",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [100, 100, 0] }
+        }
+      }
+    ]
+}

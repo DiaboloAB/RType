@@ -58,9 +58,10 @@ class Engine
     std::shared_ptr<IRuntime> _runtime = nullptr;  ///< Shared pointer to the runtime system.
 
     mobs::Registry _registry;      ///< Entity-component registry.
+    
+    GameContext _gameContext;      ///< Context for managing game state.
     SystemManager _systemManager;  ///< Manager for handling various systems.
     SceneManager _sceneManager;    ///< Manager for handling scenes.
-    GameContext _gameContext;      ///< Context for managing game state.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
 };
 }  // namespace RType
