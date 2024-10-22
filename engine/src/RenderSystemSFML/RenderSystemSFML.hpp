@@ -247,6 +247,11 @@ class RenderSystemSFML : public RType::IRuntime
 
     void updateSounds() override;
 
+    int loadShader(const std::string& vertexShaderPath,
+                   const std::string& fragmentShaderPath) override;
+    void setShader(int shaderId) override;
+    void resetShader() override;
+
    private:
     bool _isFullScreen;
     sf::RenderWindow _window;
@@ -269,5 +274,8 @@ class RenderSystemSFML : public RType::IRuntime
     std::unordered_map<int, bool> _previousKeys;
     sf::Image _icon;
     std::map<std::string, sf::Font> _fonts;
+    std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaderCache;
+    int _nextShaderId;
+    sf::Shader* _activeShader;
 };
 }  // namespace RType

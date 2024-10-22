@@ -62,7 +62,14 @@ class NullRuntime : public IRuntime
     void unloadSound(const int soundID) override {}
     void setFramerateLimit(unsigned int limit) override {}
     void setVerticalSyncEnabled(bool enabled) override {}
-    void updateSounds() override{};
+    void updateSounds() override {}
+    int loadShader(const std::string& vertexShaderPath,
+                   const std::string& fragmentShaderPath) override
+    {
+        return 0;
+    }
+    void setShader(int shaderId) {}
+    void resetShader() {}
 
    private:
     // Member variables

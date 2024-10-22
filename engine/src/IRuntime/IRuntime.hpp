@@ -262,6 +262,11 @@ class IRuntime
 
     virtual void updateSounds() = 0;
 
+    virtual int loadShader(const std::string& vertexShaderPath,
+                           const std::string& fragmentShaderPath) = 0;
+    virtual void setShader(int shaderId) = 0;
+    virtual void resetShader() = 0;
+
    private:
     // No private member data defined in this interface.
 };

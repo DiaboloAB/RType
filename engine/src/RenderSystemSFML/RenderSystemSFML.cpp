@@ -15,11 +15,7 @@ RenderSystemSFML::RenderSystemSFML()
 {
 }
 
-RenderSystemSFML::~RenderSystemSFML()
-{
-    // Les shared_ptr se gèrent automatiquement, donc pas besoin de libérer manuellement les
-    // ressources ici.
-}
+RenderSystemSFML::~RenderSystemSFML() {}
 
 void RenderSystemSFML::pollEvents()
 {
@@ -35,21 +31,12 @@ void RenderSystemSFML::pollEvents()
 
 bool RenderSystemSFML::getKey(KeyCode key)
 {
-    // Logique de gestion des touches SFML
     return sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key));
 }
 
-bool RenderSystemSFML::getKeyUp(KeyCode key)
-{
-    // À implémenter si nécessaire (gestion des événements de relâchement)
-    return false;
-}
+bool RenderSystemSFML::getKeyUp(KeyCode key) { return false; }
 
-bool RenderSystemSFML::getKeyDown(KeyCode key)
-{
-    // À implémenter si nécessaire (gestion des événements d'appui)
-    return false;
-}
+bool RenderSystemSFML::getKeyDown(KeyCode key) { return false; }
 
 void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }
 
@@ -57,42 +44,30 @@ void RenderSystemSFML::updateWindow() { _window.display(); }
 
 std::shared_ptr<sf::Texture> RenderSystemSFML::loadTexture(const std::string& filePath)
 {
-    // Si la texture est déjà chargée, retourner la texture existante
     if (_textures.find(filePath) != _textures.end())
     {
         return _textures[filePath];
     }
-
-    // Sinon, charger la texture
     auto texture = std::make_shared<sf::Texture>();
     if (!texture->loadFromFile(filePath))
     {
         std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
         return nullptr;
     }
-
-    // Ajouter la texture au cache
     _textures[filePath] = texture;
     return texture;
 }
 
 int RenderSystemSFML::loadSprite(const std::string& filePath)
 {
-    // Charger la texture
     auto texture = loadTexture(filePath);
     if (!texture)
     {
-        return -1;  // En cas d'échec de chargement de la texture
+        return -1;
     }
-
-    // Créer un sprite avec la texture chargée
     auto sprite = std::make_shared<sf::Sprite>();
     sprite->setTexture(*texture);
-
-    // Assigner un ID unique au sprite
     int spriteId = _nextSpriteId++;
-
-    // Stocker le sprite dans le cache des sprites
     _spriteCache[spriteId] = sprite;
 
     return spriteId;
@@ -100,11 +75,9 @@ int RenderSystemSFML::loadSprite(const std::string& filePath)
 
 void RenderSystemSFML::unloadSprite(int spriteId)
 {
-    // Vérifier si le sprite existe
     if (_spriteCache.find(spriteId) != _spriteCache.end())
     {
         _spriteCache.erase(spriteId);
-        // Le `shared_ptr` s'occupera de libérer la mémoire si aucune autre référence n'existe
     }
     else
     {
@@ -124,8 +97,14 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         it->second->setPosition(position.x, position.y);
         it->second->setScale(scale.x, scale.y);
         it->second->setRotation(rotation);
-
-        _window.draw(*it->second);
+        if (_activeShader)
+        {
+            _window.draw(*it->second, _activeShader);
+        }
+        else
+        {
+            _window.draw(*it->second);
+        }
     }
     else
     {
@@ -139,8 +118,14 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position)
     if (it != _spriteCache.end())
     {
         it->second->setPosition(position.x, position.y);
-
-        _window.draw(*it->second);
+        if (_activeShader)
+        {
+            _window.draw(*it->second, _activeShader);
+        }
+        else
+        {
+            _window.draw(*it->second);
+        }
     }
     else
     {
@@ -168,8 +153,14 @@ void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 positio
         it->second->setPosition(position.x, position.y);
         it->second->setScale(scale.x, scale.y);
         it->second->setRotation(rotation);
-
-        _window.draw(*it->second);
+        if (_activeShader)
+        {
+            _window.draw(*it->second, _activeShader);
+        }
+        else
+        {
+            _window.draw(*it->second);
+        }
     }
     else
     {
@@ -191,8 +182,14 @@ void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 positio
     if (it != _spriteCache.end())
     {
         it->second->setPosition(position.x, position.y);
-
-        _window.draw(*it->second);
+        if (_activeShader)
+        {
+            _window.draw(*it->second, _activeShader);
+        }
+        else
+        {
+            _window.draw(*it->second);
+        }
     }
     else
     {
@@ -389,5 +386,38 @@ void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
 {
     _window.setVerticalSyncEnabled(enabled);
 }
+
+int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
+                                 const std::string& fragmentShaderPath)
+{
+    int shaderId = _nextShaderId++;
+
+    auto shader = std::make_shared<sf::Shader>();
+    if (!shader->loadFromFile(vertexShaderPath, fragmentShaderPath))
+    {
+        std::cerr << "Erreur : impossible de charger le shader depuis " << vertexShaderPath
+                  << " et " << fragmentShaderPath << std::endl;
+        return -1;
+    }
+
+    _shaderCache[shaderId] = shader;
+
+    return shaderId;
+}
+
+void RenderSystemSFML::setShader(int shaderId)
+{
+    auto it = _shaderCache.find(shaderId);
+    if (it != _shaderCache.end())
+    {
+        _activeShader = it->second.get();
+    }
+    else
+    {
+        std::cerr << "Erreur : shader avec l'ID " << shaderId << " non trouvé." << std::endl;
+    }
+}
+
+void RenderSystemSFML::resetShader() { _activeShader = nullptr; }
 
 }  // namespace RType
