@@ -13,6 +13,7 @@ namespace RType
 RenderSystemSFML::RenderSystemSFML()
     : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false), _nextSpriteId(1)
 {
+    _activeShader = nullptr;
 }
 
 RenderSystemSFML::~RenderSystemSFML() {}

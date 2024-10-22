@@ -28,7 +28,7 @@ class AudioSystem : public ISystem
             auto& audio = view.get<Audio>(entity);
             for (const auto& sound : audio.sounds)
             {
-                gameContext._runtime->loadSound(sound);
+                audio.soundID = gameContext._runtime->loadSound(sound);
             }
             for (const auto& music : audio.musics)
             {
@@ -55,7 +55,7 @@ class AudioSystem : public ISystem
                 else if (std::find(audio.sounds.begin(), audio.sounds.end(), sound) !=
                          audio.sounds.end())
                 {
-                    gameContext._runtime->playSound(sound);
+                    gameContext._runtime->playSound(audio.soundID);
                 }
             }
         }
