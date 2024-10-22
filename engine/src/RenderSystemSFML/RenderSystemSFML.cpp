@@ -7,7 +7,8 @@
 
 #include "RenderSystemSFML.hpp"
 
-namespace RType {
+namespace RType
+{
 
 RenderSystemSFML::RenderSystemSFML()
     : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false), _nextSpriteId(1)
@@ -16,14 +17,17 @@ RenderSystemSFML::RenderSystemSFML()
 
 RenderSystemSFML::~RenderSystemSFML()
 {
-    // Les shared_ptr se gèrent automatiquement, donc pas besoin de libérer manuellement les ressources ici.
+    // Les shared_ptr se gèrent automatiquement, donc pas besoin de libérer manuellement les
+    // ressources ici.
 }
 
 void RenderSystemSFML::pollEvents()
 {
     sf::Event event = {};
-    while (_window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
+    while (_window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+        {
             _window.close();
         }
     }
@@ -47,26 +51,22 @@ bool RenderSystemSFML::getKeyDown(KeyCode key)
     return false;
 }
 
-void RenderSystemSFML::clearWindow()
-{
-    _window.clear(sf::Color::Black);
-}
+void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }
 
-void RenderSystemSFML::updateWindow()
-{
-    _window.display();
-}
+void RenderSystemSFML::updateWindow() { _window.display(); }
 
 std::shared_ptr<sf::Texture> RenderSystemSFML::loadTexture(const std::string& filePath)
 {
     // Si la texture est déjà chargée, retourner la texture existante
-    if (_textures.find(filePath) != _textures.end()) {
+    if (_textures.find(filePath) != _textures.end())
+    {
         return _textures[filePath];
     }
 
     // Sinon, charger la texture
     auto texture = std::make_shared<sf::Texture>();
-    if (!texture->loadFromFile(filePath)) {
+    if (!texture->loadFromFile(filePath))
+    {
         std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
         return nullptr;
     }
@@ -80,7 +80,8 @@ int RenderSystemSFML::loadSprite(const std::string& filePath)
 {
     // Charger la texture
     auto texture = loadTexture(filePath);
-    if (!texture) {
+    if (!texture)
+    {
         return -1;  // En cas d'échec de chargement de la texture
     }
 
@@ -100,15 +101,19 @@ int RenderSystemSFML::loadSprite(const std::string& filePath)
 void RenderSystemSFML::unloadSprite(int spriteId)
 {
     // Vérifier si le sprite existe
-    if (_spriteCache.find(spriteId) != _spriteCache.end()) {
+    if (_spriteCache.find(spriteId) != _spriteCache.end())
+    {
         _spriteCache.erase(spriteId);
         // Le `shared_ptr` s'occupera de libérer la mémoire si aucune autre référence n'existe
-    } else {
+    }
+    else
+    {
         std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
     }
 }
 
-void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
+void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords,
+                                  mlg::vec3 scale, float rotation)
 {
     auto it = _spriteCache.find(spriteId);
     if (it != _spriteCache.end())
@@ -143,11 +148,13 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position)
     }
 }
 
-void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
+void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 position,
+                                  mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
 {
     int spriteId = loadSprite(filePath);
 
-    if (spriteId == -1) {
+    if (spriteId == -1)
+    {
         std::cerr << "Erreur : impossible de charger le sprite depuis " << filePath << std::endl;
         return;
     }
@@ -174,7 +181,8 @@ void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 positio
 {
     int spriteId = loadSprite(filePath);
 
-    if (spriteId == -1) {
+    if (spriteId == -1)
+    {
         std::cerr << "Erreur : impossible de charger le sprite depuis " << filePath << std::endl;
         return;
     }
@@ -195,7 +203,8 @@ void RenderSystemSFML::drawSprite(const std::string& filePath, mlg::vec3 positio
 mlg::vec3 RenderSystemSFML::getTextureSize(int spriteId)
 {
     auto it = _spriteCache.find(spriteId);
-    if (it != _spriteCache.end()) {
+    if (it != _spriteCache.end())
+    {
         sf::Vector2u size = it->second->getTexture()->getSize();
         return mlg::vec3(size.x, size.y, 0);
     }
@@ -211,17 +220,21 @@ mlg::vec3 RenderSystemSFML::getMousePosition()
 void RenderSystemSFML::setGameIcon(const std::string& filePath)
 {
     sf::Image icon;
-    if (!icon.loadFromFile(filePath)) {
+    if (!icon.loadFromFile(filePath))
+    {
         std::cerr << "Erreur lors du chargement de l'icône du jeu : " << filePath << std::endl;
         return;
     }
     _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
-void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position, unsigned int fontSize, const mlg::vec3& color, bool centered)
+void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
+                                const mlg::vec3 position, unsigned int fontSize,
+                                const mlg::vec3& color, bool centered)
 {
     sf::Font font;
-    if (!font.loadFromFile(fontPath)) {
+    if (!font.loadFromFile(fontPath))
+    {
         std::cerr << "Erreur lors du chargement de la police : " << fontPath << std::endl;
         return;
     }
@@ -235,9 +248,11 @@ void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& 
     sf::Color sfColor(color.x, color.y, color.z);
     text.setFillColor(sfColor);
 
-    if (centered) {
+    if (centered)
+    {
         sf::FloatRect textRect = text.getLocalBounds();
-        text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+        text.setOrigin(textRect.left + textRect.width / 2.0f,
+                       textRect.top + textRect.height / 2.0f);
     }
 
     _window.draw(text);
@@ -249,9 +264,12 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
     rectangle.setPosition(spriteCoords.x, spriteCoords.y);
 
     sf::Color sfcolor(color.x, color.y, color.z);
-    if (full) {
+    if (full)
+    {
         rectangle.setFillColor(sfcolor);
-    } else {
+    }
+    else
+    {
         rectangle.setFillColor(sf::Color::Transparent);
         rectangle.setOutlineThickness(1);
         rectangle.setOutlineColor(sfcolor);
@@ -262,10 +280,13 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
 
 void RenderSystemSFML::FullScreenWindow()
 {
-    if (_isFullScreen) {
+    if (_isFullScreen)
+    {
         _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
         _isFullScreen = false;
-    } else {
+    }
+    else
+    {
         _window.create(sf::VideoMode::getDesktopMode(), "RType", sf::Style::Fullscreen);
         _isFullScreen = true;
     }
@@ -274,7 +295,8 @@ void RenderSystemSFML::FullScreenWindow()
 bool RenderSystemSFML::loadMusic(const std::string& filePath)
 {
     auto music = std::make_unique<sf::Music>();
-    if (!music->openFromFile(filePath)) {
+    if (!music->openFromFile(filePath))
+    {
         std::cerr << "Erreur lors du chargement de la musique : " << filePath << std::endl;
         return false;
     }
@@ -285,33 +307,36 @@ bool RenderSystemSFML::loadMusic(const std::string& filePath)
 void RenderSystemSFML::playMusic(const std::string& filePath, bool loop)
 {
     auto it = _musics.find(filePath);
-    if (it != _musics.end()) {
+    if (it != _musics.end())
+    {
         _currentMusic = it->second.get();
         _currentMusic->setLoop(loop);
         _currentMusic->play();
-    } else {
+    }
+    else
+    {
         std::cerr << "Erreur : musique non trouvée (" << filePath << ")" << std::endl;
     }
 }
 
 void RenderSystemSFML::stopCurrentMusic()
 {
-    if (_currentMusic) {
+    if (_currentMusic)
+    {
         _currentMusic->stop();
         _currentMusic = nullptr;
     }
 }
 
-void RenderSystemSFML::unloadMusic(const std::string& musicName)
-{
-    _musics.erase(musicName);
-}
+void RenderSystemSFML::unloadMusic(const std::string& musicName) { _musics.erase(musicName); }
 
-int RenderSystemSFML::loadSound(const std::string& filePath) {
+int RenderSystemSFML::loadSound(const std::string& filePath)
+{
     int soundId = _nextSoundId++;
 
     auto soundBuffer = std::make_shared<sf::SoundBuffer>();
-    if (!soundBuffer->loadFromFile(filePath)) {
+    if (!soundBuffer->loadFromFile(filePath))
+    {
         std::cerr << "Erreur : impossible de charger le son depuis " << filePath << std::endl;
         return -1;
     }
@@ -321,44 +346,44 @@ int RenderSystemSFML::loadSound(const std::string& filePath) {
     return soundId;
 }
 
-void RenderSystemSFML::updateSounds() {
+void RenderSystemSFML::updateSounds()
+{
     _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
-        [](const sf::Sound& sound) {
-            return sound.getStatus() == sf::Sound::Stopped;
-        }),
-        _activeSounds.end());
+                                       [](const sf::Sound& sound)
+                                       { return sound.getStatus() == sf::Sound::Stopped; }),
+                        _activeSounds.end());
 }
 
-void RenderSystemSFML::playSound(int soundId) {
+void RenderSystemSFML::playSound(int soundId)
+{
     auto it = _soundCache.find(soundId);
-    if (it != _soundCache.end()) {
+    if (it != _soundCache.end())
+    {
         _activeSounds.emplace_back();
         sf::Sound& sound = _activeSounds.back();
         sound.setBuffer(*it->second);
         sound.play();
-    } else {
+    }
+    else
+    {
         std::cerr << "Erreur : son avec l'ID " << soundId << " non trouvé." << std::endl;
     }
 }
 
-void RenderSystemSFML::unloadSound(int soundId) {
-    _soundCache.erase(soundId);
-}
+void RenderSystemSFML::unloadSound(int soundId) { _soundCache.erase(soundId); }
 
 void RenderSystemSFML::loadFont(const std::string& filePath)
 {
     sf::Font font;
-    if (!font.loadFromFile(filePath)) {
+    if (!font.loadFromFile(filePath))
+    {
         std::cerr << "Erreur lors du chargement de la police : " << filePath << std::endl;
         return;
     }
     _fonts[filePath] = font;
 }
 
-void RenderSystemSFML::setFramerateLimit(unsigned int limit)
-{
-    _window.setFramerateLimit(limit);
-}
+void RenderSystemSFML::setFramerateLimit(unsigned int limit) { _window.setFramerateLimit(limit); }
 
 void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
 {

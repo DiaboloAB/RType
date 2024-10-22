@@ -114,8 +114,8 @@ class RenderSystemSFML : public RType::IRuntime
      * @brief Draws a sprite on the window by its ID.
      * @param spriteId The unique ID of the sprite.
      */
-    void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect,
-                            mlg::vec3 scale, float rotation) override;
+    void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
+                    float rotation) override;
 
     /**
      * @brief Draws a sprite on the window by its file path.

@@ -34,14 +34,14 @@ class NullRuntime : public IRuntime
     }
     void setGameIcon(const std::string& filePath) override {}
     void loadFont(const std::string& filePath) override {}
-    int loadSprite(const std::string& filePath) override {return 0;}
+    int loadSprite(const std::string& filePath) override { return 0; }
     void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteRect,
                     mlg::vec3 scale, float rotation) override
     {
     }
     void drawSprite(const std::string& spriteName, mlg::vec3 position) override {}
-    void drawSprite(int IDSprite, mlg::vec3 position, mlg::vec4 spriteRect,
-                    mlg::vec3 scale, float rotation) override
+    void drawSprite(int IDSprite, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
+                    float rotation) override
     {
     }
     void drawSprite(int IDSprite, mlg::vec3 position) override {}
@@ -62,7 +62,7 @@ class NullRuntime : public IRuntime
     void unloadSound(const int soundID) override {}
     void setFramerateLimit(unsigned int limit) override {}
     void setVerticalSyncEnabled(bool enabled) override {}
-    void updateSounds() override {};
+    void updateSounds() override{};
 
    private:
     // Member variables
