@@ -14,7 +14,7 @@
 #include <list>
 
 #include "IEndpoint.hpp"
-#include "APacketFactory.hpp"
+#include "PacketFactory.hpp"
 
 namespace dimension {
     /** @class AEndpoint
@@ -23,7 +23,7 @@ namespace dimension {
     */
     class AEndpoint : public IEndpoint {
         public:
-            AEndpoint(const std::shared_ptr<APacketFactory> &factory);
+            AEndpoint(const std::shared_ptr<PacketFactory> &factory);
             virtual ~AEndpoint() = default;
 
         public:
@@ -74,7 +74,7 @@ namespace dimension {
         protected:
             std::shared_ptr<asio::io_context> _io_context = nullptr;
             std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
-            std::shared_ptr<APacketFactory> _packetFactory = nullptr;
+            std::shared_ptr<PacketFactory> _packetFactory = nullptr;
             std::shared_ptr<std::thread> _recvThread = nullptr;
             std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _rcvQueue;
             std::mutex _queueMutex;

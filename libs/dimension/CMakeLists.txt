@@ -7,7 +7,7 @@ find_package(asio REQUIRED)
 set(SOURCES
     src/dimension/packet/APacket.cpp
     src/dimension/packet/PacketManager.cpp
-    src/dimension/packet/APacketFactory.cpp
+    src/dimension/packet/PacketFactory.cpp
     src/dimension/packet/basics/AdiosServer.cpp
     src/dimension/packet/basics/HiServer.cpp
     src/dimension/packet/basics/HiClient.cpp
@@ -20,7 +20,7 @@ set(SOURCES
     src/dimension/packet/basics/Ping.cpp
     src/dimension/endpoint/AEndpoint.cpp
     src/dimension/endpoint/client/Client.cpp
-    src/dimension/endpoint/server/Server.cpp
+    src/dimension/endpoint/server/AServer.cpp
     )
 
 add_library(dimension_lib STATIC ${SOURCES})

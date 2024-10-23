@@ -15,7 +15,7 @@ namespace dimension {
 _______________________________________________ CONSTRUCTOR & DESTRUCTOR ____________________________________________
 *********************************************************************************************************************/
 
-AEndpoint::AEndpoint(const std::shared_ptr<APacketFactory> &factory) : _packetFactory(factory) {}
+AEndpoint::AEndpoint(const std::shared_ptr<PacketFactory> &factory) : _packetFactory(factory) {}
 
 
 /*********************************************************************************************************************

@@ -6,10 +6,10 @@
  *  Location: Rennes
   **********************************************************************************/
 
-#include "Server.hpp"
+#include "AServer.hpp"
 
 namespace dimension {
-DimensionServer::DimensionServer(std::shared_ptr<APacketFactory> &factory, std::string host, unsigned int port)
+AServer::AServer(std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
     : AEndpoint(factory) 
 {
   try {
@@ -18,13 +18,13 @@ DimensionServer::DimensionServer(std::shared_ptr<APacketFactory> &factory, std::
     this->_socket = std::make_shared<asio::ip::udp::socket>(*this->_io_context, endpoint);
     this->receive();
     this->_recvThread = std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
-    std::cerr << "\x1B[32m[DimensionServer]\x1B[0m: Server setup." << std::endl;
+    std::cerr << "\x1B[32m[AServer]\x1B[0m: Server setup." << std::endl;
   } catch (std::exception &e) {
-      std::cerr << "\x1B[31m[DimensionServer ERROR]\x1B[0m: "<< e.what() << std::endl;
+      std::cerr << "\x1B[31m[AServer ERROR]\x1B[0m: "<< e.what() << std::endl;
   }
 }
 
-void DimensionServer::handlePackets() 
+void AServer::handlePackets() 
 {
   std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> queueAtT = this->_rcvQueue;
   while (!queueAtT.empty()) {

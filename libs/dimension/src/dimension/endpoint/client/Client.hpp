@@ -8,15 +8,15 @@
 
 #pragma once
 
-#include "endpoint/AEndpoint.hpp"
+#include "AEndpoint.hpp"
 
 namespace dimension
 {
-class DimensionClient : public AEndpoint
+class Client : public AEndpoint
 {
    public:
-      DimensionClient(const std::shared_ptr<APacketFactory> &factory);
-      ~DimensionClient();
+      Client(const std::shared_ptr<PacketFactory> &factory);
+      ~Client();
    public:
 
       /**

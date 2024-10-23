@@ -9,9 +9,9 @@
 #include "Client.hpp"
 
 namespace dimension {
-    DimensionClient::DimensionClient(const std::shared_ptr<APacketFactory> &factory) : AEndpoint(factory) {}
+    Client::Client(const std::shared_ptr<PacketFactory> &factory) : AEndpoint(factory) {}
 
-    DimensionClient::~DimensionClient()
+    Client::~Client()
     {
         if (this->_io_context)
             this->_io_context->stop();
@@ -19,7 +19,7 @@ namespace dimension {
             this->_recvThread->join();
     }
 
-    void DimensionClient::connectServer(std::string host, unsigned int port)
+    void Client::connectServer(std::string host, unsigned int port)
     {
         if (this->_io_context != nullptr)
             return;
@@ -32,9 +32,9 @@ namespace dimension {
             this->_serverEndpoint = std::make_shared<asio::ip::udp::endpoint>(*endpoints.begin());
             this->receive();
             this->_recvThread = std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
-            std::cerr << "\x1B[32m[DimensionClient]\x1B[0m: Connection to server established." << std::endl;
+            std::cerr << "\x1B[32m[Client]\x1B[0m: Connection to server established." << std::endl;
         } catch (std::exception &e) {
-            std::cerr << "\x1B[31m[DimensionClient ERROR]\x1B[0m: "<< e.what() << std::endl;
+            std::cerr << "\x1B[31m[Client ERROR]\x1B[0m: "<< e.what() << std::endl;
         }
     }
 }

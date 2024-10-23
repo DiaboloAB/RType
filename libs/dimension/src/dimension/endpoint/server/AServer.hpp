@@ -9,16 +9,16 @@
 #pragma once
 
 #include "AEndpoint.hpp"
-#include "APacketFactory.hpp"
+#include "PacketFactory.hpp"
 
 #include <list>
 
 namespace dimension
 {
-class DimensionServer : public AEndpoint {
+class AServer : public AEndpoint {
    public:
-      DimensionServer(std::shared_ptr<APacketFactory> &factory, std::string host, unsigned int port);
-      ~DimensionServer() = default;
+      AServer(std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port);
+      ~AServer() = default;
    public:
       void handlePackets();
       virtual void initRoom(bool isPrivate = false) = 0;

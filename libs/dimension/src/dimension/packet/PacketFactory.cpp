@@ -6,10 +6,10 @@
  *  Location: Rennes
   **********************************************************************************/
 
-#include "APacketFactory.hpp"
+#include "PacketFactory.hpp"
 
 namespace dimension {
-APacketFactory::APacketFactory() {
+PacketFactory::PacketFactory() {
     this->_packetManager.registerPacket<HiServer>();
     this->_packetManager.registerPacket<HiClient>();
     this->_packetManager.registerPacket<AdiosServer>();
@@ -20,5 +20,7 @@ APacketFactory::APacketFactory() {
     this->_packetManager.registerPacket<UpdateEntity>();
     this->_packetManager.registerPacket<ClientEvent>();
     this->_packetManager.registerPacket<PacketValidation>();
-};
+}
+
+PacketFactory::~PacketFactory() {}
 }

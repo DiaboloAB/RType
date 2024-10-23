@@ -25,16 +25,16 @@ namespace dimension
 {
 
 /**
- * @class APacketFactory
+ * @class PacketFactory
  *
  * @brief This class is a design pattern use to create all types of packets. These packets
  * are used for network communication between client and server.
  */
-class APacketFactory
+class PacketFactory
 {
    public:
-    APacketFactory();
-    virtual ~APacketFactory() = default;
+    PacketFactory();
+    ~PacketFactory();
 
    public:
     /**
