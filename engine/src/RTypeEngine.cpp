@@ -166,8 +166,11 @@ void Engine::run()
         if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
 
         _gameContext->_deltaT = _clockManager.getDeltaT();
-        _systemManager.update(_registry, *_gameContext);
-
+        if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
+        {
+            _systemManager.update(_registry, *_gameContext);
+            _clockManager.getUpdateDeltaT() = 0.0f;
+        }
         if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {
             _gameContext->_deltaT = _clockManager.getDrawDeltaT();
