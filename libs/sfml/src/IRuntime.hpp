@@ -121,7 +121,7 @@ class IRuntime
      *
      * This method must be implemented to set the title of the window.
      */
-    virtual void loadFont(const std::string& filePath) = 0;
+    virtual int loadFont(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to load a sprite using a previously loaded texture.
@@ -147,10 +147,9 @@ class IRuntime
      * Must be implemented to handle displaying text (such as scores or information)
      * on the screen.
      */
-    virtual void drawText(const std::string& fontPath, const std::string& textStr,
-                          const mlg::vec3 position, unsigned int fontSize,
-                          const mlg::vec3& color = mlg::vec3(0, 0, 0),
-                          const bool centered = false) = 0;
+    virtual void drawText(int fontID, const std::string& textStr,
+                                const mlg::vec3 position, unsigned int fontSize,
+                                const mlg::vec3& color, bool centered) = 0;
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
@@ -186,7 +185,7 @@ class IRuntime
      *
      * This method must be implemented to load a music file into memory.
      */
-    virtual bool loadMusic(const std::string& filePath) = 0;
+    virtual int loadMusic(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to play a music file.
@@ -196,7 +195,7 @@ class IRuntime
      * This method must be implemented to play a music file that has been loaded
      * into memory.
      */
-    virtual void playMusic(const std::string& filePath, bool loop = true) = 0;
+    virtual void playMusic(int musicID, bool loop = true) = 0;
 
     /**
      * @brief Pure virtual method to stop the currently playing music.
@@ -211,7 +210,7 @@ class IRuntime
      *
      * This method must be implemented to remove a music file from memory.
      */
-    virtual void unloadMusic(const std::string& musicName) = 0;
+    virtual void unloadMusic(int musicID) = 0;
 
     /**
      * @brief Pure virtual method to load a sound file.
