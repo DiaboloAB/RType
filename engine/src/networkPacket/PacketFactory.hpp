@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "packet/APacketFactory.hpp"
+#include "packet/PacketFactory.hpp"
 
 #include "networkPacket/packets/AdiosServerPacket.hpp"
 #include "networkPacket/packets/ClientEventPacket.hpp"
@@ -29,7 +29,7 @@ namespace RType::Network
  * @brief This class is a design pattern use to create all types of packets. These packets
  * are used for network communication between client and server.
  */
-class PacketFactory : public dimension::APacketFactory
+class PacketFactory : public dimension::PacketFactory
 {
    public:
     PacketFactory();

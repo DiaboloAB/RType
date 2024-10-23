@@ -11,17 +11,7 @@
 namespace dimension
 {
 
-/*********************************************************************************************************************
-_______________________________________________ CONSTRUCTOR & DESTRUCTOR
-____________________________________________
-*********************************************************************************************************************/
-
 AEndpoint::AEndpoint(const std::shared_ptr<PacketFactory> &factory) : _packetFactory(factory) {}
-
-/*********************************************************************************************************************
-_______________________________________________ NETWORK COMMUNICATION
-_______________________________________________
-*********************************************************************************************************************/
 
 void AEndpoint::send(const std::shared_ptr<APacket> &packet,
                      const asio::ip::udp::endpoint &endpoint, bool isNewPacket)
@@ -99,10 +89,6 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> &buffer,
     this->_rcvQueue.push(std::make_pair(packet, endpoint));
 }
 
-/*********************************************************************************************************************
-_______________________________________________ LIST & QUEUE HANDLING
-_______________________________________________
-*********************************************************************************************************************/
 void AEndpoint::popReceiveQueue()
 {
     if (!this->_rcvQueue.empty())
@@ -132,4 +118,10 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
             packetInValidation++;
     }
 }
+
+void AEndpoint::resendValidationList() {
+    std::lock_guard<std::mutex> lock(this->_listMutex);
+    for (auto &validation : this->_validationList)
+        this->send(validation.first, validation.second, false);
+} 
 }  // namespace dimension

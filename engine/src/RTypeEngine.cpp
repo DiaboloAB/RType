@@ -40,8 +40,8 @@ Engine::Engine()
     _systemManager.addSystem<NetworkSystem>();
     _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
-    std::shared_ptr<dimension::APacketFactory> factory = std::make_shared<dimension::APacketFactory>(Network::PacketFactory());
-    this->_client = std::make_shared<dimension::DimensionClient>(factory);
+    std::shared_ptr<dimension::PacketFactory> factory = std::make_shared<dimension::PacketFactory>(Network::PacketFactory());
+    this->_client = std::make_shared<dimension::Client>(factory);
 
 
     std::cout << "Engine Status: Running" << std::endl;
@@ -65,8 +65,8 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
     _systemManager.addSystem<NetworkSystem>();
     _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
-    std::shared_ptr<dimension::APacketFactory> factory = std::make_shared<dimension::APacketFactory>(Network::PacketFactory());
-    this->_client = std::make_shared<dimension::DimensionClient>(factory);
+    std::shared_ptr<dimension::PacketFactory> factory = std::make_shared<dimension::PacketFactory>(Network::PacketFactory());
+    this->_client = std::make_shared<dimension::Client>(factory);
 }
 
 Engine::~Engine()

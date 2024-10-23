@@ -74,6 +74,8 @@ class AEndpoint : public IEndpoint
     void handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp::endpoint &endpoint,
                             std::size_t &bytesRcv) override;
 
+    void resendValidationList() override;
+
    protected:
     std::shared_ptr<asio::io_context> _io_context = nullptr;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;

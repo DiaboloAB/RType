@@ -65,6 +65,6 @@ class Engine
     GameContext _gameContext;      ///< Context for managing game state.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
     Network::PacketFactory _packetFactory;
-    std::shared_ptr<dimension::DimensionClient> _client = nullptr;
+    std::shared_ptr<dimension::Client> _client = nullptr;
 };
 }  // namespace RType

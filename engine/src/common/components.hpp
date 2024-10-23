@@ -34,7 +34,7 @@ struct NetworkComp
 
 struct NetworkClient
 {
-    dimension::DimensionClient client;
+    dimension::Client client;
 
     NetworkClient(): client(std::make_shared<Network::PacketFactory>()){}
 };
