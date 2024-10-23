@@ -13,6 +13,7 @@
 #include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
+#include "utils/LoadLibs.hpp"
 // std
 #include <chrono>
 #include <iostream>
@@ -62,5 +63,6 @@ class Engine
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     GameContext _gameContext;      ///< Context for managing game state.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
+    LoadLibs _displayLib = LoadLibs();          ///< Manager for handling graphics library.
 };
 }  // namespace RType

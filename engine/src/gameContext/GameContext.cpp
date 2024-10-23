@@ -21,35 +21,35 @@ GameContext::GameContext(mobs::Registry &registry, SceneManager &sceneManager,
 {
     std::cout << "----- Game context -----" << std::endl;
 
-    std::ifstream i("assets/game.json");
+    // std::ifstream i("assets/game.json");
 
-    if (!i.is_open())
-    {
-        std::cerr << "Error: Could not open file" << std::endl;
-        throw std::runtime_error("Could not open file");
-    }
-    nlohmann::json j;
-    i >> j;
+    // if (!i.is_open())
+    // {
+    //     std::cerr << "Error: Could not open file" << std::endl;
+    //     throw std::runtime_error("Could not open file");
+    // }
+    // nlohmann::json j;
+    // i >> j;
 
-    std::string defaultScene = j["defaultScene"];
-    std::cout << "Default scene: " << defaultScene << std::endl;
-    _sceneManager.loadScene(defaultScene, *this);
+    // std::string defaultScene = j["defaultScene"];
+    // std::cout << "Default scene: " << defaultScene << std::endl;
+    // _sceneManager.loadScene(defaultScene, *this);
 
-    std::cout << "Font list" << std::endl;
-    try
-    {
-        std::vector<std::string> fontList = j["fontList"];
-        for (const auto &font : fontList)
-        {
-            _runtime->loadFont(font);
-            std::cout << "\t- " << font << std::endl;
-        }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-    this->_networkHandler = nullptr;
+    // std::cout << "Font list" << std::endl;
+    // try
+    // {
+    //     std::vector<std::string> fontList = j["fontList"];
+    //     for (const auto &font : fontList)
+    //     {
+    //         _runtime->loadFont(font);
+    //         std::cout << "\t- " << font << std::endl;
+    //     }
+    // }
+    // catch (const std::exception &e)
+    // {
+    //     std::cerr << "Error: " << e.what() << std::endl;
+    // }
+    // this->_networkHandler = nullptr;
 }
 
 GameContext::~GameContext()

@@ -24,10 +24,13 @@
 using namespace RType;
 
 Engine::Engine()
-    : _runtime((std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()),
+    : _runtime((std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
       _gameContext(_registry, _sceneManager, _runtime)
 {
     std::cout << "----- Engine -----" << std::endl;
+
+    _runtime = _displayLib._displays["./lib/libsfml_lib.so"];
+    _gameContext.setRuntime(_displayLib._displays["./lib/libsfml_lib.so"]);
 
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
