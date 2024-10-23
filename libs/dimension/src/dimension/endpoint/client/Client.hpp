@@ -15,7 +15,7 @@ namespace dimension
 class DimensionClient : public AEndpoint
 {
    public:
-      DimensionClient(std::shared_ptr<APacketFactory> &factory);
+      DimensionClient(const std::shared_ptr<APacketFactory> &factory);
       ~DimensionClient();
    public:
 

@@ -9,7 +9,7 @@
 #include "Client.hpp"
 
 namespace dimension {
-    DimensionClient::DimensionClient(std::shared_ptr<APacketFactory> &factory) : AEndpoint(factory) {}
+    DimensionClient::DimensionClient(const std::shared_ptr<APacketFactory> &factory) : AEndpoint(factory) {}
 
     DimensionClient::~DimensionClient()
     {
