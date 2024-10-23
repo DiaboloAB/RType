@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <nlohmann/json.hpp>
 #include <mlg/mlg.hpp>
+#include <nlohmann/json.hpp>
 
 #include "NetworkHandler/NetworkHandler.hpp"
 #include "clocksManager/ClockManager.hpp"
@@ -58,7 +58,7 @@ class Engine
     bool _graphical = true;  ///< Boolean indicating if the engine is graphical.
     std::shared_ptr<Network::NetworkHandler> _networkHandler =
         nullptr;  ///< Network handler for managing network connections.
-    std::shared_ptr<IRuntime> _runtime = nullptr;  ///< Shared pointer to the runtime system.
+    std::shared_ptr<IRuntime> _runtime = nullptr;         ///< Shared pointer to the runtime system.
     std::shared_ptr<GameContext> _gameContext = nullptr;  ///< Shared pointer to the game context.
 
     mobs::Registry _registry;      ///< Entity-component registry.

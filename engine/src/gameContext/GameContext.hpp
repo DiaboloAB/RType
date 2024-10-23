@@ -94,7 +94,7 @@ class GameContext
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
 
-    float _deltaT = 0.0f;  ///< The delta time.
+    float _deltaT = 0.0f;                                                ///< The delta time.
     std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;  ///< The network handler.
 
    private:

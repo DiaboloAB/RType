@@ -49,19 +49,23 @@ int getKey(lua_State* L)
 
 int getKeyDown(lua_State* L)
 {
-    if (lua_gettop(L) < 1) {
+    if (lua_gettop(L) < 1)
+    {
         lua_pushboolean(L, false);
         return 1;
     }
 
     const char* key = lua_tostring(L, 1);
-    if (key == nullptr) {
+    if (key == nullptr)
+    {
         lua_pushboolean(L, false);
         return 1;
     }
 
-    RType::GameContext* gameContext = static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
-    if (gameContext == nullptr) {
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (gameContext == nullptr)
+    {
         lua_pushboolean(L, false);
         return 1;
     }
@@ -95,12 +99,10 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
     lua_pushcclosure(L, (lua_CFunction)getKey, 1);
     lua_setglobal(L, "getKey");
 
-
     lua_pushlightuserdata(L, gameContext);
 
     lua_pushcclosure(L, (lua_CFunction)getKeyDown, 1);
     lua_setglobal(L, "getKeyDown");
-
 }
 
 #endif  // GETKEY_H

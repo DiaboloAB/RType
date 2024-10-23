@@ -59,9 +59,7 @@ struct Scripts
         }
     }
 
-    Scripts() {
-        std::cout << "Scripts component created" << std::endl;
-    }
+    Scripts() { std::cout << "Scripts component created" << std::endl; }
 
     ~Scripts()
     {
@@ -89,9 +87,12 @@ struct CppScriptComponent
     {
         for (auto& script : scripts)
         {
-            try {
+            try
+            {
                 script->update(registry, gameContext);
-            } catch (const std::exception& e) {
+            }
+            catch (const std::exception& e)
+            {
                 std::cerr << "Error: " << e.what() << std::endl;
             }
         }

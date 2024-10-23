@@ -55,7 +55,6 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
     }
     std::cout << "Loading scene: " << sceneName << std::endl;
 
-
     nlohmann::json sceneJson;
     i >> sceneJson;
     for (const auto& entityJson : sceneJson["entities"])

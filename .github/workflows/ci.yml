@@ -21,12 +21,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install clang-format-18
-      - name: Run clang-format check
+      - name: Install dependencies
         run: |
-          chmod +x ./tools.sh
-          ./tools.sh check-clang . > clang-format-errors.txt
-        continue-on-error: false
-        id: clang-format-check
+          sudo apt-get update
+          sudo apt-get install -y clang-format
       - name: Display clang-format errors
         if: failure()
         run: |

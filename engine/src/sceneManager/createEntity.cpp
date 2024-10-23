@@ -7,9 +7,9 @@
 
 #include "SceneManager.hpp"
 #include "common/components.hpp"
+#include "common/fromJson.hpp"
 #include "common/scriptsComponent.hpp"
 #include "gameContext/GameContext.hpp"
-#include "common/fromJson.hpp"
 // std
 #include <iostream>
 

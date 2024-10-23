@@ -7,6 +7,8 @@
 
 #include "RTypeEngine.hpp"
 
+#include <fstream>
+
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
 #include "RenderSystemSFML/RenderSystemSFML.hpp"
 #include "common/systems/AudioSystem.hpp"
@@ -21,8 +23,6 @@
 #include "common/systems/TimerSystem.hpp"
 #include "common/systems/forward.hpp"
 
-#include <fstream>
-
 using namespace RType;
 
 Engine::Engine()
@@ -34,9 +34,12 @@ Engine::Engine()
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
-    try {
+    try
+    {
         loadGame();
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
         return;
     }
@@ -61,8 +64,8 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
 {
     std::cout << "----- Engine -----" << std::endl;
 
-    _runtime = _graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>() :
-        (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>();
+    _runtime = _graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
+                          : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>();
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
 
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
@@ -94,9 +97,12 @@ void Engine::loadGame()
     std::cout << "Scenes list" << std::endl;
 
     std::map<std::string, std::string> scenesMap;
-    if (_gameConfig.contains("scenes") && _gameConfig["scenes"].is_array()) {
-        for (const auto& scene : _gameConfig["scenes"]) {
-            if (scene.contains("name") && scene.contains("path")) {
+    if (_gameConfig.contains("scenes") && _gameConfig["scenes"].is_array())
+    {
+        for (const auto& scene : _gameConfig["scenes"])
+        {
+            if (scene.contains("name") && scene.contains("path"))
+            {
                 std::string name = scene["name"];
                 std::string path = scene["path"];
                 scenesMap[name] = path;
@@ -109,9 +115,12 @@ void Engine::loadGame()
     std::cout << "Prefab list" << std::endl;
 
     std::map<std::string, std::string> prefabsMap;
-    if (_gameConfig.contains("prefabs") && _gameConfig["prefabs"].is_array()) {
-        for (const auto& prefab : _gameConfig["prefabs"]) {
-            if (prefab.contains("name") && prefab.contains("path")) {
+    if (_gameConfig.contains("prefabs") && _gameConfig["prefabs"].is_array())
+    {
+        for (const auto& prefab : _gameConfig["prefabs"])
+        {
+            if (prefab.contains("name") && prefab.contains("path"))
+            {
                 std::string name = prefab["name"];
                 std::string path = prefab["path"];
                 prefabsMap[name] = path;
