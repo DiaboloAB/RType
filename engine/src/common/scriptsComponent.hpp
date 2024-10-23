@@ -25,18 +25,17 @@ struct Scripts
     std::vector<std::string> scripts;
     std::vector<lua_State*> luaStates;
 
-    void addScript(const std::string& scriptFile, GameContext& gameContext)
+    void add(const std::string& scriptFile, GameContext& gameContext)
     {
         lua_State* L = luaL_newstate();
         luaL_openlibs(L);
-        if (luaL_dofile(L, (std::string("assets/scripts/") + scriptFile).c_str()) != LUA_OK)
+        if (luaL_dofile(L, scriptFile.c_str()) != LUA_OK)
         {
             std::cerr << "Failed to load Lua script: " << lua_tostring(L, -1) << std::endl;
         }
         else
         {
-            std::cout << "Loaded Lua script: " << scriptFile << std::endl;
-            // initializeLuaBindings(L, &gameContext);
+            initializeLuaBindings(L, &gameContext);
 
             scripts.push_back(scriptFile);
             luaStates.push_back(L);
@@ -58,6 +57,10 @@ struct Scripts
                 lua_pop(L, 1);
             }
         }
+    }
+
+    Scripts() {
+        std::cout << "Scripts component created" << std::endl;
     }
 
     ~Scripts()
@@ -86,7 +89,11 @@ struct CppScriptComponent
     {
         for (auto& script : scripts)
         {
-            script->update(registry, gameContext);
+            try {
+                script->update(registry, gameContext);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: " << e.what() << std::endl;
+            }
         }
     }
 

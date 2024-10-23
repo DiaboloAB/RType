@@ -29,12 +29,13 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
         addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);
 
-        if (prefabJson.contains("Scripts"))
+        if (prefabJson["components"].contains("Scripts"))
         {
             registry.emplace<Scripts>(entity);
             auto& scripts = registry.get<Scripts>(entity);
-            // for (const auto& script : prefabJson["Scripts"])
-            //     scripts.addScript(std::string("assets/") + script.get<std::string>(), gameContext);
+            std::cout << "Adding scripts to entity " << entity << std::endl;
+            for (const auto& script : prefabJson["components"]["Scripts"])
+                scripts.add(std::string("assets/") + script.get<std::string>(), gameContext);
         }
 
         if (prefabJson.contains("CppScripts"))

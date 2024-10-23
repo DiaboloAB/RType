@@ -3,6 +3,7 @@
 
 #include <nlohmann/json.hpp>
 #include "components.hpp"
+#include "scriptsComponent.hpp"
 #include <mlg/mlg.hpp>
 
 namespace mlg {
