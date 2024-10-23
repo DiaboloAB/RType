@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_subdirectory(engine)
 add_subdirectory(libs/mobs)
 add_subdirectory(libs/mlg)
+add_subdirectory(libs/sfml)
 
 add_executable(r-type_client
     src/main.cpp

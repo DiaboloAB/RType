@@ -8,15 +8,6 @@
 #include "SceneManager.hpp"
 
 #include "common/components.hpp"
-#include "common/cppScripts/AnimPlayer.hpp"
-#include "common/cppScripts/AnimThruster.hpp"
-#include "common/cppScripts/EnemyFactory.hpp"
-#include "common/cppScripts/Laser.hpp"
-#include "common/cppScripts/MovePlayer.hpp"
-#include "common/cppScripts/MoveThruster.hpp"
-#include "common/cppScripts/PlayerShoot.hpp"
-#include "common/cppScripts/RedShipScript.hpp"
-#include "common/cppScripts/helloworld.hpp"
 #include "common/scriptsComponent.hpp"
 // std
 #include <filesystem>
@@ -29,11 +20,7 @@
 namespace RType
 {
 
-SceneManager::SceneManager()
-{
-    initComponentCreators();
-    initCppScriptCreators();
-}
+SceneManager::SceneManager() { initCppScriptCreators(); }
 
 SceneManager::~SceneManager()
 {
