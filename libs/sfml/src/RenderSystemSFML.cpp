@@ -82,9 +82,15 @@ bool RenderSystemSFML::getKeyDown(KeyCode key)
     return false;
 }
 
-void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }
+void RenderSystemSFML::clearWindow()
+{
+    _window.clear(sf::Color::Black);
+}
 
-void RenderSystemSFML::updateWindow() { _window.display(); }
+void RenderSystemSFML::updateWindow()
+{
+    _window.display();
+}
 
 void RenderSystemSFML::FullScreenWindow()
 {

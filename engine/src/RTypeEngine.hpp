@@ -14,6 +14,7 @@
 #include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
+#include "utils/LoadLibs.hpp"
 // std
 #include <chrono>
 #include <iostream>
@@ -65,6 +66,7 @@ class Engine
     SystemManager _systemManager;  ///< Manager for handling various systems.
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
+    LoadLibs _displayLib;         ///< Library loader for display libraries.
 
     nlohmann::json _gameConfig;  ///< JSON object for storing game configuration.
 };

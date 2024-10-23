@@ -10,11 +10,12 @@
 #include <iostream>
 #include <map>
 #include <memory>
-#include <mlg/mlg.hpp>
 #include <string>
 #include <vector>
 
-#include "../common/KeyCode.hpp"
+#include "KeyCode.hpp"
+#include "vec3.hpp"
+#include "vec4.hpp"
 
 /**
  * @file IRuntime.hpp

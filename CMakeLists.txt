@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_subdirectory(engine)
 add_subdirectory(libs/mobs)
 add_subdirectory(libs/mlg)
+add_subdirectory(libs/sfml)
 
 add_executable(r-type_client
     src/main.cpp
@@ -32,10 +33,6 @@ target_link_libraries(r-type_client PRIVATE
     RTypeEngine
     mobs::mobs
     mlg::mlg
-    # asio::asio
-    # sfml-graphics
-    # sfml-audio
-    # sfml-network
 )
 
 include(CPack)

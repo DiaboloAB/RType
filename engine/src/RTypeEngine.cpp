@@ -10,7 +10,6 @@
 #include <fstream>
 
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
-#include "RenderSystemSFML/RenderSystemSFML.hpp"
 #include "common/systems/AudioSystem.hpp"
 #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
@@ -30,7 +29,7 @@ Engine::Engine()
     std::cout << "----- Engine -----" << std::endl;
     std::cout << "Engine Status: Initializing" << std::endl;
     std::cout << "Engine Status: Constructing runtime" << std::endl;
-    _runtime = std::make_shared<RenderSystemSFML>();
+    _runtime = _displayLib._displays["./lib/libsfml_lib.so"];
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
@@ -64,7 +63,7 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
 {
     std::cout << "----- Engine -----" << std::endl;
 
-    _runtime = _graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
+    _runtime = _graphical ? _displayLib._displays["./lib/libsfml_lib.so"]
                           : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>();
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
 
