@@ -52,6 +52,8 @@ class RenderSystemSDL : public RType::IRuntime
     int loadSprite(const std::string& filePath) override;
     void drawSprite(int id, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale, float rotation) override;
     void drawSprite(int id, mlg::vec3 position) override;
+    void drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale, float rotation) override;
+    void drawSprite(const std::string& filePath, mlg::vec3 position) override;
     void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
                   unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0), bool centered = false) override;
     void FullScreenWindow() override;
@@ -66,6 +68,7 @@ class RenderSystemSDL : public RType::IRuntime
     void unloadSound(int id) override;
     void setFramerateLimit(unsigned int limit) override;
     void setVerticalSyncEnabled(bool enabled) override;
+    virtual void updateSounds() override;
 
     // Shader management
     int loadShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) override;

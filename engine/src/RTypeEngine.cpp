@@ -9,6 +9,7 @@
 
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
 // #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "RenderSystemSDL/RenderSystemSDL.hpp"
 #include "common/systems/AudioSystem.hpp"
 #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
@@ -24,7 +25,7 @@
 using namespace RType;
 
 Engine::Engine()
-    : _runtime((std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>()),
+    : _runtime((std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSDL>()),
       _gameContext(_registry, _sceneManager, _runtime)
 {
     std::cout << "----- Engine -----" << std::endl;

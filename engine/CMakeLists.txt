@@ -4,6 +4,7 @@ project(RTypeEngine VERSION 0.1)
 
 # find_package(SFML REQUIRED COMPONENTS network window graphics system)
 find_package(SDL2 REQUIRED)
+
 find_package(nlohmann_json REQUIRED)
 find_package(lua REQUIRED)
 find_package(asio REQUIRED)
@@ -11,6 +12,7 @@ find_package(asio REQUIRED)
 set(SOURCES
     src/RTypeEngine.cpp
     # src/RenderSystemSFML/RenderSystemSFML.cpp
+    src/RenderSystemSDL/RenderSystemSDL.cpp
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
     src/common/animations/Animation.cpp

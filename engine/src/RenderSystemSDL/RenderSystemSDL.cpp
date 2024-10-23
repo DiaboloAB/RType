@@ -151,6 +151,59 @@ void RenderSystemSDL::drawSprite(int id, mlg::vec3 position) {
     SDL_RenderCopy(renderer, texture.get(), nullptr, &dstRect);
 }
 
+void RenderSystemSDL::drawSprite(const std::string& filePath, mlg::vec3 position,
+                                 mlg::vec4 spriteCoords, mlg::vec3 scale, float rotation)
+{
+    // Charger le sprite s'il n'est pas déjà dans le cache
+    int spriteId = loadSprite(filePath);
+    
+    if (spriteId == -1)
+    {
+        std::cerr << "Erreur : impossible de charger le sprite depuis " << filePath << std::endl;
+        return;
+    }
+
+    auto it = textures.find(spriteId);
+    if (it != textures.end())
+    {
+        SDL_Rect srcRect = {static_cast<int>(spriteCoords.x), static_cast<int>(spriteCoords.y),
+                            static_cast<int>(spriteCoords.z), static_cast<int>(spriteCoords.w)};
+        SDL_Rect dstRect = {static_cast<int>(position.x), static_cast<int>(position.y),
+                            static_cast<int>(spriteCoords.z * scale.x), static_cast<int>(spriteCoords.w * scale.y)};
+        SDL_RenderCopyEx(renderer, it->second.get(), &srcRect, &dstRect, rotation, nullptr, SDL_FLIP_NONE);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé pour le fichier " << filePath << std::endl;
+    }
+}
+
+void RenderSystemSDL::drawSprite(const std::string& filePath, mlg::vec3 position)
+{
+    int spriteId = loadSprite(filePath);
+    
+    if (spriteId == -1)
+    {
+        std::cerr << "Erreur : impossible de charger le sprite depuis " << filePath << std::endl;
+        return;
+    }
+
+    auto it = textures.find(spriteId);
+    if (it != textures.end())
+    {
+        int w, h;
+        SDL_QueryTexture(it->second.get(), nullptr, nullptr, &w, &h);
+        SDL_Rect dstRect = {static_cast<int>(position.x), static_cast<int>(position.y), w, h};
+
+        SDL_RenderCopy(renderer, it->second.get(), nullptr, &dstRect);
+    }
+    else
+    {
+        std::cerr << "Erreur : sprite non trouvé pour le fichier " << filePath << std::endl;
+    }
+}
+
+
 void RenderSystemSDL::drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
                                unsigned int fontSize, const mlg::vec3& color, bool centered) {
     if (!currentFont) {
@@ -202,6 +255,8 @@ void RenderSystemSDL::playMusic(const std::string& filePath, bool loop) {
         Mix_PlayMusic(currentMusic, loop ? -1 : 1);
     }
 }
+
+void RenderSystemSDL::updateSounds() {}
 
 void RenderSystemSDL::stopCurrentMusic() {
     Mix_HaltMusic();
