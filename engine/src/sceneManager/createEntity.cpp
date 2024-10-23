@@ -24,7 +24,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         std::string tag = prefabJson.value("tag", "defaultTag");
         std::string layer = prefabJson.value("layer", "defaultLayer");
 
-        registry.emplace<Basics>(entity, tag, staticObject);
+        registry.emplace<Basics>(entity, tag, layer, staticObject);
 
         addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
         addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);

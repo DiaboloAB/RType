@@ -11,16 +11,16 @@
 
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
 #include "common/systems/AudioSystem.hpp"
-#include "common/systems/ColisionSystem.hpp"
+// #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
-#include "common/systems/DrawableSystem.hpp"
-#include "common/systems/HealthSystem.hpp"
-#include "common/systems/NetworkSystem.hpp"
+// #include "common/systems/DrawableSystem.hpp"
+// #include "common/systems/HealthSystem.hpp"
+// #include "common/systems/NetworkSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
-#include "common/systems/ScrollSystem.hpp"
+// #include "common/systems/ScrollSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
-#include "common/systems/TimerSystem.hpp"
-#include "common/systems/forward.hpp"
+// #include "common/systems/TimerSystem.hpp"
+// #include "common/systems/forward.hpp"
 
 using namespace RType;
 
@@ -45,14 +45,14 @@ Engine::Engine()
 
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
-    _systemManager.addSystem<ForwardSystem>();
+    // _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<CppScriptsSystem>();
-    _systemManager.addSystem<TimerSystem>();
-    _systemManager.addSystem<ColisionSystem>();
-    _systemManager.addSystem<HealthSystem>();
-    _systemManager.addSystem<ScrollSystem>();
-    _systemManager.addSystem<NetworkSystem>();
-    _systemManager.addSystem<DrawableSystem>();
+    // _systemManager.addSystem<TimerSystem>();
+    // _systemManager.addSystem<ColisionSystem>();
+    // _systemManager.addSystem<HealthSystem>();
+    // _systemManager.addSystem<ScrollSystem>();
+    // _systemManager.addSystem<NetworkSystem>();
+    // _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
 
     std::cout << "Engine Status: Running" << std::endl;
@@ -70,14 +70,14 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
     _systemManager.addSystem<ScriptSystem>();
     _systemManager.addSystem<SpriteSystem>();
-    _systemManager.addSystem<ForwardSystem>();
+    // _systemManager.addSystem<ForwardSystem>();
     _systemManager.addSystem<CppScriptsSystem>();
-    _systemManager.addSystem<TimerSystem>();
-    _systemManager.addSystem<ColisionSystem>();
-    _systemManager.addSystem<HealthSystem>();
-    _systemManager.addSystem<ScrollSystem>();
-    _systemManager.addSystem<NetworkSystem>();
-    _systemManager.addSystem<DrawableSystem>();
+    // _systemManager.addSystem<TimerSystem>();
+    // _systemManager.addSystem<ColisionSystem>();
+    // _systemManager.addSystem<HealthSystem>();
+    // _systemManager.addSystem<ScrollSystem>();
+    // _systemManager.addSystem<NetworkSystem>();
+    // _systemManager.addSystem<DrawableSystem>();
     _systemManager.addSystem<AudioSystem>();
 }
 
