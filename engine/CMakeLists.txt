@@ -12,27 +12,13 @@ set(SOURCES
     src/system/SystemManager.cpp
     src/common/animations/Animation.cpp
     src/common/animations/AnimationList.cpp
-    src/NetworkHandler/NetworkHandler.cpp
-    src/NetworkHandler/PacketHandler.cpp
-    src/NetworkHandler/EndpointState.cpp
-    src/NetworkHandler/NetworkIdHandler.cpp
+
     src/sceneManager/SceneManager.cpp
     src/sceneManager/createEntity.cpp
     src/sceneManager/addScriptsToEntity.cpp
     src/sceneManager/initCppScriptCreators.cpp
     src/clocksManager/ClockManager.cpp
-    src/NetworkPacketManager/APacket.cpp
-    src/NetworkPacketManager/AdiosServerPacket.cpp
-    src/NetworkPacketManager/ClientEventPacket.cpp
-    src/NetworkPacketManager/CreateEntityPacket.cpp
-    src/NetworkPacketManager/DestroyEntityPacket.cpp
-    src/NetworkPacketManager/PingPacket.cpp
-    src/NetworkPacketManager/HiClientPacket.cpp
-    src/NetworkPacketManager/HiServerPacket.cpp
-    src/NetworkPacketManager/MoveEntityPacket.cpp
-    src/NetworkPacketManager/PacketFactory.cpp
-    src/NetworkPacketManager/PacketValidationPacket.cpp
-    src/NetworkPacketManager/UpdateEntityPacket.cpp
+
     src/addSystems.cpp
     # src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp

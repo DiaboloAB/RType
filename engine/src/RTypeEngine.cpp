@@ -14,7 +14,8 @@
 
 using namespace RType;
 
-Engine::Engine()
+Engine::Engine(std::map<std::string, std::string> args)
+    : _args(args)
 {
     std::cout << "----- Engine -----" << std::endl;
     std::cout << "Engine Status: Initializing" << std::endl;
@@ -26,34 +27,6 @@ Engine::Engine()
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
-
-    try
-    {
-        loadGame();
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-        return;
-    }
-
-    addSystems();
-
-    std::cout << "Engine Status: Running" << std::endl;
-}
-
-Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphical)
-    : _graphical(graphical)
-{
-    std::cout << "----- Engine -----" << std::endl;
-
-    _displayLib.addLibraries("libsfml_lib.so");
-
-    _runtime = _graphical ? _displayLib._displays
-                          : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>();
-    _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
-
-    this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
 
     try
     {
@@ -127,28 +100,11 @@ void Engine::run()
     _systemManager.load(_registry, *_gameContext);
     _systemManager.start(_registry, *_gameContext);
 
-    _gameContext->setNetworkHandler(_networkHandler);
 
-    while (_gameContext->_runtime->isWindowOpen())
+    while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running)
     {
         _gameContext->_runtime->pollEvents();
         if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
-
-        if (_gameContext->_runtime->getKeyDown(KeyCode::Enter) &&
-            !_gameContext->_networkHandler->getIsServer())
-        {
-            Network::HiServerPacket packet = Network::HiServerPacket();
-            _gameContext->_networkHandler->sendNewPacket(
-                packet, _gameContext->_networkHandler->getEndpointMap().begin()->first);
-        }
-
-        if (_gameContext->_runtime->getKeyDown(KeyCode::P) &&
-            !_gameContext->_networkHandler->getIsServer())
-        {
-            Network::ClientEventPacket packet = Network::ClientEventPacket(Network::GAME_START);
-            _gameContext->_networkHandler->sendNewPacket(
-                packet, _gameContext->_networkHandler->getEndpointMap().begin()->first);
-        }
 
         _clockManager.update();
         if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);

@@ -10,7 +10,6 @@
 #include <mlg/mlg.hpp>
 #include <nlohmann/json.hpp>
 
-#include "NetworkHandler/NetworkHandler.hpp"
 #include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
@@ -32,16 +31,7 @@ class Engine
     /**
      * @brief Constructs a new Engine object.
      */
-    Engine();
-
-    /**
-     * @brief Constructs a new Engine object with network parameters.
-     *
-     * @param host The host address for the network.
-     * @param port The port number for the network.
-     * @param isServer Boolean indicating if this instance is a server.
-     */
-    Engine(std::string host, unsigned int port, bool isServer, bool graphical = true);
+    Engine(std::map<std::string, std::string> args = {});
 
     /**
      * @brief Destroys the Engine object.
@@ -57,9 +47,6 @@ class Engine
     void addSystems();
     void loadGame();
 
-    bool _graphical = true;  ///< Boolean indicating if the engine is graphical.
-    std::shared_ptr<Network::NetworkHandler> _networkHandler =
-        nullptr;  ///< Network handler for managing network connections.
     std::shared_ptr<IRuntime> _runtime = nullptr;         ///< Shared pointer to the runtime system.
     std::shared_ptr<GameContext> _gameContext = nullptr;  ///< Shared pointer to the game context.
 
@@ -69,6 +56,7 @@ class Engine
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
     LoadLibs _displayLib;          ///< Library loader for display libraries.
 
+    std::map<std::string, std::string> _args;  ///< Map of arguments passed to the engine.
     nlohmann::json _gameConfig;  ///< JSON object for storing game configuration.
 };
 }  // namespace RType

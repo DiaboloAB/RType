@@ -9,10 +9,8 @@
 #define GAMECONTEXT_H
 
 #include <IRuntime/IRuntime.hpp>
-#include <NetworkHandler/NetworkHandler.hpp>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
-
 #include "common/components.hpp"
 // std
 #include <chrono>
@@ -38,11 +36,6 @@ class GameContext
      * @brief Destroys the GameContext object.
      */
     ~GameContext();
-
-    void setNetworkHandler(std::shared_ptr<Network::NetworkHandler> newNetworkHandler)
-    {
-        this->_networkHandler = newNetworkHandler;
-    }
 
     /**
      * @brief Retrieves a component of a specific entity identified by its tag.
@@ -94,8 +87,8 @@ class GameContext
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
 
+    bool _running = true;  ///< The running state.
     float _deltaT = 0.0f;                                                ///< The delta time.
-    std::shared_ptr<Network::NetworkHandler> _networkHandler = nullptr;  ///< The network handler.
 
    private:
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.
