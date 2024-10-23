@@ -35,7 +35,7 @@ namespace dimension {
             * @param isNewPacket Determine if the packet need to be added to validation list or if it's resend.
             * Default value: true.
             */
-            void send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket = true) override;
+            void send(const std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket = true) override;
 
         public:
             /**
@@ -76,16 +76,14 @@ namespace dimension {
             std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
             std::shared_ptr<APacketFactory> _packetFactory = nullptr;
             std::shared_ptr<std::thread> _recvThread = nullptr;
+            std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _rcvQueue;
+            std::mutex _queueMutex;
 
         private:
             std::array<char, 1024> _rcvBuffer;
 
         private:
-            std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _rcvQueue;
-            std::mutex _queueMutex;
-
-        private:
-            std::list<std::pair<std::shared_ptr<dimension::APacket> &, const asio::ip::udp::endpoint &>> _validationList;
+            std::list<std::pair<const std::shared_ptr<dimension::APacket> &, const asio::ip::udp::endpoint &>> _validationList;
             std::mutex _listMutex;
 
         public:

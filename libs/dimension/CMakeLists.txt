@@ -20,6 +20,8 @@ set(SOURCES
     src/dimension/packet/basics/Ping.cpp
     src/dimension/endpoint/AEndpoint.cpp
     src/dimension/endpoint/client/Client.cpp
+    src/dimension/endpoint/server/Server.cpp
+    src/dimension/room/ARoom.cpp
     )
 
 add_library(dimension_lib STATIC ${SOURCES})
@@ -30,7 +32,9 @@ target_include_directories(dimension_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/packet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/packet/basics
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/room
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint/client
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint/server
 )
 
 target_link_libraries(dimension_lib PUBLIC asio::asio)

@@ -33,7 +33,7 @@ class IEndpoint
      * @param isNewPacket Determine if the packet need to be added to validation list or if it's resend.
      * Default value: true.
      */
-    virtual void send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket) = 0;
+    virtual void send(const std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket) = 0;
 
    public:
     /**

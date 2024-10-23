@@ -24,6 +24,7 @@ namespace dimension {
             virtual void addToReceiveQueue(std::shared_ptr<APacket> &packet, asio::ip::udp::endpoint &endpoint) = 0;
             virtual std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getSendingQueue() const = 0;
             virtual void popSendingQueue() = 0;
+            virtual bool endpointInRoom(asio::ip::udp::endpoint &endpoint) = 0;
         public:
             virtual std::string getRoomId() = 0;
             virtual int getRoomConnected() = 0;
