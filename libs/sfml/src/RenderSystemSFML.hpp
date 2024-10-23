@@ -17,7 +17,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../IRuntime/IRuntime.hpp"
+#include "IRuntime.hpp"
 
 /**
  * @file RenderSystem.hpp
@@ -273,4 +273,10 @@ class RenderSystemSFML : public RType::IRuntime
     int _nextShaderId;
     sf::Shader* _activeShader;
 };
+
+extern "C"
+{
+    RType::IRuntime* displayEntryPoint(void) { return new RenderSystemSFML(); }
+}
+
 }  // namespace RType

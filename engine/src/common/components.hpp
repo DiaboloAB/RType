@@ -22,12 +22,17 @@
 
 namespace RType
 {
-struct NetworkComp
+struct Basics
 {
-    uint32_t id;
-    std::string authority;
+    std::string tag;
+    std::string layer;
+    bool staticObject = false;
 
-    NetworkComp(uint32_t id, std::string authority) : id(id), authority(authority){};
+    Basics() {}
+    Basics(std::string tag, std::string layer, bool staticObject)
+        : tag(tag), layer(layer), staticObject(staticObject)
+    {
+    }
 };
 
 struct Transform
@@ -48,16 +53,15 @@ struct Transform
     Transform() : position(mlg::vec3(0.0f)), rotation(mlg::vec3(0.0f)), scale(mlg::vec3(1.0f)) {}
 };
 
-struct Velocity
+struct RigidBody
 {
-    mlg::vec3 velocity;
-
-    Velocity(mlg::vec3 velocity) : velocity(velocity) {}
+    RigidBody() {}
 };
 
 struct Sprite
 {
     std::string filePath;
+    int id = -1;
 
     Sprite() {}
     Sprite(std::string filePath) : filePath(filePath) {}
@@ -68,43 +72,6 @@ struct Animator
     AnimationList animations = AnimationList();
 
     Animator() {}
-};
-
-struct CoolDown
-{
-    Timer timer;
-
-    CoolDown(bool active)
-    {
-        if (active) timer.start();
-    }
-};
-
-struct Hitbox
-{
-    mlg::vec3 size;
-    mlg::vec3 offset;
-    bool isEnemy;
-
-    Hitbox(mlg::vec3 size, mlg::vec3 offset, bool isEnemy)
-        : size(size), isEnemy(isEnemy), offset(offset)
-    {
-    }
-};
-
-struct Health
-{
-    int health;
-
-    Health(int health) : health(health) {}
-};
-
-struct Basics
-{
-    std::string tag;
-    bool staticObject;
-
-    Basics(std::string tag, bool staticObject) : tag(tag), staticObject(staticObject) {}
 };
 
 struct Button
@@ -127,26 +94,12 @@ struct Button
     {
     }
 };
-
-struct Input
-{
-    std::string input = "";
-    bool selected = false;
-};
-
-struct Ally
-{
-    mlg::vec3 moveDirection;
-
-    Ally(mlg::vec3 moveDirection) : moveDirection(moveDirection) {}
-    Ally() : moveDirection(mlg::vec3(0.0f)) {}
-};
-
 struct Text
 {
     std::string text;
     mlg::vec3 color;
     std::string font;
+    std::string id_font;
     int fontSize;
 
     Text(std::string text, mlg::vec3 color, std::string font, int fontSize)
@@ -155,14 +108,14 @@ struct Text
     }
 };
 
-struct Paragraph
+struct Dialog
 {
     std::vector<std::string> lines;
     mlg::vec3 color;
     std::string font;
     int fontSize;
 
-    Paragraph(std::string text, mlg::vec3 color, std::string font, int fontSize)
+    Dialog(std::string text, mlg::vec3 color, std::string font, int fontSize)
         : color(color), font(font), fontSize(fontSize)
     {
         std::istringstream stream(text);
@@ -178,10 +131,13 @@ struct Audio
 {
     std::vector<std::string> sounds;
     std::vector<std::string> musics;
+    int musicVolume = 50;
+    int soundVolume = 50;
     int soundID;
 
     std::queue<std::string> audioQueue;
 
+    Audio() {}
     Audio(std::vector<std::string> sounds, std::vector<std::string> musics)
         : sounds(sounds), musics(musics)
     {

@@ -59,7 +59,7 @@ struct Scripts
         }
     }
 
-    Scripts() { std::cout << "Scripts component created" << std::endl; }
+    Scripts() {}
 
     ~Scripts()
     {

@@ -10,6 +10,12 @@ class MyProjectConan(ConanFile):
         self.requires("sfml/2.6.1")
         self.requires("lua/5.4.7")
         self.requires("nlohmann_json/3.11.3")
+        self.requires("sdl_ttf/2.22.0")
+        self.requires("sdl_mixer/2.8.0")
+
+    def configure(self):
+        self.requires("sdl/2.28.5", override=True)
+        self.requires("flac/1.4.2", override=True)
 
     def build_requirements(self):
         self.tool_requires("cmake/3.22.6")

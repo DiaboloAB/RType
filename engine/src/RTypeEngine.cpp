@@ -7,22 +7,10 @@
 
 #include "RTypeEngine.hpp"
 
-#include <fstream>
-
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
-// #include "RenderSystemSFML/RenderSystemSFML.hpp"
-#include "RenderSystemSDL/RenderSystemSDL.hpp"
-#include "common/systems/AudioSystem.hpp"
-#include "common/systems/ColisionSystem.hpp"
-#include "common/systems/CppScriptsSystem.hpp"
-#include "common/systems/DrawableSystem.hpp"
-#include "common/systems/HealthSystem.hpp"
-#include "common/systems/NetworkSystem.hpp"
-#include "common/systems/ScriptsSystem.hpp"
-#include "common/systems/ScrollSystem.hpp"
-#include "common/systems/SpriteSystem.hpp"
-#include "common/systems/TimerSystem.hpp"
-#include "common/systems/forward.hpp"
+
+// std
+#include <fstream>
 
 using namespace RType;
 
@@ -31,10 +19,11 @@ Engine::Engine()
     std::cout << "----- Engine -----" << std::endl;
     std::cout << "Engine Status: Initializing" << std::endl;
     std::cout << "Engine Status: Constructing runtime" << std::endl;
-    _runtime = std::make_shared<RenderSystemSFML>();
+    _runtime = _displayLib._displays["./lib/libsfml_lib.so"];
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
+
     try
     {
         loadGame();
@@ -45,17 +34,7 @@ Engine::Engine()
         return;
     }
 
-    _systemManager.addSystem<ScriptSystem>();
-    _systemManager.addSystem<SpriteSystem>();
-    _systemManager.addSystem<ForwardSystem>();
-    _systemManager.addSystem<CppScriptsSystem>();
-    _systemManager.addSystem<TimerSystem>();
-    _systemManager.addSystem<ColisionSystem>();
-    _systemManager.addSystem<HealthSystem>();
-    _systemManager.addSystem<ScrollSystem>();
-    _systemManager.addSystem<NetworkSystem>();
-    _systemManager.addSystem<DrawableSystem>();
-    _systemManager.addSystem<AudioSystem>();
+    addSystems();
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -65,22 +44,25 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
 {
     std::cout << "----- Engine -----" << std::endl;
 
-    _runtime = _graphical ? (std::shared_ptr<IRuntime>)std::make_shared<RenderSystemSFML>()
+    _runtime = _graphical ? _displayLib._displays["./lib/libsfml_lib.so"]
                           : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>();
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
 
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
-    _systemManager.addSystem<ScriptSystem>();
-    _systemManager.addSystem<SpriteSystem>();
-    _systemManager.addSystem<ForwardSystem>();
-    _systemManager.addSystem<CppScriptsSystem>();
-    _systemManager.addSystem<TimerSystem>();
-    _systemManager.addSystem<ColisionSystem>();
-    _systemManager.addSystem<HealthSystem>();
-    _systemManager.addSystem<ScrollSystem>();
-    _systemManager.addSystem<NetworkSystem>();
-    _systemManager.addSystem<DrawableSystem>();
-    _systemManager.addSystem<AudioSystem>();
+
+    try
+    {
+        loadGame();
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return;
+    }
+
+    addSystems();
+
+    std::cout << "Engine Status: Running" << std::endl;
 }
 
 Engine::~Engine()
@@ -167,8 +149,11 @@ void Engine::run()
         if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
 
         _gameContext->_deltaT = _clockManager.getDeltaT();
-        _systemManager.update(_registry, *_gameContext);
-
+        if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
+        {
+            _systemManager.update(_registry, *_gameContext);
+            _clockManager.getUpdateDeltaT() = 0.0f;
+        }
         if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {
             _gameContext->_deltaT = _clockManager.getDrawDeltaT();

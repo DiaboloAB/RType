@@ -13,7 +13,6 @@ find_package(asio REQUIRED)
 
 set(SOURCES
     src/RTypeEngine.cpp
-    # src/RenderSystemSFML/RenderSystemSFML.cpp
     src/RenderSystemSDL/RenderSystemSDL.cpp
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp
@@ -26,7 +25,6 @@ set(SOURCES
     src/sceneManager/SceneManager.cpp
     src/sceneManager/createEntity.cpp
     src/sceneManager/addScriptsToEntity.cpp
-    src/sceneManager/initComponentCreators.cpp
     src/sceneManager/initCppScriptCreators.cpp
     src/clocksManager/ClockManager.cpp
     src/NetworkPacketManager/APacket.cpp
@@ -41,9 +39,11 @@ set(SOURCES
     src/NetworkPacketManager/PacketFactory.cpp
     src/NetworkPacketManager/PacketValidationPacket.cpp
     src/NetworkPacketManager/UpdateEntityPacket.cpp
-    src/NetworkEvents/NetworkEventHandler.cpp
+    src/addSystems.cpp
+    # src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
     src/utils/hexaColorToVec3.cpp
+    src/utils/LoadLibs.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})

@@ -8,9 +8,8 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
-#include <NetworkHandler/NetworkHandler.hpp>
-// #include <RenderSystemSFML/RenderSystemSFML.hpp>
 #include <IRuntime/IRuntime.hpp>
+#include <NetworkHandler/NetworkHandler.hpp>
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
 
