@@ -19,8 +19,6 @@ ARoom::ARoom(std::shared_ptr<APacketFactory> &factory) : _packetFactory(factory)
         this->_roomId += chars[distrib(gen)];
 }
 
-ARoom::~ARoom() { this->stop(); }
-
 void ARoom::start() {
     this->_roomThread = std::thread(&ARoom::run, this);
 }
@@ -47,5 +45,14 @@ void ARoom::popSendingQueue() {
 
 std::string ARoom::getRoomId() { return this->_roomId; };
 
-int ARoom::getRoomConnected() { return this->_connected; };
+int ARoom::getRoomConnected() { return this->_connectedNumber; };
+
+bool ARoom::endpointInRoom(asio::ip::udp::endpoint &endpoint)
+{
+    for (auto &enpointCo : this->_connectedEndpoints) {
+        if (enpointCo == endpoint)
+            return true;
+    }
+    return false;
+}
 }

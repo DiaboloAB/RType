@@ -15,14 +15,14 @@ namespace dimension {
 _______________________________________________ CONSTRUCTOR & DESTRUCTOR ____________________________________________
 *********************************************************************************************************************/
 
-AEndpoint::AEndpoint(std::shared_ptr<APacketFactory> &factory) : _packetFactory(factory) {}
+AEndpoint::AEndpoint(const std::shared_ptr<APacketFactory> &factory) : _packetFactory(factory) {}
 
 
 /*********************************************************************************************************************
 _______________________________________________ NETWORK COMMUNICATION _______________________________________________
 *********************************************************************************************************************/
 
-void AEndpoint::send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket)
+void AEndpoint::send(const std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket)
 {
     std::vector<char> packetData;
     try {
@@ -35,7 +35,7 @@ void AEndpoint::send(std::shared_ptr<APacket> &packet, const asio::ip::udp::endp
     if (isNewPacket) {
         std::lock_guard<std::mutex> lock(this->_listMutex);
         this->_validationList.emplace_back(
-            std::pair<std::shared_ptr<dimension::APacket> &,
+            std::pair<const std::shared_ptr<dimension::APacket> &,
             const asio::ip::udp::endpoint &>(packet, endpoint));
     }
 
