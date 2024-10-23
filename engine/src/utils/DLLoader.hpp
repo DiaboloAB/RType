@@ -57,13 +57,12 @@
                     throw std::runtime_error("Cannot load symbol: " + std::string(dlerror()));
                 }
 
-                // Create an instance using the factory function from the shared library
+                // Create an instance using the constructor function from the shared library
                 T *instance = static_cast<T *>(create());
 
-                // Wrap the instance in a shared_ptr
                 return std::shared_ptr<T>(instance, [this](T *ptr) {
-                    dlclose(_handle);  // Close the library when the shared_ptr is destroyed
-                    // delete ptr;        // Delete the instance
+                    dlclose(_handle);
+                    delete ptr;
                 });
             }
 

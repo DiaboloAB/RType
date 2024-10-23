@@ -10,6 +10,7 @@ add_subdirectory(engine)
 add_subdirectory(libs/mobs)
 add_subdirectory(libs/mlg)
 add_subdirectory(libs/sfml)
+add_subdirectory(libs/sdl2)
 
 add_executable(r-type_client
     src/main.cpp

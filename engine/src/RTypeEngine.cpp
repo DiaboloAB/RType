@@ -29,7 +29,10 @@ Engine::Engine()
     std::cout << "----- Engine -----" << std::endl;
     std::cout << "Engine Status: Initializing" << std::endl;
     std::cout << "Engine Status: Constructing runtime" << std::endl;
-    _runtime = _displayLib._displays["./lib/libsfml_lib.so"];
+
+    _displayLib.addLibraries("libsfml_lib.so");
+    _runtime = _displayLib._displays;
+
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
@@ -63,7 +66,9 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
 {
     std::cout << "----- Engine -----" << std::endl;
 
-    _runtime = _graphical ? _displayLib._displays["./lib/libsfml_lib.so"]
+    _displayLib.addLibraries("libsfml_lib.so");
+
+    _runtime = _graphical ? _displayLib._displays
                           : (std::shared_ptr<IRuntime>)std::make_shared<NullRuntime>();
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
 

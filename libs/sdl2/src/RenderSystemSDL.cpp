@@ -22,6 +22,7 @@ RenderSystemSDL::RenderSystemSDL()
         std::cerr << "TTF could not initialize! TTF_Error: " << TTF_GetError() << std::endl;
         return;
     }
+
     window = SDL_CreateWindow("R-Type", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600,
                               SDL_WINDOW_SHOWN);
     if (!window)

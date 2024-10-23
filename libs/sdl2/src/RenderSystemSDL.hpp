@@ -16,7 +16,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "../IRuntime/IRuntime.hpp"
+#include "IRuntime.hpp"
 
 /**
  * @file RenderSystemSDL.hpp
@@ -93,4 +93,13 @@ class RenderSystemSDL : public RType::IRuntime
     int currentId = 0;
     int generateUniqueId();
 };
+
+extern "C" {
+
+    RType::IRuntime *displayEntryPoint(void) {
+        return new RenderSystemSDL();
+    }
+
+}
+
 }  // namespace RType

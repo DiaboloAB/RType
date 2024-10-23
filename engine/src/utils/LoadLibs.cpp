@@ -20,6 +20,14 @@ static std::string nameList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
 RType::LoadLibs::LoadLibs()
 {
+}
+
+RType::LoadLibs::~LoadLibs()
+{
+}
+
+void RType::LoadLibs::addLibraries(const std::string &fileName)
+{
     const size_t path_max = 256;
     char path[path_max] = "./lib/";
     DIR *dir;
@@ -31,35 +39,19 @@ RType::LoadLibs::LoadLibs()
         exit(84);
     }
     struct dirent *entry;
+    std::cout << "----- Dynamic libraries -----" << std::endl;
+
+    std::string fullPath = path + fileName;
     while ((entry = readdir(dir)) != NULL)
     {
-        if (entry->d_type != DT_DIR)
-            addLibraries(path + std::string(entry->d_name));
+        if (entry->d_type != DT_DIR && entry->d_name == fileName) {
+            std::cout << "Adding libraries from path: " << fullPath << std::endl;
+            try {
+                _displays = _displayLoader.getInstance(fullPath, "displayEntryPoint");
+            } catch (const std::exception &e) {
+                std::cerr << e.what() << std::endl;
+            }
+        }
     }
     closedir(dir);
-}
-
-RType::LoadLibs::~LoadLibs()
-{
-}
-
-void RType::LoadLibs::addLibraries(const std::string &path)
-{
-    std::cout << "Adding libraries from path: " << path << std::endl;
-    try {
-        _displays[path] = _displayLoader.getInstance(path, "displayEntryPoint");
-        std::cout << "Display library loaded: " << path << std::endl;
-    } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
-    }
-}
-
-void RType::LoadLibs::displayLibraries(void)
-{
-    std::cout << "Displays:" << std::endl;
-    for (auto &display : _displays)
-    {
-        std::cout << display.first << std::endl;
-    }
-    std::cout << std::endl;
 }
