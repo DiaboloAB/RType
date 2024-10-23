@@ -60,6 +60,7 @@ struct RigidBody
 struct Sprite
 {
     std::string filePath;
+    int id = -1;
 
     Sprite() {}
     Sprite(std::string filePath) : filePath(filePath) {}
@@ -98,6 +99,7 @@ struct Text
     std::string text;
     mlg::vec3 color;
     std::string font;
+    std::string id_font;
     int fontSize;
 
     Text(std::string text, mlg::vec3 color, std::string font, int fontSize)
