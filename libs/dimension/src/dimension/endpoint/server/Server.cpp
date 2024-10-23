@@ -31,24 +31,4 @@ void DimensionServer::handlePackets()
     auto &packet = queueAtT.front();
   }
 }
-
-void DimensionServer:: sendToRoom(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
-{
-  for (auto &room : this->_matchMakingRoom) {
-    if (room->endpointInRoom(packet.second)) {
-      room->addToReceiveQueue(packet.first, packet.second);
-      return;
-    }
-  }
-  for (auto &room : this->_privateRoom) {
-    if (room->endpointInRoom(packet.second)) {
-      room->addToReceiveQueue(packet.first, packet.second);
-      return;
-    }
-  }
-  std::shared_ptr<PacketValidation> validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
-  validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
-  validation->setPacketReceiveType(packet.first->getPacketType());
-  this->send(validation, packet.second, false);
-}
 }

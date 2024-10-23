@@ -8,9 +8,8 @@
 
 #pragma once
 
-#include "endpoint/AEndpoint.hpp"
+#include "AEndpoint.hpp"
 #include "APacketFactory.hpp"
-#include "IRoom.hpp"
 
 #include <list>
 
@@ -23,10 +22,7 @@ class DimensionServer : public AEndpoint {
    public:
       void handlePackets();
       virtual void initRoom(bool isPrivate = false) = 0;
-      void sendToRoom(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
    protected:
-      std::list<std::shared_ptr<IRoom>> _privateRoom;
-      std::list<std::shared_ptr<IRoom>> _matchMakingRoom;
       std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> _sendingQueue;
 };
 }  // namespace dimension
