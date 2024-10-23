@@ -11,7 +11,7 @@ namespace RType
 {
 
 RenderSystemSFML::RenderSystemSFML()
-    : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false), _nextSpriteId(1)
+    : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false), _nextSpriteId(1), _nextFontId(1),_nextMusicId(1),_nextSoundId(1)
 {
     _activeShader = nullptr;
 }
@@ -162,19 +162,20 @@ void RenderSystemSFML::setGameIcon(const std::string& filePath)
     _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
-void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& textStr,
+void RenderSystemSFML::drawText(int fontID, const std::string& textStr,
                                 const mlg::vec3 position, unsigned int fontSize,
                                 const mlg::vec3& color, bool centered)
 {
-    sf::Font font;
-    if (!font.loadFromFile(fontPath))
+    // Recherche de la police dans le cache à partir de l'ID
+    auto it = _fonts.find(fontID);
+    if (it == _fonts.end())
     {
-        std::cerr << "Erreur lors du chargement de la police : " << fontPath << std::endl;
+        std::cerr << "Erreur : police non trouvée (ID: " << fontID << ")" << std::endl;
         return;
     }
 
     sf::Text text;
-    text.setFont(font);
+    text.setFont(*it->second);
     text.setString(textStr);
     text.setCharacterSize(fontSize);
     text.setPosition(position.x, position.y);
@@ -188,9 +189,9 @@ void RenderSystemSFML::drawText(const std::string& fontPath, const std::string& 
         text.setOrigin(textRect.left + textRect.width / 2.0f,
                        textRect.top + textRect.height / 2.0f);
     }
-
     _window.draw(text);
 }
+
 
 void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color)
 {
@@ -226,21 +227,26 @@ void RenderSystemSFML::FullScreenWindow()
     }
 }
 
-bool RenderSystemSFML::loadMusic(const std::string& filePath)
+int RenderSystemSFML::loadMusic(const std::string& filePath)
 {
+    int musicId = _nextMusicId++;
+
     auto music = std::make_unique<sf::Music>();
     if (!music->openFromFile(filePath))
     {
         std::cerr << "Erreur lors du chargement de la musique : " << filePath << std::endl;
-        return false;
+        return -1;
     }
-    _musics[filePath] = std::move(music);
-    return true;
+
+    _musics[musicId] = std::move(music);
+
+    return musicId;
 }
 
-void RenderSystemSFML::playMusic(const std::string& filePath, bool loop)
+
+void RenderSystemSFML::playMusic(int musicID, bool loop)
 {
-    auto it = _musics.find(filePath);
+    auto it = _musics.find(musicID);
     if (it != _musics.end())
     {
         _currentMusic = it->second.get();
@@ -249,7 +255,7 @@ void RenderSystemSFML::playMusic(const std::string& filePath, bool loop)
     }
     else
     {
-        std::cerr << "Erreur : musique non trouvée (" << filePath << ")" << std::endl;
+        std::cerr << "Erreur : musique non trouvée (ID: " << musicID << ")" << std::endl;
     }
 }
 
@@ -262,7 +268,18 @@ void RenderSystemSFML::stopCurrentMusic()
     }
 }
 
-void RenderSystemSFML::unloadMusic(const std::string& musicName) { _musics.erase(musicName); }
+void RenderSystemSFML::unloadMusic(int musicID)
+{
+    auto it = _musics.find(musicID);
+    if (it != _musics.end())
+    {
+        _musics.erase(it);
+    }
+    else
+    {
+        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")" << std::endl;
+    }
+}
 
 int RenderSystemSFML::loadSound(const std::string& filePath)
 {
@@ -282,10 +299,10 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
 
 void RenderSystemSFML::updateSounds()
 {
-    _activeSounds.erase(
-        std::remove_if(_activeSounds.begin(), _activeSounds.end(), [](const sf::Sound& sound)
-                       { return sound.getStatus() == sf::Sound::Stopped; }),
-        _activeSounds.end());
+    _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
+                                       [](const sf::Sound& sound)
+                                       { return sound.getStatus() == sf::Sound::Stopped; }),
+                        _activeSounds.end());
 }
 
 void RenderSystemSFML::playSound(int soundId)
@@ -306,17 +323,20 @@ void RenderSystemSFML::playSound(int soundId)
 
 void RenderSystemSFML::unloadSound(int soundId) { _soundCache.erase(soundId); }
 
-void RenderSystemSFML::loadFont(const std::string& filePath)
+int RenderSystemSFML::loadFont(const std::string& filePath)
 {
-    sf::Font font;
-    if (!font.loadFromFile(filePath))
+    int fontId = _nextFontId++;
+    auto font = std::make_shared<sf::Font>();
+    if (!font->loadFromFile(filePath))
     {
-        std::cerr << "Erreur lors du chargement de la police : " << filePath << std::endl;
-        return;
+        std::cerr << "Erreur : impossible de charger la police depuis " << filePath << std::endl;
+        return -1;
     }
-    _fonts[filePath] = font;
-}
 
+    _fonts[fontId] = font;
+
+    return fontId;
+}
 void RenderSystemSFML::setFramerateLimit(unsigned int limit) { _window.setFramerateLimit(limit); }
 
 void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)

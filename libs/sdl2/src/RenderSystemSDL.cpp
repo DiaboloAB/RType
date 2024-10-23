@@ -22,7 +22,6 @@ RenderSystemSDL::RenderSystemSDL()
         std::cerr << "TTF could not initialize! TTF_Error: " << TTF_GetError() << std::endl;
         return;
     }
-
     window = SDL_CreateWindow("R-Type", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600,
                               SDL_WINDOW_SHOWN);
     if (!window)
@@ -110,17 +109,18 @@ void RenderSystemSDL::setGameIcon(const std::string& filePath)
     }
 }
 
-void RenderSystemSDL::loadFont(const std::string& filePath)
+int RenderSystemSDL::loadFont(const std::string& filePath)
 {
-    if (currentFont)
-    {
-        TTF_CloseFont(currentFont);
-    }
-    currentFont = TTF_OpenFont(filePath.c_str(), 24);
-    if (!currentFont)
-    {
-        std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
-    }
+    // if (currentFont)
+    // {
+    //     TTF_CloseFont(currentFont);
+    // }
+    // currentFont = TTF_OpenFont(filePath.c_str(), 24);
+    // if (!currentFont)
+    // {
+    //     std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
+    // }
+    return 0;
 }
 
 int RenderSystemSDL::loadSprite(const std::string& filePath)
@@ -168,28 +168,28 @@ void RenderSystemSDL::drawSprite(int id, mlg::vec3 position)
     SDL_RenderCopy(renderer, texture.get(), nullptr, &dstRect);
 }
 
-void RenderSystemSDL::drawText(const std::string& fontPath, const std::string& textStr,
+void RenderSystemSDL::drawText(int id, const std::string& textStr,
                                const mlg::vec3 position, unsigned int fontSize,
                                const mlg::vec3& color, bool centered)
 {
-    if (!currentFont)
-    {
-        loadFont(fontPath);
-    }
-    SDL_Color sdlColor = {static_cast<Uint8>(color.x), static_cast<Uint8>(color.y),
-                          static_cast<Uint8>(color.z)};
-    SDL_Surface* textSurface = TTF_RenderText_Solid(currentFont, textStr.c_str(), sdlColor);
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_Rect textRect = {static_cast<int>(position.x), static_cast<int>(position.y), textSurface->w,
-                         textSurface->h};
-    if (centered)
-    {
-        textRect.x -= textSurface->w / 2;
-        textRect.y -= textSurface->h / 2;
-    }
-    SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
+    // if (!currentFont)
+    // {
+    //     loadFont(fontPath);
+    // }
+    // SDL_Color sdlColor = {static_cast<Uint8>(color.x), static_cast<Uint8>(color.y),
+    //                       static_cast<Uint8>(color.z)};
+    // SDL_Surface* textSurface = TTF_RenderText_Solid(currentFont, textStr.c_str(), sdlColor);
+    // SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    // SDL_Rect textRect = {static_cast<int>(position.x), static_cast<int>(position.y), textSurface->w,
+    //                      textSurface->h};
+    // if (centered)
+    // {
+    //     textRect.x -= textSurface->w / 2;
+    //     textRect.y -= textSurface->h / 2;
+    // }
+    // SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+    // SDL_FreeSurface(textSurface);
+    // SDL_DestroyTexture(textTexture);
 }
 
 void RenderSystemSDL::FullScreenWindow()
@@ -202,38 +202,38 @@ bool RenderSystemSDL::isWindowOpen() { return windowOpen; }
 
 void RenderSystemSDL::unloadSprite(int id) { textures.erase(id); }
 
-bool RenderSystemSDL::loadMusic(const std::string& filePath)
+int RenderSystemSDL::loadMusic(const std::string& filePath)
 {
-    if (currentMusic)
-    {
-        Mix_FreeMusic(currentMusic);
-    }
-    currentMusic = Mix_LoadMUS(filePath.c_str());
-    if (!currentMusic)
-    {
-        std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
-        return false;
-    }
-    return true;
+    // if (currentMusic)
+    // {
+    //     Mix_FreeMusic(currentMusic);
+    // }
+    // currentMusic = Mix_LoadMUS(filePath.c_str());
+    // if (!currentMusic)
+    // {
+    //     std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+    //     return false;
+    // }
+    return 0;
 }
 
-void RenderSystemSDL::playMusic(const std::string& filePath, bool loop)
+void RenderSystemSDL::playMusic(const int id, bool loop)
 {
-    if (!currentMusic)
-    {
-        loadMusic(filePath);
-    }
-    if (currentMusic)
-    {
-        Mix_PlayMusic(currentMusic, loop ? -1 : 1);
-    }
+    // if (!currentMusic)
+    // {
+    //     loadMusic(filePath);
+    // }
+    // if (currentMusic)
+    // {
+    //     Mix_PlayMusic(currentMusic, loop ? -1 : 1);
+    // }
 }
 
 void RenderSystemSDL::updateSounds() {}
 
 void RenderSystemSDL::stopCurrentMusic() { Mix_HaltMusic(); }
 
-void RenderSystemSDL::unloadMusic(const std::string& filePath)
+void RenderSystemSDL::unloadMusic(const int id)
 {
     if (currentMusic)
     {

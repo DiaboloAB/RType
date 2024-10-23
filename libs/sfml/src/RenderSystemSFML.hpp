@@ -150,9 +150,9 @@ class RenderSystemSFML : public RType::IRuntime
      * @param fontSize The size of the font.
      * @param textColor The color of the text.
      */
-    void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
-                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
-                  bool centered = false) override;
+    void drawText(int fontID, const std::string& textStr,
+                                const mlg::vec3 position, unsigned int fontSize,
+                                const mlg::vec3& color, bool centered) override;
 
     /**
      * @brief Draws a rectangle on the window.
@@ -191,14 +191,14 @@ class RenderSystemSFML : public RType::IRuntime
      * "assets/music/background.ogg").
      * @return `true` if the music was preloaded successfully, `false` otherwise.
      */
-    bool loadMusic(const std::string& filePath) override;
+    int loadMusic(const std::string& filePath) override;
 
     /**
      * @brief Plays a preloaded music.
      * @param musicName The unique name of the preloaded music to play.
      * @param loop Whether the music should loop continuously (default is `true`).
      */
-    void playMusic(const std::string& filePath, bool loop = true) override;
+    void playMusic(int musicID, bool loop = true) override;
 
     /**
      * @brief Stops the currently playing music.
@@ -209,7 +209,7 @@ class RenderSystemSFML : public RType::IRuntime
      * @brief Unloads a specific music from the cache.
      * @param musicName The unique name of the preloaded music to unload.
      */
-    void unloadMusic(const std::string& musicName) override;
+    void unloadMusic(int musicID) override;
 
     /**
      * @brief Preloads a sound buffer from a file and stores it in a cache.
@@ -234,7 +234,7 @@ class RenderSystemSFML : public RType::IRuntime
      * @brief Loads a font from a file.
      * @param filePath The file path of the font to load.
      */
-    void loadFont(const std::string& filePath) override;
+    int loadFont(const std::string& filePath) override;
 
     void setFramerateLimit(unsigned int limit) override;
 
@@ -256,7 +256,7 @@ class RenderSystemSFML : public RType::IRuntime
 
     int _nextSpriteId;
 
-    std::map<std::string, std::unique_ptr<sf::Music>> _musics;
+    std::unordered_map<int, std::shared_ptr<sf::Music>> _musics;
     sf::Music* _currentMusic = nullptr;
     std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _soundBuffers;
     std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _soundCache;
@@ -268,9 +268,11 @@ class RenderSystemSFML : public RType::IRuntime
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
     sf::Image _icon;
-    std::map<std::string, sf::Font> _fonts;
+    std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
     std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaderCache;
     int _nextShaderId;
+    int _nextFontId;
+    int _nextMusicId;
     sf::Shader* _activeShader;
 };
 
