@@ -29,7 +29,7 @@ void ARoom::stop() {
 }
 
 void ARoom::addToReceiveQueue(std::shared_ptr<APacket> &packet, asio::ip::udp::endpoint &endpoint) {
-    std::lock_guard<std::mutex>(this->_mutex);
+    std::lock_guard<std::mutex> lock(this->_mutex);
     this->_recvQueue.push(std::make_pair(packet, endpoint));
 }
 
@@ -39,7 +39,7 @@ std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> ARoom::
 }
 
 void ARoom::popSendingQueue() {
-    std::lock_guard<std::mutex>(this->_mutex);
+    std::lock_guard<std::mutex> lock(this->_mutex);
     this->_sendQueue.pop();
 }
 
