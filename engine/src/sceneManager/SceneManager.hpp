@@ -91,8 +91,6 @@ class SceneManager
     {
         if (data.contains(ComponentName))
         {
-            std::cout << "Adding component " << ComponentName << " to entity " << entity
-                      << std::endl;
             T component;
             data.at(ComponentName).get_to(component);
             registry.emplace<T>(entity, component);
