@@ -8,7 +8,21 @@
           "Sprite": { "texture": "assets/graphics/background.png" },
           "Scripts" : [
             "scripts/player.lua"
-          ]
+          ],
+          "Animator": {
+            "animations": [
+              {
+                "name": "default",
+                "speed": 10,
+                "texture": "assets/graphics/enemy/red_ship.png",
+                "frameCount": 8,
+                "frameSize": [32, 32, 0],
+                "scale": [2, 2, 0],
+                "rotation": 0,
+                "loop": true
+              }
+            ]
+          }
         }
       }
     ]

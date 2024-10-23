@@ -44,6 +44,43 @@ void from_json(const nlohmann::json& j, Sprite& sprite)
     if (!j.contains("texture")) throw std::runtime_error("Sprite must have a texture file path");
     j.at("texture").get_to(sprite.filePath);
 }
+
+void from_json(const nlohmann::json& j, Animation& animation)
+{
+    if (!j.contains("name")) throw std::runtime_error("Animation must have a name");
+    j.at("name").get_to(animation.name);
+
+    if (!j.contains("speed")) throw std::runtime_error("Animation must have a speed");
+    j.at("speed").get_to(animation.speed);
+
+    if (!j.contains("texture")) throw std::runtime_error("Animation must have a texture file path");
+    j.at("texture").get_to(animation.filepath);
+
+    if (!j.contains("frameCount")) throw std::runtime_error("Animation must have a frame count");
+    j.at("frameCount").get_to(animation.frameCount);
+
+    if (!j.contains("frameSize")) throw std::runtime_error("Animation must have a frame size");
+    j.at("frameSize").get_to(animation.frameSize);
+
+    if (j.contains("scale")) j.at("scale").get_to(animation.scale);
+    if (j.contains("rotation")) j.at("rotation").get_to(animation.rotation);
+    if (j.contains("loop")) j.at("loop").get_to(animation.loop);
+}
+
+void from_json(const nlohmann::json& j, Animator& animator)
+{
+    if (j.contains("animations"))
+    {
+        for (const auto& anim_json : j.at("animations"))
+        {
+            Animation animation;
+            from_json(anim_json, animation);
+            animator.animations.addAnimation(animation);
+        }
+    }
+}
+
+
 }  // namespace RType
 
 #endif  // FROMJSON_HPP

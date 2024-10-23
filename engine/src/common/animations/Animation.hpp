@@ -20,6 +20,8 @@
 class Animation
 {
    private:
+
+   public:
     std::string filepath;  ///< Path to the file containing the animation.
     int frameCount;        ///< Number of frames in the animation.
     float speed;           ///< Speed of the animation.
@@ -29,7 +31,6 @@ class Animation
     std::string name;      ///< Name of the animation.
     bool loop;             ///< Boolean to know if the animation should loop.
 
-   public:
     /**
      * @brief Constructor for Animation.
      * @param filepath Path to the file containing the animation.
@@ -43,6 +44,9 @@ class Animation
      */
     Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec3 &frameSize,
               const mlg::vec3 &scale, float rotation, std::string name, bool loop);
+
+    Animation() {};
+
     /**
      * @brief Destructor for Animation.
      */
