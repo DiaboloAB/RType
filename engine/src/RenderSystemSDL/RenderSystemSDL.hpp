@@ -8,12 +8,14 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+
 #include <iostream>
 #include <map>
 #include <memory>
 #include <unordered_map>
+
 #include "../IRuntime/IRuntime.hpp"
 
 /**
@@ -46,16 +48,17 @@ class RenderSystemSDL : public RType::IRuntime
     void updateWindow() override;
     mlg::vec3 getTextureSize(int id) override;
     mlg::vec3 getMousePosition() override;
-    void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
+    void drawRectangle(mlg::vec4& spriteCoords, bool full,
+                       const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
     void setGameIcon(const std::string& filePath) override;
     void loadFont(const std::string& filePath) override;
     int loadSprite(const std::string& filePath) override;
-    void drawSprite(int id, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale, float rotation) override;
+    void drawSprite(int id, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
+                    float rotation) override;
     void drawSprite(int id, mlg::vec3 position) override;
-    void drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale, float rotation) override;
-    void drawSprite(const std::string& filePath, mlg::vec3 position) override;
     void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
-                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0), bool centered = false) override;
+                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
+                  bool centered = false) override;
     void FullScreenWindow() override;
     bool isWindowOpen() override;
     void unloadSprite(int id) override;
@@ -71,7 +74,8 @@ class RenderSystemSDL : public RType::IRuntime
     virtual void updateSounds() override;
 
     // Shader management
-    int loadShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) override;
+    int loadShader(const std::string& vertexShaderPath,
+                   const std::string& fragmentShaderPath) override;
     void setShader(int shaderId) override;
     void resetShader() override;
 

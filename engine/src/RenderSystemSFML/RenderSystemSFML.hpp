@@ -123,11 +123,6 @@ class RenderSystemSFML : public RType::IRuntime
      */
     void drawSprite(int spriteId, mlg::vec3 position) override;
 
-    virtual void drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteRect,
-                            mlg::vec3 scale, float rotation) override;
-
-    virtual void drawSprite(const std::string& filePath, mlg::vec3 position) override;
-
     /**
      * @brief Retrieves the size of a sprite's texture by its ID.
      * @param spriteId The unique ID of the sprite.

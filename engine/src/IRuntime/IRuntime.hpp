@@ -140,10 +140,6 @@ class IRuntime
                             float rotation) = 0;
     virtual void drawSprite(int spriteId, mlg::vec3 position) = 0;
 
-    virtual void drawSprite(const std::string& filePath, mlg::vec3 position, mlg::vec4 spriteRect,
-                            mlg::vec3 scale, float rotation) = 0;
-    virtual void drawSprite(const std::string& filePath, mlg::vec3 position) = 0;
-
     /**
      * @brief Pure virtual method to draw text on the window.
      *
