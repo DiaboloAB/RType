@@ -29,8 +29,8 @@ class DrawableSystem : public ISystem
         {
             auto &text = view.get<Text>(entity);
             auto &transform = view.get<Transform>(entity);
-            gameContext._runtime->drawText(text.font, text.text, transform.position, text.fontSize,
-                                           text.color);
+            // gameContext._runtime->drawText(text.font, text.text, transform.position, text.fontSize,
+            //                                text.color);
         }
 
         auto view2 = registry.view<Paragraph, Transform>();
@@ -41,10 +41,10 @@ class DrawableSystem : public ISystem
             int i = 0;
             for (auto line : paragraph.lines)
             {
-                gameContext._runtime->drawText(
-                    paragraph.font, line,
-                    mlg::vec3(transform.position.x, transform.position.y + i, transform.position.z),
-                    paragraph.fontSize, paragraph.color, true);
+                // gameContext._runtime->drawText(
+                //     paragraph.font, line,
+                //     mlg::vec3(transform.position.x, transform.position.y + i, transform.position.z),
+                //     paragraph.fontSize, paragraph.color, true);
                 i += paragraph.fontSize + 5;
             }
         }
@@ -77,11 +77,11 @@ class DrawableSystem : public ISystem
                     }
                 }
             }
-            gameContext._runtime->drawText(
-                button.font, button.text,
-                mlg::vec3(transform.position.x + button.size.x / 2 - 5,
-                          transform.position.y + button.size.y / 2 - 5, 0),
-                16, mlg::vec3(255, 255, 255), true);
+            // gameContext._runtime->drawText(
+            //     button.font, button.text,
+            //     mlg::vec3(transform.position.x + button.size.x / 2 - 5,
+            //               transform.position.y + button.size.y / 2 - 5, 0),
+            //     16, mlg::vec3(255, 255, 255), true);
             // gameContext._runtime->drawButton(button.text, transform.position, button.size,
             // button.color,
             //                                  button.textColor, button.fontSize);

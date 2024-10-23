@@ -13,7 +13,7 @@ find_package(asio REQUIRED)
 
 set(SOURCES
     src/RTypeEngine.cpp
-    # src/RenderSystemSFML/RenderSystemSFML.cpp
+    src/RenderSystemSFML/RenderSystemSFML.cpp
     src/RenderSystemSDL/RenderSystemSDL.cpp
     src/gameContext/GameContext.cpp
     src/system/SystemManager.cpp

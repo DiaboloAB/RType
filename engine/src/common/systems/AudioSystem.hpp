@@ -50,12 +50,12 @@ class AudioSystem : public ISystem
                 if (std::find(audio.musics.begin(), audio.musics.end(), sound) !=
                     audio.musics.end())
                 {
-                    gameContext._runtime->playMusic(sound, true);
+                    // gameContext._runtime->playMusic(sound, true);
                 }
                 else if (std::find(audio.sounds.begin(), audio.sounds.end(), sound) !=
                          audio.sounds.end())
                 {
-                    gameContext._runtime->playSound(audio.soundID);
+                    // gameContext._runtime->playSound(audio.soundID);
                 }
             }
         }
