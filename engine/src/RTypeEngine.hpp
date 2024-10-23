@@ -67,7 +67,7 @@ class Engine
     SystemManager _systemManager;  ///< Manager for handling various systems.
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
-    LoadLibs _displayLib;         ///< Library loader for display libraries.
+    LoadLibs _displayLib;          ///< Library loader for display libraries.
 
     nlohmann::json _gameConfig;  ///< JSON object for storing game configuration.
 };

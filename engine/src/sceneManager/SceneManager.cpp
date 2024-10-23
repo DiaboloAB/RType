@@ -20,10 +20,7 @@
 namespace RType
 {
 
-SceneManager::SceneManager()
-{
-    initCppScriptCreators();
-}
+SceneManager::SceneManager() { initCppScriptCreators(); }
 
 SceneManager::~SceneManager()
 {

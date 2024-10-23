@@ -5,14 +5,16 @@
 ** Core
 */
 
-#include "DLLoader.hpp"
 #include "LoadLibs.hpp"
 
 #include <dirent.h>
+
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
+
+#include "DLLoader.hpp"
 
 static std::string nameList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
@@ -33,23 +35,23 @@ RType::LoadLibs::LoadLibs()
     struct dirent *entry;
     while ((entry = readdir(dir)) != NULL)
     {
-        if (entry->d_type != DT_DIR)
-            addLibraries(path + std::string(entry->d_name));
+        if (entry->d_type != DT_DIR) addLibraries(path + std::string(entry->d_name));
     }
     closedir(dir);
 }
 
-RType::LoadLibs::~LoadLibs()
-{
-}
+RType::LoadLibs::~LoadLibs() {}
 
 void RType::LoadLibs::addLibraries(const std::string &path)
 {
     std::cout << "Adding libraries from path: " << path << std::endl;
-    try {
+    try
+    {
         _displays[path] = _displayLoader.getInstance(path, "displayEntryPoint");
         std::cout << "Display library loaded: " << path << std::endl;
-    } catch (const std::exception &e) {
+    }
+    catch (const std::exception &e)
+    {
         std::cerr << e.what() << std::endl;
     }
 }

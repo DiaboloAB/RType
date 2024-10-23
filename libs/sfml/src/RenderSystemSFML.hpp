@@ -274,12 +274,9 @@ class RenderSystemSFML : public RType::IRuntime
     sf::Shader* _activeShader;
 };
 
-extern "C" {
-
-    RType::IRuntime *displayEntryPoint(void) {
-        return new RenderSystemSFML();
-    }
-
+extern "C"
+{
+    RType::IRuntime* displayEntryPoint(void) { return new RenderSystemSFML(); }
 }
 
 }  // namespace RType

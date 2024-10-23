@@ -30,7 +30,9 @@ struct Basics
 
     Basics() {}
     Basics(std::string tag, std::string layer, bool staticObject)
-        : tag(tag), layer(layer), staticObject(staticObject) {}
+        : tag(tag), layer(layer), staticObject(staticObject)
+    {
+    }
 };
 
 struct Transform
@@ -53,7 +55,6 @@ struct Transform
 
 struct RigidBody
 {
-
     RigidBody() {}
 };
 
@@ -72,7 +73,6 @@ struct Animator
 
     Animator() {}
 };
-
 
 struct Button
 {

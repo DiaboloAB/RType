@@ -9,80 +9,86 @@
 #define DLLOADER_HPP_
 
 // std
-#include <string>
-#include <stdexcept>
 #include <dlfcn.h>
-#include <memory>
+
 #include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
 
+template <typename T>
+class DLLoader
+{
+   public:
+    /**
+     * @brief Construct a new DLLoader object
+     *
+     */
+    DLLoader() = default;
 
-    template <typename T>
-    class DLLoader {
-        public:
-            /**
-             * @brief Construct a new DLLoader object
-             *
-             */
-            DLLoader() = default;
+    /**
+     * @brief Destroy the DLLoader object
+     *
+     */
+    ~DLLoader()
+    {
+        if (_handle) dlclose(_handle);
+    }
 
-            /**
-             * @brief Destroy the DLLoader object
-             *
-             */
-            ~DLLoader() {
-                if (_handle)
-                    dlclose(_handle);
-            }
+    /**
+     * @brief Get the Instance object
+     *
+     * Use this function to get an instance of the class.
+     * Throws a runtime_error if the library cannot be opened or if the symbol cannot be loaded.
+     *
+     * @param path Path to the library.
+     * @param entryPoint Name of the function to load.
+     * @return std::shared_ptr<T>
+     */
+    std::shared_ptr<T> getInstance(const std::string &path,
+                                   const std::string &entryPoint = "entryPoint")
+    {
+        _handle = dlopen(path.c_str(), RTLD_LAZY);
+        if (!_handle)
+        {
+            throw std::runtime_error("Cannot open library: " + std::string(dlerror()));
+        }
 
-            /**
-             * @brief Get the Instance object
-             *
-             * Use this function to get an instance of the class.
-             * Throws a runtime_error if the library cannot be opened or if the symbol cannot be loaded.
-             *
-             * @param path Path to the library.
-             * @param entryPoint Name of the function to load.
-             * @return std::shared_ptr<T>
-             */
-            std::shared_ptr<T> getInstance(const std::string &path, const std::string &entryPoint = "entryPoint")
+        // Cast the symbol to a function that returns a pointer to T.
+        void *(*create)() = (void *(*)())dlsym(_handle, entryPoint.c_str());
+        if (!create)
+        {
+            throw std::runtime_error("Cannot load symbol: " + std::string(dlerror()));
+        }
+
+        // Create an instance using the factory function from the shared library
+        T *instance = static_cast<T *>(create());
+
+        // Wrap the instance in a shared_ptr
+        return std::shared_ptr<T>(
+            instance,
+            [this](T *ptr)
             {
-                _handle = dlopen(path.c_str(), RTLD_LAZY);
-                if (!_handle) {
-                    throw std::runtime_error("Cannot open library: " + std::string(dlerror()));
-                }
+                dlclose(_handle);  // Close the library when the shared_ptr is destroyed
+                // delete ptr;        // Delete the instance
+            });
+    }
 
-                // Cast the symbol to a function that returns a pointer to T.
-                void *(*create)() = (void *(*)())dlsym(_handle, entryPoint.c_str());
-                if (!create) {
-                    throw std::runtime_error("Cannot load symbol: " + std::string(dlerror()));
-                }
+    /**
+     * @brief Destroy the Instance object
+     *
+     * @param instance
+     */
+    void destroyInstance(T *instance)
+    {
+        if (instance)
+        {
+            delete instance;
+        }
+    }
 
-                // Create an instance using the factory function from the shared library
-                T *instance = static_cast<T *>(create());
-
-                // Wrap the instance in a shared_ptr
-                return std::shared_ptr<T>(instance, [this](T *ptr) {
-                    dlclose(_handle);  // Close the library when the shared_ptr is destroyed
-                    // delete ptr;        // Delete the instance
-                });
-            }
-
-
-            /**
-             * @brief Destroy the Instance object
-             *
-             * @param instance
-             */
-            void destroyInstance(T *instance)
-            {
-                if (instance) {
-                    delete instance;
-                }
-            }
-
-        private:
-            void *_handle = nullptr;
-    };
-
+   private:
+    void *_handle = nullptr;
+};
 
 #endif /* !DLLOADER_HPP_ */

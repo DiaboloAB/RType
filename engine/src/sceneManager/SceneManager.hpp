@@ -111,7 +111,6 @@ class SceneManager
 
     std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
 
-
     void initCppScriptCreators();
 
     std::string _defaultScene;                    ///< The default scene name.

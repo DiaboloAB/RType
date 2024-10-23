@@ -6,6 +6,7 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
+
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
 
 // std
@@ -23,10 +24,12 @@ Engine::Engine()
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
 
-    try {
+    try
+    {
         loadGame();
     }
-    catch (const std::exception& e) {
+    catch (const std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
         return;
     }
@@ -47,10 +50,12 @@ Engine::Engine(std::string host, unsigned int port, bool isServer, bool graphica
 
     this->_networkHandler = std::make_shared<Network::NetworkHandler>(host, port, isServer);
 
-    try {
+    try
+    {
         loadGame();
     }
-    catch (const std::exception& e) {
+    catch (const std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
         return;
     }
