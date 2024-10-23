@@ -8,21 +8,24 @@
 
 #pragma once
 
+#include <list>
+
 #include "AEndpoint.hpp"
 #include "PacketFactory.hpp"
 
-#include <list>
-
 namespace dimension
 {
-class AServer : public AEndpoint {
+class AServer : public AEndpoint
+{
    public:
-      AServer(std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port);
-      ~AServer() = default;
+    AServer(std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port);
+    ~AServer() = default;
+
    public:
-      void handlePackets();
-      virtual void initRoom(bool isPrivate = false) = 0;
+    void handlePackets();
+    virtual void initRoom(bool isPrivate = false) = 0;
+
    protected:
-      std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> _sendingQueue;
+    std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> _sendingQueue;
 };
 }  // namespace dimension

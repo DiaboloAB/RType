@@ -4,13 +4,16 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #include "DestroyEntity.hpp"
 
 namespace dimension
 {
-DestroyEntity::DestroyEntity(uint8_t type) : APacket(type) { this->_packetDataSize = sizeof(uint32_t); }
+DestroyEntity::DestroyEntity(uint8_t type) : APacket(type)
+{
+    this->_packetDataSize = sizeof(uint32_t);
+}
 
 DestroyEntity::DestroyEntity(std::vector<char> &buffer) : APacket(buffer)
 {

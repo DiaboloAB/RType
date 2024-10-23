@@ -4,7 +4,7 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #pragma once
 
@@ -59,12 +59,12 @@ class MoveEntity : public APacket
     float getDirectionX() const;
     float getDirectionY() const;
 
-    public:
-        void setNetworkId(const uint32_t &networkId);
-        void setPosX(const float &posX);
-        void setPosY(const float &posY);
-        void setDirectionX(const float &directionX);
-        void setDirectionY(const float &directionY);
+   public:
+    void setNetworkId(const uint32_t &networkId);
+    void setPosX(const float &posX);
+    void setPosY(const float &posY);
+    void setDirectionX(const float &directionX);
+    void setDirectionY(const float &directionY);
 
    private:
     uint32_t _networkId;

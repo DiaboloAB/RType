@@ -4,7 +4,7 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #pragma once
 
@@ -57,9 +57,9 @@ class PacketValidation : public APacket
     uint8_t getPacketReceiveType() const;
     uint64_t getPacketReceiveTimeStamp() const;
 
-    public:
-        void setPacketReceiveType(const uint8_t &receiveType);
-        void setPacketReceiveTimeStamp(const uint64_t &receiveTimeStamp);
+   public:
+    void setPacketReceiveType(const uint8_t &receiveType);
+    void setPacketReceiveTimeStamp(const uint64_t &receiveTimeStamp);
 
    private:
     uint8_t _packetReceiveType;

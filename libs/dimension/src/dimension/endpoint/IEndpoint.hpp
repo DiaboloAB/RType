@@ -9,6 +9,7 @@
 #pragma once
 
 #include <asio.hpp>
+
 #include "APacket.hpp"
 #include "PacketValidation.hpp"
 
@@ -30,15 +31,16 @@ class IEndpoint
      *
      * @param packet: Packet to send (See: docs/rfc-53952.txt).
      * @param endpoint: Endpoint target to send packet to.
-     * @param isNewPacket Determine if the packet need to be added to validation list or if it's resend.
-     * Default value: true.
+     * @param isNewPacket Determine if the packet need to be added to validation list or if it's
+     * resend. Default value: true.
      */
-    virtual void send(const std::shared_ptr<APacket> &packet, const asio::ip::udp::endpoint &endpoint, bool isNewPacket) = 0;
+    virtual void send(const std::shared_ptr<APacket> &packet,
+                      const asio::ip::udp::endpoint &endpoint, bool isNewPacket) = 0;
 
    public:
     /**
-    * @brief Method that pop the first element of the packet received queue if not empty.
-    */
+     * @brief Method that pop the first element of the packet received queue if not empty.
+     */
     virtual void popReceiveQueue() = 0;
 
     /**
@@ -48,9 +50,8 @@ class IEndpoint
      * @param validation: Packet that tells information about the packet to validate.
      * @param enpoint: Enpoint from the target that needed to validate the packet.
      */
-    virtual void deleteFromValidationList(
-        const std::shared_ptr<PacketValidation> &validation,
-        const asio::ip::udp::endpoint &endpoint) = 0;
+    virtual void deleteFromValidationList(const std::shared_ptr<PacketValidation> &validation,
+                                          const asio::ip::udp::endpoint &endpoint) = 0;
 
    protected:
     /**
@@ -67,8 +68,7 @@ class IEndpoint
      * @param remoteEndoint: Endpoint of the sender of the packet.
      * @param bytesRcv: Length of the packet received.
      */
-    virtual void handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp::endpoint &endpoint,
-        std::size_t &bytesRcv) = 0;
-
+    virtual void handleDataReceived(std::array<char, 1024> &buffer,
+                                    asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv) = 0;
 };
 }  // namespace dimension

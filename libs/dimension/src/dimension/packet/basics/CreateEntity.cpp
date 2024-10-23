@@ -4,16 +4,17 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #include "CreateEntity.hpp"
 
 namespace dimension
 {
 
-CreateEntity::CreateEntity(uint8_t type) : APacket(type) 
+CreateEntity::CreateEntity(uint8_t type) : APacket(type)
 {
-    this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size();
+    this->_packetDataSize =
+        sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size();
 }
 
 CreateEntity::CreateEntity(std::vector<char> &buffer) : APacket(buffer)
@@ -63,9 +64,10 @@ void CreateEntity::setPosX(const float &posX) { this->_posX = posX; }
 
 void CreateEntity::setPosY(const float &posY) { this->_posX = posY; }
 
-void CreateEntity::setEntityToCreate(const std::string &entityToCreate) {
+void CreateEntity::setEntityToCreate(const std::string &entityToCreate)
+{
     this->_entityToCreate = entityToCreate;
-    this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) +
-        this->_entityToCreate.size();
+    this->_packetDataSize =
+        sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size();
 }
 }  // namespace dimension

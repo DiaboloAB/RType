@@ -4,7 +4,7 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #pragma once
 
@@ -55,9 +55,9 @@ class UpdateEntity : public dimension::APacket
     uint32_t getNetworkId() const;
     uint32_t getScore() const;
 
-    public:
-        void setNetworkId(const uint32_t &networkId);
-        void setScore(const uint32_t &score);
+   public:
+    void setNetworkId(const uint32_t &networkId);
+    void setScore(const uint32_t &score);
 
    private:
     uint32_t _networkId;

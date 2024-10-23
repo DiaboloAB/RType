@@ -4,13 +4,13 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #include "PacketValidation.hpp"
 
 namespace dimension
 {
-PacketValidation::PacketValidation(uint8_t type) : APacket(type) 
+PacketValidation::PacketValidation(uint8_t type) : APacket(type)
 {
     this->_packetDataSize = sizeof(uint8_t) + sizeof(uint64_t);
 }

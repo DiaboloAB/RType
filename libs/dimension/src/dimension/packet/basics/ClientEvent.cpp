@@ -4,13 +4,13 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #include "ClientEvent.hpp"
 
 namespace dimension
 {
-ClientEvent::ClientEvent(uint8_t type)  : APacket(type) {this->_packetDataSize = sizeof(uint8_t);}
+ClientEvent::ClientEvent(uint8_t type) : APacket(type) { this->_packetDataSize = sizeof(uint8_t); }
 
 ClientEvent::ClientEvent(std::vector<char> &buffer) : APacket(buffer)
 {

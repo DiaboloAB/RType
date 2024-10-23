@@ -8,12 +8,12 @@
 
 #pragma once
 
-#include <functional>
-#include <memory>
 #include <APacket.hpp>
+#include <functional>
+#include <iostream>
+#include <memory>
 #include <typeindex>
 #include <unordered_map>
-#include <iostream>
 
 namespace dimension
 {
@@ -72,7 +72,8 @@ class PacketManager
         const std::type_index typeIndex(typeid(Packet));
         for (auto &packetId : this->_idMap)
             if (packetId.second == typeIndex)
-                return std::dynamic_pointer_cast<Packet>(this->_packetToSendFactory[typeIndex](packetId.first));
+                return std::dynamic_pointer_cast<Packet>(
+                    this->_packetToSendFactory[typeIndex](packetId.first));
         throw PacketManagerError("PacketManagerError : Packet Type not registered !");
     };
 
@@ -109,24 +110,26 @@ class PacketManager
         }
     };
 
-    public:
-        std::type_index getIndexFromType(uint8_t packetType) const {
-            if (this->_idMap.find(packetType) == this->_idMap.end())
-                throw PacketManagerError("PacketManagerError : Packet type not registered.");
-            return this->_idMap.at(packetType);
-        }
+   public:
+    std::type_index getIndexFromType(uint8_t packetType) const
+    {
+        if (this->_idMap.find(packetType) == this->_idMap.end())
+            throw PacketManagerError("PacketManagerError : Packet type not registered.");
+        return this->_idMap.at(packetType);
+    }
 
-        uint8_t getTypeFromIndex(std::type_index packetIndex) const {
-            for (auto &registered : this->_idMap)
-                if (registered.second == packetIndex)
-                    return registered.first;
-            throw PacketManagerError("PacketManagerError : Packet index not registered.");
-        }
+    uint8_t getTypeFromIndex(std::type_index packetIndex) const
+    {
+        for (auto &registered : this->_idMap)
+            if (registered.second == packetIndex) return registered.first;
+        throw PacketManagerError("PacketManagerError : Packet index not registered.");
+    }
 
    private:
     std::unordered_map<std::type_index, std::function<std::shared_ptr<APacket>(uint8_t type)>>
         _packetToSendFactory;
-    std::unordered_map<std::type_index, std::function<std::shared_ptr<APacket>(std::vector<char> &)>>
+    std::unordered_map<std::type_index,
+                       std::function<std::shared_ptr<APacket>(std::vector<char> &)>>
         _packetToDeserializeFactory;
     std::unordered_map<std::uint8_t, std::type_index> _idMap;
     uint8_t _typeId = 0;

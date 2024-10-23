@@ -15,18 +15,19 @@ namespace dimension
 class Client : public AEndpoint
 {
    public:
-      Client(const std::shared_ptr<PacketFactory> &factory);
-      ~Client();
-   public:
+    Client(const std::shared_ptr<PacketFactory> &factory);
+    ~Client();
 
-      /**
-       * @brief Establish a connection between the client and the server.
-       *
-       * @param host Host of the server to connect to.
-       * @param port Port of the server to connect to.
-       */
-      void connectServer(std::string host, unsigned int port);
+   public:
+    /**
+     * @brief Establish a connection between the client and the server.
+     *
+     * @param host Host of the server to connect to.
+     * @param port Port of the server to connect to.
+     */
+    void connectServer(std::string host, unsigned int port);
+
    private:
-      std::shared_ptr<asio::ip::udp::endpoint> _serverEndpoint = nullptr;
+    std::shared_ptr<asio::ip::udp::endpoint> _serverEndpoint = nullptr;
 };
 }  // namespace dimension

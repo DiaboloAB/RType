@@ -4,7 +4,7 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #pragma once
 
@@ -58,11 +58,11 @@ class CreateEntity : public APacket
     float getPosY() const;
     std::string getEntityToCreate() const;
 
-    public:
-        void setNetworkId(const uint32_t &networkId);
-        void setPosX(const float &posX);
-        void setPosY(const float &posY);
-        void setEntityToCreate(const std::string &entityToCreate);
+   public:
+    void setNetworkId(const uint32_t &networkId);
+    void setPosX(const float &posX);
+    void setPosY(const float &posY);
+    void setEntityToCreate(const std::string &entityToCreate);
 
    private:
     uint32_t _networkId;

@@ -4,12 +4,14 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-18
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #include "PacketFactory.hpp"
 
-namespace dimension {
-PacketFactory::PacketFactory() {
+namespace dimension
+{
+PacketFactory::PacketFactory()
+{
     this->_packetManager.registerPacket<HiServer>();
     this->_packetManager.registerPacket<HiClient>();
     this->_packetManager.registerPacket<AdiosServer>();
@@ -23,4 +25,4 @@ PacketFactory::PacketFactory() {
 }
 
 PacketFactory::~PacketFactory() {}
-}
+}  // namespace dimension

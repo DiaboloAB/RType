@@ -4,7 +4,7 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #pragma once
 
@@ -50,12 +50,12 @@ class DestroyEntity : public APacket
      * @return std::vector<char> that represent serialization of networkId to binary.
      */
     std::vector<char> serializeData() const override;
-    
+
    public:
     uint32_t getNetworkId() const;
 
-    public:
-        void setNetworkId(const uint32_t &networkId);
+   public:
+    void setNetworkId(const uint32_t &networkId);
 
    private:
     uint32_t _networkId;

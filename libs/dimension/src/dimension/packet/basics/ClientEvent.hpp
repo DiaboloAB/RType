@@ -4,7 +4,7 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #pragma once
 
@@ -53,8 +53,8 @@ class ClientEvent : public dimension::APacket
    public:
     uint8_t getClientEvent() const;
 
-    public:
-        void setClientEvent(const uint8_t &event);
+   public:
+    void setClientEvent(const uint8_t &event);
 
    private:
     uint8_t _clientEvent;

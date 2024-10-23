@@ -4,16 +4,17 @@
  *  Author: Morgan LARGEOT, Maxence LARGEOT
  *  Create Time: 2024-10-20
  *  Location: Rennes
-  **********************************************************************************/
+ **********************************************************************************/
 
 #include "MoveEntity.hpp"
 
 namespace dimension
 {
 
-MoveEntity::MoveEntity(uint8_t type) : APacket(type) 
-{ 
-    this->_packetDataSize = sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float);
+MoveEntity::MoveEntity(uint8_t type) : APacket(type)
+{
+    this->_packetDataSize =
+        sizeof(uint32_t) + sizeof(float) + sizeof(float) + sizeof(float) + sizeof(float);
 }
 
 MoveEntity::MoveEntity(std::vector<char> &buffer) : APacket(buffer)
@@ -62,7 +63,7 @@ float MoveEntity::getDirectionX() const { return this->_directionX; }
 
 float MoveEntity::getDirectionY() const { return this->_directionY; }
 
-void MoveEntity::setNetworkId(const uint32_t &networkId) {this->_networkId = networkId; }
+void MoveEntity::setNetworkId(const uint32_t &networkId) { this->_networkId = networkId; }
 
 void MoveEntity::setPosX(const float &posX) { this->_posX = posX; }
 
