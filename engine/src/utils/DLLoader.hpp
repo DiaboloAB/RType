@@ -64,12 +64,13 @@ class DLLoader
         // Create an instance using the constructor function from the shared library
         T *instance = static_cast<T *>(create());
 
-        return std::shared_ptr<T>(instance, [this](T *ptr) {
-            dlclose(_handle);
-            delete ptr;
-        });
+        return std::shared_ptr<T>(instance,
+                                  [this](T *ptr)
+                                  {
+                                      dlclose(_handle);
+                                      delete ptr;
+                                  });
     }
-
 
     /**
      * @brief Destroy the Instance object

@@ -21,17 +21,17 @@ namespace RType
 
 class LoadLibs
 {
-private:
-    private:
-        DLLoader<IRuntime> _displayLoader;
-        std::string _currentLib;
+   private:
+   private:
+    DLLoader<IRuntime> _displayLoader;
+    std::string _currentLib;
 
-    public:
-        LoadLibs();
-        ~LoadLibs();
+   public:
+    LoadLibs();
+    ~LoadLibs();
 
-        void addLibraries(const std::string &path);
-        std::shared_ptr<IRuntime> _displays;
+    void addLibraries(const std::string &path);
+    std::shared_ptr<IRuntime> _displays;
 };
 
 }  // namespace RType

@@ -10,8 +10,8 @@
 namespace RType::Network
 {
 
-EndpointState::EndpointState(){};
-EndpointState::~EndpointState(){};
+EndpointState::EndpointState() {};
+EndpointState::~EndpointState() {};
 
 bool EndpointState::getConnected() const { return this->_connected; }
 

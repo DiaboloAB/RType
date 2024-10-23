@@ -94,12 +94,9 @@ class RenderSystemSDL : public RType::IRuntime
     int generateUniqueId();
 };
 
-extern "C" {
-
-    RType::IRuntime *displayEntryPoint(void) {
-        return new RenderSystemSDL();
-    }
-
+extern "C"
+{
+    RType::IRuntime* displayEntryPoint(void) { return new RenderSystemSDL(); }
 }
 
 }  // namespace RType

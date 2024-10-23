@@ -10,9 +10,9 @@
 namespace RType::Network
 {
 
-NetworkIdHandler::NetworkIdHandler(){};
+NetworkIdHandler::NetworkIdHandler() {};
 
-NetworkIdHandler::~NetworkIdHandler(){};
+NetworkIdHandler::~NetworkIdHandler() {};
 
 uint32_t NetworkIdHandler::generateNetworkId()
 {

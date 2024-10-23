@@ -49,8 +49,8 @@ class NetworkIdHandler
     class NetworkIdHandlerError : public std::exception
     {
        public:
-        NetworkIdHandlerError(std::string msg) : _msg(msg){};
-        ~NetworkIdHandlerError(){};
+        NetworkIdHandlerError(std::string msg) : _msg(msg) {};
+        ~NetworkIdHandlerError() {};
 
        private:
         const char *what() const noexcept override { return _msg.c_str(); };
