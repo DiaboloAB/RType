@@ -107,29 +107,16 @@ class SceneManager
     void addScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
                             const nlohmann::json &componentData);
 
-    using ComponentCreator =
-        std::function<void(mobs::Registry &, mobs::Entity, const nlohmann::json &)>;
     using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
 
-    std::unordered_map<std::string, ComponentCreator> _componentCreators;  ///< Component creators.
     std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
 
-    /**
-     * @brief Initializes the component creators.
-     */
-    void initComponentCreators();
-
-    /**
-     * @brief Initializes the C++ script creators.
-     */
     void initCppScriptCreators();
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
     std::map<std::string, std::string> _scenes;   ///< The scenes.
     std::map<std::string, std::string> _prefabs;  ///< The prefabs.
-    // std::vector<std::string> _scenesList;   ///< List of all scenes.
-    // std::vector<std::string> _prefabsList;  ///< List of all prefabs.
 };
 
 }  // namespace RType

@@ -26,7 +26,7 @@ class SpriteSystem : public ISystem
         for (auto entity : view)
         {
             auto &sprite = view.get<Sprite>(entity);
-            gameContext._runtime->loadSprite(sprite.filePath);
+            sprite.id = gameContext._runtime->loadSprite(sprite.filePath);
         }
 
         auto viewAnim = registry.view<Animator>();
@@ -62,7 +62,7 @@ class SpriteSystem : public ISystem
             auto &transform = *std::get<1>(entry);
             auto &sprite = *std::get<2>(entry);
 
-            // gameContext._runtime->drawSprite(sprite.filePath, transform.position);
+            gameContext._runtime->drawSprite(sprite.id, transform.position);
         }
 
         auto viewAnim = registry.view<Transform, Animator>();

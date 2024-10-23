@@ -22,6 +22,16 @@ class DrawableSystem : public ISystem
     DrawableSystem() {}
     ~DrawableSystem() {}
 
+    void load(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto view = registry.view<Text>();
+        for (auto entity : view)
+        {
+            auto &text = view.get<Text>(entity);
+            text.font_id = gameContext._runtime->loadFont(text.font);
+        }
+    }
+
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Text, Transform>();

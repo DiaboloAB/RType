@@ -30,7 +30,9 @@ struct Basics
 
     Basics() {}
     Basics(std::string tag, std::string layer, bool staticObject)
-        : tag(tag), layer(layer), staticObject(staticObject) {}
+        : tag(tag), layer(layer), staticObject(staticObject)
+    {
+    }
 };
 
 struct Transform
@@ -53,13 +55,13 @@ struct Transform
 
 struct RigidBody
 {
-
     RigidBody() {}
 };
 
 struct Sprite
 {
     std::string filePath;
+    int id = -1;
 
     Sprite() {}
     Sprite(std::string filePath) : filePath(filePath) {}
@@ -71,7 +73,6 @@ struct Animator
 
     Animator() {}
 };
-
 
 struct Button
 {
@@ -98,6 +99,7 @@ struct Text
     std::string text;
     mlg::vec3 color;
     std::string font;
+    std::string id_font;
     int fontSize;
 
     Text(std::string text, mlg::vec3 color, std::string font, int fontSize)

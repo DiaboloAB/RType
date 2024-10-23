@@ -5,14 +5,16 @@
 ** Core
 */
 
-#include "DLLoader.hpp"
 #include "LoadLibs.hpp"
 
 #include <dirent.h>
+
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
+
+#include "DLLoader.hpp"
 
 static std::string nameList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
