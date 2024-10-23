@@ -3,10 +3,21 @@
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
-    "defaultScene": "menu.json",
-    "network": true,
+    "defaultScene": "scenesTest",
     "fontList": [
         "assets/fonts/Roboto-Medium.ttf",
         "assets/fonts/r-type.ttf"
+    ],
+    "scenes": [
+        {
+            "name": "scenesTest",
+            "path": "scenes/scenesTest.json"
+        }
+    ],
+    "prefabs": [
+        {
+            "name": "test",
+            "path": "test.json"
+        }
     ]
 }

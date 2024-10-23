@@ -49,16 +49,31 @@ int getKey(lua_State* L)
 
 int getKeyDown(lua_State* L)
 {
-    const char* keyName = lua_tostring(L, 1);
+    if (lua_gettop(L) < 1)
+    {
+        lua_pushboolean(L, false);
+        return 1;
+    }
 
-    RType::KeyCode keyCode = stringToKeyCode(std::string(keyName));
+    const char* key = lua_tostring(L, 1);
+    if (key == nullptr)
+    {
+        lua_pushboolean(L, false);
+        return 1;
+    }
+
     RType::GameContext* gameContext =
         static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+    if (gameContext == nullptr)
+    {
+        lua_pushboolean(L, false);
+        return 1;
+    }
+    RType::KeyCode keyCode = stringToKeyCode(std::string(key));
 
-    bool isPressed = gameContext->_runtime->getKeyDown(keyCode);
+    bool isKeyDown = gameContext->_runtime->getKeyDown(keyCode);
 
-    lua_pushboolean(L, isPressed);
-
+    lua_pushboolean(L, isKeyDown);
     return 1;
 }
 
@@ -84,11 +99,10 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
     lua_pushcclosure(L, (lua_CFunction)getKey, 1);
     lua_setglobal(L, "getKey");
 
-    // lua_pushcclosure(L, (lua_CFunction)getKeyDown, 1);
-    // lua_setglobal(L, "getKeyDown");
+    lua_pushlightuserdata(L, gameContext);
 
-    // lua_pushcclosure(L, (lua_CFunction)getKeyUp, 1);
-    // lua_setglobal(L, "getKeyUp");
+    lua_pushcclosure(L, (lua_CFunction)getKeyDown, 1);
+    lua_setglobal(L, "getKeyDown");
 }
 
 #endif  // GETKEY_H
