@@ -13,6 +13,8 @@
 #include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
 #include "timer/Timer.hpp"
+#include "networkPacket/PacketFactory.hpp"
+#include "Client.hpp"
 
 // std
 #include <iostream>
@@ -28,6 +30,13 @@ struct NetworkComp
     std::string authority;
 
     NetworkComp(uint32_t id, std::string authority) : id(id), authority(authority){};
+};
+
+struct NetworkClient
+{
+    dimension::DimensionClient client;
+
+    NetworkClient(): client(std::make_shared<Network::PacketFactory>()){}
 };
 
 struct Transform
