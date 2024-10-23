@@ -178,6 +178,7 @@ struct Audio
 {
     std::vector<std::string> sounds;
     std::vector<std::string> musics;
+    int soundID;
 
     std::queue<std::string> audioQueue;
 

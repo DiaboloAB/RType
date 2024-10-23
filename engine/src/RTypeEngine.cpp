@@ -10,7 +10,8 @@
 #include <fstream>
 
 #include "IRuntime/NullRuntime/NullRuntime.hpp"
-#include "RenderSystemSFML/RenderSystemSFML.hpp"
+// #include "RenderSystemSFML/RenderSystemSFML.hpp"
+#include "RenderSystemSDL/RenderSystemSDL.hpp"
 #include "common/systems/AudioSystem.hpp"
 #include "common/systems/ColisionSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"

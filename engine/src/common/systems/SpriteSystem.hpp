@@ -62,7 +62,7 @@ class SpriteSystem : public ISystem
             auto &transform = *std::get<1>(entry);
             auto &sprite = *std::get<2>(entry);
 
-            gameContext._runtime->drawSprite(sprite.filePath, transform.position);
+            // gameContext._runtime->drawSprite(sprite.filePath, transform.position);
         }
 
         auto viewAnim = registry.view<Transform, Animator>();
@@ -88,9 +88,9 @@ class SpriteSystem : public ISystem
                     }
                 }
             }
-            gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position,
-                                             currentAnim.getSpriteCoords(animations.currentFrame),
-                                             currentAnim.getScale(), currentAnim.getRotation());
+            // gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position,
+            //                                  currentAnim.getSpriteCoords(animations.currentFrame),
+            //                                  currentAnim.getScale(), currentAnim.getRotation());
         }
     }
 
