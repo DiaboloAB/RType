@@ -44,6 +44,7 @@ struct Transform
         : position(position), rotation(mlg::vec3(0.0f)), scale(mlg::vec3(1.0f))
     {
     }
+
     Transform() : position(mlg::vec3(0.0f)), rotation(mlg::vec3(0.0f)), scale(mlg::vec3(1.0f)) {}
 };
 
@@ -58,6 +59,7 @@ struct Sprite
 {
     std::string filePath;
 
+    Sprite() {}
     Sprite(std::string filePath) : filePath(filePath) {}
 };
 
