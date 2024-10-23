@@ -54,6 +54,7 @@ class Engine
     void run();
 
    private:
+    void addSystems();
     void loadGame();
 
     bool _graphical = true;  ///< Boolean indicating if the engine is graphical.
