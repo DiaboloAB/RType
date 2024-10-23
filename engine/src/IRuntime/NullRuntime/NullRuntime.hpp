@@ -26,7 +26,7 @@ class NullRuntime : public IRuntime
     bool getKeyDown(KeyCode key) override { return false; }
     void clearWindow() override {}
     void updateWindow() override {}
-    mlg::vec3 getTextureSize(const std::string& spriteName) override { return mlg::vec3(0, 0, 0); }
+    mlg::vec3 getTextureSize(int spriteId) override { return mlg::vec3(0, 0, 0); }
     mlg::vec3 getMousePosition() override { return mlg::vec3(0, 0, 0); }
     void drawRectangle(mlg::vec4& spriteCoords, bool full,
                        const mlg::vec3& color = mlg::vec3(0, 0, 0)) override
@@ -34,12 +34,12 @@ class NullRuntime : public IRuntime
     }
     void setGameIcon(const std::string& filePath) override {}
     void loadFont(const std::string& filePath) override {}
-    void loadSprite(const std::string& filePath) override {}
-    void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteRect,
-                    mlg::vec3 scale, float rotation) override
+    int loadSprite(const std::string& filePath) override { return 0; }
+    void drawSprite(int IDSprite, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
+                    float rotation) override
     {
     }
-    void drawSprite(const std::string& spriteName, mlg::vec3 position) override {}
+    void drawSprite(int IDSprite, mlg::vec3 position) override {}
     void drawText(const std::string& fontPath, const std::string& textStr, const mlg::vec3 position,
                   unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
                   bool centered = false) override
@@ -47,21 +47,24 @@ class NullRuntime : public IRuntime
     }
     void FullScreenWindow() override {}
     bool isWindowOpen() override { return true; }
-    bool loadTexture(const std::string& textureName, const std::string& filePath) override
-    {
-        return false;
-    }
-    void unloadTexture(const std::string& textureName) override {}
-    void unloadSprite(const std::string& spriteName) override {}
+    void unloadSprite(int spriteId) override {}
     bool loadMusic(const std::string& filePath) override { return false; }
     void playMusic(const std::string& filePath, bool loop) override {}
     void stopCurrentMusic() override {}
     void unloadMusic(const std::string& musicName) override {}
-    bool loadSound(const std::string& filePath) override { return false; }
-    void playSound(const std::string& filePath) override {}
-    void unloadSound(const std::string& soundName) override {}
+    int loadSound(const std::string& filePath) override { return false; }
+    void playSound(const int soundID) override {}
+    void unloadSound(const int soundID) override {}
     void setFramerateLimit(unsigned int limit) override {}
     void setVerticalSyncEnabled(bool enabled) override {}
+    void updateSounds() override {}
+    int loadShader(const std::string& vertexShaderPath,
+                   const std::string& fragmentShaderPath) override
+    {
+        return 0;
+    }
+    void setShader(int shaderId) {}
+    void resetShader() {}
 
    private:
     // Member variables

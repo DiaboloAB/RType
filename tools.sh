@@ -46,6 +46,12 @@ elif [ "$COMMAND" == "thread-build" ]; then
     cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
     cmake --build . -- -j 4
+    elif [ "$COMMAND" == "sdl-build" ]; then
+    conan profile detect --force
+    conan install ./conan/sdl/. --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+    cd build
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+    cmake --build . -- -j 4
 elif [ "$COMMAND" == "pack" ]; then
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"

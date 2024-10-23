@@ -87,7 +87,7 @@ class IRuntime
      *
      * This method must be implemented to set the title of the window.
      */
-    virtual mlg::vec3 getTextureSize(const std::string& spriteName) = 0;
+    virtual mlg::vec3 getTextureSize(int spriteId) = 0;
 
     /**
      * @brief Pure virtual method to set the window title.
@@ -128,7 +128,7 @@ class IRuntime
      *
      * This method must be implemented to assign a texture to a sprite.
      */
-    virtual void loadSprite(const std::string& filePath) = 0;
+    virtual int loadSprite(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to draw a sprite on the window.
@@ -136,9 +136,9 @@ class IRuntime
      * This method must be implemented to render images or sprites
      * in the rendering window.
      */
-    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position, mlg::vec4 spriteRect,
-                            mlg::vec3 scale, float rotation) = 0;
-    virtual void drawSprite(const std::string& spriteName, mlg::vec3 position) = 0;
+    virtual void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
+                            float rotation) = 0;
+    virtual void drawSprite(int spriteId, mlg::vec3 position) = 0;
 
     /**
      * @brief Pure virtual method to draw text on the window.
@@ -170,27 +170,12 @@ class IRuntime
     virtual bool isWindowOpen() = 0;
 
     /**
-     * @brief Pure virtual method to close the window.
-     *
-     * This method must be implemented to close the window and end the rendering loop.
-     */
-    virtual bool loadTexture(const std::string& textureName, const std::string& filePath) = 0;
-
-    /**
-     * @brief Pure virtual method to unload a texture from memory.
-     * @param textureName The name of the texture to unload.
-     *
-     * This method must be implemented to remove a texture from memory.
-     */
-    virtual void unloadTexture(const std::string& textureName) = 0;
-
-    /**
      * @brief Pure virtual method to unload a sprite from memory.
      * @param spriteName The name of the sprite to unload.
      *
      * This method must be implemented to remove a sprite from memory.
      */
-    virtual void unloadSprite(const std::string& spriteName) = 0;
+    virtual void unloadSprite(int spriteId) = 0;
 
     /**
      * @brief Pure virtual method to load a music file.
@@ -235,7 +220,7 @@ class IRuntime
      *
      * This method must be implemented to load a sound file into memory.
      */
-    virtual bool loadSound(const std::string& filePath) = 0;
+    virtual int loadSound(const std::string& filePath) = 0;
 
     /**
      * @brief Pure virtual method to play a sound file.
@@ -244,7 +229,7 @@ class IRuntime
      * This method must be implemented to play a sound file that has been loaded
      * into memory.
      */
-    virtual void playSound(const std::string& filePath) = 0;
+    virtual void playSound(const int soundID) = 0;
 
     /**
      * @brief Pure virtual method to unload a sound file from memory.
@@ -252,7 +237,7 @@ class IRuntime
      *
      * This method must be implemented to remove a sound file from memory.
      */
-    virtual void unloadSound(const std::string& soundName) = 0;
+    virtual void unloadSound(const int soundID) = 0;
 
     /**
      * @brief Pure virtual method to set the framerate limit.
@@ -269,6 +254,13 @@ class IRuntime
      * This method must be implemented to enable or disable vertical sync.
      */
     virtual void setVerticalSyncEnabled(bool enabled) = 0;
+
+    virtual void updateSounds() = 0;
+
+    virtual int loadShader(const std::string& vertexShaderPath,
+                           const std::string& fragmentShaderPath) = 0;
+    virtual void setShader(int shaderId) = 0;
+    virtual void resetShader() = 0;
 
    private:
     // No private member data defined in this interface.

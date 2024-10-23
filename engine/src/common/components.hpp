@@ -131,6 +131,8 @@ struct Audio
     std::vector<std::string> musics;
     int musicVolume = 50;
     int soundVolume = 50;
+    int soundID;
+
     std::queue<std::string> audioQueue;
 
     Audio() {}
