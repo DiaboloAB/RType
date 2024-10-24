@@ -7,6 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(BINARY_NAME "r-type_client")
 
+if (POLICY CMP0091)
+    cmake_policy(SET CMP0091 NEW)
+endif ()
+
 ##############graphic library flag (default sfml)###################
 if(NOT DEFINED GRAPHICS)
     set(GRAPHICS "SFML" CACHE STRING "Select the graphics library: SFML, SDL, or OFF" FORCE)
