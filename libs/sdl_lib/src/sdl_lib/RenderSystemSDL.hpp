@@ -16,7 +16,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "IRuntime.hpp"
+#include "IRuntime/IRuntime.hpp"
 
 /**
  * @file RenderSystemSDL.hpp

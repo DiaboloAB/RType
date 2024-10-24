@@ -23,7 +23,6 @@ set(SOURCES
     # src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
     src/utils/hexaColorToVec3.cpp
-    src/utils/LoadLibs.cpp
     )
 
 add_library(RTypeEngine STATIC ${SOURCES})
@@ -31,6 +30,7 @@ add_library(RTypeEngine STATIC ${SOURCES})
 target_include_directories(RTypeEngine PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include
     )
 
 target_link_libraries(RTypeEngine PUBLIC
@@ -39,6 +39,7 @@ target_link_libraries(RTypeEngine PUBLIC
     asio::asio
     mlg::mlg
     mobs::mobs
+    ${GRAPHICS_LIB}
 )
 
 option(TESTS "Build tests" OFF)
