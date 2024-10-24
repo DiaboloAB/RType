@@ -9,6 +9,7 @@ COMMAND=$1
 
 if [ "$COMMAND" == "build" ]; then
 
+    echo "Building project..."
     mkdir build
     cd build
     conan profile detect --force
@@ -18,6 +19,7 @@ if [ "$COMMAND" == "build" ]; then
 
 elif [ "$COMMAND" == "build-sdl" ]; then
 
+    echo "Building project with SDL..."
     mkdir build
     cd build
     conan profile detect --force
@@ -27,6 +29,7 @@ elif [ "$COMMAND" == "build-sdl" ]; then
 
 elif [ "$COMMAND" == "build-off" ]; then
 
+    echo "Building project without graphics..."
     mkdir build
     cd build
     conan profile detect --force
@@ -36,15 +39,18 @@ elif [ "$COMMAND" == "build-off" ]; then
 
 elif [ "$COMMAND" == "build-test" ]; then
 
+    echo "Building tests..."
+    mkdir build
+    cd build
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-    cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=ON
     cmake --build .
 
 elif [ "$COMMAND" == "run-test" ]; then
 
     echo "Running tests..."
+    mkdir build
     cd build
     ./libs/mobs/test_mobs
     ./libs/mlg/test_mlg
@@ -53,9 +59,11 @@ elif [ "$COMMAND" == "run-test" ]; then
 
 elif [ "$COMMAND" == "pack" ]; then
 
+    echo "Packing project..."
+    mkdir build
+    cd build
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-    cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
     cpack --config CPackConfig.cmake
 
