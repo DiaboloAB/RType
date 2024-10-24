@@ -80,6 +80,14 @@ void from_json(const nlohmann::json& j, Animator& animator)
     }
 }
 
+void from_json(const nlohmann::json& j, Sticky &sticky)
+{
+    if (!j.contains("target")) throw std::runtime_error("Sticky must have a target");
+    j.at("target").get_to(sticky.target);
+
+    if (j.contains("offset")) j.at("offset").get_to(sticky.offset);
+}
+
 }  // namespace RType
 
 #endif  // FROMJSON_HPP

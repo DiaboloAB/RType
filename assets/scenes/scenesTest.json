@@ -24,6 +24,18 @@
             ]
           }
         }
+      },
+      {
+        "tag": "stick",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [0, 0, 0] },
+          "Sprite": { "texture": "assets/graphics/enemy/red_ship.png" },
+          "Sticky": {
+            "target": "player",
+            "offset": [100, 100, 0]
+          }
+        }
       }
     ]
 }
