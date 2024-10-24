@@ -20,7 +20,6 @@
 class Animation
 {
    private:
-
    public:
     std::string filepath;  ///< Path to the file containing the animation.
     int frameCount;        ///< Number of frames in the animation.
@@ -45,7 +44,7 @@ class Animation
     Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec3 &frameSize,
               const mlg::vec3 &scale, float rotation, std::string name, bool loop);
 
-    Animation() {};
+    Animation(){};
 
     /**
      * @brief Destructor for Animation.

@@ -1,19 +1,23 @@
 #include <gtest/gtest.h>
+
 #include "mobs/mobs.hpp"
 
 using namespace mobs;
 
-class EntityManagerTest : public ::testing::Test {
-protected:
+class EntityManagerTest : public ::testing::Test
+{
+   protected:
     EntityManager entityManager;
 };
 
-TEST_F(EntityManagerTest, create) {
+TEST_F(EntityManagerTest, create)
+{
     Entity entity = entityManager.create();
     EXPECT_EQ(entity, 0);
 }
 
-TEST_F(EntityManagerTest, Create2Entity) {
+TEST_F(EntityManagerTest, Create2Entity)
+{
     Entity entity = entityManager.create();
     Entity entity2 = entityManager.create();
 
@@ -21,7 +25,8 @@ TEST_F(EntityManagerTest, Create2Entity) {
     EXPECT_EQ(entity2, 1);
 }
 
-TEST_F(EntityManagerTest, SetAndGetSignature) {
+TEST_F(EntityManagerTest, SetAndGetSignature)
+{
     Entity entity = entityManager.create();
     Signature signature;
     signature.set(1);

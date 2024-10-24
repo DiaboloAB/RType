@@ -11,7 +11,12 @@ namespace RType
 {
 
 RenderSystemSFML::RenderSystemSFML()
-    : _window(sf::VideoMode(1920, 1080), "RType"), _isFullScreen(false), _nextSpriteId(1), _nextFontId(1),_nextMusicId(1),_nextSoundId(1)
+    : _window(sf::VideoMode(1920, 1080), "RType"),
+      _isFullScreen(false),
+      _nextSpriteId(1),
+      _nextFontId(1),
+      _nextMusicId(1),
+      _nextSoundId(1)
 {
     _activeShader = nullptr;
 }
@@ -162,9 +167,8 @@ void RenderSystemSFML::setGameIcon(const std::string& filePath)
     _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
-void RenderSystemSFML::drawText(int fontID, const std::string& textStr,
-                                const mlg::vec3 position, unsigned int fontSize,
-                                const mlg::vec3& color, bool centered)
+void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
+                                unsigned int fontSize, const mlg::vec3& color, bool centered)
 {
     // Recherche de la police dans le cache à partir de l'ID
     auto it = _fonts.find(fontID);
@@ -191,7 +195,6 @@ void RenderSystemSFML::drawText(int fontID, const std::string& textStr,
     }
     _window.draw(text);
 }
-
 
 void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color)
 {
@@ -243,7 +246,6 @@ int RenderSystemSFML::loadMusic(const std::string& filePath)
     return musicId;
 }
 
-
 void RenderSystemSFML::playMusic(int musicID, bool loop)
 {
     auto it = _musics.find(musicID);
@@ -277,7 +279,8 @@ void RenderSystemSFML::unloadMusic(int musicID)
     }
     else
     {
-        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")" << std::endl;
+        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")"
+                  << std::endl;
     }
 }
 
@@ -299,10 +302,10 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
 
 void RenderSystemSFML::updateSounds()
 {
-    _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
-                                       [](const sf::Sound& sound)
-                                       { return sound.getStatus() == sf::Sound::Stopped; }),
-                        _activeSounds.end());
+    _activeSounds.erase(
+        std::remove_if(_activeSounds.begin(), _activeSounds.end(), [](const sf::Sound& sound)
+                       { return sound.getStatus() == sf::Sound::Stopped; }),
+        _activeSounds.end());
 }
 
 void RenderSystemSFML::playSound(int soundId)

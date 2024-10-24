@@ -8,9 +8,10 @@
 #ifndef GAMECONTEXT_H
 #define GAMECONTEXT_H
 
-#include "IRuntime/IRuntime.hpp"
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
+
+#include "IRuntime/IRuntime.hpp"
 #include "common/components.hpp"
 // std
 #include <chrono>
@@ -88,7 +89,7 @@ class GameContext
     SceneManager &_sceneManager;         ///< The scene manager.
 
     bool _running = true;  ///< The running state.
-    float _deltaT = 0.0f;                                                ///< The delta time.
+    float _deltaT = 0.0f;  ///< The delta time.
 
    private:
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.

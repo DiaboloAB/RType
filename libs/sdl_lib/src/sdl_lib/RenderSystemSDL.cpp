@@ -168,9 +168,8 @@ void RenderSystemSDL::drawSprite(int id, mlg::vec3 position)
     SDL_RenderCopy(renderer, texture.get(), nullptr, &dstRect);
 }
 
-void RenderSystemSDL::drawText(int id, const std::string& textStr,
-                               const mlg::vec3 position, unsigned int fontSize,
-                               const mlg::vec3& color, bool centered)
+void RenderSystemSDL::drawText(int id, const std::string& textStr, const mlg::vec3 position,
+                               unsigned int fontSize, const mlg::vec3& color, bool centered)
 {
     // if (!currentFont)
     // {
@@ -180,7 +179,8 @@ void RenderSystemSDL::drawText(int id, const std::string& textStr,
     //                       static_cast<Uint8>(color.z)};
     // SDL_Surface* textSurface = TTF_RenderText_Solid(currentFont, textStr.c_str(), sdlColor);
     // SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    // SDL_Rect textRect = {static_cast<int>(position.x), static_cast<int>(position.y), textSurface->w,
+    // SDL_Rect textRect = {static_cast<int>(position.x), static_cast<int>(position.y),
+    // textSurface->w,
     //                      textSurface->h};
     // if (centered)
     // {

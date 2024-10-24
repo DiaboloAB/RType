@@ -1,7 +1,9 @@
 #!/bin/bash
 
-usage() {
+usage()
+{
     echo "Usage: $0 <build|build-sdl|build-off|build-test|run-test|pack|clean|rebuild>"
+}
 
 COMMAND=$1
 
@@ -74,5 +76,3 @@ elif [ "$COMMAND" == "rebuild" ]; then
 else
     usage
 fi
-
-

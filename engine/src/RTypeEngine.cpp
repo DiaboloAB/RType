@@ -10,9 +10,9 @@
 #include "NullRuntime/NullRuntime.hpp"
 
 #ifdef GRAPHICS_SFML
-    #include "sfml_lib/RenderSystemSFML.hpp"
+#include "sfml_lib/RenderSystemSFML.hpp"
 #elif defined(GRAPHICS_SDL)
-    #include "sdl_lib/RenderSystemSDL.hpp"
+#include "sdl_lib/RenderSystemSDL.hpp"
 #endif
 
 // std
@@ -20,23 +20,22 @@
 
 using namespace RType;
 
-Engine::Engine(std::map<std::string, std::string> args)
-    : _args(args)
+Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 {
     std::cout << "----- Engine -----" << std::endl;
     std::cout << "Engine Status: Initializing" << std::endl;
     std::cout << "Engine Status: Constructing runtime" << std::endl;
 
-    #ifdef GRAPHICS_SFML
-        _runtime = std::make_shared<RenderSystemSFML>();
-        std::cout << "SFML graphics library selected!" << std::endl;
-    #elif defined(GRAPHICS_SDL)
-        _runtime = std::make_shared<RenderSystemSDL>();
-        std::cout << "SDL graphics library selected!" << std::endl;
-    #else
-        _runtime = std::make_shared<NullRuntime>();
-        std::cout << "No graphics library selected!" << std::endl;
-    #endif
+#ifdef GRAPHICS_SFML
+    _runtime = std::make_shared<RenderSystemSFML>();
+    std::cout << "SFML graphics library selected!" << std::endl;
+#elif defined(GRAPHICS_SDL)
+    _runtime = std::make_shared<RenderSystemSDL>();
+    std::cout << "SDL graphics library selected!" << std::endl;
+#else
+    _runtime = std::make_shared<NullRuntime>();
+    std::cout << "No graphics library selected!" << std::endl;
+#endif
 
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
@@ -113,7 +112,6 @@ void Engine::run()
 {
     _systemManager.load(_registry, *_gameContext);
     _systemManager.start(_registry, *_gameContext);
-
 
     while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running)
     {

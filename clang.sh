@@ -1,8 +1,8 @@
 #!/bin/bash
 
-usage() {
+usage()
+{
     echo "Usage: $0 <check|fix>"
-    exit 1
 }
 
 COMMAND=$1

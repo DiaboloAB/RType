@@ -80,7 +80,6 @@ void from_json(const nlohmann::json& j, Animator& animator)
     }
 }
 
-
 }  // namespace RType
 
 #endif  // FROMJSON_HPP

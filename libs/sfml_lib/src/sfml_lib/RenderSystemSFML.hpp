@@ -150,9 +150,8 @@ class RenderSystemSFML : public RType::IRuntime
      * @param fontSize The size of the font.
      * @param textColor The color of the text.
      */
-    void drawText(int fontID, const std::string& textStr,
-                                const mlg::vec3 position, unsigned int fontSize,
-                                const mlg::vec3& color, bool centered) override;
+    void drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
+                  unsigned int fontSize, const mlg::vec3& color, bool centered) override;
 
     /**
      * @brief Draws a rectangle on the window.

@@ -146,9 +146,8 @@ class IRuntime
      * Must be implemented to handle displaying text (such as scores or information)
      * on the screen.
      */
-    virtual void drawText(int fontID, const std::string& textStr,
-                                const mlg::vec3 position, unsigned int fontSize,
-                                const mlg::vec3& color, bool centered) = 0;
+    virtual void drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
+                          unsigned int fontSize, const mlg::vec3& color, bool centered) = 0;
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
