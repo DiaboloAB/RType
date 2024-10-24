@@ -88,8 +88,7 @@ class AEndpoint : public IEndpoint
     std::array<char, 1024> _rcvBuffer;
 
    private:
-    std::list<
-        std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
+    std::list<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
         _validationList;
     std::mutex _listMutex;
 

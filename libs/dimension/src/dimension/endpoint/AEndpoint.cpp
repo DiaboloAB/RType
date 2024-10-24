@@ -38,8 +38,9 @@ void AEndpoint::send(const std::shared_ptr<APacket> &packet,
         {
             if (ec)
             {
-                std::cerr << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while sending data. {" <<
-                    ec.message() << "}" << std::endl;
+                std::cerr
+                    << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while sending data. {"
+                    << ec.message() << "}" << std::endl;
                 return;
             }
         });
@@ -53,9 +54,11 @@ void AEndpoint::receive()
         asio::buffer(this->_rcvBuffer), *remoteEndpoint,
         [this, remoteEndpoint](std::error_code ec, std::size_t bytesRcv)
         {
-            if (!ec) {
+            if (!ec)
+            {
                 this->handleDataReceived(this->_rcvBuffer, *remoteEndpoint, bytesRcv);
-            } else
+            }
+            else
                 std::cerr
                     << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while receiving data."
                     << std::endl;
@@ -63,8 +66,8 @@ void AEndpoint::receive()
         });
 };
 
-void AEndpoint::handleDataReceived(std::array<char, 1024> buffer,
-                                   asio::ip::udp::endpoint endpoint, std::size_t bytesRcv)
+void AEndpoint::handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp::endpoint endpoint,
+                                   std::size_t bytesRcv)
 {
     std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint receive data." << std::endl;
     std::vector<char> packetBuffer(buffer.begin(), buffer.begin() + bytesRcv);
@@ -116,10 +119,12 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
     }
 }
 
-void AEndpoint::resendValidationList() {
+void AEndpoint::resendValidationList()
+{
     std::lock_guard<std::mutex> lock(this->_listMutex);
-    for (auto &validation : this->_validationList) {
+    for (auto &validation : this->_validationList)
+    {
         this->send(validation.first, validation.second, false);
     }
-} 
+}
 }  // namespace dimension

@@ -68,8 +68,8 @@ class IEndpoint
      * @param remoteEndoint: Endpoint of the sender of the packet.
      * @param bytesRcv: Length of the packet received.
      */
-    virtual void handleDataReceived(std::array<char, 1024> buffer,
-                                    asio::ip::udp::endpoint endpoint, std::size_t bytesRcv) = 0;
+    virtual void handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp::endpoint endpoint,
+                                    std::size_t bytesRcv) = 0;
 
     virtual void resendValidationList() = 0;
 };

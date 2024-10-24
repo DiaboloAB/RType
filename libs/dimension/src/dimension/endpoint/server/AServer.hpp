@@ -9,20 +9,21 @@
 #pragma once
 
 #include <list>
-#include <random>
 #include <memory>
+#include <random>
 
 #include "AEndpoint.hpp"
 #include "PacketFactory.hpp"
 
 namespace dimension
 {
-struct RoomState {
-   unsigned int _port;
-   int _nbConnected = 0;
-   std::list<asio::ip::udp::endpoint> _endpoints;
-   bool _inGame = false;
-   std::shared_ptr<std::thread> _roomThread = nullptr;
+struct RoomState
+{
+    unsigned int _port;
+    int _nbConnected = 0;
+    std::list<asio::ip::udp::endpoint> _endpoints;
+    bool _inGame = false;
+    std::shared_ptr<std::thread> _roomThread = nullptr;
 };
 
 class AServer : public AEndpoint
@@ -34,24 +35,26 @@ class AServer : public AEndpoint
    public:
     void run();
     void initRoom(asio::ip::udp::endpoint &sender, bool isPrivate = false);
-    //void joinRoom(std::string roomCode, asio::ip::udp::endpoint &sender);
-    //void endRoom(asio::ip::udp::endpoint &sender);
+    // void joinRoom(std::string roomCode, asio::ip::udp::endpoint &sender);
+    // void endRoom(asio::ip::udp::endpoint &sender);
     virtual void startRoom(asio::ip::udp::endpoint &sender) = 0;
 
    protected:
-      bool isConnected(asio::ip::udp::endpoint &endpoint) const;
-   
+    bool isConnected(asio::ip::udp::endpoint &endpoint) const;
+
    private:
-      unsigned int getAvaiblePort() const;
-      std::string generateRoomCode() const;
-      void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
-      void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
+    unsigned int getAvaiblePort() const;
+    std::string generateRoomCode() const;
+    void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
+    void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
 
    protected:
     std::unordered_map<std::string, RoomState> _rooms;
     std::unordered_map<std::string, RoomState> _privateRooms;
     std::list<asio::ip::udp::endpoint> _connectedEp;
-    std::unordered_map<uint8_t,
-      std::function<void(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &)>> _funcHandler;
+    std::unordered_map<
+        uint8_t,
+        std::function<void(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &)>>
+        _funcHandler;
 };
 }  // namespace dimension
