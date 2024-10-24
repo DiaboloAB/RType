@@ -78,7 +78,7 @@ struct Sticky
     std::string target;
     mlg::vec3 offset = mlg::vec3();
 
-    Sticky() {};
+    Sticky(){};
 };
 
 struct Button

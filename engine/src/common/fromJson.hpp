@@ -80,7 +80,7 @@ void from_json(const nlohmann::json& j, Animator& animator)
     }
 }
 
-void from_json(const nlohmann::json& j, Sticky &sticky)
+void from_json(const nlohmann::json& j, Sticky& sticky)
 {
     if (!j.contains("target")) throw std::runtime_error("Sticky must have a target");
     j.at("target").get_to(sticky.target);

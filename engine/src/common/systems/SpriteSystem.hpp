@@ -35,7 +35,8 @@ class SpriteSystem : public ISystem
             AnimationList &animations = viewAnim.get<Animator>(entity).animations;
             for (auto &anim : animations.animations)
             {
-                anim.spriteID = gameContext._runtime->loadSprite(gameContext._assetsPath + anim.getFilePath());
+                anim.spriteID =
+                    gameContext._runtime->loadSprite(gameContext._assetsPath + anim.getFilePath());
             }
         }
     }

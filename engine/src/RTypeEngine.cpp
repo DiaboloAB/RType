@@ -6,8 +6,9 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-#include "utils/getBinaryPath.hpp"
+
 #include "NullRuntime/NullRuntime.hpp"
+#include "utils/getBinaryPath.hpp"
 
 #ifdef GRAPHICS_SFML
 #include "sfml_lib/RenderSystemSFML.hpp"
@@ -30,22 +31,21 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 
     if (args.find("graphics") != args.end() && args["graphics"] == "off")
     {
-
         _runtime = std::make_shared<NullRuntime>();
         std::cout << "No graphics library selected!" << std::endl;
-    } else {
-
-    #ifdef GRAPHICS_SFML
+    }
+    else
+    {
+#ifdef GRAPHICS_SFML
         _runtime = std::make_shared<RenderSystemSFML>();
         std::cout << "SFML graphics library selected!" << std::endl;
-    #elif defined(GRAPHICS_SDL)
+#elif defined(GRAPHICS_SDL)
         _runtime = std::make_shared<RenderSystemSDL>();
         std::cout << "SDL graphics library selected!" << std::endl;
-    #else
+#else
         _runtime = std::make_shared<NullRuntime>();
         std::cout << "No graphics library selected!" << std::endl;
-    #endif
-
+#endif
     }
 
     std::cout << "Engine Status: Constructing game context" << std::endl;
