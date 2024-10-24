@@ -30,7 +30,7 @@ class GameContext
      * @param sceneManager Reference to the scene manager.
      * @param runtime Shared pointer to the runtime system. Defaults to nullptr.
      */
-    GameContext(mobs::Registry &registry, SceneManager &sceneManager,
+    GameContext(std::string assetsPath, mobs::Registry &registry, SceneManager &sceneManager,
                 std::shared_ptr<IRuntime> runtime = nullptr);
 
     /**
@@ -90,6 +90,7 @@ class GameContext
 
     bool _running = true;  ///< The running state.
     float _deltaT = 0.0f;  ///< The delta time.
+    const std::string _assetsPath;
 
    private:
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.

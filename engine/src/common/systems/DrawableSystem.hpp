@@ -28,7 +28,7 @@ class DrawableSystem : public ISystem
         for (auto entity : view)
         {
             auto &text = view.get<Text>(entity);
-            text.font_id = gameContext._runtime->loadFont(text.font);
+            text.font_id = gameContext._runtime->loadFont(gameContext._assetsPath + text.font);
         }
     }
 

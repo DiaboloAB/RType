@@ -6,7 +6,7 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-
+#include "utils/getBinaryPath.hpp"
 #include "NullRuntime/NullRuntime.hpp"
 
 #ifdef GRAPHICS_SFML
@@ -23,22 +23,33 @@ using namespace RType;
 Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 {
     std::cout << "----- Engine -----" << std::endl;
+    _assetsPath = getAssetsPath();
+    std::cout << "Assets path: " << _assetsPath << std::endl;
     std::cout << "Engine Status: Initializing" << std::endl;
     std::cout << "Engine Status: Constructing runtime" << std::endl;
 
-#ifdef GRAPHICS_SFML
-    _runtime = std::make_shared<RenderSystemSFML>();
-    std::cout << "SFML graphics library selected!" << std::endl;
-#elif defined(GRAPHICS_SDL)
-    _runtime = std::make_shared<RenderSystemSDL>();
-    std::cout << "SDL graphics library selected!" << std::endl;
-#else
-    _runtime = std::make_shared<NullRuntime>();
-    std::cout << "No graphics library selected!" << std::endl;
-#endif
+    if (args.find("graphics") != args.end() && args["graphics"] == "off")
+    {
+
+        _runtime = std::make_shared<NullRuntime>();
+        std::cout << "No graphics library selected!" << std::endl;
+    } else {
+
+    #ifdef GRAPHICS_SFML
+        _runtime = std::make_shared<RenderSystemSFML>();
+        std::cout << "SFML graphics library selected!" << std::endl;
+    #elif defined(GRAPHICS_SDL)
+        _runtime = std::make_shared<RenderSystemSDL>();
+        std::cout << "SDL graphics library selected!" << std::endl;
+    #else
+        _runtime = std::make_shared<NullRuntime>();
+        std::cout << "No graphics library selected!" << std::endl;
+    #endif
+
+    }
 
     std::cout << "Engine Status: Constructing game context" << std::endl;
-    _gameContext = std::make_shared<GameContext>(_registry, _sceneManager, _runtime);
+    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _runtime);
     std::cout << "Engine Status: Loading game" << std::endl;
 
     try
@@ -63,7 +74,7 @@ Engine::~Engine()
 
 void Engine::loadGame()
 {
-    std::ifstream i(std::string("assets/") + "game.json");
+    std::ifstream i(_assetsPath + "game.json");
     if (!i.is_open()) throw std::runtime_error("Configuration file (assets/game.json) not found");
 
     i >> _gameConfig;

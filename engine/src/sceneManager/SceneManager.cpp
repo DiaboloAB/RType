@@ -34,7 +34,7 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
         std::cerr << "Error: Scene not found" << std::endl;
         throw std::runtime_error("Scene not found");
     }
-    std::ifstream i(std::string("assets/") + _scenes[sceneName]);
+    std::ifstream i(gameContext._assetsPath + _scenes[sceneName]);
     if (!i.is_open())
     {
         std::cerr << "Error: Could not open file" << std::endl;
@@ -59,7 +59,7 @@ mobs::Entity SceneManager::loadPrefab(const std::string& prefabName, GameContext
         throw std::runtime_error("Prefab not found");
     }
 
-    std::ifstream i(std::string("assets/") + _prefabs[prefabName]);
+    std::ifstream i(gameContext._assetsPath + _prefabs[prefabName]);
     if (!i.is_open())
     {
         std::cerr << "Error: Could not open file" << std::endl;

@@ -19,6 +19,7 @@
 
 namespace RType
 {
+
 /**
  * @class Engine
  * @brief Manages the main game engine, including network handling, runtime, registry, systems,
@@ -54,6 +55,7 @@ class Engine
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
 
+    std::string _assetsPath = "assets/";       ///< Path to the assets directory.
     std::map<std::string, std::string> _args;  ///< Map of arguments passed to the engine.
     nlohmann::json _gameConfig;                ///< JSON object for storing game configuration.
 };

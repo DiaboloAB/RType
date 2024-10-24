@@ -28,7 +28,7 @@ class AudioSystem : public ISystem
             auto& audio = view.get<Audio>(entity);
             for (const auto& sound : audio.sounds)
             {
-                audio.soundID = gameContext._runtime->loadSound(sound);
+                audio.soundID = gameContext._runtime->loadSound(gameContext._assetsPath + sound);
             }
             for (const auto& music : audio.musics)
             {
