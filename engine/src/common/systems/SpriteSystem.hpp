@@ -35,7 +35,7 @@ class SpriteSystem : public ISystem
             AnimationList &animations = viewAnim.get<Animator>(entity).animations;
             for (auto &anim : animations.animations)
             {
-                gameContext._runtime->loadSprite(anim.getFilePath());
+                anim.spriteID = gameContext._runtime->loadSprite(anim.getFilePath());
             }
         }
     }
@@ -88,9 +88,9 @@ class SpriteSystem : public ISystem
                     }
                 }
             }
-            // gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position,
-            //                                  currentAnim.getSpriteCoords(animations.currentFrame),
-            //                                  currentAnim.getScale(), currentAnim.getRotation());
+            gameContext._runtime->drawSprite(currentAnim.spriteID, transform.position,
+                                             currentAnim.getSpriteCoords(animations.currentFrame),
+                                             currentAnim.getScale(), currentAnim.getRotation());
         }
     }
 

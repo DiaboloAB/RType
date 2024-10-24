@@ -22,6 +22,7 @@ class Animation
    private:
    public:
     std::string filepath;  ///< Path to the file containing the animation.
+    int spriteID;          ///< id of the preloaded sprite.
     int frameCount;        ///< Number of frames in the animation.
     float speed;           ///< Speed of the animation.
     mlg::vec3 frameSize;   ///< Size of each frame.
