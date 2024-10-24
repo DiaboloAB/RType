@@ -4,9 +4,9 @@ from conan.tools.cmake import CMakeToolchain, CMakeDeps
 class MyProjectConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps", "CMakeToolchain"
-    
+
     options = {
-        "graphics": ["SFML", "SDL"]
+        "graphics": ["SFML", "SDL", "OFF"]
     }
     default_options = {
         "graphics": "SFML"
