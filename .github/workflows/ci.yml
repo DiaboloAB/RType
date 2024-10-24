@@ -21,17 +21,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clang-format
-      - name: Run clang-format check
+      - name: Run clang check
         run: |
           chmod +x ./tools.sh
-          ./tools.sh check-clang . > clang-format-errors.txt
-        continue-on-error: false
-        id: clang-format-check
-      - name: Display clang-format errors
-        if: failure()
+          ./clang.sh check > log.txt
+
+      - name: Search for warnings or errors
         run: |
-          echo "Clang-format errors detected:"
-          cat ./clang-format-errors.txt
+          if grep -E "warning|error" log.txt; then
+            echo "Found warnings or errors!"
+            cat log.txt
+            exit 1
+          else
+            echo "No warnings or errors found."
+          fi
 
   build:
     runs-on: ubuntu-latest
