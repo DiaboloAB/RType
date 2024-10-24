@@ -33,6 +33,8 @@ void Client::connectServer(std::string host, unsigned int port)
         this->receive();
         this->_recvThread =
             std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
+        auto hiServer = this->_packetFactory->createEmptyPacket<HiServer>();
+        this->send(hiServer, *this->_serverEndpoint);
         std::cerr << "\x1B[32m[Client]\x1B[0m: Connection to server established." << std::endl;
     }
     catch (std::exception &e)

@@ -15,6 +15,8 @@
 #include <typeindex>
 #include <unordered_map>
 
+#include "HiServer.hpp"
+
 namespace dimension
 {
 

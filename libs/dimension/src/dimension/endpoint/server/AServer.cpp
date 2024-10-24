@@ -10,13 +10,13 @@
 
 namespace dimension
 {
-AServer::AServer(std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
+AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
     : AEndpoint(factory)
 {
     this->_funcHandler[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(ClientEvent)))] =
       [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair) { return this->handleEvent(pair); };
     this->_funcHandler[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
-      [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair) { return this->handleEvent(pair); };
+      [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair) { return this->handleHiServer(pair); };
     try
     {
         this->_io_context = std::make_shared<asio::io_context>();

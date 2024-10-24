@@ -27,23 +27,19 @@ void AEndpoint::send(const std::shared_ptr<APacket> &packet,
             std::string("\x1B[31m[EndpointError]\x1B[0m: Packet serialization failed {") +
             e.what() + "}");
     }
-
     if (isNewPacket)
     {
         std::lock_guard<std::mutex> lock(this->_listMutex);
-        this->_validationList.emplace_back(
-            std::pair<const std::shared_ptr<dimension::APacket> &, const asio::ip::udp::endpoint &>(
-                packet, endpoint));
+        this->_validationList.insert(this->_validationList.end(), std::make_pair(packet, endpoint));
     }
-
     this->_socket->async_send_to(
         asio::buffer(packetData), endpoint,
         [this](std::error_code ec, std::size_t bytes_recvd)
         {
             if (ec)
             {
-                std::cerr << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while sending data."
-                          << std::endl;
+                std::cerr << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while sending data. {" <<
+                    ec.message() << "}" << std::endl;
                 return;
             }
         });
@@ -57,9 +53,9 @@ void AEndpoint::receive()
         asio::buffer(this->_rcvBuffer), *remoteEndpoint,
         [this, remoteEndpoint](std::error_code ec, std::size_t bytesRcv)
         {
-            if (!ec)
+            if (!ec) {
                 this->handleDataReceived(this->_rcvBuffer, *remoteEndpoint, bytesRcv);
-            else
+            } else
                 std::cerr
                     << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while receiving data."
                     << std::endl;
@@ -67,10 +63,11 @@ void AEndpoint::receive()
         });
 };
 
-void AEndpoint::handleDataReceived(std::array<char, 1024> &buffer,
-                                   asio::ip::udp::endpoint &endpoint, std::size_t &bytesRcv)
+void AEndpoint::handleDataReceived(std::array<char, 1024> buffer,
+                                   asio::ip::udp::endpoint endpoint, std::size_t bytesRcv)
 {
-    std::vector<char> packetBuffer(*buffer.begin(), *buffer.begin() + bytesRcv);
+    std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint receive data." << std::endl;
+    std::vector<char> packetBuffer(buffer.begin(), buffer.begin() + bytesRcv);
     std::shared_ptr<dimension::APacket> packet = nullptr;
 
     try
@@ -121,7 +118,8 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
 
 void AEndpoint::resendValidationList() {
     std::lock_guard<std::mutex> lock(this->_listMutex);
-    for (auto &validation : this->_validationList)
+    for (auto &validation : this->_validationList) {
         this->send(validation.first, validation.second, false);
+    }
 } 
 }  // namespace dimension

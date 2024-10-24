@@ -10,6 +10,7 @@
 
 #include "RTypeEngine.hpp"
 #include "Server.hpp"
+#include "MainServer.hpp"
 //#include "PacketFactory.hpp"
 //#include "endpoint/server/Server.hpp"
 
@@ -35,8 +36,8 @@ int main(int ac, char **av)
     {
         if (ac >= 2 && std::string(av[1]) == "-lib") {
             RType::Server::Server serverArgs(ac - 1, &av[1]);
-            //std::shared_ptr<dimension::APacketFactory> factory = std::make_shared<dimension::APacketFactory>(RType::Network::PacketFactory());
-            //dimension::DimensionServer server(factory, serverArgs.getHost(), serverArgs.getPort());
+            RType::Network::MainServer server(serverArgs.getHost(), serverArgs.getPort());
+            server.run();
             //server.start();
         } else {
             RType::Server::Server server(ac, av);

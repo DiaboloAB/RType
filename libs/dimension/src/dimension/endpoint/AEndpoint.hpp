@@ -71,8 +71,8 @@ class AEndpoint : public IEndpoint
      * @param remoteEndoint: Endpoint of the sender of the packet.
      * @param bytesRcv: Length of the packet received.
      */
-    void handleDataReceived(std::array<char, 1024> &buffer, asio::ip::udp::endpoint &endpoint,
-                            std::size_t &bytesRcv) override;
+    void handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp::endpoint endpoint,
+                            std::size_t bytesRcv) override;
 
     void resendValidationList() override;
 
@@ -89,7 +89,7 @@ class AEndpoint : public IEndpoint
 
    private:
     std::list<
-        std::pair<const std::shared_ptr<dimension::APacket> &, const asio::ip::udp::endpoint &>>
+        std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
         _validationList;
     std::mutex _listMutex;
 

@@ -28,7 +28,7 @@ struct RoomState {
 class AServer : public AEndpoint
 {
    public:
-    AServer(std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port);
+    AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port);
     ~AServer() = default;
 
    public:
