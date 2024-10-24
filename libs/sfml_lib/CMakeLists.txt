@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-find_package(SFML REQUIRED COMPONENTS network window graphics system)
+find_package(SFML REQUIRED COMPONENTS network window graphics system audio)
 
 project(sfml_lib VERSION 0.1)
 

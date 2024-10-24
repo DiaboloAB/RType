@@ -6,7 +6,14 @@
  **********************************************************************************/
 
 #pragma once
+#ifdef _WIN32
+#include <io.h>
+#include <process.h>
+#endif
+
+#ifdef __linux__
 #include <unistd.h>
+#endif
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>

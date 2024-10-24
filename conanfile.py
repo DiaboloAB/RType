@@ -22,7 +22,7 @@ class MyProjectConan(ConanFile):
             self.requires("sdl_ttf/2.22.0")
             self.requires("sdl_mixer/2.8.0")
         elif self.options.graphics == "SFML":
-            self.requires("sfml/2.6.1")
+            self.requires("sfml/2.5.1")
 
     def configure(self):
         # Override specific dependencies if needed

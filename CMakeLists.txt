@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+cmake_policy(SET CMP0091 NEW)
+
 project(RType VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 17)
