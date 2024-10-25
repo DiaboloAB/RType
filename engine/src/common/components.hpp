@@ -12,12 +12,14 @@
 
 #include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
+#include "Client.hpp"
 
 // std
 #include <iostream>
 #include <queue>
 #include <string>
 #include <vector>
+#include <memory>
 
 #ifdef _WIN32
 #include <sstream>
@@ -155,6 +157,12 @@ struct Audio
     }
 };
 
+struct NetworkClient {
+    std::shared_ptr<dimension::Client> client = nullptr;
+
+    NetworkClient() {client = std::make_shared<dimension::Client>(
+        std::make_shared<dimension::PacketFactory>()); }
+};
 }  // namespace RType
 
 #endif  // COMPONENTS_H
