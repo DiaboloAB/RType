@@ -10,7 +10,8 @@
 
 namespace dimension
 {
-ClientEvent::ClientEvent(uint8_t type) : APacket(type) { 
+ClientEvent::ClientEvent(uint8_t type) : APacket(type)
+{
     this->_packetDataSize = sizeof(uint8_t) + _description.size();
 }
 
@@ -21,7 +22,8 @@ ClientEvent::ClientEvent(std::vector<char> &buffer) : APacket(buffer)
 
     std::memcpy(&this->_clientEvent, data, sizeof(uint8_t));
     data += sizeof(uint8_t);
-    this->_description = std::string(data, this->getPacketSize() - this->getHeaderSize() - sizeof(uint8_t));
+    this->_description =
+        std::string(data, this->getPacketSize() - this->getHeaderSize() - sizeof(uint8_t));
 }
 
 ClientEvent::~ClientEvent() {}
@@ -44,7 +46,8 @@ std::string ClientEvent::getDescription() const { return this->_description; }
 
 void ClientEvent::setClientEvent(const uint8_t &event) { this->_clientEvent = event; }
 
-void ClientEvent::setDescription(const std::string &description) {
+void ClientEvent::setDescription(const std::string &description)
+{
     this->_description = description;
     this->_packetDataSize = sizeof(uint8_t) + this->_description.size();
 }

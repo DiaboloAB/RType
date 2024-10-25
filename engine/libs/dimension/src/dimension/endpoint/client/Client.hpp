@@ -27,8 +27,9 @@ class Client : public AEndpoint
      */
     void connectServer(std::string host, unsigned int port);
 
-    public:
-       std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> getRcvQueue();
+   public:
+    std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
+    getRcvQueue();
 
    public:
     std::shared_ptr<asio::ip::udp::endpoint> _serverEndpoint = nullptr;

@@ -46,7 +46,8 @@ class ClientEvent : public dimension::APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> representing the serialization of _clientEvent && _description to binary.
+     * @return std::vector<char> representing the serialization of _clientEvent && _description to
+     * binary.
      */
     std::vector<char> serializeData() const override;
 

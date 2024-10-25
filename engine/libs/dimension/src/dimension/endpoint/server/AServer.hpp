@@ -13,8 +13,8 @@
 #include <random>
 
 #include "AEndpoint.hpp"
-#include "PacketFactory.hpp"
 #include "ClientEventType.hpp"
+#include "PacketFactory.hpp"
 
 namespace dimension
 {
@@ -27,21 +27,21 @@ class AServer : public AEndpoint
    public:
     void run();
 
-    private:
-        void initServer(std::string host, unsigned int port);
+   private:
+    void initServer(std::string host, unsigned int port);
 
    private:
     void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
     void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
 
-    protected:
-        using EventFunction = std::function<void(asio::ip::udp::endpoint &, std::string &)>;
-        using PacketHandler = std::function<void(std::pair<std::shared_ptr<APacket>, 
-        asio::ip::udp::endpoint> &)>;
-    
-    protected:
-        void registerEventHandling(std::string desc, EventFunction handler);
-        bool isConnected(asio::ip::udp::endpoint &endpoint) const;
+   protected:
+    using EventFunction = std::function<void(asio::ip::udp::endpoint &, std::string &)>;
+    using PacketHandler =
+        std::function<void(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &)>;
+
+   protected:
+    void registerEventHandling(std::string desc, EventFunction handler);
+    bool isConnected(asio::ip::udp::endpoint &endpoint) const;
 
    protected:
     std::list<asio::ip::udp::endpoint> _connectedEp;

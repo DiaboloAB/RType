@@ -13,17 +13,17 @@ namespace dimension
 AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
     : AEndpoint(factory)
 {
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(
-        ClientEvent)))] = [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(ClientEvent)))] =
+        [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleEvent(pair); };
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
     this->initServer(host, port);
-
 }
 
-void AServer::initServer(std::string host, unsigned int port) {
+void AServer::initServer(std::string host, unsigned int port)
+{
     try
     {
         this->_io_context = std::make_shared<asio::io_context>();
@@ -72,20 +72,25 @@ void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::
 void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
 {
     if (!isConnected(packet.second)) return;
-    try {
+    try
+    {
         std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
         if (event->getClientEvent() != ROOM) return;
         std::string eventDesc = event->getDescription();
         if (this->_eventH.find(eventDesc) == this->_eventH.end())
-            std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc << std::endl;
+            std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc
+                      << std::endl;
         else
             this->_eventH[eventDesc](packet.second, eventDesc);
         auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
         validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
         validation->setPacketReceiveType(packet.first->getPacketType());
         this->send(validation, packet.second, false);
-    } catch (std::exception &e) {
-        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: Error in client event {" << e.what() << "}" << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: Error in client event {" << e.what() << "}"
+                  << std::endl;
     }
 }
 
