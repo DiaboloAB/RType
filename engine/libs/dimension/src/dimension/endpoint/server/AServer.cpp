@@ -58,20 +58,6 @@ void AServer::run()
     }
 }
 
-void AServer::initRoom(asio::ip::udp::endpoint &sender, bool isPrivate)
-{
-    RoomState roomState;
-    std::string roomCode = this->generateRoomCode();
-    roomState._endpoints.push_back(sender);
-    roomState._nbConnected += 1;
-    roomState._port = this->getAvaiblePort();
-    if (isPrivate)
-        this->_privateRooms[roomCode] = roomState;
-    else
-        this->_rooms[roomCode] = roomState;
-    std::cerr << "\x1B[32m[AServer]\x1B[0m: New room created : " << roomCode << std::endl;
-}
-
 void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
 {
     auto hiClient = this->_packetFactory->createEmptyPacket<HiClient>();
@@ -80,7 +66,7 @@ void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::
         this->_connectedEp.emplace_back(packet.second);
         std::cerr << "\x1B[32m[AServer]\x1B[0m: New connection received." << std::endl;
     }
-    this->send(hiClient, packet.second);
+    this->send(hiClient, packet.second, false);
 }
 
 void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
@@ -90,9 +76,10 @@ void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::end
         std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
         if (event->getClientEvent() != ROOM) return;
         std::string eventDesc = event->getDescription();
-        if (eventDesc == "cr") return this->initRoom(packet.second);
-        if (eventDesc == "crp") return this->initRoom(packet.second, true);
-        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc << std::endl;
+        if (this->_eventH.find(eventDesc) == this->_eventH.end())
+            std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc << std::endl;
+        else
+            this->_eventH[eventDesc](packet.second, eventDesc);
         auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
         validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
         validation->setPacketReceiveType(packet.first->getPacketType());
@@ -109,26 +96,9 @@ bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const
     return false;
 }
 
-unsigned int AServer::getAvaiblePort() const
+void AServer::registerEventHandling(std::string desc, EventFunction handler)
 {
-    asio::io_context io_context;
-    asio::ip::udp::socket socket(io_context);
-    asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), 0);
-    socket.open(endpoint.protocol());
-    socket.bind(endpoint);
-    unsigned int port = (unsigned int)socket.local_endpoint().port();
-    socket.close();
-    return port;
-}
-
-std::string AServer::generateRoomCode() const
-{
-    const std::string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    std::string roomCode;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, chars.size() - 1);
-    for (int i = 0; i < 6; i++) roomCode += chars[distrib(gen)];
-    return roomCode;
+    this->_eventH[desc] = handler;
+    std::cerr << "\x1B[32m[AServer]\x1B[0m: Event {" << desc << "} registered." << std::endl;
 }
 }  // namespace dimension

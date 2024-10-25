@@ -29,11 +29,11 @@ ClientEvent::~ClientEvent() {}
 std::vector<char> ClientEvent::serializeData() const
 {
     std::vector<char> buffer;
-    buffer.resize(sizeof(uint8_t));
+    buffer.resize(sizeof(uint8_t) + this->_description.size());
     char *data = buffer.data();
 
     std::memcpy(data, &this->_clientEvent, sizeof(uint8_t));
-    return buffer;
+    data += sizeof(uint8_t);
     std::memcpy(data, this->_description.c_str(), this->_description.size());
     return buffer;
 }

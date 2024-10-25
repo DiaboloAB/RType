@@ -21,20 +21,29 @@ class ComServer : public RType::ICppScript
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (gameContext._runtime->getKey(KeyCode::Mouse0))
-            std::cerr << "je trigger input" << std::endl;
-        if (gameContext._runtime->getKeyDown(KeyCode::Enter)) {
-            std::cerr << "je trigger key enter" << std::endl;
-            auto &networkC = registry.get<NetworkClient>(_entity);
-            networkC.client->connectServer("127.0.0.1", 8581);
+        auto &networkC = registry.get<NetworkClient>(_entity);
+        auto _rcvQueue = networkC.client->getRcvQueue();
+        while (!_rcvQueue.empty()) {
+            auto packet = _rcvQueue.front();
+            auto validation = networkC.factory.createEmptyPacket<dimension::PacketValidation>();
+            validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
+            validation->setPacketReceiveType(packet.first->getPacketType());
+            networkC.client->send(validation, packet.second, false);
+            _rcvQueue.pop();
+            networkC.client->popReceiveQueue();
         }
-        if (gameContext._runtime->getKeyDown(KeyCode::R)) {
+        if (gameContext._runtime->getKey(KeyCode::Enter)) {
+            networkC.client->connectServer("127.0.0.1", 8581);
+            usleep(500 * 1000);
+        }
+        if (gameContext._runtime->getKey(KeyCode::R)) {
             auto &networkC = registry.get<NetworkClient>(_entity);
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);
-            event->setDescription("cr");
+            event->setDescription("cr=pv");
             if (networkC.client->_serverEndpoint)
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
+            usleep(500 * 1000);
         }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
