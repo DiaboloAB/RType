@@ -156,6 +156,7 @@ struct Audio
 struct NetworkClient
 {
     std::shared_ptr<dimension::Client> client = nullptr;
+    dimension::PacketFactory factory;
 
     NetworkClient()
     {

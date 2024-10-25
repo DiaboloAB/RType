@@ -52,11 +52,14 @@ class ClientEvent : public dimension::APacket
 
    public:
     uint8_t getClientEvent() const;
+    std::string getDescription() const;
 
    public:
     void setClientEvent(const uint8_t &event);
+    void setDescription(const std::string &description);
 
    private:
     uint8_t _clientEvent;
+    std::string _description;
 };
 }  // namespace dimension
