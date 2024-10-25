@@ -74,6 +74,9 @@ class AEndpoint : public IEndpoint
     void handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp::endpoint endpoint,
                             std::size_t bytesRcv) override;
 
+    /**
+     * @brief Resend packet which didn't receive any validation to appropriate target.
+     */
     void resendValidationList() override;
 
    protected:
@@ -81,7 +84,7 @@ class AEndpoint : public IEndpoint
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
     std::shared_ptr<PacketFactory> _packetFactory = nullptr;
     std::shared_ptr<std::thread> _recvThread = nullptr;
-    std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> _rcvQueue;
+    std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> _rcvQueue;
     std::mutex _queueMutex;
 
    private:

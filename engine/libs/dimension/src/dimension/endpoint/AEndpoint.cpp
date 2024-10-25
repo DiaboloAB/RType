@@ -69,7 +69,6 @@ void AEndpoint::receive()
 void AEndpoint::handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp::endpoint endpoint,
                                    std::size_t bytesRcv)
 {
-    std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint receive data." << std::endl;
     std::vector<char> packetBuffer(buffer.begin(), buffer.begin() + bytesRcv);
     std::shared_ptr<dimension::APacket> packet = nullptr;
 
@@ -84,9 +83,11 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp:
             e.what() + "}");
         return;
     }
-
+    if (this->_packetFactory->getTypeFromIndex(std::type_index(typeid(PacketValidation))) == packet->getPacketType())
+        return this->deleteFromValidationList(std::static_pointer_cast<PacketValidation>(packet), endpoint);
     std::lock_guard<std::mutex> lock(this->_queueMutex);
     this->_rcvQueue.push(std::make_pair(packet, endpoint));
+    std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint packet receive." << std::endl;
 }
 
 void AEndpoint::popReceiveQueue()
@@ -112,6 +113,7 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
         {
             std::lock_guard<std::mutex> lock(this->_listMutex);
             this->_validationList.erase(packetInValidation);
+            std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint validation receive." << std::endl;
             return;
         }
         else

@@ -34,7 +34,7 @@ void Client::connectServer(std::string host, unsigned int port)
         this->_recvThread =
             std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
         auto hiServer = this->_packetFactory->createEmptyPacket<HiServer>();
-        this->send(hiServer, *this->_serverEndpoint);
+        this->send(hiServer, *this->_serverEndpoint, false);
         std::cerr << "\x1B[32m[Client]\x1B[0m: Connection to server established." << std::endl;
     }
     catch (std::exception &e)
@@ -42,4 +42,10 @@ void Client::connectServer(std::string host, unsigned int port)
         std::cerr << "\x1B[31m[Client ERROR]\x1B[0m: " << e.what() << std::endl;
     }
 }
+
+std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> Client::getRcvQueue()
+{
+    std::lock_guard<std::mutex> lock(this->_queueMutex);
+    return this->_rcvQueue; 
+}; 
 }  // namespace dimension

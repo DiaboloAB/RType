@@ -18,15 +18,6 @@
 
 namespace dimension
 {
-struct RoomState
-{
-    unsigned int _port;
-    int _nbConnected = 0;
-    std::list<asio::ip::udp::endpoint> _endpoints;
-    bool _inGame = false;
-    std::shared_ptr<std::thread> _roomThread = nullptr;
-};
-
 class AServer : public AEndpoint
 {
    public:
@@ -35,29 +26,26 @@ class AServer : public AEndpoint
 
    public:
     void run();
-    void initRoom(asio::ip::udp::endpoint &sender, bool isPrivate = false);
-    // void joinRoom(std::string roomCode, asio::ip::udp::endpoint &sender);
-    // void endRoom(asio::ip::udp::endpoint &sender);
-    virtual void startRoom(std::string roomCode) = 0;
-
-   protected:
-    bool isConnected(asio::ip::udp::endpoint &endpoint) const;
 
     private:
         void initServer(std::string host, unsigned int port);
 
    private:
-    unsigned int getAvaiblePort() const;
-    std::string generateRoomCode() const;
     void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
     void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
 
+    protected:
+        using EventFunction = std::function<void(asio::ip::udp::endpoint &, std::string &)>;
+        using PacketHandler = std::function<void(std::pair<std::shared_ptr<APacket>, 
+        asio::ip::udp::endpoint> &)>;
+    
+    protected:
+        void registerEventHandling(std::string desc, EventFunction handler);
+        bool isConnected(asio::ip::udp::endpoint &endpoint) const;
+
    protected:
-    std::unordered_map<std::string, RoomState> _rooms;
-    std::unordered_map<std::string, RoomState> _privateRooms;
     std::list<asio::ip::udp::endpoint> _connectedEp;
-    std::unordered_map<uint8_t, std::function<
-        void(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &)>> _packetH;
-    std::unordered_map<std::string, std::function<void()>> _eventH;
+    std::unordered_map<uint8_t, PacketHandler> _packetH;
+    std::unordered_map<std::string, EventFunction> _eventH;
 };
 }  // namespace dimension
