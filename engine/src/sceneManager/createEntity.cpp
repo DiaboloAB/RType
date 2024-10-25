@@ -31,7 +31,8 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);
         addComponentIfExists<Animator>("Animator", prefabJson["components"], registry, entity);
         addComponentIfExists<Sticky>("Sticky", prefabJson["components"], registry, entity);
-        addComponentIfExists<NetworkClient>("NetworkClient", prefabJson["components"], registry, entity);
+        addComponentIfExists<NetworkClient>("NetworkClient", prefabJson["components"], registry,
+                                            entity);
 
         if (prefabJson["components"].contains("Scripts"))
         {

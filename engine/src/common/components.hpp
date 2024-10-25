@@ -10,16 +10,16 @@
 
 #include <mlg/mlg.hpp>
 
+#include "Client.hpp"
 #include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
-#include "Client.hpp"
 
 // std
 #include <iostream>
+#include <memory>
 #include <queue>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace RType
 {
@@ -153,11 +153,14 @@ struct Audio
     }
 };
 
-struct NetworkClient {
+struct NetworkClient
+{
     std::shared_ptr<dimension::Client> client = nullptr;
 
-    NetworkClient() {client = std::make_shared<dimension::Client>(
-        std::make_shared<dimension::PacketFactory>()); }
+    NetworkClient()
+    {
+        client = std::make_shared<dimension::Client>(std::make_shared<dimension::PacketFactory>());
+    }
 };
 }  // namespace RType
 
