@@ -12,7 +12,6 @@
 
 #include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
-#include "timer/Timer.hpp"
 
 // std
 #include <iostream>
@@ -72,6 +71,14 @@ struct Animator
     AnimationList animations = AnimationList();
 
     Animator() {}
+};
+
+struct Sticky
+{
+    std::string target;
+    mlg::vec3 offset = mlg::vec3();
+
+    Sticky(){};
 };
 
 struct Button

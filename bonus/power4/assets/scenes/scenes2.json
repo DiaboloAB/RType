@@ -1,0 +1,128 @@
+{
+    "entities": [
+      {
+        "tag": "player",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [100, 100, 0] },
+          "Timer": { "active": false},
+          "Hitbox": {
+            "size": [64, 32],
+            "offSet": [0, 0],
+            "isEnemy": false
+          },
+          "Health": {
+            "health": 3
+          },
+          "Animator": [
+            {
+              "name": "default",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/idle.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "down",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/down.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": false
+            },
+            {
+              "name": "up",
+              "speed": 1,
+              "texture": "assets/graphics/player/ship/up.png",
+              "frameCount": 1,
+              "frameSize": [32, 16],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": false
+            }
+          ],
+          "CppScripts": [
+            "MovePlayer",
+            "AnimPlayer",
+            "PlayerShoot"
+          ]
+        }
+      },
+      {
+        "tag": "thruster",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [36, 84, 0] },
+          "Animator": [
+            {
+              "name": "default",
+              "speed": 1,
+              "texture": "assets/graphics/player/thruster/low.png",
+              "frameCount": 1,
+              "frameSize": [1, 1],
+              "scale": [1, 1],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "low",
+              "speed": 10,
+              "texture": "assets/graphics/player/thruster/low.png",
+              "frameCount": 2,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": true
+            },
+            {
+              "name": "full",
+              "speed": 10,
+              "texture": "assets/graphics/player/thruster/high.png",
+              "frameCount": 2,
+              "frameSize": [32, 32],
+              "scale": [2, 2],
+              "rotation": 0,
+              "loop": true
+            }
+          ],
+          "CppScripts": [
+            "MoveThruster",
+            "AnimThruster"
+          ]
+        }
+      },
+      {
+        "tag": "background",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [0, 0, -1] },
+          "Sprite": { "texture": "assets/graphics/background.png" }
+        }
+      },
+      {
+        "tag": "enemy_factory",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [1600, 500, 0] },
+          "Sprite": { "texture": "assets/graphics/enemy/factory.png" },
+          "Timer": { "active": true},
+          "Hitbox": {
+            "size": [130, 50],
+            "offSet": [0, 0],
+            "isEnemy": true
+          },
+          "Health": {
+            "health": 5
+          },
+          "CppScripts": [
+            "EnemyFactory"
+          ]
+        }
+      }
+    ]
+  }

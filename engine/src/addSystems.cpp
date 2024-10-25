@@ -10,6 +10,7 @@
 #include "common/systems/CppScriptsSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
+#include "common/systems/StickySystem.hpp"
 
 using namespace RType;
 
@@ -19,4 +20,5 @@ void Engine::addSystems()
     _systemManager.addSystem<SpriteSystem>();
     _systemManager.addSystem<CppScriptsSystem>();
     _systemManager.addSystem<AudioSystem>();
+    _systemManager.addSystem<StickySystem>();
 }
