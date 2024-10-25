@@ -14,9 +14,7 @@
 
 namespace RType
 {
-void from_json(const nlohmann::json& j, NetworkClient& networkClient)
-{
-}
+void from_json(const nlohmann::json& j, NetworkClient& networkClient) {}
 }  // namespace RType
 
 #endif  // FROMJSONNETWORK_HPP
