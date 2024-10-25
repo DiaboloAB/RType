@@ -214,7 +214,6 @@ void RenderSystemSFML::setGameIcon(const std::string& filePath)
 void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
                                 unsigned int fontSize, const mlg::vec3& color, bool centered)
 {
-    // Recherche de la police dans le cache à partir de l'ID
     auto it = _fonts.find(fontID);
     if (it == _fonts.end())
     {
