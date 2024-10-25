@@ -5,37 +5,36 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include <cstring>
 #include <iostream>
 #include <string>
 
-#include "RTypeEngine.hpp"
+#include "ArgParser.hpp"
+#include "MainServer.hpp"
+
+static int displayUsage(int returnValue)
+{
+    std::cout << "USAGE:" << std::endl;
+    std::cout << "\n  ./r-type_server [-p port] [-H host]" << std::endl;
+    std::cout << "\nPARAM:" << std::endl;
+    std::cout << "  -p  --port : Server port between 1024 and 65535." << std::endl;
+    std::cout << "  -H  --host : Server ip address." << std::endl;
+    return returnValue;
+}
 
 int main(int ac, char **av)
 {
-    std::map<std::string, std::string> args;
-
-    for (int i = 1; i < ac; i++)
-    {
-        std::string arg = av[i];
-        size_t pos = arg.find('=');
-        if (pos != std::string::npos)
-        {
-            std::string key = arg.substr(0, pos);
-            std::string value = arg.substr(pos + 1);
-            args[key] = value;
-        }
-    }
-
-    args["graphics"] = "off";
-
+    if (ac == 2 && (std::string(av[1]) == "--help" || std::string(av[1]) == "-h"))
+        return displayUsage(0);
     try
     {
-        RType::Engine engine(args);
-        engine.run();
+        RType::Network::ArgParser serverArgs(ac, av);
+        RType::Network::MainServer server(serverArgs.getHost(), serverArgs.getPort());
+        server.run();
     }
     catch (std::exception &e)
     {
         std::cout << e.what() << std::endl;
+        return displayUsage(84);
     }
+    return 0;
 }
