@@ -14,6 +14,7 @@ find_package(lua REQUIRED)
 find_package(asio REQUIRED)
 add_subdirectory(libs/mobs)
 add_subdirectory(libs/mlg)
+add_subdirectory(libs/dimension)
 
 ##############graphic library flag (default sfml)###################
 if(NOT DEFINED GRAPHICS)
@@ -74,6 +75,7 @@ src/common/animations/Animation.cpp
     asio::asio
     mlg::mlg
     mobs::mobs
+    dimension::dimension
     ${GRAPHICS_LIB}
     )
 
