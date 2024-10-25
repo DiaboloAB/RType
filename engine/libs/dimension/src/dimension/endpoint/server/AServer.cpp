@@ -13,12 +13,17 @@ namespace dimension
 AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
     : AEndpoint(factory)
 {
-    this->_funcHandler[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(
         ClientEvent)))] = [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleEvent(pair); };
-    this->_funcHandler[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
+    this->initServer(host, port);
+
+}
+
+void AServer::initServer(std::string host, unsigned int port) {
     try
     {
         this->_io_context = std::make_shared<asio::io_context>();
@@ -45,8 +50,8 @@ void AServer::run()
         while (!queueAtT.empty())
         {
             auto &packet = queueAtT.front();
-            auto function = this->_funcHandler.find(packet.first->getPacketType());
-            if (!(function == this->_funcHandler.end())) function->second(packet);
+            auto function = this->_packetH.find(packet.first->getPacketType());
+            if (!(function == this->_packetH.end())) function->second(packet);
             this->popReceiveQueue();
             queueAtT.pop();
         }
@@ -64,6 +69,7 @@ void AServer::initRoom(asio::ip::udp::endpoint &sender, bool isPrivate)
         this->_privateRooms[roomCode] = roomState;
     else
         this->_rooms[roomCode] = roomState;
+    std::cerr << "\x1B[32m[AServer]\x1B[0m: New room created : " << roomCode << std::endl;
 }
 
 void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
@@ -80,8 +86,20 @@ void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::
 void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
 {
     if (!isConnected(packet.second)) return;
-    std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
-    std::cerr << "\x1B[32m[AServer]\x1B[0m: Event handling to do." << std::endl;
+    try {
+        std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
+        if (event->getClientEvent() != ROOM) return;
+        std::string eventDesc = event->getDescription();
+        if (eventDesc == "cr") return this->initRoom(packet.second);
+        if (eventDesc == "crp") return this->initRoom(packet.second, true);
+        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc << std::endl;
+        auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
+        validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
+        validation->setPacketReceiveType(packet.first->getPacketType());
+        this->send(validation, packet.second, false);
+    } catch (std::exception &e) {
+        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: Error in client event {" << e.what() << "}" << std::endl;
+    }
 }
 
 bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const

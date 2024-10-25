@@ -30,7 +30,10 @@
         "staticObject": true,
         "components": {
           "NetworkClient": {}
-        }
+        },
+        "CppScripts": [
+          "ComServer"
+        ]
       }
     ]
 }

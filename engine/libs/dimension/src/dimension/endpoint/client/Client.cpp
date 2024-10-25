@@ -10,10 +10,7 @@
 
 namespace dimension
 {
-Client::Client(const std::shared_ptr<PacketFactory> &factory) : AEndpoint(factory)
-{
-    std::cerr << "Client INITIALISED" << std::endl;
-}
+Client::Client(const std::shared_ptr<PacketFactory> &factory) : AEndpoint(factory) {}
 
 Client::~Client()
 {

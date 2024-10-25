@@ -27,7 +27,7 @@ class Client : public AEndpoint
      */
     void connectServer(std::string host, unsigned int port);
 
-   private:
+   public:
     std::shared_ptr<asio::ip::udp::endpoint> _serverEndpoint = nullptr;
 };
 }  // namespace dimension
