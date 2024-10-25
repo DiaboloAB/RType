@@ -83,8 +83,10 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp:
             e.what() + "}");
         return;
     }
-    if (this->_packetFactory->getTypeFromIndex(std::type_index(typeid(PacketValidation))) == packet->getPacketType())
-        return this->deleteFromValidationList(std::static_pointer_cast<PacketValidation>(packet), endpoint);
+    if (this->_packetFactory->getTypeFromIndex(std::type_index(typeid(PacketValidation))) ==
+        packet->getPacketType())
+        return this->deleteFromValidationList(std::static_pointer_cast<PacketValidation>(packet),
+                                              endpoint);
     std::lock_guard<std::mutex> lock(this->_queueMutex);
     this->_rcvQueue.push(std::make_pair(packet, endpoint));
     std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint packet receive." << std::endl;

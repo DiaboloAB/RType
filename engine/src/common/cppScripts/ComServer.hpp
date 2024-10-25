@@ -8,10 +8,11 @@
 #ifndef COMSERVER_HPP
 #define COMSERVER_HPP
 
+#include <iostream>
+
+#include "ClientEventType.hpp"
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-#include "ClientEventType.hpp"
-#include <iostream>
 
 namespace RType
 {
@@ -23,7 +24,8 @@ class ComServer : public RType::ICppScript
     {
         auto &networkC = registry.get<NetworkClient>(_entity);
         auto _rcvQueue = networkC.client->getRcvQueue();
-        while (!_rcvQueue.empty()) {
+        while (!_rcvQueue.empty())
+        {
             auto packet = _rcvQueue.front();
             auto validation = networkC.factory.createEmptyPacket<dimension::PacketValidation>();
             validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
@@ -32,11 +34,13 @@ class ComServer : public RType::ICppScript
             _rcvQueue.pop();
             networkC.client->popReceiveQueue();
         }
-        if (gameContext._runtime->getKey(KeyCode::Enter)) {
+        if (gameContext._runtime->getKey(KeyCode::Enter))
+        {
             networkC.client->connectServer("127.0.0.1", 8581);
             usleep(500 * 1000);
         }
-        if (gameContext._runtime->getKey(KeyCode::R)) {
+        if (gameContext._runtime->getKey(KeyCode::R))
+        {
             auto &networkC = registry.get<NetworkClient>(_entity);
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);

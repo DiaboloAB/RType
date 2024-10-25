@@ -43,9 +43,10 @@ void Client::connectServer(std::string host, unsigned int port)
     }
 }
 
-std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>> Client::getRcvQueue()
+std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
+Client::getRcvQueue()
 {
     std::lock_guard<std::mutex> lock(this->_queueMutex);
-    return this->_rcvQueue; 
-}; 
+    return this->_rcvQueue;
+};
 }  // namespace dimension
