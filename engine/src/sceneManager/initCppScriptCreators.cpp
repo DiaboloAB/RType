@@ -20,12 +20,14 @@
 // #include "common/cppScripts/PlayerShoot.hpp"
 // #include "common/cppScripts/RedShipScript.hpp"
 // #include "common/cppScripts/helloworld.hpp"
+#include "common/network/cppScripts/ComServer.hpp"
 #include "common/scriptsComponent.hpp"
 
 using namespace RType;
 
 void SceneManager::initCppScriptCreators()
 {
+    _cppScriptCreators["ComServer"] = []() { return std::make_shared<ComServer>(); };
     // _cppScriptCreators["HelloWorld"] = []() { return std::make_shared<HelloWorldScript>(); };
     // _cppScriptCreators["MovePlayer"] = []() { return std::make_shared<MovePlayerScript>(); };
     // _cppScriptCreators["AnimPlayer"] = []() { return std::make_shared<AnimPlayerScript>(); };

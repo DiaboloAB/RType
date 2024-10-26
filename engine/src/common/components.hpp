@@ -10,11 +10,13 @@
 
 #include <mlg/mlg.hpp>
 
+#include "Client.hpp"
 #include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
 
 // std
 #include <iostream>
+#include <memory>
 #include <queue>
 #include <string>
 #include <vector>
@@ -154,7 +156,6 @@ struct Audio
     {
     }
 };
-
 }  // namespace RType
 
 #endif  // COMPONENTS_H
