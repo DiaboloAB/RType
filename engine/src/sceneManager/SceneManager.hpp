@@ -108,6 +108,13 @@ class SceneManager
         }
     }
 
+    template <typename... T>
+    void addComponentsToEntity(const nlohmann::json &componentData, mobs::Registry &registry,
+                               mobs::Entity entity)
+    {
+        (addComponentIfExists<T>(T::name, componentData, registry, entity), ...);
+    }
+
     /**
      * @brief Adds scripts to an entity.
      *

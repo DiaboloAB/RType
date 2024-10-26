@@ -38,6 +38,7 @@ struct Basics
         : tag(tag), layer(layer), staticObject(staticObject)
     {
     }
+    static constexpr const char* name = "Basics";
 };
 
 struct Transform
@@ -56,6 +57,7 @@ struct Transform
     }
 
     Transform() : position(mlg::vec3(0.0f)), rotation(mlg::vec3(0.0f)), scale(mlg::vec3(1.0f)) {}
+    static constexpr const char* name = "Transform";
 };
 
 struct RigidBody
@@ -70,6 +72,7 @@ struct Sprite
 
     Sprite() {}
     Sprite(std::string filePath) : filePath(filePath) {}
+    static constexpr const char* name = "Sprite";
 };
 
 struct Animator
@@ -77,6 +80,7 @@ struct Animator
     AnimationList animations = AnimationList();
 
     Animator() {}
+    static constexpr const char* name = "Animator";
 };
 
 struct Sticky
@@ -85,6 +89,7 @@ struct Sticky
     mlg::vec3 offset = mlg::vec3();
 
     Sticky(){};
+    static constexpr const char* name = "Sticky";
 };
 
 struct Button
@@ -106,6 +111,7 @@ struct Button
         : text(text), size(size), font(font), color(color), target(target), action(action)
     {
     }
+    static constexpr const char* name = "Button";
 };
 struct Text
 {
@@ -119,6 +125,7 @@ struct Text
         : text(text), color(color), font(font), fontSize(fontSize)
     {
     }
+    static constexpr const char* name = "Text";
 };
 
 struct Dialog
@@ -138,6 +145,7 @@ struct Dialog
             lines.push_back(line);
         }
     }
+    static constexpr const char* name = "Dialog";
 };
 
 struct Audio
@@ -155,6 +163,7 @@ struct Audio
         : sounds(sounds), musics(musics)
     {
     }
+    static constexpr const char* name = "Audio";
 };
 }  // namespace RType
 

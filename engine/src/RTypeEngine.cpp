@@ -119,18 +119,6 @@ void Engine::loadGame()
     _sceneManager.loadScene(_gameConfig["defaultScene"], *_gameContext);
 }
 
-// void dupEntity(mobs::Registry& registry, mobs::Entity entity)
-// {
-//     auto& transform = registry.get<Transform>(entity);
-//     auto& sprite = registry.get<Sprite>(entity);
-//     auto& collider = registry.get<Collider>(entity);
-
-//     mobs::Entity newEntity = registry.create();
-//     registry.emplace<Transform>(newEntity, transform.position, transform.scale, transform.rotation);
-//     registry.emplace<Sprite>(newEntity, sprite.spriteId, sprite.spriteRect);
-//     registry.emplace<Collider>(newEntity, collider.size, collider.offset);
-// }
-
 void Engine::run()
 {
     _systemManager.load(_registry, *_gameContext);

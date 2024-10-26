@@ -27,12 +27,15 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 
         registry.emplace<Basics>(entity, tag, layer, staticObject);
 
-        addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
-        addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);
-        addComponentIfExists<Animator>("Animator", prefabJson["components"], registry, entity);
-        addComponentIfExists<Sticky>("Sticky", prefabJson["components"], registry, entity);
-        addComponentIfExists<NetworkClient>("NetworkClient", prefabJson["components"], registry,
-                                            entity);
+        // addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
+        // addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);
+        // addComponentIfExists<Animator>("Animator", prefabJson["components"], registry, entity);
+        // addComponentIfExists<Sticky>("Sticky", prefabJson["components"], registry, entity);
+        // addComponentIfExists<NetworkClient>("NetworkClient", prefabJson["components"], registry,
+        //                                     entity);
+
+
+        addComponentsToEntity<Transform, Sprite, Animator, Sticky, NetworkClient>(prefabJson["components"], registry, entity);
 
         if (prefabJson["components"].contains("Scripts"))
         {
