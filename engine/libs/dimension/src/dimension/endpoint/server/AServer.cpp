@@ -77,11 +77,12 @@ void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::end
         std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
         if (event->getClientEvent() != ROOM) return;
         std::string eventDesc = event->getDescription();
-        if (this->_eventH.find(eventDesc) == this->_eventH.end())
+        size_t pos = eventDesc.find('=');
+        if (pos == std::string::npos || this->_eventH.find(eventDesc.substr(0, pos)) == this->_eventH.end())
             std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc
                       << std::endl;
         else
-            this->_eventH[eventDesc](packet.second, eventDesc);
+            this->_eventH[eventDesc.substr(0, pos)](packet.second, eventDesc);
         auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
         validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
         validation->setPacketReceiveType(packet.first->getPacketType());

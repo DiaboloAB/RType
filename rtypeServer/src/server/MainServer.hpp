@@ -10,6 +10,9 @@
 #include "AServer.hpp"
 #include "PacketFactory.hpp"
 
+#define LOG(file, msg) std::cerr << "\x1B[32m[" << file << "]\x1B[0m: " << msg << std::endl
+#define ERR_LOG(file, msg) std::cerr << "\x1B[31m[" << file << " Error]\x1B[0m: " << msg << std::endl
+
 namespace RType::Network {
     struct RoomState
     {
@@ -27,14 +30,19 @@ namespace RType::Network {
         private:
             void initRoom(asio::ip::udp::endpoint &sender, std::string &description);
             void joinRoom(asio::ip::udp::endpoint &sender, std::string &description);
+            void joinRandom(asio::ip::udp::endpoint &sender);
             void endRoom(asio::ip::udp::endpoint &sender, std::string &description);
             void startRoom(asio::ip::udp::endpoint &sender, std::string &description);
+            void leaveRoom(asio::ip::udp::endpoint &sender, std::string &description);
         private:
             unsigned int getAvaiblePort() const;
             std::string generateRoomCode() const;
+            std::string getRoomFromSender(asio::ip::udp::endpoint &sender) const;
+            RoomState &getRoomStateFromCode(std:: string code);
+            void deleteRoomFromCode(std::string roomCode);
         private:
             std::unordered_map<std::string, RoomState> _rooms;
             std::unordered_map<std::string, RoomState> _privateRooms;
-
+            std::unordered_map<asio::ip::udp::endpoint, std::string> _clientRooms;
     };
 }
