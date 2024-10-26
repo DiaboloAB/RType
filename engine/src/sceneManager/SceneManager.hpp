@@ -62,7 +62,7 @@ class SceneManager
      * @param gameContext The context of the game.
      * @return mobs::Entity The entity created from the prefab.
      */
-    mobs::Entity loadPrefab(const std::string &prefabName, GameContext &gameContext);
+    mobs::Entity instantiate(const std::string &prefabName, GameContext &gameContext);
 
     /**
      * @brief Updates the scene manager.
@@ -84,6 +84,17 @@ class SceneManager
      */
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
                       mobs::Registry &registry, GameContext &gameContext);
+
+    template <typename... T>
+    void copyEntity(mobs::Entity from, mobs::Entity to, mobs::Registry &registry) {
+        (copyComponents<T>(from, to, registry), ...);
+    }
+
+    template <typename T>
+    void copyComponents(mobs::Entity from, mobs::Entity to, mobs::Registry &registry) {
+        if (_prefabRegistry.hasComponent<T>(from))
+            registry.emplace<T>(to, _prefabRegistry.get<T>(from));
+    }
 
     template <typename T>
     void addComponentIfExists(std::string ComponentName, const nlohmann::json &data,
@@ -113,6 +124,7 @@ class SceneManager
 
     void initCppScriptCreators();
 
+    mobs::Registry _prefabRegistry;  ///< The registry containing all prefabs.
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
     std::map<std::string, std::string> _scenes;   ///< The scenes.
