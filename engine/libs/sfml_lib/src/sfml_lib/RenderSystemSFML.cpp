@@ -25,24 +25,68 @@ RenderSystemSFML::~RenderSystemSFML() {}
 
 void RenderSystemSFML::pollEvents()
 {
+    _previousKeys = _currentKeys;
     sf::Event event = {};
     while (_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
         {
-            _window.close();
+            _currentKeys[KeyCode::Close] = true;
+        }
+        if (event.type == sf::Event::KeyPressed)
+        {
+            _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = true;
+        }
+        if (event.type == sf::Event::KeyReleased)
+        {
+            _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = false;
+        }
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = true;
+        }
+        if (event.type == sf::Event::MouseButtonReleased)
+        {
+            _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = false;
         }
     }
 }
 
 bool RenderSystemSFML::getKey(KeyCode key)
 {
-    return sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key));
+    auto it = _currentKeys.find(static_cast<int>(key));
+    if (it != _currentKeys.end())
+    {
+        return it->second;
+    }
+    return false;
 }
 
-bool RenderSystemSFML::getKeyUp(KeyCode key) { return false; }
+bool RenderSystemSFML::getKeyUp(KeyCode key)
+{
+    auto it = _previousKeys.find(static_cast<int>(key));
+    if (it != _previousKeys.end())
+    {
+        if (it->second == true && _currentKeys[static_cast<int>(key)] == false)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
-bool RenderSystemSFML::getKeyDown(KeyCode key) { return false; }
+bool RenderSystemSFML::getKeyDown(KeyCode key)
+{
+    auto it = _currentKeys.find(static_cast<int>(key));
+    if (it != _currentKeys.end())
+    {
+        if (it->second == true && _previousKeys[static_cast<int>(key)] == false)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }
 
@@ -170,7 +214,6 @@ void RenderSystemSFML::setGameIcon(const std::string& filePath)
 void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
                                 unsigned int fontSize, const mlg::vec3& color, bool centered)
 {
-    // Recherche de la police dans le cache à partir de l'ID
     auto it = _fonts.find(fontID);
     if (it == _fonts.end())
     {
@@ -375,6 +418,130 @@ void RenderSystemSFML::setShader(int shaderId)
     else
     {
         std::cerr << "Erreur : shader avec l'ID " << shaderId << " non trouvé." << std::endl;
+    }
+}
+
+KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
+{
+    switch (key)
+    {
+        case sf::Keyboard::A:
+            return KeyCode::A;
+        case sf::Keyboard::B:
+            return KeyCode::B;
+        case sf::Keyboard::C:
+            return KeyCode::C;
+        case sf::Keyboard::D:
+            return KeyCode::D;
+        case sf::Keyboard::E:
+            return KeyCode::E;
+        case sf::Keyboard::F:
+            return KeyCode::F;
+        case sf::Keyboard::G:
+            return KeyCode::G;
+        case sf::Keyboard::H:
+            return KeyCode::H;
+        case sf::Keyboard::I:
+            return KeyCode::I;
+        case sf::Keyboard::J:
+            return KeyCode::J;
+        case sf::Keyboard::K:
+            return KeyCode::K;
+        case sf::Keyboard::L:
+            return KeyCode::L;
+        case sf::Keyboard::M:
+            return KeyCode::M;
+        case sf::Keyboard::N:
+            return KeyCode::N;
+        case sf::Keyboard::O:
+            return KeyCode::O;
+        case sf::Keyboard::P:
+            return KeyCode::P;
+        case sf::Keyboard::Q:
+            return KeyCode::Q;
+        case sf::Keyboard::R:
+            return KeyCode::R;
+        case sf::Keyboard::S:
+            return KeyCode::S;
+        case sf::Keyboard::T:
+            return KeyCode::T;
+        case sf::Keyboard::U:
+            return KeyCode::U;
+        case sf::Keyboard::V:
+            return KeyCode::V;
+        case sf::Keyboard::W:
+            return KeyCode::W;
+        case sf::Keyboard::X:
+            return KeyCode::X;
+        case sf::Keyboard::Y:
+            return KeyCode::Y;
+        case sf::Keyboard::Z:
+            return KeyCode::Z;
+        case sf::Keyboard::Up:
+            return KeyCode::UpArrow;
+        case sf::Keyboard::Down:
+            return KeyCode::DownArrow;
+        case sf::Keyboard::Left:
+            return KeyCode::LeftArrow;
+        case sf::Keyboard::Right:
+            return KeyCode::RightArrow;
+        case sf::Keyboard::Escape:
+            return KeyCode::Escape;
+        case sf::Keyboard::Space:
+            return KeyCode::Space;
+        case sf::Keyboard::Enter:
+            return KeyCode::Enter;
+        case sf::Keyboard::Backspace:
+            return KeyCode::Backspace;
+        case sf::Keyboard::Tab:
+            return KeyCode::Tab;
+        case sf::Keyboard::Num0:
+            return KeyCode::Alpha0;
+        case sf::Keyboard::Num1:
+            return KeyCode::Alpha1;
+        case sf::Keyboard::Num2:
+            return KeyCode::Alpha2;
+        case sf::Keyboard::Num3:
+            return KeyCode::Alpha3;
+        case sf::Keyboard::Num4:
+            return KeyCode::Alpha4;
+        case sf::Keyboard::Num5:
+            return KeyCode::Alpha5;
+        case sf::Keyboard::Num6:
+            return KeyCode::Alpha6;
+        case sf::Keyboard::Num7:
+            return KeyCode::Alpha7;
+        case sf::Keyboard::Num8:
+            return KeyCode::Alpha8;
+        case sf::Keyboard::Num9:
+            return KeyCode::Alpha9;
+        case sf::Keyboard::Comma:
+            return KeyCode::Comma;
+        case sf::Keyboard::Period:
+            return KeyCode::Dot;
+        case sf::Keyboard::Dash:
+            return KeyCode::Tiret;
+        default:
+            return KeyCode::None;
+    }
+}
+
+KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
+{
+    switch (button)
+    {
+        case sf::Mouse::Left:
+            return KeyCode::Mouse0;
+        case sf::Mouse::Right:
+            return KeyCode::Mouse2;
+        case sf::Mouse::Middle:
+            return KeyCode::Mouse3;
+        case sf::Mouse::XButton1:
+            return KeyCode::Mouse4;
+        case sf::Mouse::XButton2:
+            return KeyCode::Mouse5;
+        default:
+            return KeyCode::None;
     }
 }
 
