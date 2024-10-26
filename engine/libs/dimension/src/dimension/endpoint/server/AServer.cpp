@@ -78,7 +78,8 @@ void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::end
         if (event->getClientEvent() != ROOM) return;
         std::string eventDesc = event->getDescription();
         size_t pos = eventDesc.find('=');
-        if (pos == std::string::npos || this->_eventH.find(eventDesc.substr(0, pos)) == this->_eventH.end())
+        if (pos == std::string::npos ||
+            this->_eventH.find(eventDesc.substr(0, pos)) == this->_eventH.end())
             std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc
                       << std::endl;
         else
