@@ -4,14 +4,16 @@
  *   Author: Morgan LARGEOT, Maxence LARGEOT
  *   Create Time: 2024-10-26
  *   Location: Rennes
-   **********************************************************************************/
+ **********************************************************************************/
 #pragma once
 
 #include <asio.hpp>
 #include <chrono>
 
-namespace dimension {
-struct ResendTimer {
+namespace dimension
+{
+struct ResendTimer
+{
     asio::ip::udp::endpoint _sender;
     std::chrono::steady_clock::time_point _timer;
 
@@ -21,4 +23,4 @@ struct ResendTimer {
     }
     ~ResendTimer() {}
 };
-}
+}  // namespace dimension
