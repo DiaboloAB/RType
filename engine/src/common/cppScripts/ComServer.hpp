@@ -24,6 +24,8 @@ class ComServer : public RType::ICppScript
     {
         auto &networkC = registry.get<NetworkClient>(_entity);
         auto _rcvQueue = networkC.client->getRcvQueue();
+        if (gameContext._runtime->getKeyDown(KeyCode::H))
+            std::cout << "H key pressed" << std::endl;
         while (!_rcvQueue.empty())
         {
             auto packet = _rcvQueue.front();
