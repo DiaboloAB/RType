@@ -19,6 +19,10 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#include <sstream>
+#endif
+
 namespace RType
 {
 struct Basics
