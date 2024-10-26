@@ -66,7 +66,7 @@ void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::
         this->_connectedEp.emplace_back(packet.second);
         std::cerr << "\x1B[32m[AServer]\x1B[0m: New connection received." << std::endl;
     }
-    this->send(hiClient, packet.second, false);
+    this->send(hiClient, packet.second);
 }
 
 void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)

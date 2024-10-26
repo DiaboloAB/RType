@@ -152,17 +152,6 @@ struct Audio
     {
     }
 };
-
-struct NetworkClient
-{
-    std::shared_ptr<dimension::Client> client = nullptr;
-    dimension::PacketFactory factory;
-
-    NetworkClient()
-    {
-        client = std::make_shared<dimension::Client>(std::make_shared<dimension::PacketFactory>());
-    }
-};
 }  // namespace RType
 
 #endif  // COMPONENTS_H

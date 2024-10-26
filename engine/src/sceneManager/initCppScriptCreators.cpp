@@ -20,7 +20,7 @@
 // #include "common/cppScripts/PlayerShoot.hpp"
 // #include "common/cppScripts/RedShipScript.hpp"
 // #include "common/cppScripts/helloworld.hpp"
-#include "common/cppScripts/ComServer.hpp"
+#include "common/network/cppScripts/ComServer.hpp"
 #include "common/scriptsComponent.hpp"
 
 using namespace RType;
