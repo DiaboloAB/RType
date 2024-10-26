@@ -13,6 +13,7 @@
 
 #include "IRuntime/IRuntime.hpp"
 #include "common/components.hpp"
+#include "common/network/components/networkComp.hpp"
 // std
 #include <chrono>
 #include <iostream>

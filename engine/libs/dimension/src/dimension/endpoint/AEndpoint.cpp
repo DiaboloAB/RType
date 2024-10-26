@@ -30,7 +30,7 @@ void AEndpoint::send(const std::shared_ptr<APacket> &packet,
     if (isNewPacket)
     {
         std::lock_guard<std::mutex> lock(this->_listMutex);
-        this->_validationList.insert(this->_validationList.end(), std::make_pair(packet, endpoint));
+        this->_validationList.insert(this->_validationList.end(), std::make_pair(packet, ResendTimer(endpoint)));
     }
     this->_socket->async_send_to(
         asio::buffer(packetData), endpoint,
@@ -111,7 +111,7 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
         uint64_t packetTimeStamp = packetInValidation->first->getPacketTimeStamp();
         if (validation->getPacketReceiveType() == packetType &&
             validation->getPacketReceiveTimeStamp() == packetTimeStamp &&
-            endpoint == packetInValidation->second)
+            endpoint == packetInValidation->second._sender)
         {
             std::lock_guard<std::mutex> lock(this->_listMutex);
             this->_validationList.erase(packetInValidation);
@@ -125,10 +125,13 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
 
 void AEndpoint::resendValidationList()
 {
+    std::chrono::steady_clock::time_point time = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(this->_listMutex);
     for (auto &validation : this->_validationList)
-    {
-        this->send(validation.first, validation.second, false);
-    }
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(
+            time - validation.second._timer).count() >= 20) {
+            this->send(validation.first, validation.second._sender, false);
+            validation.second._timer = std::chrono::steady_clock::now();
+        }
 }
 }  // namespace dimension
