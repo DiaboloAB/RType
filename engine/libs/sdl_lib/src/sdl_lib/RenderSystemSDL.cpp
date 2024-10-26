@@ -22,7 +22,7 @@ RenderSystemSDL::RenderSystemSDL()
         std::cerr << "TTF could not initialize! TTF_Error: " << TTF_GetError() << std::endl;
         return;
     }
-    window = SDL_CreateWindow("R-Type", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600,
+    window = SDL_CreateWindow("R-Type", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080,
                               SDL_WINDOW_SHOWN);
     if (!window)
     {
@@ -128,7 +128,7 @@ int RenderSystemSDL::loadSprite(const std::string& filePath)
     int id = generateUniqueId();
     if (textures.find(id) == textures.end())
     {
-        SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
+        SDL_Surface* surface = IMG_Load(filePath.c_str());
         if (!surface)
         {
             std::cerr << "Unable to load image " << filePath << " SDL Error: " << SDL_GetError()
