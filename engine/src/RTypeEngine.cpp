@@ -138,15 +138,14 @@ void Engine::run()
 
     while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running)
     {
-        _gameContext->_runtime->pollEvents();
-        if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
-
         _clockManager.update();
         if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
 
         _gameContext->_deltaT = _clockManager.getDeltaT();
         if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
         {
+            _gameContext->_runtime->pollEvents();
+            if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
