@@ -9,6 +9,7 @@
 #define NETWORKCOMP_H
 
 #include "Client.hpp"
+#include "Room.hpp"
 
 // std
 #include <memory>
@@ -23,6 +24,17 @@ struct NetworkClient
     NetworkClient()
     {
         client = std::make_shared<dimension::Client>(std::make_shared<dimension::PacketFactory>());
+    }
+};
+
+struct NetworkRoom
+{
+    std::shared_ptr<dimension::Room> room = nullptr;
+    dimension::PacketFactory factory;
+
+    NetworkRoom(std::string host, unsigned int port, std::string code)
+    {
+        room = std::make_shared<dimension::Room>(std::make_shared<dimension::PacketFactory>(), host, port, code);
     }
 };
 }  // namespace RType

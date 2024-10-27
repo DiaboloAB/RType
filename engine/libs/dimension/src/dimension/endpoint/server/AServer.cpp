@@ -13,11 +13,11 @@ namespace dimension
 AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
     : AEndpoint(factory), _host(host), _port(port)
 {
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(ClientEvent)))] =
-        [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(dimension::ClientEvent)))] =
+        [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleEvent(pair); };
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
-        [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(dimension::HiServer)))] =
+        [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(Ping)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)

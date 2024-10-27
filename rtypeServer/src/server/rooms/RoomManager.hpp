@@ -13,6 +13,7 @@
 #include <random>
 
 #include "RoomState.hpp"
+#include "GameInstance.hpp"
 #include "Logger.hpp"
 
 namespace RType::Network {
@@ -87,8 +88,12 @@ class RoomManager {
          * @param roomCode: code of the room to delete (Example: WX08F3).
          */
         void deleteRoomFromCode(std::string roomCode);
+    
+    public:
+        void setHost(std::string host) { this->_host = host; };
 
     private:
+        std::string _host = "127.0.0.1";
         std::unordered_map<std::string, RoomState> _rooms;
         std::unordered_map<std::string, RoomState> _privateRooms;
         std::unordered_map<asio::ip::udp::endpoint, std::string> _clientRooms;

@@ -12,6 +12,8 @@
 #include <asio.hpp>
 #include <thread>
 
+#include "GameInstance.hpp"
+
 namespace RType::Network {
 /**
  * @struct RoomState
@@ -24,6 +26,7 @@ struct RoomState
     int _nbConnected = 0;
     std::list<asio::ip::udp::endpoint> _endpoints;
     bool _inGame = false;
+    std::shared_ptr<GameInstance> _gameInstance = nullptr;
     std::shared_ptr<std::thread> _roomThread = nullptr;
 };
 }

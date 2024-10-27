@@ -21,6 +21,7 @@ MainServer::MainServer(std::string host, unsigned int port) :
         [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.endRoom(sender, desc); });
     this->registerEventHandling("leave",
         [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.leaveRoom(sender, desc); });
+    this->_roomManager.setHost(this->_host);
 }
 
 MainServer::~MainServer() {}

@@ -71,7 +71,10 @@ void RoomManager::startRoom(asio::ip::udp::endpoint &sender, std::string &descri
     std::string roomCode = this->getRoomFromSender(sender);
     if (roomCode == "") return;
     RoomState &state = getRoomStateFromCode(roomCode);
-
+    if (state._inGame) return;
+    state._inGame = true;
+    state._gameInstance = std::make_shared<GameInstance>(this->_host, state._port, roomCode);
+    state._roomThread = std::make_shared<std::thread>([&state]() { state._gameInstance->run(); });
 }
 
 void RoomManager::endRoom(asio::ip::udp::endpoint &sender, std::string &description)

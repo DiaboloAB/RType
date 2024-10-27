@@ -13,17 +13,18 @@
 namespace RType::Network {
 class GameInstance {
     public:
-        GameInstance(std::string host, unsigned int port) {
+        GameInstance(std::string host, unsigned int port, std::string code) {
             std::map<std::string, std::string> args;
             args["graphics"] = "off";
             args["host"] = host;
-            args["port"] = std ::to_string(port);
+            args["port"] = std::to_string(port);
+            args["code"] = code;
             this->_engine = std::make_shared<Engine>(args);
         };
     
         ~GameInstance() {};
     public:
-        void run() { if (this->engine) this->engine->run(); };
+        void run() { if (this->_engine) this->_engine->run(); };
     private:
         std::shared_ptr<Engine> _engine = nullptr;
 };
