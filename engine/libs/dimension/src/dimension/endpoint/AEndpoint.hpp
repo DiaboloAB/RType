@@ -14,9 +14,9 @@
 #include <queue>
 
 #include "IEndpoint.hpp"
+#include "Logger.hpp"
 #include "PacketFactory.hpp"
 #include "ResendTimer.hpp"
-#include "Logger.hpp"
 
 namespace dimension
 {

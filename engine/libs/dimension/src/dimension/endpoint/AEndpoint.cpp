@@ -39,7 +39,8 @@ void AEndpoint::send(const std::shared_ptr<APacket> &packet,
         {
             if (ec)
             {
-                ERR_LOG("AEndpoint", "An error occurred while sending data. {" + ec.message() + "}");
+                ERR_LOG("AEndpoint",
+                        "An error occurred while sending data. {" + ec.message() + "}");
                 return;
             }
         });
@@ -58,7 +59,8 @@ void AEndpoint::receive()
                 this->handleDataReceived(this->_rcvBuffer, *remoteEndpoint, bytesRcv);
             }
             else
-                ERR_LOG("AEndpoint", "An error occurred while receiving data. {" + ec.message() + "}");
+                ERR_LOG("AEndpoint",
+                        "An error occurred while receiving data. {" + ec.message() + "}");
             return this->receive();
         });
 };
@@ -112,7 +114,8 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
         {
             std::lock_guard<std::mutex> lock(this->_listMutex);
             this->_validationList.erase(packetInValidation);
-            LOG("AEndpoint", "Validation received for -> " + std::to_string(validation->getPacketReceiveType()));
+            LOG("AEndpoint",
+                "Validation received for -> " + std::to_string(validation->getPacketReceiveType()));
             return;
         }
         else
