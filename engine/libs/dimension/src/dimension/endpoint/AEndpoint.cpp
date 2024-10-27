@@ -135,4 +135,11 @@ void AEndpoint::resendValidationList()
             validation.second._timer = std::chrono::steady_clock::now();
         }
 }
+
+std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
+AEndpoint::getRcvQueue()
+{
+    std::lock_guard<std::mutex> lock(this->_queueMutex);
+    return this->_rcvQueue;
+};
 }  // namespace dimension
