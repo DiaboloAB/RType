@@ -18,12 +18,34 @@ namespace RType::Network {
             ~MainServer();
 
         protected:
+            /**
+             * @brief Handler for HiServer default packet into main server.
+             * 
+             * @param packet: HiServer default packet.
+             */
             void handleHiServer(std::pair<std::shared_ptr<dimension::APacket>, 
                 asio::ip::udp::endpoint> &packet) override;
+
+             /**
+             * @brief Handler for ClientEvent default packet into main server.
+             * 
+             * @param packet: ClientEvent default packet.
+             */
             void handleEvent(std::pair<std::shared_ptr<dimension::APacket>, 
                 asio::ip::udp::endpoint> &packet) override;
+
+             /**
+             * @brief Handler for Ping default packet into main server.
+             * 
+             * @param packet: Ping default packet.
+             */
             void handlePing(std::pair<std::shared_ptr<dimension::APacket>, 
                 asio::ip::udp::endpoint> &packet) override;
+            
+            /**
+             * @brief Check last ping from list of clients connected to handle
+             * clients that may have lost the connection with the server.
+             */
             void checkLastPing() override;
 
         private:
