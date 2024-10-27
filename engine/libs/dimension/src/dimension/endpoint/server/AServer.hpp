@@ -44,19 +44,20 @@ class AServer : public AEndpoint
     */
     void initServer(std::string host, unsigned int port);
 
-   private:
+   protected:
     /**
     * @brief Handler for the ClientEvent default packet.
     * 
     * @param packet: ClientEvent default packet.
     */
-    void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
+    virtual void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
+
     /**
      * @brief Handler for the HiServer default packet.
      * 
      * @param packet HiServer default packet.
      */
-    void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet);
+    virtual void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
 
    protected:
     using EventFunction = std::function<void(asio::ip::udp::endpoint &, std::string &)>;
@@ -82,6 +83,8 @@ class AServer : public AEndpoint
     bool isConnected(asio::ip::udp::endpoint &endpoint) const;
 
    protected:
+    std::string _host;
+    unsigned int _port;
     std::list<asio::ip::udp::endpoint> _connectedEp;
     std::unordered_map<uint8_t, PacketHandler> _packetH;
     std::unordered_map<std::string, EventFunction> _eventH;

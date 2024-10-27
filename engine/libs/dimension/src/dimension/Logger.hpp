@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <iostream>
+
 namespace dimension
 {
 #define LOG(file, msg) std::cerr << "\x1B[32m[" << file << "]\x1B[0m: " << msg << std::endl

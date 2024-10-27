@@ -11,7 +11,7 @@
 namespace dimension
 {
 AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
-    : AEndpoint(factory)
+    : AEndpoint(factory), _host(host), _port(port)
 {
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(ClientEvent)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
@@ -55,42 +55,6 @@ void AServer::run()
             this->popReceiveQueue();
             queueAtT.pop();
         }
-    }
-}
-
-void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
-{
-    auto hiClient = this->_packetFactory->createEmptyPacket<HiClient>();
-    if (!this->isConnected(packet.second))
-    {
-        this->_connectedEp.emplace_back(packet.second);
-        LOG("AServer", "New connection received.");
-    }
-    this->send(hiClient, packet.second);
-}
-
-void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
-{
-    if (!isConnected(packet.second)) return;
-    try
-    {
-        std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
-        if (event->getClientEvent() != ROOM) return;
-        std::string eventDesc = event->getDescription();
-        size_t pos = eventDesc.find('=');
-        if (pos == std::string::npos ||
-            this->_eventH.find(eventDesc.substr(0, pos)) == this->_eventH.end())
-            ERR_LOG("AServer", "Unknow event {" + eventDesc + "}");
-        else
-            this->_eventH[eventDesc.substr(0, pos)](packet.second, eventDesc);
-        auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
-        validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
-        validation->setPacketReceiveType(packet.first->getPacketType());
-        this->send(validation, packet.second, false);
-    }
-    catch (std::exception &e)
-    {
-        ERR_LOG("AServer", std::string("Error in client event {") + e.what() + "}");
     }
 }
 
