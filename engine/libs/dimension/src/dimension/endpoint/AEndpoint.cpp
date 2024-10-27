@@ -39,9 +39,7 @@ void AEndpoint::send(const std::shared_ptr<APacket> &packet,
         {
             if (ec)
             {
-                std::cerr
-                    << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while sending data. {"
-                    << ec.message() << "}" << std::endl;
+                ERR_LOG("AEndpoint", "An error occurred while sending data. {" + ec.message() + "}");
                 return;
             }
         });
@@ -60,9 +58,7 @@ void AEndpoint::receive()
                 this->handleDataReceived(this->_rcvBuffer, *remoteEndpoint, bytesRcv);
             }
             else
-                std::cerr
-                    << "\x1B[31m[EndpointError]\x1B[0m: An error occurred while receiving data."
-                    << std::endl;
+                ERR_LOG("AEndpoint", "An error occurred while receiving data. {" + ec.message() + "}");
             return this->receive();
         });
 };
@@ -90,7 +86,7 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp:
                                               endpoint);
     std::lock_guard<std::mutex> lock(this->_queueMutex);
     this->_rcvQueue.push(std::make_pair(packet, endpoint));
-    std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint packet receive." << std::endl;
+    LOG("AEndpoint", "Packet received {type: " + std::to_string(packet->getPacketType()) + "}");
 }
 
 void AEndpoint::popReceiveQueue()
@@ -116,7 +112,7 @@ void AEndpoint::deleteFromValidationList(const std::shared_ptr<PacketValidation>
         {
             std::lock_guard<std::mutex> lock(this->_listMutex);
             this->_validationList.erase(packetInValidation);
-            std::cerr << "\x1B[32m[Endpoint]\x1B[0m: Endpoint validation receive." << std::endl;
+            LOG("AEndpoint", "Validation received for -> " + std::to_string(validation->getPacketReceiveType()));
             return;
         }
         else

@@ -10,9 +10,6 @@
 #include "AServer.hpp"
 #include "PacketFactory.hpp"
 
-#define LOG(file, msg) std::cerr << "\x1B[32m[" << file << "]\x1B[0m: " << msg << std::endl
-#define ERR_LOG(file, msg) std::cerr << "\x1B[31m[" << file << " Error]\x1B[0m: " << msg << std::endl
-
 namespace RType::Network {
     struct RoomState
     {

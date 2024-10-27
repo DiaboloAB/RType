@@ -32,11 +32,11 @@ void AServer::initServer(std::string host, unsigned int port)
         this->receive();
         this->_recvThread =
             std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
-        std::cerr << "\x1B[32m[AServer]\x1B[0m: Server setup." << std::endl;
+        LOG("AServer", "Server setup.");
     }
     catch (std::exception &e)
     {
-        std::cerr << "\x1B[31m[AServer ERROR]\x1B[0m: " << e.what() << std::endl;
+        ERR_LOG("AServer", e.what());
     }
 }
 
@@ -64,7 +64,7 @@ void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::
     if (!this->isConnected(packet.second))
     {
         this->_connectedEp.emplace_back(packet.second);
-        std::cerr << "\x1B[32m[AServer]\x1B[0m: New connection received." << std::endl;
+        LOG("AServer", "New connection received.");
     }
     this->send(hiClient, packet.second);
 }
@@ -80,8 +80,7 @@ void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::end
         size_t pos = eventDesc.find('=');
         if (pos == std::string::npos ||
             this->_eventH.find(eventDesc.substr(0, pos)) == this->_eventH.end())
-            std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc
-                      << std::endl;
+            ERR_LOG("AServer", "Unknow event {" + eventDesc + "}");
         else
             this->_eventH[eventDesc.substr(0, pos)](packet.second, eventDesc);
         auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
@@ -91,8 +90,7 @@ void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::end
     }
     catch (std::exception &e)
     {
-        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: Error in client event {" << e.what() << "}"
-                  << std::endl;
+        ERR_LOG("AServer", std::string("Error in client event {") + e.what() + "}");
     }
 }
 
@@ -106,6 +104,6 @@ bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const
 void AServer::registerEventHandling(std::string desc, EventFunction handler)
 {
     this->_eventH[desc] = handler;
-    std::cerr << "\x1B[32m[AServer]\x1B[0m: Event {" << desc << "} registered." << std::endl;
+    LOG("AServer", "Event {" + desc + "} registered.");
 }
 }  // namespace dimension

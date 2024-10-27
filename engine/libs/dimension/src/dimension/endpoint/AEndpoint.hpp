@@ -16,6 +16,7 @@
 #include "IEndpoint.hpp"
 #include "PacketFactory.hpp"
 #include "ResendTimer.hpp"
+#include "Logger.hpp"
 
 namespace dimension
 {
