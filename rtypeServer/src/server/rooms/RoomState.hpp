@@ -13,6 +13,11 @@
 #include <thread>
 
 namespace RType::Network {
+/**
+ * @struct RoomState
+ * 
+ * @brief Stores all necessary informations to run a room into the server.
+ */
 struct RoomState
 {
     unsigned int _port;
