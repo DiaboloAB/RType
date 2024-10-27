@@ -295,7 +295,7 @@ LARGEOT                         Informational                           [Page 5]
     packet to associated clients. This packet is based on 2
     parameters:
 
-        - IdEvent: Id of the entity to update in the Network.
+        - Network Id: Id of the entity to update in the Network.
                    (could cause issues if it was based on ECS ids)
 
         - Description: Precision of an action. For example, if the
