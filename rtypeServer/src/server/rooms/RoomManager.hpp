@@ -27,7 +27,7 @@ class RoomManager {
         void endRoom(asio::ip::udp::endpoint &sender, std::string &description);
         void startRoom(asio::ip::udp::endpoint &sender, std::string &description);
         void leaveRoom(asio::ip::udp::endpoint &sender, std::string &description);
-    private:
+    public:
         unsigned int getAvaiblePort() const;
         std::string generateRoomCode() const;
         std::string getRoomFromSender(asio::ip::udp::endpoint &sender) const;

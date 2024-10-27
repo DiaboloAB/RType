@@ -82,7 +82,6 @@ void RoomManager::endRoom(asio::ip::udp::endpoint &sender, std::string &descript
     if (state._roomThread) state._roomThread->join();
     for (auto &endp : state._endpoints) {
         this->_clientRooms[endp] = "";
-        //this->resendToMenu(endp);
     }
     return this->deleteRoomFromCode(roomCode);
 }
@@ -104,7 +103,6 @@ void RoomManager::leaveRoom(asio::ip::udp::endpoint &sender, std::string &descri
         LOG("RoomManager", "Player leave room " + roomCode + " (" + 
             std::to_string(state._nbConnected) + " left)");
         this->_clientRooms[sender] = "";
-        //this->resendToMenu(endp);
     }
 }
 

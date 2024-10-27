@@ -95,7 +95,7 @@ class AEndpoint : public IEndpoint
    private:
     std::array<char, 1024> _rcvBuffer;
 
-   private:
+   protected:
     std::list<std::pair<std::shared_ptr<dimension::APacket>, ResendTimer>> _validationList;
     std::mutex _listMutex;
 

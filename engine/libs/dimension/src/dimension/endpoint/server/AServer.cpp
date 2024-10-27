@@ -19,6 +19,9 @@ AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(Ping)))] =
+        [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
+    { return this->handleHiServer(pair); };
     this->initServer(host, port);
 }
 
@@ -26,6 +29,7 @@ void AServer::initServer(std::string host, unsigned int port)
 {
     try
     {
+        this->_serverPing = std::chrono::steady_clock::now();
         this->_io_context = std::make_shared<asio::io_context>();
         asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), port);
         this->_socket = std::make_shared<asio::ip::udp::socket>(*this->_io_context, endpoint);
@@ -44,6 +48,15 @@ void AServer::run()
 {
     while (true)
     {
+        std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_serverPing).count()
+            >= 500) {
+            auto ping = this->_packetFactory->createEmptyPacket<Ping>();
+            for (auto &endp : this->_connectedEp)
+                this->send(ping, endp.first, false);
+            this->_serverPing = std::chrono::steady_clock::now();
+        }
+        this->checkLastPing();
         this->resendValidationList();
         std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> queueAtT =
             this->_rcvQueue;
@@ -61,7 +74,7 @@ void AServer::run()
 bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const
 {
     for (auto &connected : this->_connectedEp)
-        if (connected == endpoint) return true;
+        if (connected.first == endpoint) return true;
     return false;
 }
 

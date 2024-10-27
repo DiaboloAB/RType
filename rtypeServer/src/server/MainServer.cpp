@@ -30,7 +30,7 @@ void MainServer::handleHiServer(std::pair<std::shared_ptr<dimension::APacket>, a
     auto hiClient = this->_packetFactory->createEmptyPacket<dimension::HiClient>();
     if (!this->isConnected(packet.second))
     {
-        this->_connectedEp.emplace_back(packet.second);
+        this->_connectedEp.push_back(std::make_pair(packet.second, std::chrono::steady_clock::now()));
         LOG("AServer", "New connection received.");
     }
     this->send(hiClient, packet.second);
@@ -59,6 +59,41 @@ void MainServer::handleEvent(std::pair<std::shared_ptr<dimension::APacket>, asio
     catch (std::exception &e)
     {
         ERR_LOG("AServer", std::string("Error in client event {") + e.what() + "}");
+    }
+}
+
+void MainServer::handlePing(std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> &packet)
+{
+    std::string room = this->_roomManager.getRoomFromSender(packet.second);
+    if (room != "" && this->_roomManager.getRoomStateFromCode(room)._inGame)
+        return;
+    for (auto &endp : this->_connectedEp)
+        if (endp.first == packet.second) {
+            endp.second = std::chrono::steady_clock::now();
+            return;
+        }
+}
+
+void MainServer::checkLastPing() {
+    std::string leave = "leave=crash";
+    for (auto it = this->_connectedEp.begin(); it != this->_connectedEp.end();) {
+        std::string room = this->_roomManager.getRoomFromSender(it->first);
+        std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
+        if (room != "" && this->_roomManager.getRoomStateFromCode(room)._inGame) {
+            it++;
+            continue;
+        }
+        if (std::chrono::duration_cast<std::chrono::seconds>(actualTime - it->second).count() < 4) {
+            it++;
+            continue;
+        }
+        if (room != "") this->_roomManager.leaveRoom(it->first, leave);
+        for (auto itV = this->_validationList.begin(); itV != _validationList.end();) {
+            if (itV->second._sender == it->first) itV = this->_validationList.erase(itV);
+            else itV++;
+        }
+        ERR_LOG("MainServer", "Client crash");
+        it = this->_connectedEp.erase(it);
     }
 }
 }

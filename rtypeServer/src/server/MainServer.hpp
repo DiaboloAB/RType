@@ -22,6 +22,9 @@ namespace RType::Network {
                 asio::ip::udp::endpoint> &packet) override;
             void handleEvent(std::pair<std::shared_ptr<dimension::APacket>, 
                 asio::ip::udp::endpoint> &packet) override;
+            void handlePing(std::pair<std::shared_ptr<dimension::APacket>, 
+                asio::ip::udp::endpoint> &packet) override;
+            void checkLastPing() override;
 
         private:
             RoomManager _roomManager;

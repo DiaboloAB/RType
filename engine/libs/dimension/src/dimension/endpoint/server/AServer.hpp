@@ -59,6 +59,15 @@ class AServer : public AEndpoint
      */
     virtual void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
 
+    /**
+     * @brief Handler for the HiServer default packet.
+     * 
+     * @param packet HiServer default packet.
+     */
+    virtual void handlePing(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
+
+    virtual void checkLastPing() = 0;
+
    protected:
     using EventFunction = std::function<void(asio::ip::udp::endpoint &, std::string &)>;
     using PacketHandler =
@@ -85,7 +94,8 @@ class AServer : public AEndpoint
    protected:
     std::string _host;
     unsigned int _port;
-    std::list<asio::ip::udp::endpoint> _connectedEp;
+    std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>> _connectedEp;
+    std::chrono::steady_clock::time_point _serverPing;
     std::unordered_map<uint8_t, PacketHandler> _packetH;
     std::unordered_map<std::string, EventFunction> _eventH;
 };
