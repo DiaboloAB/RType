@@ -56,6 +56,14 @@ class ComServer : public RType::ICppScript
             if (networkC.client->_serverEndpoint)
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
         }
+        if (gameContext._runtime->getKeyDown(KeyCode::S))
+        {
+            auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+            event->setClientEvent(dimension::ClientEventType::ROOM);
+            event->setDescription("start=N");
+            if (networkC.client->_serverEndpoint)
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
+        }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
 
