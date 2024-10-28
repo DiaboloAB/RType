@@ -20,8 +20,8 @@ namespace dimension
 {
 /**
  * @class AServer
- * 
- * @brief Network server of the dimension library 
+ *
+ * @brief Network server of the dimension library
  */
 class AServer : public AEndpoint
 {
@@ -36,35 +36,38 @@ class AServer : public AEndpoint
     void run();
 
    private:
-   /**
-    * @brief Init all server attributes needed with the uses of ASIO library and run the server.
-    * 
-    * @param host: Host of the server.
-    * @param port: Port of the server.
-    */
+    /**
+     * @brief Init all server attributes needed with the uses of ASIO library and run the server.
+     *
+     * @param host: Host of the server.
+     * @param port: Port of the server.
+     */
     void initServer(std::string host, unsigned int port);
 
    protected:
     /**
-    * @brief Handler for the ClientEvent default packet.
-    * 
-    * @param packet: ClientEvent default packet.
-    */
-    virtual void handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
+     * @brief Handler for the ClientEvent default packet.
+     *
+     * @param packet: ClientEvent default packet.
+     */
+    virtual void handleEvent(
+        std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
 
     /**
      * @brief Handler for the HiServer default packet.
-     * 
+     *
      * @param packet HiServer default packet.
      */
-    virtual void handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
+    virtual void handleHiServer(
+        std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
 
     /**
      * @brief Handler for the HiServer default packet.
-     * 
+     *
      * @param packet HiServer default packet.
      */
-    virtual void handlePing(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
+    virtual void handlePing(
+        std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet) = 0;
 
     virtual void checkLastPing() = 0;
 
@@ -76,7 +79,7 @@ class AServer : public AEndpoint
    protected:
     /**
      * @brief Add custom client events into event handler list.
-     * 
+     *
      * @param desc: Description of the event.
      * @param handler: Handler associted to the event.
      */
@@ -84,17 +87,18 @@ class AServer : public AEndpoint
 
     /**
      * @brief Check if a client is connected to the server.
-     * 
+     *
      * @param endpoint: Endpoint of the client to ckeck.
-     * @return true 
-     * @return false 
+     * @return true
+     * @return false
      */
     bool isConnected(asio::ip::udp::endpoint &endpoint) const;
 
    protected:
     std::string _host;
     unsigned int _port;
-    std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>> _connectedEp;
+    std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>>
+        _connectedEp;
     std::chrono::steady_clock::time_point _serverPing;
     std::unordered_map<uint8_t, PacketHandler> _packetH;
     std::unordered_map<std::string, EventFunction> _eventH;

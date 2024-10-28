@@ -34,7 +34,8 @@ struct NetworkRoom
 
     NetworkRoom(std::string host, unsigned int port, std::string code)
     {
-        room = std::make_shared<dimension::Room>(std::make_shared<dimension::PacketFactory>(), host, port, code);
+        room = std::make_shared<dimension::Room>(std::make_shared<dimension::PacketFactory>(), host,
+                                                 port, code);
     }
 };
 }  // namespace RType

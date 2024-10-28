@@ -36,12 +36,12 @@ class Client : public AEndpoint
     void setLastPing(std::chrono::steady_clock::time_point newLastPing);
 
    public:
-   /**
-    * @brief change direction endpoint of the client based on new ip/port.
-    * 
-    * @param host: Host of the instance.
-    * @param port: Port of the instance.
-    */
+    /**
+     * @brief change direction endpoint of the client based on new ip/port.
+     *
+     * @param host: Host of the instance.
+     * @param port: Port of the instance.
+     */
     void connectDirectionEndpoint(std::string host, unsigned int port);
 
    public:

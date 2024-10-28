@@ -14,7 +14,7 @@ namespace dimension
 {
 /**
  * @struct ResendTimer
- * 
+ *
  * @brief Struct to handle rensend of packets needing validation.
  */
 struct ResendTimer

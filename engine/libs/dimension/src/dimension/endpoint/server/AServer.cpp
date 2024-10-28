@@ -13,10 +13,12 @@ namespace dimension
 AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
     : AEndpoint(factory), _host(host), _port(port)
 {
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(dimension::ClientEvent)))] =
+    this->_packetH[this->_packetFactory->getTypeFromIndex(
+        std::type_index(typeid(dimension::ClientEvent)))] =
         [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleEvent(pair); };
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(dimension::HiServer)))] =
+    this->_packetH[this->_packetFactory->getTypeFromIndex(
+        std::type_index(typeid(dimension::HiServer)))] =
         [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(Ping)))] =
@@ -49,11 +51,11 @@ void AServer::run()
     while (true)
     {
         std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
-        if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_serverPing).count()
-            >= 500) {
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_serverPing)
+                .count() >= 500)
+        {
             auto ping = this->_packetFactory->createEmptyPacket<Ping>();
-            for (auto &endp : this->_connectedEp)
-                this->send(ping, endp.first, false);
+            for (auto &endp : this->_connectedEp) this->send(ping, endp.first, false);
             this->_serverPing = std::chrono::steady_clock::now();
         }
         this->checkLastPing();
