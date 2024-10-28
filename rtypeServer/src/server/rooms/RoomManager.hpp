@@ -21,6 +21,7 @@ class RoomManager {
     public:
         RoomManager();
         ~RoomManager();
+
     public:
         /**
          * @brief Create a room.
