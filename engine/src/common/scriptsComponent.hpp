@@ -11,7 +11,7 @@
 #include <lua.hpp>
 #include <mlg/mlg.hpp>
 
-#include "ICppScript.hpp"
+#include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
 #include "lua/LuaBindings.hpp"
 #include "mobs/mobs.hpp"
@@ -24,6 +24,7 @@ struct Scripts
 {
     std::vector<std::string> scripts;
     std::vector<lua_State*> luaStates;
+    mobs::Entity entity;
 
     void add(const std::string& scriptFile, GameContext& gameContext)
     {
@@ -59,7 +60,7 @@ struct Scripts
         }
     }
 
-    Scripts() {}
+    Scripts(mobs::Entity entity) : entity(entity) {}
 
     ~Scripts()
     {
@@ -98,6 +99,14 @@ struct CppScriptComponent
         }
     }
 
+    void onCollisionAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
+    {
+        for (auto& script : scripts)
+        {
+            script->onCollision(registry, gameContext, other);
+        }
+    }
+
     void addScript(std::shared_ptr<ICppScript> script)
     {
         script->setEntity(entity);
@@ -107,10 +116,10 @@ struct CppScriptComponent
     void callAllFunctions(const std::string& functionName, mobs::Registry& registry,
                           GameContext& gameContext)
     {
-        for (auto& script : scripts)
-        {
-            script->callFunction(functionName, registry, gameContext);
-        }
+        // for (auto& script : scripts)
+        // {
+        //     script->callFunction(functionName, registry, gameContext);
+        // }
     }
 
     CppScriptComponent(mobs::Entity entity) : entity(entity) {}

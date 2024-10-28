@@ -122,6 +122,7 @@ void Engine::loadGame()
 void Engine::run()
 {
     _systemManager.load(_registry, *_gameContext);
+    // _systemManager.load(_sceneManager._prefabRegistry, *_gameContext);
     _systemManager.start(_registry, *_gameContext);
 
     while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running)

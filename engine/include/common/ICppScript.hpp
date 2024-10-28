@@ -14,6 +14,11 @@
 #include "mobs/mobs.hpp"
 // std
 #include <iostream>
+#include <map>
+#include <string>
+#include <functional>
+#include <iostream>
+#include <memory>
 
 namespace RType
 {
@@ -48,35 +53,38 @@ class ICppScript
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**
-     * @brief Called every frame to draw the script.
-     *
-     * @param registry Reference to the entity-component registry.
-     * @param gameContext Reference to the game context.
-     */
-    virtual void draw(mobs::Registry &registry, GameContext &gameContext) {}
-
-    /**
      * @brief Called when a collision occurs.
      *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext) {}
+    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) {}
 
-    /**
-     * @brief Calls a function by name with arguments.
-     *
-     * @param functionName The name of the function to call.
-     * @param registry Reference to the entity-component registry.
-     * @param gameContext Reference to the game context.
-     * @param args The arguments to pass to the function.
-     */
-    virtual void callFunction(const std::string &functionName, mobs::Registry &registry,
-                              GameContext &gameContext)
+   template <typename Func>
+    void registerFunction(const std::string &functionName, Func function)
     {
+        functions[functionName] = std::make_any<Func>(function);
     }
 
-    /**
+    template <typename... Args>
+    void callFunction(const std::string &functionName, mobs::Registry &registry, GameContext &gameContext, Args... args)
+    {
+        if (functions.find(functionName) != functions.end())
+        {
+            try {
+                auto func = std::any_cast<std::function<void(mobs::Registry&, GameContext&, Args...)>>(functions[functionName]);
+                func(registry, gameContext, args...);
+            } catch (const std::bad_any_cast&) {
+                std::cerr << "Error: Argument types do not match for function " << functionName << "." << std::endl;
+            }
+        }
+        else
+        {
+            std::cerr << "Error: Function " << functionName << " not found." << std::endl;
+        }
+    }
+
+     /**
      * @brief Sets the entity associated with this script.
      *
      * @param entity The entity to associate with this script.
@@ -84,7 +92,7 @@ class ICppScript
     virtual void setEntity(mobs::Entity entity) = 0;
 
    private:
-    // Member variables
+    std::map<std::string, std::any> functions;
 };
 
 }  // namespace RType

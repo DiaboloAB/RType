@@ -12,7 +12,7 @@
 #include <common/scriptsComponent.hpp>
 #include <system/ISystem.hpp>
 
-#include "../ICppScript.hpp"
+#include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 

@@ -39,7 +39,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 
         if (prefabJson["components"].contains("Scripts"))
         {
-            registry.emplace<Scripts>(entity);
+            registry.emplace<Scripts>(entity, entity);
             auto& scripts = registry.get<Scripts>(entity);
             for (const auto& script : prefabJson["components"]["Scripts"])
                 scripts.add(gameContext._assetsPath + script.get<std::string>(), gameContext);

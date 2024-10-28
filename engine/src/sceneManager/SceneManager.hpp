@@ -37,6 +37,8 @@ class SceneManager
      */
     std::string _nextScene = "";
 
+    mobs::Registry _prefabRegistry;  ///< The registry containing all prefabs.
+
     /**
      * @brief Constructs a new SceneManager object.
      */
@@ -131,7 +133,6 @@ class SceneManager
 
     void initCppScriptCreators();
 
-    mobs::Registry _prefabRegistry;  ///< The registry containing all prefabs.
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
     std::map<std::string, std::string> _scenes;   ///< The scenes.

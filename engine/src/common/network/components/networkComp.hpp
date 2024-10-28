@@ -24,6 +24,7 @@ struct NetworkClient
     {
         client = std::make_shared<dimension::Client>(std::make_shared<dimension::PacketFactory>());
     }
+    static constexpr const char* name = "NetworkClient";
 };
 }  // namespace RType
 
