@@ -8,7 +8,7 @@
 #ifndef GETKEY_H
 #define GETKEY_H
 
-#include "LuaBindings.hpp"
+#include "luaBindings.hpp"
 
 RType::KeyCode stringToKeyCode(const std::string& keyName)
 {

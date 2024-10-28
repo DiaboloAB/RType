@@ -9,28 +9,22 @@
 #define HELLOWORLD_H
 
 #include "common/ICppScript.hpp"
-#include "gameContext/GameContext.hpp"
+// std
 
-namespace RType
+class HelloWorld : public ICppScript
 {
+public:
+    HelloWorld() {}
+    ~HelloWorld() {}
 
-class HelloWorldScript : public RType::ICppScript
-{
-   public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (gameContext._runtime->getKeyDown(KeyCode::H))
-        {
-            std::cout << "Hello, World! from " << _entity << std::endl;
-            gameContext._sceneManager._nextScene = "scenes1.json";
-        }
+        if (gameContext._runtime->getKeyDown(KeyCode::Space))
+            std::cout << "Hello World!" << std::endl;
     }
-    void setEntity(mobs::Entity entity) override { _entity = entity; }
 
-   private:
-    mobs::Entity _entity;
+private:
+    // Member variables
 };
 
-}  // namespace RType
-
-#endif  // HELLOWORLD_H
+#endif // HELLOWORLD_H

@@ -25,6 +25,7 @@ struct NetworkClient
     {
         client = std::make_shared<dimension::Client>(std::make_shared<dimension::PacketFactory>());
     }
+    static constexpr const char* name = "NetworkClient";
 };
 
 struct NetworkRoom
@@ -37,6 +38,7 @@ struct NetworkRoom
         room = std::make_shared<dimension::Room>(std::make_shared<dimension::PacketFactory>(), host,
                                                  port, code);
     }
+    static constexpr const char* name = "NetworkRoom";
 };
 }  // namespace RType
 

@@ -5,16 +5,11 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef FROMJSONNETWORK_HPP
-#define FROMJSONNETWORK_HPP
+#ifndef SCRIPTLIST_H
+#define SCRIPTLIST_H
 
-#include <nlohmann/json.hpp>
+#include "common/network/cppScripts/ComServer.hpp"
 
-#include "components.hpp"
+#define SCRIPT_TYPES ComServer
 
-namespace RType
-{
-void from_json(const nlohmann::json& j, NetworkClient& networkClient) {}
-}  // namespace RType
-
-#endif  // FROMJSONNETWORK_HPP
+#endif  // SCRIPTLIST_H
