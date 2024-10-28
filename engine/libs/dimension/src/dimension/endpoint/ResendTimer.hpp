@@ -12,6 +12,11 @@
 
 namespace dimension
 {
+/**
+ * @struct ResendTimer
+ *
+ * @brief Struct to handle rensend of packets needing validation.
+ */
 struct ResendTimer
 {
     asio::ip::udp::endpoint _sender;

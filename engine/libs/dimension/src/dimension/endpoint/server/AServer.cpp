@@ -11,12 +11,17 @@
 namespace dimension
 {
 AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host, unsigned int port)
-    : AEndpoint(factory)
+    : AEndpoint(factory), _host(host), _port(port)
 {
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(ClientEvent)))] =
-        [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
+    this->_packetH[this->_packetFactory->getTypeFromIndex(
+        std::type_index(typeid(dimension::ClientEvent)))] =
+        [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleEvent(pair); };
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(HiServer)))] =
+    this->_packetH[this->_packetFactory->getTypeFromIndex(
+        std::type_index(typeid(dimension::HiServer)))] =
+        [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
+    { return this->handleHiServer(pair); };
+    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(Ping)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
     this->initServer(host, port);
@@ -26,17 +31,18 @@ void AServer::initServer(std::string host, unsigned int port)
 {
     try
     {
+        this->_serverPing = std::chrono::steady_clock::now();
         this->_io_context = std::make_shared<asio::io_context>();
         asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), port);
         this->_socket = std::make_shared<asio::ip::udp::socket>(*this->_io_context, endpoint);
         this->receive();
         this->_recvThread =
             std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
-        std::cerr << "\x1B[32m[AServer]\x1B[0m: Server setup." << std::endl;
+        LOG("AServer", "Server setup.");
     }
     catch (std::exception &e)
     {
-        std::cerr << "\x1B[31m[AServer ERROR]\x1B[0m: " << e.what() << std::endl;
+        ERR_LOG("AServer", e.what());
     }
 }
 
@@ -44,6 +50,15 @@ void AServer::run()
 {
     while (true)
     {
+        std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_serverPing)
+                .count() >= 500)
+        {
+            auto ping = this->_packetFactory->createEmptyPacket<Ping>();
+            for (auto &endp : this->_connectedEp) this->send(ping, endp.first, false);
+            this->_serverPing = std::chrono::steady_clock::now();
+        }
+        this->checkLastPing();
         this->resendValidationList();
         std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> queueAtT =
             this->_rcvQueue;
@@ -58,52 +73,16 @@ void AServer::run()
     }
 }
 
-void AServer::handleHiServer(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
-{
-    auto hiClient = this->_packetFactory->createEmptyPacket<HiClient>();
-    if (!this->isConnected(packet.second))
-    {
-        this->_connectedEp.emplace_back(packet.second);
-        std::cerr << "\x1B[32m[AServer]\x1B[0m: New connection received." << std::endl;
-    }
-    this->send(hiClient, packet.second);
-}
-
-void AServer::handleEvent(std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> &packet)
-{
-    if (!isConnected(packet.second)) return;
-    try
-    {
-        std::shared_ptr<ClientEvent> event = std::dynamic_pointer_cast<ClientEvent>(packet.first);
-        if (event->getClientEvent() != ROOM) return;
-        std::string eventDesc = event->getDescription();
-        if (this->_eventH.find(eventDesc) == this->_eventH.end())
-            std::cerr << "\x1B[31m[AServer Error]\x1B[0m: unknown event : " << eventDesc
-                      << std::endl;
-        else
-            this->_eventH[eventDesc](packet.second, eventDesc);
-        auto validation = this->_packetFactory->createEmptyPacket<PacketValidation>();
-        validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
-        validation->setPacketReceiveType(packet.first->getPacketType());
-        this->send(validation, packet.second, false);
-    }
-    catch (std::exception &e)
-    {
-        std::cerr << "\x1B[31m[AServer Error]\x1B[0m: Error in client event {" << e.what() << "}"
-                  << std::endl;
-    }
-}
-
 bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const
 {
     for (auto &connected : this->_connectedEp)
-        if (connected == endpoint) return true;
+        if (connected.first == endpoint) return true;
     return false;
 }
 
 void AServer::registerEventHandling(std::string desc, EventFunction handler)
 {
     this->_eventH[desc] = handler;
-    std::cerr << "\x1B[32m[AServer]\x1B[0m: Event {" << desc << "} registered." << std::endl;
+    LOG("AServer", "Event {" + desc + "} registered.");
 }
 }  // namespace dimension

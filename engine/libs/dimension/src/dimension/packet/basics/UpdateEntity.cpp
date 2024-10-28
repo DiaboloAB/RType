@@ -12,7 +12,7 @@ namespace dimension
 {
 UpdateEntity::UpdateEntity(uint8_t type) : APacket(type)
 {
-    this->_packetDataSize = sizeof(uint32_t) + sizeof(uint32_t);
+    this->_packetDataSize = sizeof(uint32_t) + this->_description.size();
 }
 
 UpdateEntity::UpdateEntity(std::vector<char> &buffer) : APacket(buffer)
@@ -22,7 +22,8 @@ UpdateEntity::UpdateEntity(std::vector<char> &buffer) : APacket(buffer)
 
     std::memcpy(&this->_networkId, data, sizeof(uint32_t));
     data += sizeof(uint32_t);
-    std::memcpy(&this->_score, data, sizeof(uint32_t));
+    this->_description =
+        std::string(data, this->getPacketSize() - this->getHeaderSize() - sizeof(uint32_t));
 }
 
 UpdateEntity::~UpdateEntity(){};
@@ -30,21 +31,24 @@ UpdateEntity::~UpdateEntity(){};
 std::vector<char> UpdateEntity::serializeData() const
 {
     std::vector<char> buffer;
-    buffer.resize(sizeof(uint32_t) + sizeof(uint32_t));
+    buffer.resize(sizeof(uint32_t) + this->_description.size());
     char *data = buffer.data();
 
     std::memcpy(data, &this->_networkId, sizeof(uint32_t));
     data += sizeof(uint32_t);
-    std::memcpy(data, &this->_score, sizeof(uint32_t));
+    std::memcpy(data, this->_description.c_str(), this->_description.size());
     return buffer;
 }
 
 uint32_t UpdateEntity::getNetworkId() const { return this->_networkId; }
 
-uint32_t UpdateEntity::getScore() const { return this->_score; }
+std::string UpdateEntity::getDescription() const { return this->_description; }
 
 void UpdateEntity::setNetworkId(const uint32_t &networkId) { this->_networkId = networkId; }
 
-void UpdateEntity::setScore(const uint32_t &score) { this->_score = score; }
-
+void UpdateEntity::setDescription(const std::string &description)
+{
+    this->_description = description;
+    this->_packetDataSize = sizeof(uint32_t) + this->_description.size();
+}
 }  // namespace dimension

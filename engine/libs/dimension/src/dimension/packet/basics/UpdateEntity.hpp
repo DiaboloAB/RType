@@ -47,20 +47,20 @@ class UpdateEntity : public dimension::APacket
     /**
      * @brief Serialize class data to binary to make it sendable by NetworkHandler.
      *
-     * @return std::vector<char> that represent serialization of networkId, score to binary.
+     * @return std::vector<char> that represent serialization of networkId, description to binary.
      */
     std::vector<char> serializeData() const override;
 
    public:
     uint32_t getNetworkId() const;
-    uint32_t getScore() const;
+    std::string getDescription() const;
 
    public:
     void setNetworkId(const uint32_t &networkId);
-    void setScore(const uint32_t &score);
+    void setDescription(const std::string &description);
 
    private:
     uint32_t _networkId;
-    uint32_t _score;
+    std::string _description;
 };
 }  // namespace dimension

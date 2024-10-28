@@ -43,7 +43,24 @@ class ComServer : public RType::ICppScript
             auto &networkC = registry.get<NetworkClient>(getEntity());
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);
-            event->setDescription("cr=pv");
+            event->setDescription("join=rd");
+            if (networkC.client->_serverEndpoint)
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
+        }
+        if (gameContext._runtime->getKeyDown(KeyCode::L))
+        {
+            auto &networkC = registry.get<NetworkClient>(getEntity());
+            auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+            event->setClientEvent(dimension::ClientEventType::ROOM);
+            event->setDescription("end=N");
+            if (networkC.client->_serverEndpoint)
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
+        }
+        if (gameContext._runtime->getKeyDown(KeyCode::S))
+        {
+            auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+            event->setClientEvent(dimension::ClientEventType::ROOM);
+            event->setDescription("start=N");
             if (networkC.client->_serverEndpoint)
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
         }

@@ -11,66 +11,90 @@ namespace RType::Network {
 MainServer::MainServer(std::string host, unsigned int port) : 
     dimension::AServer(std::make_shared<dimension::PacketFactory>(), host, port) 
 {
-    this->registerEventHandling("cr=pv", 
-        [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->initRoom(sender, desc); });
+    this->registerEventHandling("create",
+        [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.initRoom(sender, desc); });
+    this->registerEventHandling("join",
+        [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.joinRoom(sender, desc); });
+    this->registerEventHandling("start",
+        [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.startRoom(sender, desc); });
+    this->registerEventHandling("end",
+        [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.endRoom(sender, desc); });
+    this->registerEventHandling("leave",
+        [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.leaveRoom(sender, desc); });
+    this->_roomManager.setHost(this->_host);
 }
 
 MainServer::~MainServer() {}
 
-void MainServer::initRoom(asio::ip::udp::endpoint &sender, std::string &description)
+void MainServer::handleHiServer(std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> &packet)
 {
-    RoomState roomState;
-    std::string roomCode = this->generateRoomCode();
-    roomState._endpoints.push_back(sender);
-    roomState._nbConnected += 1;
-    roomState._port = this->getAvaiblePort();
-    if (description != "cr=pv" && description != "rd") {
-        std::cerr << "\x1B[31m[MainServer Error]\x1B[0m: invalid room creation command." << std::endl;
-        return;
+    auto hiClient = this->_packetFactory->createEmptyPacket<dimension::HiClient>();
+    if (!this->isConnected(packet.second))
+    {
+        this->_connectedEp.push_back(std::make_pair(packet.second, std::chrono::steady_clock::now()));
+        LOG("AServer", "New connection received.");
     }
-    if (description == "cr=pv")
-        this->_privateRooms[roomCode] = roomState;
-    else if (description == "cr=rd")
-        this->_rooms[roomCode] = roomState;
-    std::cerr << "\x1B[32m[MainServer]\x1B[0m: New room created : " << roomCode << std::endl;
+    this->send(hiClient, packet.second);
 }
 
-
-void MainServer::joinRoom(asio::ip::udp::endpoint &sender, std::string &description)
+void MainServer::handleEvent(std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> &packet)
 {
-    return;
+    if (!isConnected(packet.second)) return;
+    try
+    {
+        std::shared_ptr<dimension::ClientEvent> event = 
+            std::dynamic_pointer_cast<dimension::ClientEvent>(packet.first);
+        if (event->getClientEvent() != dimension::ClientEventType::ROOM) return;
+        std::string eventDesc = event->getDescription();
+        size_t pos = eventDesc.find('=');
+        if (pos == std::string::npos ||
+            this->_eventH.find(eventDesc.substr(0, pos)) == this->_eventH.end())
+            ERR_LOG("AServer", "Unknow event {" + eventDesc + "}");
+        else
+            this->_eventH[eventDesc.substr(0, pos)](packet.second, eventDesc);
+        auto validation = this->_packetFactory->createEmptyPacket<dimension::PacketValidation>();
+        validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
+        validation->setPacketReceiveType(packet.first->getPacketType());
+        this->send(validation, packet.second, false);
+    }
+    catch (std::exception &e)
+    {
+        ERR_LOG("AServer", std::string("Error in client event {") + e.what() + "}");
+    }
 }
 
-void MainServer::startRoom(asio::ip::udp::endpoint &sender, std::string &description)
+void MainServer::handlePing(std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> &packet)
 {
-    return;
+    std::string room = this->_roomManager.getRoomFromSender(packet.second);
+    if (room != "" && this->_roomManager.getRoomStateFromCode(room)._inGame)
+        return;
+    for (auto &endp : this->_connectedEp)
+        if (endp.first == packet.second) {
+            endp.second = std::chrono::steady_clock::now();
+            return;
+        }
 }
 
-void MainServer::endRoom(asio::ip::udp::endpoint &sender, std::string &description)
-{
-    return;
-}
-
-std::string MainServer::generateRoomCode() const
-{
-    const std::string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    std::string roomCode;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, chars.size() - 1);
-    for (int i = 0; i < 6; i++) roomCode += chars[distrib(gen)];
-    return roomCode;
-}
-
-unsigned int MainServer::getAvaiblePort() const
-{
-    asio::io_context io_context;
-    asio::ip::udp::socket socket(io_context);
-    asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), 0);
-    socket.open(endpoint.protocol());
-    socket.bind(endpoint);
-    unsigned int port = (unsigned int)socket.local_endpoint().port();
-    socket.close();
-    return port;
+void MainServer::checkLastPing() {
+    std::string leave = "leave=crash";
+    for (auto it = this->_connectedEp.begin(); it != this->_connectedEp.end();) {
+        std::string room = this->_roomManager.getRoomFromSender(it->first);
+        std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
+        if (room != "" && this->_roomManager.getRoomStateFromCode(room)._inGame) {
+            it++;
+            continue;
+        }
+        if (std::chrono::duration_cast<std::chrono::seconds>(actualTime - it->second).count() < 4) {
+            it++;
+            continue;
+        }
+        if (room != "") this->_roomManager.leaveRoom(it->first, leave);
+        for (auto itV = this->_validationList.begin(); itV != _validationList.end();) {
+            if (itV->second._sender == it->first) itV = this->_validationList.erase(itV);
+            else itV++;
+        }
+        ERR_LOG("MainServer", "Client crash");
+        it = this->_connectedEp.erase(it);
+    }
 }
 }

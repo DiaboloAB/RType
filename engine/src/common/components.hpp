@@ -133,7 +133,6 @@ struct Collider
     Collider() {}
     static constexpr const char* name = "Collider";
 };
-
 }  // namespace RType
 
 #endif  // COMPONENTS_H
