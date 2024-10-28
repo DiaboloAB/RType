@@ -52,7 +52,7 @@ class ComServer : public RType::ICppScript
             auto &networkC = registry.get<NetworkClient>(_entity);
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);
-            event->setDescription("leave=N");
+            event->setDescription("end=N");
             if (networkC.client->_serverEndpoint)
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
         }

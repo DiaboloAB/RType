@@ -44,6 +44,11 @@ class GameInstance {
          */
         void run() { if (this->_engine) this->_engine->run(); };
 
+        /**
+         * @brief Stop the game engine.
+         */
+        void stop() { if (this->_engine) this->_engine->stop(); };
+
     private:
         std::shared_ptr<Engine> _engine = nullptr;
 };

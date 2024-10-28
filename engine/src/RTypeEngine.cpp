@@ -123,8 +123,7 @@ void Engine::run()
 {
     _systemManager.load(_registry, *_gameContext);
     _systemManager.start(_registry, *_gameContext);
-
-    while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running)
+    while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running && !_stop)
     {
         _clockManager.update();
         if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
@@ -149,3 +148,10 @@ void Engine::run()
         }
     }
 }
+
+void Engine::stop()
+{
+    std::lock_guard<std::mutex> lock(this->_stopmtx);
+    this->_stop = true;
+}
+
