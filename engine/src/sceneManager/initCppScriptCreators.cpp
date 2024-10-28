@@ -25,21 +25,21 @@
 
 using namespace RType;
 
-void SceneManager::initCppScriptCreators()
-{
-    _cppScriptCreators["ComServer"] = []() { return std::make_shared<ComServer>(); };
-    // _cppScriptCreators["HelloWorld"] = []() { return std::make_shared<HelloWorldScript>(); };
-    // _cppScriptCreators["MovePlayer"] = []() { return std::make_shared<MovePlayerScript>(); };
-    // _cppScriptCreators["AnimPlayer"] = []() { return std::make_shared<AnimPlayerScript>(); };
-    // _cppScriptCreators["AnimThruster"] = []() { return std::make_shared<AnimThrusterScript>(); };
-    // _cppScriptCreators["EnemyFactory"] = []() { return std::make_shared<EnemyFactoryScript>(); };
-    // _cppScriptCreators["RedShip"] = []() { return std::make_shared<RedShipScript>(); };
-    // _cppScriptCreators["PlayerShoot"] = []() { return std::make_shared<PlayerShootScript>(); };
-    // _cppScriptCreators["Laser"] = []() { return std::make_shared<LaserScript>(); };
-    // _cppScriptCreators["MoveThruster"] = []() { return std::make_shared<MoveThrusterScript>(); };
-    // _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MoveAllyScript>(); };
-    // _cppScriptCreators["Credit"] = []() { return std::make_shared<CreditScript>(); };
-    // _cppScriptCreators["GameManager"] = []() { return std::make_shared<GameManager>(); };
-    // _cppScriptCreators["NetworkMovePlayer"] = []()
-    // { return std::make_shared<NetworkMovePlayerScript>(); };
-}
+// void SceneManager::initCppScriptCreators()
+// {
+//     _cppScriptCreators["ComServer"] = []() { return std::make_shared<ComServer>(); };
+//     // _cppScriptCreators["HelloWorld"] = []() { return std::make_shared<HelloWorldScript>(); };
+//     // _cppScriptCreators["MovePlayer"] = []() { return std::make_shared<MovePlayerScript>(); };
+//     // _cppScriptCreators["AnimPlayer"] = []() { return std::make_shared<AnimPlayerScript>(); };
+//     // _cppScriptCreators["AnimThruster"] = []() { return std::make_shared<AnimThrusterScript>(); };
+//     // _cppScriptCreators["EnemyFactory"] = []() { return std::make_shared<EnemyFactoryScript>(); };
+//     // _cppScriptCreators["RedShip"] = []() { return std::make_shared<RedShipScript>(); };
+//     // _cppScriptCreators["PlayerShoot"] = []() { return std::make_shared<PlayerShootScript>(); };
+//     // _cppScriptCreators["Laser"] = []() { return std::make_shared<LaserScript>(); };
+//     // _cppScriptCreators["MoveThruster"] = []() { return std::make_shared<MoveThrusterScript>(); };
+//     // _cppScriptCreators["MoveAlly"] = []() { return std::make_shared<MoveAllyScript>(); };
+//     // _cppScriptCreators["Credit"] = []() { return std::make_shared<CreditScript>(); };
+//     // _cppScriptCreators["GameManager"] = []() { return std::make_shared<GameManager>(); };
+//     // _cppScriptCreators["NetworkMovePlayer"] = []()
+//     // { return std::make_shared<NetworkMovePlayerScript>(); };
+// }

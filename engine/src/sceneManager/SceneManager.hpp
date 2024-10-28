@@ -117,21 +117,38 @@ class SceneManager
         (addComponentIfExists<T>(T::name, componentData, registry, entity), ...);
     }
 
-    /**
-     * @brief Adds scripts to an entity.
-     *
-     * @param registry The registry containing all entities and components.
-     * @param entity The entity to add scripts to.
-     * @param componentData The JSON data of the scripts to add.
-     */
-    void addScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
-                            const nlohmann::json &componentData);
+    // template <typename T>
+    // void addCppScriptIfExists(const std::string &scriptName, mobs::Registry &registry,
+    //                           mobs::Entity entity)
+    // {
+    //     std::shared_ptr<ICppScript> script = std::make_shared<T>();
+    //     script->setEntity(entity);
+    //     CppScriptComponent &cppScripts = registry.get<CppScriptComponent>(entity);
+    //     cppScripts.add(script);
+    // }
 
-    using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
+    // template <typename... T>
+    // void addCppScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
+    //                         const nlohmann::json &componentData)
+    // {
+    //     (addCppScriptIfExists<T>(T::name, registry, entity), ...);
+    // }
 
-    std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
+    // /**
+    //  * @brief Adds scripts to an entity.
+    //  *
+    //  * @param registry The registry containing all entities and components.
+    //  * @param entity The entity to add scripts to.
+    //  * @param componentData The JSON data of the scripts to add.
+    //  */
+    // void addScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
+    //                         const nlohmann::json &componentData);
 
-    void initCppScriptCreators();
+    // using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
+
+    // std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
+
+    // void initCppScriptCreators();
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.

@@ -57,6 +57,7 @@ struct RigidBody
     float drag = 0.0f;
 
     RigidBody() {}
+    static constexpr const char* name = "RigidBody";
 };
 
 struct Sprite

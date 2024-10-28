@@ -65,7 +65,7 @@ class ComServer : public RType::ICppScript
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
         }
     }
-
+    static constexpr const char *name = "ComServer";
    private:
 };
 

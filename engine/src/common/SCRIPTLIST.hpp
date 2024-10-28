@@ -5,12 +5,11 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef COMPONENTLIST_H
-#define COMPONENTLIST_H
+#ifndef SCRIPTLIST_H
+#define SCRIPTLIST_H
 
-#include "common/components.hpp"
-#include "common/scriptsComponent.hpp"
+#include "common/network/cppScripts/ComServer.hpp"
 
-#define COMPONENT_TYPES Transform, Sprite, Animator, Sticky, NetworkClient
+#define SCRIPT_TYPES ComServer
 
-#endif // COMPONENTLIST_H
+#endif // SCRIPTLIST_H
