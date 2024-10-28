@@ -6,9 +6,9 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
-#include "common/SYSTEMLIST.hpp"
 
 #include "NullRuntime/NullRuntime.hpp"
+#include "common/SYSTEMLIST.hpp"
 #include "utils/getBinaryPath.hpp"
 
 #ifdef GRAPHICS_SFML
@@ -22,7 +22,7 @@
 
 using namespace RType;
 
-template <typename ...T>
+template <typename... T>
 static void addSystemsToManager(SystemManager& systemManager)
 {
     (systemManager.addSystem<T>(), ...);
@@ -163,4 +163,3 @@ void Engine::stop()
     std::lock_guard<std::mutex> lock(this->_stopmtx);
     this->_stop = true;
 }
-

@@ -12,4 +12,4 @@
 
 #define SCRIPT_TYPES ComServer
 
-#endif // SCRIPTLIST_H
+#endif  // SCRIPTLIST_H

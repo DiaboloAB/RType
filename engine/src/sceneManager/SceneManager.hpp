@@ -9,6 +9,7 @@
 #define SCENEMANAGER_H
 
 #include <nlohmann/json.hpp>
+
 #include "common/ICppScript.hpp"
 #include "mobs/mobs.hpp"
 // std
@@ -87,12 +88,14 @@ class SceneManager
                       mobs::Registry &registry, GameContext &gameContext);
 
     template <typename... T>
-    void copyEntity(mobs::Entity from, mobs::Entity to, mobs::Registry &registry) {
+    void copyEntity(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
+    {
         (copyComponents<T>(from, to, registry), ...);
     }
 
     template <typename T>
-    void copyComponents(mobs::Entity from, mobs::Entity to, mobs::Registry &registry) {
+    void copyComponents(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
+    {
         if (_prefabRegistry.hasComponent<T>(from))
             registry.emplace<T>(to, _prefabRegistry.get<T>(from));
     }

@@ -11,4 +11,4 @@
 #include "common/components/fromJson.hpp"
 #include "common/network/components/fromJsonNetwork.hpp"
 
-#endif // FROMJSON_H
+#endif  // FROMJSON_H

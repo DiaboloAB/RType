@@ -14,9 +14,9 @@
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
 // std
+#include <atomic>
 #include <chrono>
 #include <iostream>
-#include <atomic>
 #include <mutex>
 
 namespace RType

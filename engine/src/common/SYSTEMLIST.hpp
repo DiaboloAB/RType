@@ -16,4 +16,4 @@
 
 #define SYSTEM_TYPES ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem
 
-#endif // SYSTEMLIST_H
+#endif  // SYSTEMLIST_H

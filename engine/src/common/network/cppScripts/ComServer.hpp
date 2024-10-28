@@ -66,6 +66,7 @@ class ComServer : public RType::ICppScript
         }
     }
     static constexpr const char *name = "ComServer";
+
    private:
 };
 

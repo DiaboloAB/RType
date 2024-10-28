@@ -6,10 +6,10 @@
  **********************************************************************************/
 
 #include "SceneManager.hpp"
-#include "common/FROMJSON.hpp"
 #include "common/COMPONENTLIST.hpp"
-#include "gameContext/GameContext.hpp"
+#include "common/FROMJSON.hpp"
 #include "common/SCRIPTLIST.hpp"
+#include "gameContext/GameContext.hpp"
 // std
 #include <iostream>
 
@@ -17,7 +17,7 @@ using namespace RType;
 
 template <typename T>
 static void addCppScriptIfExists(const std::string& scriptName, mobs::Registry& registry,
-                          mobs::Entity entity)
+                                 mobs::Entity entity)
 {
     std::shared_ptr<ICppScript> script = std::make_shared<T>();
     script->setEntity(entity);
@@ -27,14 +27,14 @@ static void addCppScriptIfExists(const std::string& scriptName, mobs::Registry& 
 
 template <typename... T>
 static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
-                           const nlohmann::json& componentData)
+                                  const nlohmann::json& componentData)
 {
     (addCppScriptIfExists<T>(T::name, registry, entity), ...);
 }
 
 template <typename T>
-static void addComponentIfExists(std::string ComponentName, const nlohmann::json &data,
-                            mobs::Registry &registry, mobs::Entity entity)
+static void addComponentIfExists(std::string ComponentName, const nlohmann::json& data,
+                                 mobs::Registry& registry, mobs::Entity entity)
 {
     if (data.contains(ComponentName))
     {
@@ -45,8 +45,8 @@ static void addComponentIfExists(std::string ComponentName, const nlohmann::json
 }
 
 template <typename... T>
-static void addComponentsToEntity(const nlohmann::json &componentData, mobs::Registry &registry,
-                            mobs::Entity entity)
+static void addComponentsToEntity(const nlohmann::json& componentData, mobs::Registry& registry,
+                                  mobs::Entity entity)
 {
     (addComponentIfExists<T>(T::name, componentData, registry, entity), ...);
 }
@@ -72,7 +72,8 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
                 scripts.add(gameContext._assetsPath + script.get<std::string>(), gameContext);
         }
 
-        if (prefabJson.contains("CppScripts")) {
+        if (prefabJson.contains("CppScripts"))
+        {
             registry.emplace<CppScriptComponent>(entity, entity);
             addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"]);
         }

@@ -13,12 +13,11 @@
 
 #include "mobs/mobs.hpp"
 // std
-#include <iostream>
-#include <map>
-#include <string>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace RType
 {
@@ -58,10 +57,11 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) {}
+    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    {
+    }
 
-
-     /**
+    /**
      * @brief Sets the entity associated with this script.
      *
      * @param entity The entity to associate with this script.

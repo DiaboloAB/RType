@@ -9,10 +9,10 @@
 #define CPPSCRIPTSSYSTEM_H
 
 #include <common/COMPONENTLIST.hpp>
-#include "common/components/scriptsComponent.hpp"
 #include <system/ISystem.hpp>
 
 #include "common/ICppScript.hpp"
+#include "common/components/scriptsComponent.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 

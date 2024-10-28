@@ -34,7 +34,10 @@ struct Basics
     bool staticObject = false;
 
     Basics() {}
-    Basics(std::string tag, std::string layer, bool staticObject) : tag(tag), layer(layer), staticObject(staticObject) {}
+    Basics(std::string tag, std::string layer, bool staticObject)
+        : tag(tag), layer(layer), staticObject(staticObject)
+    {
+    }
     static constexpr const char* name = "Basics";
 };
 
@@ -43,7 +46,6 @@ struct Transform
     mlg::vec3 position = mlg::vec3(0.0f);
     mlg::vec3 rotation = mlg::vec3(0.0f);
     mlg::vec3 scale = mlg::vec3(1.0f);
-
 
     Transform() {}
     static constexpr const char* name = "Transform";

@@ -13,4 +13,4 @@
 
 #define COMPONENT_TYPES Transform, Sprite, Animator, Sticky, NetworkClient
 
-#endif // COMPONENTLIST_H
+#endif  // COMPONENTLIST_H

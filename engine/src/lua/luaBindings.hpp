@@ -9,6 +9,7 @@
 #define LUABINDINGS_H
 
 #include <lua.hpp>
+
 #include "gameContext/GameContext.hpp"
 
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext);

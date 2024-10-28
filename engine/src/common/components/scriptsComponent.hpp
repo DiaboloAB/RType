@@ -9,6 +9,7 @@
 #define SCRIPTSCOMPONENT_H
 
 #include <mlg/mlg.hpp>
+
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
 #include "lua/luaBindings.hpp"

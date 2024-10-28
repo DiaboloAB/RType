@@ -20,8 +20,9 @@
 namespace RType
 {
 
-SceneManager::SceneManager() {
-    // initCppScriptCreators(); 
+SceneManager::SceneManager()
+{
+    // initCppScriptCreators();
 }
 
 SceneManager::~SceneManager()
@@ -62,8 +63,7 @@ mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContex
         if (!basics.tag.compare(prefabName))
         {
             mobs::Entity newEntity = gameContext._registry.create();
-            copyEntity<COMPONENT_TYPES>(
-                entity, newEntity, gameContext._registry);
+            copyEntity<COMPONENT_TYPES>(entity, newEntity, gameContext._registry);
             return newEntity;
         }
     }
