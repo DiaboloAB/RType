@@ -50,6 +50,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _runtime);
+    _gameContext->_args = args;
     std::cout << "Engine Status: Loading game" << std::endl;
 
     try

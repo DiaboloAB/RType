@@ -60,39 +60,23 @@ class ICppScript
      */
     virtual void onCollision(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) {}
 
-   template <typename Func>
-    void registerFunction(const std::string &functionName, Func function)
-    {
-        functions[functionName] = std::make_any<Func>(function);
-    }
-
-    template <typename... Args>
-    void callFunction(const std::string &functionName, mobs::Registry &registry, GameContext &gameContext, Args... args)
-    {
-        if (functions.find(functionName) != functions.end())
-        {
-            try {
-                auto func = std::any_cast<std::function<void(mobs::Registry&, GameContext&, Args...)>>(functions[functionName]);
-                func(registry, gameContext, args...);
-            } catch (const std::bad_any_cast&) {
-                std::cerr << "Error: Argument types do not match for function " << functionName << "." << std::endl;
-            }
-        }
-        else
-        {
-            std::cerr << "Error: Function " << functionName << " not found." << std::endl;
-        }
-    }
 
      /**
      * @brief Sets the entity associated with this script.
      *
      * @param entity The entity to associate with this script.
      */
-    virtual void setEntity(mobs::Entity entity) = 0;
+    void setEntity(mobs::Entity entity) { m_entity = entity; }
+
+    /**
+     * @brief Gets the entity associated with this script.
+     *
+     * @return The entity associated with this script.
+     */
+    mobs::Entity getEntity() const { return m_entity; }
 
    private:
-    std::map<std::string, std::any> functions;
+    mobs::Entity m_entity;
 };
 
 }  // namespace RType

@@ -6,10 +6,9 @@
  **********************************************************************************/
 
 #include "SceneManager.hpp"
-#include "common/components.hpp"
 #include "common/fromJson.hpp"
 #include "common/fromJsonNetwork.hpp"
-#include "common/scriptsComponent.hpp"
+#include "common/COMPONENTLIST.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 #include <iostream>

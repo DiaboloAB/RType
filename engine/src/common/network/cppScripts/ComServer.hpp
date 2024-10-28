@@ -22,7 +22,7 @@ class ComServer : public RType::ICppScript
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto &networkC = registry.get<NetworkClient>(_entity);
+        auto &networkC = registry.get<NetworkClient>(getEntity());
         auto _rcvQueue = networkC.client->getRcvQueue();
         while (!_rcvQueue.empty())
         {
@@ -40,7 +40,7 @@ class ComServer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyDown(KeyCode::R))
         {
-            auto &networkC = registry.get<NetworkClient>(_entity);
+            auto &networkC = registry.get<NetworkClient>(getEntity());
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);
             event->setDescription("cr=pv");
@@ -48,10 +48,8 @@ class ComServer : public RType::ICppScript
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
         }
     }
-    void setEntity(mobs::Entity entity) override { _entity = entity; }
 
    private:
-    mobs::Entity _entity;
 };
 
 }  // namespace RType

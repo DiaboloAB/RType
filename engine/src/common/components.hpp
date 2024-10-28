@@ -29,39 +29,33 @@ namespace RType
 {
 struct Basics
 {
-    std::string tag;
-    std::string layer;
+    std::string tag = "Entity";
+    std::string layer = "Default";
     bool staticObject = false;
 
     Basics() {}
-    Basics(std::string tag, std::string layer, bool staticObject)
-        : tag(tag), layer(layer), staticObject(staticObject)
-    {
-    }
+    Basics(std::string tag, std::string layer, bool staticObject) : tag(tag), layer(layer), staticObject(staticObject) {}
     static constexpr const char* name = "Basics";
 };
 
 struct Transform
 {
-    mlg::vec3 position;
-    mlg::vec3 rotation;
-    mlg::vec3 scale;
+    mlg::vec3 position = mlg::vec3(0.0f);
+    mlg::vec3 rotation = mlg::vec3(0.0f);
+    mlg::vec3 scale = mlg::vec3(1.0f);
 
-    Transform(mlg::vec3 position, mlg::vec3 rotation, mlg::vec3 scale)
-        : position(position), rotation(rotation), scale(scale)
-    {
-    }
-    Transform(mlg::vec3 position)
-        : position(position), rotation(mlg::vec3(0.0f)), scale(mlg::vec3(1.0f))
-    {
-    }
 
-    Transform() : position(mlg::vec3(0.0f)), rotation(mlg::vec3(0.0f)), scale(mlg::vec3(1.0f)) {}
+    Transform() {}
     static constexpr const char* name = "Transform";
 };
 
 struct RigidBody
 {
+    mlg::vec3 velocity;
+    mlg::vec3 acceleration;
+    float mass = 1.0f;
+    float drag = 0.0f;
+
     RigidBody() {}
 };
 
@@ -71,7 +65,6 @@ struct Sprite
     int id = -1;
 
     Sprite() {}
-    Sprite(std::string filePath) : filePath(filePath) {}
     static constexpr const char* name = "Sprite";
 };
 
@@ -102,50 +95,19 @@ struct Button
     std::string target = "";
     std::string action = "";
 
-    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color)
-        : text(text), size(size), font(font), color(color)
-    {
-    }
-    Button(std::string text, mlg::vec3 size, std::string font, mlg::vec3 color, std::string target,
-           std::string action)
-        : text(text), size(size), font(font), color(color), target(target), action(action)
-    {
-    }
+    Button() {}
     static constexpr const char* name = "Button";
 };
 struct Text
 {
-    std::string text;
-    mlg::vec3 color;
-    std::string font;
-    std::string id_font;
-    int fontSize;
+    std::string text = "";
+    mlg::vec3 color = mlg::vec3(1.0f);
+    std::string font = "";
+    int id_font = -1;
+    int fontSize = 12;
 
-    Text(std::string text, mlg::vec3 color, std::string font, int fontSize)
-        : text(text), color(color), font(font), fontSize(fontSize)
-    {
-    }
+    Text() {}
     static constexpr const char* name = "Text";
-};
-
-struct Dialog
-{
-    std::vector<std::string> lines;
-    mlg::vec3 color;
-    std::string font;
-    int fontSize;
-
-    Dialog(std::string text, mlg::vec3 color, std::string font, int fontSize)
-        : color(color), font(font), fontSize(fontSize)
-    {
-        std::istringstream stream(text);
-        std::string line;
-        while (std::getline(stream, line))
-        {
-            lines.push_back(line);
-        }
-    }
-    static constexpr const char* name = "Dialog";
 };
 
 struct Audio
@@ -154,17 +116,24 @@ struct Audio
     std::vector<std::string> musics;
     int musicVolume = 50;
     int soundVolume = 50;
-    int soundID;
+    int soundID = 0;
 
     std::queue<std::string> audioQueue;
 
     Audio() {}
-    Audio(std::vector<std::string> sounds, std::vector<std::string> musics)
-        : sounds(sounds), musics(musics)
-    {
-    }
     static constexpr const char* name = "Audio";
 };
+
+struct Collider
+{
+    mlg::vec3 size;
+    bool isTrigger = false;
+    std::vector<std::tuple<mobs::Entity, mlg::vec3>> collisions;
+
+    Collider() {}
+    static constexpr const char* name = "Collider";
+};
+
 }  // namespace RType
 
 #endif  // COMPONENTS_H

@@ -7,8 +7,7 @@
 
 #include "SceneManager.hpp"
 
-#include "common/components.hpp"
-#include "common/scriptsComponent.hpp"
+#include "common/COMPONENTLIST.hpp"
 // std
 #include <filesystem>
 #include <fstream>
@@ -60,7 +59,7 @@ mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContex
         if (!basics.tag.compare(prefabName))
         {
             mobs::Entity newEntity = gameContext._registry.create();
-            copyEntity<Basics, Transform, Sprite, Animator, Sticky, Button, Text, Dialog, RigidBody, Scripts>(
+            copyEntity<COMPONENT_TYPES>(
                 entity, newEntity, gameContext._registry);
             return newEntity;
         }
@@ -76,7 +75,7 @@ bool SceneManager::update(GameContext& gameContext)
         for (auto entity : view)
         {
             auto& basics = view.get<Basics>(entity);
-            if (!basics.staticObject) gameContext._registry.kill(entity);
+            if (basics.staticObject) gameContext._registry.kill(entity);
         }
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;

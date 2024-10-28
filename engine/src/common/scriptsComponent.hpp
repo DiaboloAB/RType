@@ -113,13 +113,17 @@ struct CppScriptComponent
         scripts.push_back(std::move(script));
     }
 
-    void callAllFunctions(const std::string& functionName, mobs::Registry& registry,
-                          GameContext& gameContext)
+    template <typename T>
+    std::shared_ptr<T> getScript()
     {
-        // for (auto& script : scripts)
-        // {
-        //     script->callFunction(functionName, registry, gameContext);
-        // }
+        for (auto& script : scripts)
+        {
+            if (auto casted = std::dynamic_pointer_cast<T>(script))
+            {
+                return casted;
+            }
+        }
+        return nullptr;
     }
 
     CppScriptComponent(mobs::Entity entity) : entity(entity) {}

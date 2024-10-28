@@ -92,6 +92,7 @@ class GameContext
     bool _running = true;  ///< The running state.
     float _deltaT = 0.0f;  ///< The delta time.
     const std::string _assetsPath;
+    std::map<std::string, std::string> _args;  ///< The arguments.
 
    private:
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.

@@ -25,9 +25,7 @@ class CreditScript : public RType::ICppScript
             transform.position.y -= 100 * gameContext._deltaT;
         }
         if (gameContext._runtime->getKey(KeyCode::Escape))
-        {
             gameContext._sceneManager._nextScene = "menu.json";
-        }
     }
     void setEntity(mobs::Entity entity) override { _entity = entity; }
 
