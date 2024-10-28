@@ -14,6 +14,7 @@
 #include <queue>
 
 #include "IEndpoint.hpp"
+#include "Logger.hpp"
 #include "PacketFactory.hpp"
 #include "ResendTimer.hpp"
 
@@ -80,6 +81,10 @@ class AEndpoint : public IEndpoint
      */
     void resendValidationList() override;
 
+   public:
+    std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
+    getRcvQueue();
+
    protected:
     std::shared_ptr<asio::io_context> _io_context = nullptr;
     std::shared_ptr<asio::ip::udp::socket> _socket = nullptr;
@@ -91,7 +96,7 @@ class AEndpoint : public IEndpoint
    private:
     std::array<char, 1024> _rcvBuffer;
 
-   private:
+   protected:
     std::list<std::pair<std::shared_ptr<dimension::APacket>, ResendTimer>> _validationList;
     std::mutex _listMutex;
 

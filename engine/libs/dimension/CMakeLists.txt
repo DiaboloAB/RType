@@ -21,6 +21,7 @@ set(SOURCES
     src/dimension/endpoint/AEndpoint.cpp
     src/dimension/endpoint/client/Client.cpp
     src/dimension/endpoint/server/AServer.cpp
+    src/dimension/endpoint/room/Room.cpp
     )
 
 add_library(dimension_lib STATIC ${SOURCES})
@@ -34,6 +35,7 @@ target_include_directories(dimension_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/room
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint/client
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint/server
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dimension/endpoint/room/
 )
 
 target_link_libraries(dimension_lib PUBLIC asio::asio)

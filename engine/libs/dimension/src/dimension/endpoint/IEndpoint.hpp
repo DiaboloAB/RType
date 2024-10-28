@@ -71,6 +71,9 @@ class IEndpoint
     virtual void handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp::endpoint endpoint,
                                     std::size_t bytesRcv) = 0;
 
+    /**
+     * @brief Resend packet which didn't receive any validation to appropriate target.
+     */
     virtual void resendValidationList() = 0;
 };
 }  // namespace dimension

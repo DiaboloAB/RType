@@ -30,23 +30,42 @@ void Client::connectServer(std::string host, unsigned int port)
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(asio::ip::udp::v4(), host, std::to_string(port));
         this->_serverEndpoint = std::make_shared<asio::ip::udp::endpoint>(*endpoints.begin());
+        this->_directionEndpoint = _serverEndpoint;
         this->receive();
         this->_recvThread =
             std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
         auto hiServer = this->_packetFactory->createEmptyPacket<HiServer>();
         this->send(hiServer, *this->_serverEndpoint, false);
-        std::cerr << "\x1B[32m[Client]\x1B[0m: Connection to server established." << std::endl;
+        LOG("Client", "Connection to server established.");
     }
     catch (std::exception &e)
     {
-        std::cerr << "\x1B[31m[Client ERROR]\x1B[0m: " << e.what() << std::endl;
+        ERR_LOG("Client", e.what());
     }
 }
 
-std::queue<std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>>
-Client::getRcvQueue()
+std::shared_ptr<asio::ip::udp::endpoint> Client::getDirectionEndpoint() const
 {
-    std::lock_guard<std::mutex> lock(this->_queueMutex);
-    return this->_rcvQueue;
-};
+    return this->_directionEndpoint;
+}
+
+std::chrono::steady_clock::time_point Client::getLastPing() const { return this->_lastPing; }
+
+void Client::setDirectionEndpoint(std::shared_ptr<asio::ip::udp::endpoint> newDirectionEndpoint)
+{
+    this->_directionEndpoint = newDirectionEndpoint;
+}
+
+void Client::setLastPing(std::chrono::steady_clock::time_point newLastPing)
+{
+    this->_lastPing = newLastPing;
+}
+
+void Client::connectDirectionEndpoint(std::string host, unsigned int port)
+{
+    asio::ip::udp::resolver resolver(*this->_io_context);
+    asio::ip::udp::resolver::results_type endpoints =
+        resolver.resolve(asio::ip::udp::v4(), host, std::to_string(port));
+    this->_directionEndpoint = std::make_shared<asio::ip::udp::endpoint>(*endpoints.begin());
+}
 }  // namespace dimension

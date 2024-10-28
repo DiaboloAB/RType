@@ -1,12 +1,15 @@
 set(BINARY_NAME "r-type_server")
 
 add_executable(${BINARY_NAME} src/main.cpp
-    src/server/ArgParser.cpp
     src/server/MainServer.cpp
+    src/server/parser/ArgParser.cpp
+    src/server/rooms/RoomManager.cpp
 )
 
 target_include_directories(${BINARY_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/server/
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/server/parser/
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/server/rooms/
 )
 
 target_link_libraries(${BINARY_NAME} PRIVATE Holtzman
