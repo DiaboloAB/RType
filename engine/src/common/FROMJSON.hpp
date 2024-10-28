@@ -5,12 +5,10 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef COMPONENTLIST_H
-#define COMPONENTLIST_H
+#ifndef FROMJSON_H
+#define FROMJSON_H
 
-#include "common/components/components.hpp"
-#include "common/network/components/networkComp.hpp"
+#include "common/components/fromJson.hpp"
+#include "common/network/components/fromJsonNetwork.hpp"
 
-#define COMPONENT_TYPES Transform, Sprite, Animator, Sticky, NetworkClient
-
-#endif // COMPONENTLIST_H
+#endif // FROMJSON_H

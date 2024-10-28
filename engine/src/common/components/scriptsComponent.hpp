@@ -8,12 +8,10 @@
 #ifndef SCRIPTSCOMPONENT_H
 #define SCRIPTSCOMPONENT_H
 
-#include <lua.hpp>
 #include <mlg/mlg.hpp>
-
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-#include "lua/LuaBindings.hpp"
+#include "lua/luaBindings.hpp"
 #include "mobs/mobs.hpp"
 // std
 

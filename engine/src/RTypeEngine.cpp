@@ -6,6 +6,7 @@
  **********************************************************************************/
 
 #include "RTypeEngine.hpp"
+#include "common/SYSTEMLIST.hpp"
 
 #include "NullRuntime/NullRuntime.hpp"
 #include "utils/getBinaryPath.hpp"
@@ -20,6 +21,12 @@
 #include <fstream>
 
 using namespace RType;
+
+template <typename ...T>
+static void addSystemsToManager(SystemManager& systemManager)
+{
+    (systemManager.addSystem<T>(), ...);
+}
 
 Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 {
@@ -63,7 +70,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
         return;
     }
 
-    addSystems();
+    addSystemsToManager<SYSTEM_TYPES>(_systemManager);
 
     std::cout << "Engine Status: Running" << std::endl;
 }

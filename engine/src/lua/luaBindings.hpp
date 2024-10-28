@@ -5,16 +5,12 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef FROMJSONNETWORK_HPP
-#define FROMJSONNETWORK_HPP
+#ifndef LUABINDINGS_H
+#define LUABINDINGS_H
 
-#include <nlohmann/json.hpp>
+#include <lua.hpp>
+#include "gameContext/GameContext.hpp"
 
-#include "components.hpp"
+void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext);
 
-namespace RType
-{
-void from_json(const nlohmann::json& j, NetworkClient& networkClient) {}
-}  // namespace RType
-
-#endif  // FROMJSONNETWORK_HPP
+#endif  // LUABINDINGS_H

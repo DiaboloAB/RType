@@ -8,6 +8,7 @@
 #include "SceneManager.hpp"
 
 #include "common/COMPONENTLIST.hpp"
+#include "common/components/scriptsComponent.hpp"
 // std
 #include <filesystem>
 #include <fstream>

@@ -6,8 +6,7 @@
  **********************************************************************************/
 
 #include "SceneManager.hpp"
-#include "common/fromJson.hpp"
-#include "common/fromJsonNetwork.hpp"
+#include "common/FROMJSON.hpp"
 #include "common/COMPONENTLIST.hpp"
 #include "gameContext/GameContext.hpp"
 #include "common/SCRIPTLIST.hpp"
@@ -17,7 +16,7 @@
 using namespace RType;
 
 template <typename T>
-void addCppScriptIfExists(const std::string& scriptName, mobs::Registry& registry,
+static void addCppScriptIfExists(const std::string& scriptName, mobs::Registry& registry,
                           mobs::Entity entity)
 {
     std::shared_ptr<ICppScript> script = std::make_shared<T>();
@@ -27,10 +26,29 @@ void addCppScriptIfExists(const std::string& scriptName, mobs::Registry& registr
 }
 
 template <typename... T>
-void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
+static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
                            const nlohmann::json& componentData)
 {
     (addCppScriptIfExists<T>(T::name, registry, entity), ...);
+}
+
+template <typename T>
+static void addComponentIfExists(std::string ComponentName, const nlohmann::json &data,
+                            mobs::Registry &registry, mobs::Entity entity)
+{
+    if (data.contains(ComponentName))
+    {
+        T component;
+        data.at(ComponentName).get_to(component);
+        registry.emplace<T>(entity, component);
+    }
+}
+
+template <typename... T>
+static void addComponentsToEntity(const nlohmann::json &componentData, mobs::Registry &registry,
+                            mobs::Entity entity)
+{
+    (addComponentIfExists<T>(T::name, componentData, registry, entity), ...);
 }
 
 void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
@@ -58,7 +76,6 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             registry.emplace<CppScriptComponent>(entity, entity);
             addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"]);
         }
-            // addScriptsToEntity(registry, entity, prefabJson["CppScripts"]);
     }
     catch (const std::exception& e)
     {

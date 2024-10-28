@@ -8,8 +8,8 @@
 #ifndef CPPSCRIPTSSYSTEM_H
 #define CPPSCRIPTSSYSTEM_H
 
-#include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
+#include <common/COMPONENTLIST.hpp>
+#include "common/components/scriptsComponent.hpp"
 #include <system/ISystem.hpp>
 
 #include "common/ICppScript.hpp"

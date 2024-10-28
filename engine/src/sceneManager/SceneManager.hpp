@@ -9,7 +9,6 @@
 #define SCENEMANAGER_H
 
 #include <nlohmann/json.hpp>
-
 #include "common/ICppScript.hpp"
 #include "mobs/mobs.hpp"
 // std
@@ -97,58 +96,6 @@ class SceneManager
         if (_prefabRegistry.hasComponent<T>(from))
             registry.emplace<T>(to, _prefabRegistry.get<T>(from));
     }
-
-    template <typename T>
-    void addComponentIfExists(std::string ComponentName, const nlohmann::json &data,
-                              mobs::Registry &registry, mobs::Entity entity)
-    {
-        if (data.contains(ComponentName))
-        {
-            T component;
-            data.at(ComponentName).get_to(component);
-            registry.emplace<T>(entity, component);
-        }
-    }
-
-    template <typename... T>
-    void addComponentsToEntity(const nlohmann::json &componentData, mobs::Registry &registry,
-                               mobs::Entity entity)
-    {
-        (addComponentIfExists<T>(T::name, componentData, registry, entity), ...);
-    }
-
-    // template <typename T>
-    // void addCppScriptIfExists(const std::string &scriptName, mobs::Registry &registry,
-    //                           mobs::Entity entity)
-    // {
-    //     std::shared_ptr<ICppScript> script = std::make_shared<T>();
-    //     script->setEntity(entity);
-    //     CppScriptComponent &cppScripts = registry.get<CppScriptComponent>(entity);
-    //     cppScripts.add(script);
-    // }
-
-    // template <typename... T>
-    // void addCppScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
-    //                         const nlohmann::json &componentData)
-    // {
-    //     (addCppScriptIfExists<T>(T::name, registry, entity), ...);
-    // }
-
-    // /**
-    //  * @brief Adds scripts to an entity.
-    //  *
-    //  * @param registry The registry containing all entities and components.
-    //  * @param entity The entity to add scripts to.
-    //  * @param componentData The JSON data of the scripts to add.
-    //  */
-    // void addScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
-    //                         const nlohmann::json &componentData);
-
-    // using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
-
-    // std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
-
-    // void initCppScriptCreators();
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
