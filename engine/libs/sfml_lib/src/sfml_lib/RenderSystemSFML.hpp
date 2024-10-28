@@ -252,6 +252,7 @@ class RenderSystemSFML : public RType::IRuntime
                    const std::string& fragmentShaderPath) override;
     void setShader(int shaderId) override;
     void resetShader() override;
+    void unloadShader(int shaderId) override ;
 
    private:
     bool _isFullScreen;

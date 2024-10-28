@@ -65,6 +65,7 @@ class NullRuntime : public IRuntime
     }
     void setShader(int shaderId) {}
     void resetShader() {}
+    void unloadShader(int shaderId) {}
 
    private:
     // Member variables

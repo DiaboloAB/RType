@@ -260,6 +260,8 @@ class IRuntime
     virtual void setShader(int shaderId) = 0;
     virtual void resetShader() = 0;
 
+    virtual void unloadShader(int shaderId) = 0;
+
    private:
     // No private member data defined in this interface.
 };
