@@ -56,4 +56,23 @@ bool Room::isConnected(asio::ip::udp::endpoint &endpoint) const
         if (endp.first == endpoint) return true;
     return false;
 }
+
+std::string Room::getHost() const { return this->_host; }
+
+unsigned int Room::getPort() const { return this->_port; }
+
+std::string Room::getCode() const { return this->_code; }
+
+std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>>
+Room::getConnectedEp() const
+{
+    return this->_connectedEp;
+}
+
+std::chrono::steady_clock::time_point Room::getLastPing() { return this->_lastPing; }
+
+std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> Room::getRecvQueue()
+{
+    return this->_rcvQueue;
+};
 }  // namespace dimension

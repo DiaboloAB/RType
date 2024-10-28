@@ -63,19 +63,13 @@ class Room : public AEndpoint
     bool isConnected(asio::ip::udp::endpoint &endpoint) const;
 
    public:
-    std::string getHost() const { return this->_host; };
-    unsigned int getPort() const { return this->_port; };
-    std::string getCode() const { return this->_code; };
+    std::string getHost() const;
+    unsigned int getPort() const;
+    std::string getCode() const;
     std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>>
-    getConnectedEp() const
-    {
-        return this->_connectedEp;
-    };
-    std::chrono::steady_clock::time_point getLastPing() { return this->_lastPing; };
-    std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getRecvQueue()
-    {
-        return this->_rcvQueue;
-    };
+    getConnectedEp() const;
+    std::chrono::steady_clock::time_point getLastPing();
+    std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getRecvQueue();
 
    private:
     std::string _host;
