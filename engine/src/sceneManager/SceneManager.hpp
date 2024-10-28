@@ -32,12 +32,6 @@ class GameContext;
 class SceneManager
 {
    public:
-    /**
-     * @brief The name of the next scene to load.
-     */
-    std::string _nextScene = "";
-
-    mobs::Registry _prefabRegistry;  ///< The registry containing all prefabs.
 
     /**
      * @brief Constructs a new SceneManager object.
@@ -48,6 +42,9 @@ class SceneManager
      * @brief Destroys the SceneManager object.
      */
     ~SceneManager();
+
+    void switchScene(const std::string &sceneName) { _nextScene = sceneName; }
+    void loadPrefab(const std::string &prefabName) { _prefabsToLoad.push_back(prefabName); }
 
     /**
      * @brief Loads a scene by name.
@@ -76,6 +73,16 @@ class SceneManager
     void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
 
    private:
+
+    /**
+     * @brief Loads a prefab by name.
+     *
+     * @param prefabName The name of the prefab to load.
+     * @param gameContext The context of the game.
+     * @return nlohmann::json The JSON data of the prefab.
+     */
+    void loadPrefabs(const std::string &prefabName, GameContext &gameContext);
+
     /**
      * @brief Creates an entity from a prefab JSON.
      *
@@ -87,18 +94,11 @@ class SceneManager
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
                       mobs::Registry &registry, GameContext &gameContext);
 
-    template <typename... T>
-    void copyEntity(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
-    {
-        (copyComponents<T>(from, to, registry), ...);
-    }
-
-    template <typename T>
-    void copyComponents(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
-    {
-        if (_prefabRegistry.hasComponent<T>(from))
-            registry.emplace<T>(to, _prefabRegistry.get<T>(from));
-    }
+    /**
+     * @brief The name of the next scene to load.
+     */
+    std::string _nextScene = "";
+    std::vector<std::string> _prefabsToLoad;        ///< The prefabs to load.
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.

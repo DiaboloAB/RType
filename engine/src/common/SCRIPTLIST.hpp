@@ -9,7 +9,8 @@
 #define SCRIPTLIST_H
 
 #include "common/network/cppScripts/ComServer.hpp"
+#include "common/cppScripts/HelloWorld.hpp"
 
-#define SCRIPT_TYPES ComServer
+#define SCRIPT_TYPES ComServer, HelloWorld
 
 #endif  // SCRIPTLIST_H
