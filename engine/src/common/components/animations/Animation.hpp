@@ -43,7 +43,7 @@ class Animation
     Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec3 &frameSize,
               std::string name, bool loop);
 
-    Animation(){};
+    Animation() {};
 
     /**
      * @brief Destructor for Animation.

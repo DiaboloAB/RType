@@ -10,7 +10,6 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-
 #include "utils/Timer.hpp"
 
 namespace RType

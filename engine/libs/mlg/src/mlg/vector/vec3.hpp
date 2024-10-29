@@ -76,7 +76,6 @@ class vec3
 
     vec3 operator/(float scalar) const { return {x / scalar, y / scalar, z / scalar}; }
 
-
     vec3& operator+=(const vec3& other)
     {
         x += other.x;

@@ -16,22 +16,22 @@ namespace RType
 
 class MoveLaser : public RType::ICppScript
 {
-    public:
-        void update(mobs::Registry &registry, GameContext &gameContext) override
-        {
-            int speed = 1000;
-            auto &transform = registry.get<Transform>(getEntity());
-            transform.position.x += speed * gameContext._deltaT;
+   public:
+    void update(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        int speed = 1000;
+        auto &transform = registry.get<Transform>(getEntity());
+        transform.position.x += speed * gameContext._deltaT;
 
-            if (transform.position.x > 2000)
-            {
-                registry.kill(getEntity());
-            }
+        if (transform.position.x > 2000)
+        {
+            registry.kill(getEntity());
         }
+    }
 
     static constexpr const char *name = "MoveLaser";
 
-    private:
+   private:
     // Member variables
 };
 

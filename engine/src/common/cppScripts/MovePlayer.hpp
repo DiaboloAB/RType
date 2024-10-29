@@ -17,7 +17,6 @@ namespace RType
 class MovePlayer : public RType::ICppScript
 {
    public:
-
     int speed = 600;
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
@@ -27,41 +26,40 @@ class MovePlayer : public RType::ICppScript
 
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
-            _direction =  _direction + mlg::vec3(0, -1, 0);
+            _direction = _direction + mlg::vec3(0, -1, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
-            _direction =  _direction + mlg::vec3(0, 1, 0);
+            _direction = _direction + mlg::vec3(0, 1, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
-            _direction =  _direction + mlg::vec3(1, 0, 0);
+            _direction = _direction + mlg::vec3(1, 0, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
         {
-            _direction =  _direction + mlg::vec3(-1, 0, 0);
+            _direction = _direction + mlg::vec3(-1, 0, 0);
         }
 
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
         {
-            _direction =  _direction - mlg::vec3(0, -1, 0);
+            _direction = _direction - mlg::vec3(0, -1, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
-            _direction =  _direction - mlg::vec3(0, 1, 0);
+            _direction = _direction - mlg::vec3(0, 1, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
-            _direction =  _direction - mlg::vec3(1, 0, 0);
+            _direction = _direction - mlg::vec3(1, 0, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
         {
-            _direction =  _direction - mlg::vec3(-1, 0, 0);
+            _direction = _direction - mlg::vec3(-1, 0, 0);
         }
 
         transform.position += _direction * speed * gameContext._deltaT;
         // TODO: block the player in the screen
-
     }
 
     static constexpr const char *name = "MovePlayer";

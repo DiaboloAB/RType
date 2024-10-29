@@ -14,7 +14,7 @@ Ping::Ping(uint8_t type) : APacket(type) { this->_packetDataSize = 0; }
 
 Ping::Ping(std::vector<char> &buffer) : APacket(buffer) {}
 
-Ping::~Ping(){};
+Ping::~Ping() {};
 
 std::vector<char> Ping::serializeData() const
 {

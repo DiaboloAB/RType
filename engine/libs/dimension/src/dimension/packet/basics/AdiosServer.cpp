@@ -14,7 +14,7 @@ AdiosServer::AdiosServer(uint8_t type) : APacket(type) { this->_packetDataSize =
 
 AdiosServer::AdiosServer(std::vector<char> &buffer) : APacket(buffer) {}
 
-AdiosServer::~AdiosServer(){};
+AdiosServer::~AdiosServer() {};
 
 std::vector<char> AdiosServer::serializeData() const
 {

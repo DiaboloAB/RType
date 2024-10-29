@@ -28,8 +28,6 @@ class RedShip : public RType::ICppScript
         {
             registry.kill(getEntity());
         }
-
-        timer.update(gameContext._deltaT);
     }
 
     static constexpr const char *name = "RedShip";

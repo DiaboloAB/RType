@@ -16,12 +16,8 @@ namespace RType
 
 class Bullet : public RType::ICppScript
 {
-    public:
-
-    void setDirection(const mlg::vec3 &direction)
-    {
-        this->direction = direction;
-    }
+   public:
+    void setDirection(const mlg::vec3 &direction) { this->direction = direction; }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
@@ -34,8 +30,8 @@ class Bullet : public RType::ICppScript
 
     static constexpr const char *name = "Bullet";
 
-    private:
-        mlg::vec3 direction = mlg::vec3(0.0f);
+   private:
+    mlg::vec3 direction = mlg::vec3(0.0f);
 };
 
 }  // namespace RType

@@ -10,7 +10,6 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-
 #include "utils/Timer.hpp"
 
 namespace RType
@@ -37,7 +36,8 @@ class PlayerShoot : public RType::ICppScript
             auto &transform = registry.get<Transform>(laser);
             auto &hitbox = registry.get<Hitbox>(laser);
 
-            transform.position = registry.get<Transform>(getEntity()).position + mlg::vec3(50, 0, 0);
+            transform.position =
+                registry.get<Transform>(getEntity()).position + mlg::vec3(50, 0, 0);
 
             if (charge < 0.4)
             {

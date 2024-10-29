@@ -26,11 +26,11 @@ class AnimationList
     /**
      * @brief Constructor for AnimationList.
      */
-    AnimationList(){};
+    AnimationList() {};
     /**
      * @brief Destructor for AnimationList.
      */
-    ~AnimationList(){};
+    ~AnimationList() {};
 
     /**
      * @brief Play a specific animation.
