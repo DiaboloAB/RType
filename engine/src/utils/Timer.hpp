@@ -25,6 +25,7 @@ class Timer
 
     float getTime() { return time; }
     void setTime(float time) { this->time = time; }
+    void update(float deltaT) { time += deltaT; }
     void reset() { time = 0; }
 
     bool getState() { return active; }

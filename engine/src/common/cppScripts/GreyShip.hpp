@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef BULLET_HPP
-#define BULLET_HPP
+#ifndef GREYSHIP_HPP
+#define GREYSHIP_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -14,39 +14,30 @@
 namespace RType
 {
 
-class Bullet : public RType::ICppScript
+class GreyShip : public RType::ICppScript
 {
    public:
-    void setDirection(const mlg::vec3 &direction)
-    {
-        this->direction = direction;
-    }
-
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        int speed = 500;
+        int speed = 100;
 
         auto &transform = registry.get<Transform>(getEntity());
 
-        transform.position += direction * speed * gameContext._deltaT;
+        
 
-        if (outOfBounds(transform.position))
+        if (transform.position.x < -100)
         {
             registry.kill(getEntity());
         }
     }
 
-    static constexpr const char *name = "Bullet";
+    static constexpr const char *name = "GreyShip";
 
-   private:
-    mlg::vec3 direction = mlg::vec3(0.0f);
-
-    bool outOfBounds(const mlg::vec3 &position)
-    {
-        return position.x < 0 || position.x > 1920 || position.y < 0 || position.y > 1080;
-    }
+    private:
+        Timer timer;
+        float sinValue = 0;
 };
 
 }  // namespace RType
 
-#endif  // BULLET_HPP
+#endif  // GREYSHIP_HPP

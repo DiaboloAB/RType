@@ -128,10 +128,10 @@
             },
             {
               "name": "charged",
-              "speed": 1,
+              "speed": 10,
               "texture": "graphics/player/beam/charged.png",
-              "frameCount": 1,
-              "frameSize": [12, 12, 0],
+              "frameCount": 3,
+              "frameSize": [32, 32, 0],
               "loop": true
             }
           ]

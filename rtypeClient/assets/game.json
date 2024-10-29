@@ -22,6 +22,10 @@
         {
             "name": "Laser",
             "path": "scenes/prefabs/Laser.json"
+        },
+        {
+            "name": "Bullet",
+            "path": "scenes/prefabs/Bullet.json"
         }
     ]
 }

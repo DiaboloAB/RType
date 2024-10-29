@@ -10,6 +10,7 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
+#include "utils/GetCppScript.hpp"
 
 namespace RType
 {
@@ -22,7 +23,37 @@ class RedShip : public RType::ICppScript
         int speed = 100;
 
         auto &transform = registry.get<Transform>(getEntity());
+        auto &basics = registry.get<Basics>(getEntity());
         transform.position.x -= speed * gameContext._deltaT;
+
+        if (!timer.getState())
+        {
+            timer.start();
+        }
+
+        timer.update(gameContext._deltaT);
+
+        if (timer.getTime() > 2)
+        {
+            timer.reset();
+            mobs::Entity entity = gameContext._sceneManager.instantiate("Bullet", gameContext);
+
+            auto &bulletBasic = registry.get<Basics>(entity);
+            auto &bulletTransform = registry.get<Transform>(entity);
+
+            bulletTransform.position = transform.position + mlg::vec3(-20, 32, 0);
+            bulletBasic.tag = basics.tag + std::to_string(bullet_index) + "_bullet";
+            try
+            {
+                getCppScript<Bullet>(basics.tag + std::to_string(bullet_index) + "_bullet", registry)->setDirection(computeDirection(transform.position, registry));
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
+            bullet_index++;
+        }
+
 
         if (transform.position.x < -100)
         {
@@ -34,6 +65,24 @@ class RedShip : public RType::ICppScript
 
    private:
     Timer timer;
+    int bullet_index = 0;
+
+    mlg::vec3 computeDirection(mlg::vec3 &position, mobs::Registry &registry) {
+        auto view = registry.view<Basics, Transform>();
+
+        for (auto entity : view)
+        {
+            auto &basics = view.get<Basics>(entity);
+            if (basics.tag == "player")
+            {
+                auto &playerTransform = view.get<Transform>(entity);
+                mlg::vec3 newPos = playerTransform.position - position;
+                return newPos.normalize();
+            }
+        }
+        std::cerr << "Player not found" << std::endl;
+        return mlg::vec3(0.0f);
+    }
 };
 
 }  // namespace RType
