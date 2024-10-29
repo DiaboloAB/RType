@@ -56,18 +56,23 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
 
 mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContext& gameContext)
 {
-    auto view = gameContext._registry.view<Basics>();
-    for (auto entity : view)
+    if (_prefabs.find(prefabName) == _prefabs.end())
     {
-        auto& basics = view.get<Basics>(entity);
-        if (!basics.tag.compare(prefabName))
-        {
-            mobs::Entity newEntity = gameContext._registry.create();
-            copyEntity<COMPONENT_TYPES>(entity, newEntity, gameContext._registry);
-            return newEntity;
-        }
+        std::cerr << "Error: Prefab not found" << std::endl;
+        throw std::runtime_error("Prefab not found");
     }
-    return mobs::Entity();
+    std::ifstream i(gameContext._assetsPath + _prefabs[prefabName]);
+    if (!i.is_open())
+    {
+        std::cerr << "Error: Could not open file" << std::endl;
+        throw std::runtime_error("Could not open file");
+    }
+    nlohmann::json prefabJson;
+    i >> prefabJson;
+    mobs::Entity entity = gameContext._registry.create();
+    _prefabLoaded = true;
+    createEntity(prefabJson, entity, gameContext._registry, gameContext);
+    return entity;
 }
 
 bool SceneManager::update(GameContext& gameContext)
@@ -83,6 +88,11 @@ bool SceneManager::update(GameContext& gameContext)
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;
         _nextScene = "";
+        return true;
+    }
+    if (_prefabLoaded)
+    {
+        _prefabLoaded = false;
         return true;
     }
     return false;

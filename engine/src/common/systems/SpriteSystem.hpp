@@ -23,6 +23,7 @@ class SpriteSystem : public ISystem
     void load(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Sprite>();
+        int nbSprites = 0;
         for (auto entity : view)
         {
             auto &sprite = view.get<Sprite>(entity);

@@ -32,12 +32,6 @@ class GameContext;
 class SceneManager
 {
    public:
-    /**
-     * @brief The name of the next scene to load.
-     */
-    std::string _nextScene = "";
-
-    mobs::Registry _prefabRegistry;  ///< The registry containing all prefabs.
 
     /**
      * @brief Constructs a new SceneManager object.
@@ -48,6 +42,8 @@ class SceneManager
      * @brief Destroys the SceneManager object.
      */
     ~SceneManager();
+
+    void switchScene(const std::string &sceneName) { _nextScene = sceneName; }
 
     /**
      * @brief Loads a scene by name.
@@ -76,6 +72,7 @@ class SceneManager
     void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
 
    private:
+
     /**
      * @brief Creates an entity from a prefab JSON.
      *
@@ -87,18 +84,11 @@ class SceneManager
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
                       mobs::Registry &registry, GameContext &gameContext);
 
-    template <typename... T>
-    void copyEntity(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
-    {
-        (copyComponents<T>(from, to, registry), ...);
-    }
-
-    template <typename T>
-    void copyComponents(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
-    {
-        if (_prefabRegistry.hasComponent<T>(from))
-            registry.emplace<T>(to, _prefabRegistry.get<T>(from));
-    }
+    /**
+     * @brief The name of the next scene to load.
+     */
+    std::string _nextScene = "";
+    bool _prefabLoaded = false;
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.

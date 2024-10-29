@@ -130,13 +130,11 @@ void Engine::loadGame()
 void Engine::run()
 {
     _systemManager.load(_registry, *_gameContext);
-    // _systemManager.load(_sceneManager._prefabRegistry, *_gameContext);
     _systemManager.start(_registry, *_gameContext);
     while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running && !_stop)
     {
-        _clockManager.update();
-        if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
 
+        _clockManager.update();
         _gameContext->_deltaT = _clockManager.getDeltaT();
         if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
         {
@@ -145,6 +143,7 @@ void Engine::run()
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
+        if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
         if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {
             _gameContext->_deltaT = _clockManager.getDrawDeltaT();

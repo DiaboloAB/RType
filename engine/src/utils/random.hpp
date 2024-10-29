@@ -5,12 +5,13 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef SCRIPTLIST_H
-#define SCRIPTLIST_H
+#ifndef RANDOM_H
+#define RANDOM_H
 
-#include "common/network/cppScripts/ComServer.hpp"
-#include "common/cppScripts/HelloWorld.hpp"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
-#define SCRIPT_TYPES ComServer, HelloWorld
+int random(int min, int max);
 
-#endif  // SCRIPTLIST_H
+#endif // RANDOM_H
