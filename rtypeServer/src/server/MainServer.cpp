@@ -97,4 +97,17 @@ void MainServer::checkLastPing() {
         it = this->_connectedEp.erase(it);
     }
 }
+
+void MainServer::sendPing()
+{
+    auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
+    for (auto &endp : this->_connectedEp) {
+        std::string roomCode = this->_roomManager.getRoomFromSender(endp.first);
+        if (roomCode == "") this->send(pingPacket, endp.first, false);
+        else {
+            auto state = this->_roomManager.getRoomStateFromCode(roomCode);
+            if (!state._inGame) this->send(pingPacket, endp.first, false);
+        }
+    }
+}
 }

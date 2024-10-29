@@ -48,6 +48,12 @@ namespace RType::Network {
              */
             void checkLastPing() override;
 
+            /**
+             * @brief Send a ping packet to every connected client that are only connected
+             * the main server.
+             */
+            void sendPing() override;
+
         private:
             RoomManager _roomManager;
     };
