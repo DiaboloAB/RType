@@ -8,9 +8,9 @@
 #ifndef HELLOWORLD_H
 #define HELLOWORLD_H
 
+#include "common/COMPONENTLIST.hpp"
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-#include "common/COMPONENTLIST.hpp"
 #include "utils/random.hpp"
 // std
 
@@ -19,14 +19,15 @@ namespace RType
 
 class HelloWorld : public ICppScript
 {
-public:
+   public:
     HelloWorld() {}
     ~HelloWorld() {}
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         mobs::Entity entity;
-        if (gameContext._runtime->getKeyDown(KeyCode::Space)) {
+        if (gameContext._runtime->getKeyDown(KeyCode::Space))
+        {
             entity = gameContext._sceneManager.instantiate("HelloWorld", gameContext);
             Transform &transform = registry.get<Transform>(entity);
             transform.position.x = random(0, 800);
@@ -36,10 +37,10 @@ public:
 
     static constexpr const char *name = "HelloWorld";
 
-private:
+   private:
     // Member variables
 };
 
-} // namespace RType
+}  // namespace RType
 
-#endif // HELLOWORLD_H
+#endif  // HELLOWORLD_H

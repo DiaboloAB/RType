@@ -14,4 +14,4 @@
 
 int random(int min, int max);
 
-#endif // RANDOM_H
+#endif  // RANDOM_H

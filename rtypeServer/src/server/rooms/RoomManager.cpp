@@ -84,11 +84,11 @@ void RoomManager::endRoom(asio::ip::udp::endpoint &sender, std::string &descript
     RoomState &state = this->getRoomStateFromCode(roomCode);
     if (state._roomThread) {
         state._gameInstance->stop();
+        while(!state._roomThread->joinable());
         state._roomThread->join();
     }
-    for (auto &endp : state._endpoints) {
+    for (auto &endp : state._endpoints)
         this->_clientRooms[endp] = "";
-    }
     return this->deleteRoomFromCode(roomCode);
 }
 

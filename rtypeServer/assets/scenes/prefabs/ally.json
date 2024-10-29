@@ -13,7 +13,7 @@
           "Health": {
             "health": 3
           },
-          "Network": {
+          "NetworkData": {
             "id" : 0,
             "authority" : "server"
           },

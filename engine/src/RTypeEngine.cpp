@@ -133,7 +133,6 @@ void Engine::run()
     _systemManager.start(_registry, *_gameContext);
     while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running && !_stop)
     {
-
         _clockManager.update();
         _gameContext->_deltaT = _clockManager.getDeltaT();
         if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
