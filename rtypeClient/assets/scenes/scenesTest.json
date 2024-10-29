@@ -35,7 +35,8 @@
           "NetworkClient": {}
         },
         "CppScripts": [
-          "ComServer"
+          "ComServer",
+          "ClientRedirect"
         ]
       }
     ]
