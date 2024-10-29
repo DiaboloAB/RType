@@ -24,6 +24,16 @@
             ]
           }
         }
+      },
+      {
+        "tag": "NetworkCom",
+        "staticObject": true,
+        "components": {
+          "NetworkClient": {}
+        },
+        "CppScripts": [
+          "ComServer"
+        ]
       }
     ]
 }

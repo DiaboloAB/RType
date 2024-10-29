@@ -6,14 +6,50 @@
  **********************************************************************************/
 
 #include "SceneManager.hpp"
-#include "common/components.hpp"
-#include "common/fromJson.hpp"
-#include "common/scriptsComponent.hpp"
+#include "common/COMPONENTLIST.hpp"
+#include "common/FROMJSON.hpp"
+#include "common/SCRIPTLIST.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 #include <iostream>
 
 using namespace RType;
+
+template <typename T>
+static void addCppScriptIfExists(const std::string& scriptName, mobs::Registry& registry,
+                                 mobs::Entity entity)
+{
+    std::shared_ptr<ICppScript> script = std::make_shared<T>();
+    script->setEntity(entity);
+    CppScriptComponent& cppScripts = registry.get<CppScriptComponent>(entity);
+    cppScripts.addScript(script);
+}
+
+template <typename... T>
+static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
+                                  const nlohmann::json& componentData)
+{
+    (addCppScriptIfExists<T>(T::name, registry, entity), ...);
+}
+
+template <typename T>
+static void addComponentIfExists(std::string ComponentName, const nlohmann::json& data,
+                                 mobs::Registry& registry, mobs::Entity entity)
+{
+    if (data.contains(ComponentName))
+    {
+        T component;
+        data.at(ComponentName).get_to(component);
+        registry.emplace<T>(entity, component);
+    }
+}
+
+template <typename... T>
+static void addComponentsToEntity(const nlohmann::json& componentData, mobs::Registry& registry,
+                                  mobs::Entity entity)
+{
+    (addComponentIfExists<T>(T::name, componentData, registry, entity), ...);
+}
 
 void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
                                 mobs::Registry& registry, GameContext& gameContext)
@@ -26,21 +62,21 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 
         registry.emplace<Basics>(entity, tag, layer, staticObject);
 
-        addComponentIfExists<Transform>("Transform", prefabJson["components"], registry, entity);
-        addComponentIfExists<Sprite>("Sprite", prefabJson["components"], registry, entity);
-        addComponentIfExists<Animator>("Animator", prefabJson["components"], registry, entity);
-        addComponentIfExists<Sticky>("Sticky", prefabJson["components"], registry, entity);
+        addComponentsToEntity<COMPONENT_TYPES>(prefabJson["components"], registry, entity);
 
         if (prefabJson["components"].contains("Scripts"))
         {
-            registry.emplace<Scripts>(entity);
+            registry.emplace<Scripts>(entity, entity);
             auto& scripts = registry.get<Scripts>(entity);
             for (const auto& script : prefabJson["components"]["Scripts"])
                 scripts.add(gameContext._assetsPath + script.get<std::string>(), gameContext);
         }
 
         if (prefabJson.contains("CppScripts"))
-            addScriptsToEntity(registry, entity, prefabJson["CppScripts"]);
+        {
+            registry.emplace<CppScriptComponent>(entity, entity);
+            addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"]);
+        }
     }
     catch (const std::exception& e)
     {

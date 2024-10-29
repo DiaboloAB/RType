@@ -8,6 +8,7 @@
 #include "RTypeEngine.hpp"
 
 #include "NullRuntime/NullRuntime.hpp"
+#include "common/SYSTEMLIST.hpp"
 #include "utils/getBinaryPath.hpp"
 
 #ifdef GRAPHICS_SFML
@@ -20,6 +21,12 @@
 #include <fstream>
 
 using namespace RType;
+
+template <typename... T>
+static void addSystemsToManager(SystemManager& systemManager)
+{
+    (systemManager.addSystem<T>(), ...);
+}
 
 Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 {
@@ -50,6 +57,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 
     std::cout << "Engine Status: Constructing game context" << std::endl;
     _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _runtime);
+    _gameContext->_args = args;
     std::cout << "Engine Status: Loading game" << std::endl;
 
     try
@@ -62,7 +70,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
         return;
     }
 
-    addSystems();
+    addSystemsToManager<SYSTEM_TYPES>(_systemManager);
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -122,19 +130,18 @@ void Engine::loadGame()
 void Engine::run()
 {
     _systemManager.load(_registry, *_gameContext);
+    // _systemManager.load(_sceneManager._prefabRegistry, *_gameContext);
     _systemManager.start(_registry, *_gameContext);
-
-    while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running)
+    while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running && !_stop)
     {
-        _gameContext->_runtime->pollEvents();
-        if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
-
         _clockManager.update();
         if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
 
         _gameContext->_deltaT = _clockManager.getDeltaT();
         if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
         {
+            _gameContext->_runtime->pollEvents();
+            if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
@@ -149,4 +156,10 @@ void Engine::run()
             _clockManager.getDrawDeltaT() = 0.0f;
         }
     }
+}
+
+void Engine::stop()
+{
+    std::lock_guard<std::mutex> lock(this->_stopmtx);
+    this->_stop = true;
 }

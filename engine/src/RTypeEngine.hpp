@@ -14,8 +14,10 @@
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
 // std
+#include <atomic>
 #include <chrono>
 #include <iostream>
+#include <mutex>
 
 namespace RType
 {
@@ -43,8 +45,10 @@ class Engine
      */
     void run();
 
+    void stop();
+
    private:
-    void addSystems();
+    // void addSystems();
     void loadGame();
 
     std::shared_ptr<IRuntime> _runtime = nullptr;         ///< Shared pointer to the runtime system.
@@ -58,5 +62,7 @@ class Engine
     std::string _assetsPath = "assets/";       ///< Path to the assets directory.
     std::map<std::string, std::string> _args;  ///< Map of arguments passed to the engine.
     nlohmann::json _gameConfig;                ///< JSON object for storing game configuration.
+    std::atomic<bool> _stop = false;
+    std::mutex _stopmtx;
 };
 }  // namespace RType
