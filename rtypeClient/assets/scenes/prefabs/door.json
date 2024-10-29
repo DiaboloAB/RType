@@ -1,0 +1,18 @@
+{
+    "tag": "door",
+    "staticObject": true,
+    "CppScripts": [
+        "Terrain"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [1, 1, 0]
+        },
+        "Hitbox": {
+            "size": [192, 96, 0],
+            "offSet": [0, 0, 0]
+        },
+        "Sprite": { "texture": "graphics/terrain/door.png" }
+    }
+}
