@@ -125,9 +125,17 @@ int RenderSystemSFML::loadSprite(const std::string& filePath)
 
 void RenderSystemSFML::unloadSprite(int spriteId)
 {
-    if (_spriteCache.find(spriteId) != _spriteCache.end())
+    auto it = _spriteCache.find(spriteId);
+    if (it != _spriteCache.end())
     {
-        _spriteCache.erase(spriteId);
+        if (it->second.use_count() == 1)
+        {
+            _spriteCache.erase(it);
+        }
+        else
+        {
+            std::cerr << "Erreur : le sprite avec l'ID " << spriteId << " est encore utilisé ailleurs." << std::endl;
+        }
     }
     else
     {
@@ -275,6 +283,14 @@ void RenderSystemSFML::FullScreenWindow()
 
 int RenderSystemSFML::loadMusic(const std::string& filePath)
 {
+    for (const auto& [id, cachedMusic] : _musics)
+    {
+        if (cachedMusic->openFromFile(filePath))
+        {
+            return id;
+        }
+    }
+
     int musicId = _nextMusicId++;
 
     auto music = std::make_unique<sf::Music>();
@@ -318,17 +334,33 @@ void RenderSystemSFML::unloadMusic(int musicID)
     auto it = _musics.find(musicID);
     if (it != _musics.end())
     {
-        _musics.erase(it);
+        if (it->second.use_count() == 1)
+        {
+            _musics.erase(it);
+        }
+        else
+        {
+            std::cerr << "Erreur : la musique avec l'ID " << musicID << " est encore utilisée ailleurs." << std::endl;
+        }
     }
     else
     {
-        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")"
-                  << std::endl;
+        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")" << std::endl;
     }
 }
 
+
 int RenderSystemSFML::loadSound(const std::string& filePath)
 {
+
+    for (const auto& [id, buffer] : _soundCache)
+    {
+        if (buffer->loadFromFile(filePath))
+        {
+            return id;
+        }
+    }
+
     int soundId = _nextSoundId++;
 
     auto soundBuffer = std::make_shared<sf::SoundBuffer>();
@@ -367,10 +399,37 @@ void RenderSystemSFML::playSound(int soundId)
     }
 }
 
-void RenderSystemSFML::unloadSound(int soundId) { _soundCache.erase(soundId); }
+void RenderSystemSFML::unloadSound(int soundId)
+{
+    auto it = _soundCache.find(soundId);
+    if (it != _soundCache.end())
+    {
+        if (it->second.use_count() == 1)
+        {
+            _soundCache.erase(it);
+        }
+        else
+        {
+            std::cerr << "Erreur : le son avec l'ID " << soundId << " est encore utilisé ailleurs." << std::endl;
+        }
+    }
+    else
+    {
+        std::cerr << "Erreur : son avec l'ID " << soundId << " non trouvé." << std::endl;
+    }
+}
+
 
 int RenderSystemSFML::loadFont(const std::string& filePath)
 {
+    for (const auto& [id, buffer] : _fonts)
+    {
+        if (buffer->loadFromFile(filePath))
+        {
+            return id;
+        }
+    }
+
     int fontId = _nextFontId++;
     auto font = std::make_shared<sf::Font>();
     if (!font->loadFromFile(filePath))
@@ -393,6 +452,14 @@ void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
 int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
                                  const std::string& fragmentShaderPath)
 {
+    for (const auto& [id, cachedShader] : _shaderCache)
+    {
+        if (cachedShader->loadFromFile(vertexShaderPath, fragmentShaderPath))
+        {
+            return id;
+        }
+    }
+
     int shaderId = _nextShaderId++;
 
     auto shader = std::make_shared<sf::Shader>();
@@ -407,6 +474,27 @@ int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
 
     return shaderId;
 }
+
+void RenderSystemSFML::unloadShader(int shaderId)
+{
+    auto it = _shaderCache.find(shaderId);
+    if (it != _shaderCache.end())
+    {
+        if (it->second.use_count() == 1)
+        {
+            _shaderCache.erase(it);
+        }
+        else
+        {
+            std::cerr << "Erreur : le shader avec l'ID " << shaderId << " est encore utilisé ailleurs." << std::endl;
+        }
+    }
+    else
+    {
+        std::cerr << "Erreur : shader avec l'ID " << shaderId << " non trouvé." << std::endl;
+    }
+}
+
 
 void RenderSystemSFML::setShader(int shaderId)
 {
