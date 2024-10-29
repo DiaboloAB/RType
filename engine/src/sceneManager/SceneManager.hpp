@@ -32,7 +32,6 @@ class GameContext;
 class SceneManager
 {
    public:
-
     /**
      * @brief Constructs a new SceneManager object.
      */
@@ -72,7 +71,6 @@ class SceneManager
     void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
 
    private:
-
     /**
      * @brief Creates an entity from a prefab JSON.
      *

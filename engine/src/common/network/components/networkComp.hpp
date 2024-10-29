@@ -40,6 +40,15 @@ struct NetworkRoom
     }
     static constexpr const char* name = "NetworkRoom";
 };
+
+struct NetworkData
+{
+    uint32_t _id;
+    std::string _authority;
+
+    NetworkData() {}
+    static constexpr const char* name = "NetworkData";
+};
 }  // namespace RType
 
 #endif  // NETWORKCOMP_H

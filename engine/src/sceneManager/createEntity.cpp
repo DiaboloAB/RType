@@ -31,7 +31,6 @@ static void addCppScriptIfExists(const nlohmann::json& data, mobs::Registry& reg
     }
 }
 
-
 template <typename... T>
 static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
                                   const nlohmann::json& componentData)
@@ -41,8 +40,8 @@ static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
 }
 
 template <typename T>
-static void addComponentIfExists(const nlohmann::json& data,
-                                 mobs::Registry& registry, mobs::Entity entity)
+static void addComponentIfExists(const nlohmann::json& data, mobs::Registry& registry,
+                                 mobs::Entity entity)
 {
     if (data.contains(T::name))
     {

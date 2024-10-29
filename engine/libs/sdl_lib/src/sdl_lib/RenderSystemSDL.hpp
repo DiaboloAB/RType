@@ -19,17 +19,21 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+
 #include <iostream>
 #include <map>
 #include <memory>
 #include <unordered_map>
 #include <vector>
+
 #include "IRuntime/IRuntime.hpp"
 
-namespace RType {
+namespace RType
+{
 
-class RenderSystemSDL : public RType::IRuntime {
-public:
+class RenderSystemSDL : public RType::IRuntime
+{
+   public:
     RenderSystemSDL();
     ~RenderSystemSDL();
 
@@ -46,13 +50,16 @@ public:
     std::shared_ptr<SDL_Texture> loadTexture(const std::string& filePath);
     int loadSprite(const std::string& filePath) override;
     void unloadSprite(int spriteId) override;
-    void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale, float rotation) override;
+    void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
+                    float rotation) override;
     void drawSprite(int spriteId, mlg::vec3 position) override;
     mlg::vec3 getTextureSize(int spriteId) override;
 
     int loadFont(const std::string& filePath) override;
-    void drawText(int fontID, const std::string& textStr, const mlg::vec3 position, unsigned int fontSize, const mlg::vec3& color, bool centered) override;
-    void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
+    void drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
+                  unsigned int fontSize, const mlg::vec3& color, bool centered) override;
+    void drawRectangle(mlg::vec4& spriteCoords, bool full,
+                       const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
     void unloadFont(int fontID);
 
     int loadMusic(const std::string& filePath) override;
@@ -70,12 +77,13 @@ public:
     void setVerticalSyncEnabled(bool enabled) override;
     void updateSounds() override;
 
-    int loadShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) override;
+    int loadShader(const std::string& vertexShaderPath,
+                   const std::string& fragmentShaderPath) override;
     void setShader(int shaderId) override;
     void resetShader() override;
     void unloadShader(int shaderId) override;
 
-private:
+   private:
     bool _isFullScreen;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
@@ -100,4 +108,4 @@ private:
     KeyCode convertSDLMouseToKeyCode(Uint8 button);
 };
 
-} // namespace RType
+}  // namespace RType
