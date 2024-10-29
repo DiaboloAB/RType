@@ -63,6 +63,13 @@ bool Room::isConnected(asio::ip::udp::endpoint &endpoint) const
     return false;
 }
 
+void Room::sendPing()
+{
+    auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
+    for (auto &endp : this->_connectedEp)
+        this->send(pingPacket, endp.first, false);   
+}
+
 std::string Room::getHost() const { return this->_host; }
 
 unsigned int Room::getPort() const { return this->_port; }

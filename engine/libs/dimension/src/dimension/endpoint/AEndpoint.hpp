@@ -58,6 +58,12 @@ class AEndpoint : public IEndpoint
     void deleteFromValidationList(const std::shared_ptr<PacketValidation> &validation,
                                   const asio::ip::udp::endpoint &endpoint) override;
 
+   public:
+    /**
+     * @brief Method called to handle ping sending to handle if a connection is not keep alive.
+     */
+    virtual void sendPing() = 0;
+
    protected:
     /**
      * @brief Method that receive packets from an endpoint using async method from asio network

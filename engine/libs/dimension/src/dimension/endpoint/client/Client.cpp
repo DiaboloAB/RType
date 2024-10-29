@@ -68,4 +68,10 @@ void Client::connectDirectionEndpoint(std::string host, unsigned int port)
         resolver.resolve(asio::ip::udp::v4(), host, std::to_string(port));
     this->_directionEndpoint = std::make_shared<asio::ip::udp::endpoint>(*endpoints.begin());
 }
+
+void Client::sendPing()
+{
+    auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
+    this->send(pingPacket, *this->_directionEndpoint, false);
+}
 }  // namespace dimension
