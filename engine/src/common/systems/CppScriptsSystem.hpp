@@ -8,11 +8,11 @@
 #ifndef CPPSCRIPTSSYSTEM_H
 #define CPPSCRIPTSSYSTEM_H
 
-#include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
+#include <common/COMPONENTLIST.hpp>
 #include <system/ISystem.hpp>
 
-#include "../ICppScript.hpp"
+#include "common/ICppScript.hpp"
+#include "common/components/scriptsComponent.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 

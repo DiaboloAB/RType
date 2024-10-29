@@ -8,12 +8,11 @@
 #ifndef SCRIPTSCOMPONENT_H
 #define SCRIPTSCOMPONENT_H
 
-#include <lua.hpp>
 #include <mlg/mlg.hpp>
 
-#include "ICppScript.hpp"
+#include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-#include "lua/LuaBindings.hpp"
+#include "lua/luaBindings.hpp"
 #include "mobs/mobs.hpp"
 // std
 
@@ -24,6 +23,7 @@ struct Scripts
 {
     std::vector<std::string> scripts;
     std::vector<lua_State*> luaStates;
+    mobs::Entity entity;
 
     void add(const std::string& scriptFile, GameContext& gameContext)
     {
@@ -59,7 +59,7 @@ struct Scripts
         }
     }
 
-    Scripts() {}
+    Scripts(mobs::Entity entity) : entity(entity) {}
 
     ~Scripts()
     {
@@ -98,19 +98,31 @@ struct CppScriptComponent
         }
     }
 
+    void onCollisionAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
+    {
+        for (auto& script : scripts)
+        {
+            script->onCollision(registry, gameContext, other);
+        }
+    }
+
     void addScript(std::shared_ptr<ICppScript> script)
     {
         script->setEntity(entity);
         scripts.push_back(std::move(script));
     }
 
-    void callAllFunctions(const std::string& functionName, mobs::Registry& registry,
-                          GameContext& gameContext)
+    template <typename T>
+    std::shared_ptr<T> getScript()
     {
         for (auto& script : scripts)
         {
-            script->callFunction(functionName, registry, gameContext);
+            if (auto casted = std::dynamic_pointer_cast<T>(script))
+            {
+                return casted;
+            }
         }
+        return nullptr;
     }
 
     CppScriptComponent(mobs::Entity entity) : entity(entity) {}

@@ -5,20 +5,15 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RTypeEngine.hpp"
+#ifndef SYSTEMLIST_H
+#define SYSTEMLIST_H
+
 #include "common/systems/AudioSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/StickySystem.hpp"
 
-using namespace RType;
+#define SYSTEM_TYPES ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem
 
-void Engine::addSystems()
-{
-    _systemManager.addSystem<ScriptSystem>();
-    _systemManager.addSystem<SpriteSystem>();
-    _systemManager.addSystem<CppScriptsSystem>();
-    _systemManager.addSystem<AudioSystem>();
-    _systemManager.addSystem<StickySystem>();
-}
+#endif  // SYSTEMLIST_H

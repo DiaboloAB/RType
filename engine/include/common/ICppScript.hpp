@@ -13,7 +13,11 @@
 
 #include "mobs/mobs.hpp"
 // std
+#include <functional>
 #include <iostream>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace RType
 {
@@ -48,31 +52,12 @@ class ICppScript
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**
-     * @brief Called every frame to draw the script.
-     *
-     * @param registry Reference to the entity-component registry.
-     * @param gameContext Reference to the game context.
-     */
-    virtual void draw(mobs::Registry &registry, GameContext &gameContext) {}
-
-    /**
      * @brief Called when a collision occurs.
      *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext) {}
-
-    /**
-     * @brief Calls a function by name with arguments.
-     *
-     * @param functionName The name of the function to call.
-     * @param registry Reference to the entity-component registry.
-     * @param gameContext Reference to the game context.
-     * @param args The arguments to pass to the function.
-     */
-    virtual void callFunction(const std::string &functionName, mobs::Registry &registry,
-                              GameContext &gameContext)
+    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
     {
     }
 
@@ -81,10 +66,17 @@ class ICppScript
      *
      * @param entity The entity to associate with this script.
      */
-    virtual void setEntity(mobs::Entity entity) = 0;
+    void setEntity(mobs::Entity entity) { m_entity = entity; }
+
+    /**
+     * @brief Gets the entity associated with this script.
+     *
+     * @return The entity associated with this script.
+     */
+    mobs::Entity getEntity() const { return m_entity; }
 
    private:
-    // Member variables
+    mobs::Entity m_entity;
 };
 
 }  // namespace RType

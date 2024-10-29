@@ -7,8 +7,8 @@
 
 #include "SceneManager.hpp"
 
-#include "common/components.hpp"
-#include "common/scriptsComponent.hpp"
+#include "common/COMPONENTLIST.hpp"
+#include "common/components/scriptsComponent.hpp"
 // std
 #include <filesystem>
 #include <fstream>
@@ -20,7 +20,10 @@
 namespace RType
 {
 
-SceneManager::SceneManager() { initCppScriptCreators(); }
+SceneManager::SceneManager()
+{
+    // initCppScriptCreators();
+}
 
 SceneManager::~SceneManager()
 {
@@ -51,28 +54,20 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
     }
 }
 
-mobs::Entity SceneManager::loadPrefab(const std::string& prefabName, GameContext& gameContext)
+mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContext& gameContext)
 {
-    if (_prefabs.find(prefabName) == _prefabs.end())
+    auto view = gameContext._registry.view<Basics>();
+    for (auto entity : view)
     {
-        std::cerr << "Error: Prefab not found" << std::endl;
-        throw std::runtime_error("Prefab not found");
+        auto& basics = view.get<Basics>(entity);
+        if (!basics.tag.compare(prefabName))
+        {
+            mobs::Entity newEntity = gameContext._registry.create();
+            copyEntity<COMPONENT_TYPES>(entity, newEntity, gameContext._registry);
+            return newEntity;
+        }
     }
-
-    std::ifstream i(gameContext._assetsPath + _prefabs[prefabName]);
-    if (!i.is_open())
-    {
-        std::cerr << "Error: Could not open file" << std::endl;
-        throw std::runtime_error("Could not open file");
-    }
-
-    std::cout << "Loading prefab: " << prefabName << std::endl;
-
-    nlohmann::json prefabJson;
-    i >> prefabJson;
-    mobs::Entity entity = gameContext._registry.create();
-    createEntity(prefabJson, entity, gameContext._registry, gameContext);
-    return entity;
+    return mobs::Entity();
 }
 
 bool SceneManager::update(GameContext& gameContext)
@@ -83,7 +78,7 @@ bool SceneManager::update(GameContext& gameContext)
         for (auto entity : view)
         {
             auto& basics = view.get<Basics>(entity);
-            if (!basics.staticObject) gameContext._registry.kill(entity);
+            if (basics.staticObject) gameContext._registry.kill(entity);
         }
         loadScene(_nextScene, gameContext);
         _currentScene = _nextScene;

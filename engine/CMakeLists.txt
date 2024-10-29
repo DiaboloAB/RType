@@ -46,17 +46,12 @@ set(SOURCES
 src/RTypeEngine.cpp
 src/gameContext/GameContext.cpp
 src/system/SystemManager.cpp
-src/common/animations/Animation.cpp
-    src/common/animations/AnimationList.cpp
-    
+src/common/components/animations/Animation.cpp
+src/common/components/animations/AnimationList.cpp
+
     src/sceneManager/SceneManager.cpp
     src/sceneManager/createEntity.cpp
-    src/sceneManager/addScriptsToEntity.cpp
-    src/sceneManager/initCppScriptCreators.cpp
     src/clocksManager/ClockManager.cpp
-    
-    src/addSystems.cpp
-    # src/NetworkEvents/NetworkEventHandler.cpp
     src/lua/getKey.cpp
     src/utils/hexaColorToVec3.cpp
     )

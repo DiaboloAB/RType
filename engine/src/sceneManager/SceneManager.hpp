@@ -37,6 +37,8 @@ class SceneManager
      */
     std::string _nextScene = "";
 
+    mobs::Registry _prefabRegistry;  ///< The registry containing all prefabs.
+
     /**
      * @brief Constructs a new SceneManager object.
      */
@@ -62,7 +64,7 @@ class SceneManager
      * @param gameContext The context of the game.
      * @return mobs::Entity The entity created from the prefab.
      */
-    mobs::Entity loadPrefab(const std::string &prefabName, GameContext &gameContext);
+    mobs::Entity instantiate(const std::string &prefabName, GameContext &gameContext);
 
     /**
      * @brief Updates the scene manager.
@@ -85,33 +87,18 @@ class SceneManager
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
                       mobs::Registry &registry, GameContext &gameContext);
 
-    template <typename T>
-    void addComponentIfExists(std::string ComponentName, const nlohmann::json &data,
-                              mobs::Registry &registry, mobs::Entity entity)
+    template <typename... T>
+    void copyEntity(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
     {
-        if (data.contains(ComponentName))
-        {
-            T component;
-            data.at(ComponentName).get_to(component);
-            registry.emplace<T>(entity, component);
-        }
+        (copyComponents<T>(from, to, registry), ...);
     }
 
-    /**
-     * @brief Adds scripts to an entity.
-     *
-     * @param registry The registry containing all entities and components.
-     * @param entity The entity to add scripts to.
-     * @param componentData The JSON data of the scripts to add.
-     */
-    void addScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
-                            const nlohmann::json &componentData);
-
-    using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
-
-    std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
-
-    void initCppScriptCreators();
+    template <typename T>
+    void copyComponents(mobs::Entity from, mobs::Entity to, mobs::Registry &registry)
+    {
+        if (_prefabRegistry.hasComponent<T>(from))
+            registry.emplace<T>(to, _prefabRegistry.get<T>(from));
+    }
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.

@@ -345,10 +345,10 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
 
 void RenderSystemSFML::updateSounds()
 {
-    _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
-                                       [](const sf::Sound& sound)
-                                       { return sound.getStatus() == sf::Sound::Stopped; }),
-                        _activeSounds.end());
+    _activeSounds.erase(
+        std::remove_if(_activeSounds.begin(), _activeSounds.end(), [](const sf::Sound& sound)
+                       { return sound.getStatus() == sf::Sound::Stopped; }),
+        _activeSounds.end());
 }
 
 void RenderSystemSFML::playSound(int soundId)

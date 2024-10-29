@@ -14,9 +14,9 @@
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
 // std
+#include <atomic>
 #include <chrono>
 #include <iostream>
-#include <atomic>
 #include <mutex>
 
 namespace RType
@@ -48,7 +48,7 @@ class Engine
     void stop();
 
    private:
-    void addSystems();
+    // void addSystems();
     void loadGame();
 
     std::shared_ptr<IRuntime> _runtime = nullptr;         ///< Shared pointer to the runtime system.

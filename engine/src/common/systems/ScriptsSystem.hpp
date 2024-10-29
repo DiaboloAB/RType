@@ -8,8 +8,7 @@
 #ifndef SCRIPTSSYSTEM_H
 #define SCRIPTSSYSTEM_H
 
-#include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
+#include <common/COMPONENTLIST.hpp>
 #include <system/ISystem.hpp>
 // std
 

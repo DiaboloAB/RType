@@ -5,20 +5,16 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef LUABINDINGS_H
-#define LUABINDINGS_H
+#ifndef FROMJSONNETWORK_HPP
+#define FROMJSONNETWORK_HPP
 
-#include <lua.hpp>
+#include <nlohmann/json.hpp>
 
-#include "gameContext/GameContext.hpp"
-// std
+#include "networkComp.hpp"
 
-RType::KeyCode stringToKeyCode(const std::string& keyName);
+namespace RType
+{
+void from_json(const nlohmann::json& j, NetworkClient& networkClient) {}
+}  // namespace RType
 
-int getKey(lua_State* L);
-int getKeyDown(lua_State* L);
-int getKeyUp(lua_State* L);
-
-void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext);
-
-#endif  // LUABINDINGS_H
+#endif  // FROMJSONNETWORK_HPP
