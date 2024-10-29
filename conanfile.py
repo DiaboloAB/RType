@@ -21,6 +21,7 @@ class MyProjectConan(ConanFile):
         if self.options.graphics == "SDL":
             self.requires("sdl_ttf/2.22.0")
             self.requires("sdl_mixer/2.8.0")
+            self.requires("sdl_image/2.6.3")
         elif self.options.graphics == "SFML":
             self.requires("sfml/2.5.1")
 

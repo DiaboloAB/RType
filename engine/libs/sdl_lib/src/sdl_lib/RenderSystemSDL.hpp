@@ -6,37 +6,30 @@
  **********************************************************************************/
 
 #pragma once
+#ifdef _WIN32
+#include <io.h>
+#include <process.h>
+#endif
+
+#ifdef __linux__
+#include <unistd.h>
+#endif
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
-
 #include <iostream>
 #include <map>
 #include <memory>
 #include <unordered_map>
-
+#include <vector>
 #include "IRuntime/IRuntime.hpp"
 
-/**
- * @file RenderSystemSDL.hpp
- * @brief Declaration of the RenderSystemSDL class in the RType namespace.
- */
+namespace RType {
 
-namespace RType
-{
-
-/**
- * @class RenderSystemSDL
- * @brief SDL-based rendering system for the RType game.
- *
- * This class manages rendering operations such as window management,
- * displaying sprites, text, and handling graphical interface-related events
- * using SDL.
- */
-class RenderSystemSDL : public RType::IRuntime
-{
-   public:
+class RenderSystemSDL : public RType::IRuntime {
+public:
     RenderSystemSDL();
     ~RenderSystemSDL();
 
@@ -44,53 +37,67 @@ class RenderSystemSDL : public RType::IRuntime
     bool getKey(KeyCode key) override;
     bool getKeyUp(KeyCode key) override;
     bool getKeyDown(KeyCode key) override;
+
     void clearWindow() override;
     void updateWindow() override;
-    mlg::vec3 getTextureSize(int id) override;
-    mlg::vec3 getMousePosition() override;
-    void drawRectangle(mlg::vec4& spriteCoords, bool full,
-                       const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
-    void setGameIcon(const std::string& filePath) override;
-    int loadFont(const std::string& filePath) override;
-    int loadSprite(const std::string& filePath) override;
-    void drawSprite(int id, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
-                    float rotation) override;
-    void drawSprite(int id, mlg::vec3 position) override;
-    void drawText(int id, const std::string& textStr, const mlg::vec3 position,
-                  unsigned int fontSize, const mlg::vec3& color = mlg::vec3(0, 0, 0),
-                  bool centered = false) override;
     void FullScreenWindow() override;
-    bool isWindowOpen() override;
-    void unloadSprite(int id) override;
+    bool isWindowOpen() override { return _window != nullptr; }
+
+    std::shared_ptr<SDL_Texture> loadTexture(const std::string& filePath);
+    int loadSprite(const std::string& filePath) override;
+    void unloadSprite(int spriteId) override;
+    void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale, float rotation) override;
+    void drawSprite(int spriteId, mlg::vec3 position) override;
+    mlg::vec3 getTextureSize(int spriteId) override;
+
+    int loadFont(const std::string& filePath) override;
+    void drawText(int fontID, const std::string& textStr, const mlg::vec3 position, unsigned int fontSize, const mlg::vec3& color, bool centered) override;
+    void drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
+    void unloadFont(int fontID);
+
     int loadMusic(const std::string& filePath) override;
-    void playMusic(int id, bool loop = true) override;
+    void playMusic(int musicID, bool loop = true) override;
     void stopCurrentMusic() override;
-    void unloadMusic(int id) override;
+    void unloadMusic(int musicID) override;
+
     int loadSound(const std::string& filePath) override;
-    void playSound(int id) override;
-    void unloadSound(int id) override;
+    void playSound(const int soundID) override;
+    void unloadSound(const int soundID) override;
+
+    mlg::vec3 getMousePosition() override;
+    void setGameIcon(const std::string& filePath) override;
     void setFramerateLimit(unsigned int limit) override;
     void setVerticalSyncEnabled(bool enabled) override;
-    virtual void updateSounds() override;
+    void updateSounds() override;
 
-    // Shader management
-    int loadShader(const std::string& vertexShaderPath,
-                   const std::string& fragmentShaderPath) override;
+    int loadShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) override;
     void setShader(int shaderId) override;
     void resetShader() override;
+    void unloadShader(int shaderId) override;
 
-   private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    bool windowOpen;
-    std::unordered_map<int, std::shared_ptr<SDL_Texture>> textures;
-    std::unordered_map<int, std::shared_ptr<Mix_Chunk>> soundEffects;
-    TTF_Font* currentFont;
-    Mix_Music* currentMusic;
-    std::unordered_map<int, std::string> shaders;
-    int currentShaderId;
-    bool shaderActive;
-    int currentId = 0;
-    int generateUniqueId();
+private:
+    bool _isFullScreen;
+    SDL_Window* _window;
+    SDL_Renderer* _renderer;
+
+    std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> _textures;
+    std::unordered_map<int, std::shared_ptr<SDL_Texture>> _spriteCache;
+    std::unordered_map<int, std::shared_ptr<Mix_Music>> _musics;
+    std::unordered_map<int, std::shared_ptr<Mix_Chunk>> _soundCache;
+    std::unordered_map<int, std::shared_ptr<TTF_Font>> _fonts;
+
+    int _nextSpriteId;
+    int _nextFontId;
+    int _nextMusicId;
+    int _nextSoundId;
+
+    Mix_Music* _currentMusic = nullptr;
+    std::vector<Mix_Chunk*> _activeSounds;
+    std::unordered_map<int, bool> _currentKeys;
+    std::unordered_map<int, bool> _previousKeys;
+
+    KeyCode convertSDLKeyToKeyCode(SDL_Keycode key);
+    KeyCode convertSDLMouseToKeyCode(Uint8 button);
 };
-}  // namespace RType
+
+} // namespace RType
