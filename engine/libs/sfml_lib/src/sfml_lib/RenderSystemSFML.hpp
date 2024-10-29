@@ -252,6 +252,7 @@ class RenderSystemSFML : public RType::IRuntime
                    const std::string& fragmentShaderPath) override;
     void setShader(int shaderId) override;
     void resetShader() override;
+    void unloadShader(int shaderId) override ;
 
    private:
     bool _isFullScreen;
@@ -259,26 +260,27 @@ class RenderSystemSFML : public RType::IRuntime
 
     std::unordered_map<std::string, std::shared_ptr<sf::Texture>> _textures;
     std::unordered_map<int, std::shared_ptr<sf::Sprite>> _spriteCache;
-
-    int _nextSpriteId;
-
     std::unordered_map<int, std::shared_ptr<sf::Music>> _musics;
-    sf::Music* _currentMusic = nullptr;
     std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _soundBuffers;
     std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _soundCache;
-    std::vector<sf::Sound> _activeSounds;
+    std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
+    std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaderCache;
+
+    int _nextSpriteId;
+    int _nextShaderId;
+    int _nextFontId;
+    int _nextMusicId;
     int _nextSoundId;
+
+    sf::Music* _currentMusic = nullptr;
+    std::vector<sf::Sound> _activeSounds;
 
     KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     std::unordered_map<int, bool> _currentKeys;
     std::unordered_map<int, bool> _previousKeys;
+
     sf::Image _icon;
-    std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
-    std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaderCache;
-    int _nextShaderId;
-    int _nextFontId;
-    int _nextMusicId;
     sf::Shader* _activeShader;
 };
 

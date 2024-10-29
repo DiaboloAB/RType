@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_image REQUIRED)
 
 project(sdl_lib VERSION 0.1)
 
@@ -20,6 +21,7 @@ target_include_directories(sdl_lib PUBLIC
 target_link_libraries(sdl_lib PUBLIC
     SDL2::SDL2main
     sdl_ttf::sdl_ttf
+    SDL2_image::SDL2_image
     SDL2_mixer::SDL2_mixer
     mlg::mlg
 )
