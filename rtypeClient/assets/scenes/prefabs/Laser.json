@@ -1,60 +1,53 @@
 {
     "tag": "Laser",
     "staticObject": true,
+    "CppScripts": [
+        "MoveLaser"
+    ],
     "components": {
-        "Transform": { "position": [0, 0, 0] },
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
         "Hitbox": {
-            "size": [32, 24],
-            "offSet": [0, 0],
-            "isEnemy": false
+            "size": [16, 12, 0],
+            "offSet": [0, 0, 0]
         },
-        "Health": {
-            "health": 1
-        },
-        "Animator": [
-            {
-                "name": "default",
-                "speed": 10,
-                "texture": "assets/graphics/player/beam/small.png",
-                "frameCount": 2,
-                "frameSize": [16, 12],
-                "scale": [2, 2],
-                "rotation": 0,
-                "loop": true
-            },
-            {
-                "name": "medium",
-                "speed": 10,
-                "texture": "assets/graphics/player/beam/medium.png",
-                "frameCount": 2,
-                "frameSize": [32, 12],
-                "scale": [2, 2],
-                "rotation": 0,
-                "loop": true
-            },
-            {
-                "name": "large",
-                "speed": 10,
-                "texture": "assets/graphics/player/beam/large.png",
-                "frameCount": 2,
-                "frameSize": [48, 14],
-                "scale": [2, 2],
-                "rotation": 0,
-                "loop": true
-            },
-            {
-                "name": "full",
-                "speed": 10,
-                "texture": "assets/graphics/player/beam/full.png",
-                "frameCount": 2,
-                "frameSize": [64, 14],
-                "scale": [2, 2],
-                "rotation": 0,
-                "loop": true
-            }
-        ],
-        "CppScripts": [
-            "Laser"
-        ]
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/player/beam/small.png",
+                    "frameCount": 2,
+                    "frameSize": [16, 12, 0],
+                    "loop": true
+                },
+                {
+                    "name": "medium",
+                    "speed": 10,
+                    "texture": "graphics/player/beam/medium.png",
+                    "frameCount": 2,
+                    "frameSize": [32, 12, 0],
+                    "loop": true
+                },
+                {
+                    "name": "large",
+                    "speed": 10,
+                    "texture": "graphics/player/beam/large.png",
+                    "frameCount": 2,
+                    "frameSize": [48, 14, 0],
+                    "loop": true
+                },
+                {
+                    "name": "full",
+                    "speed": 10,
+                    "texture": "graphics/player/beam/full.png",
+                    "frameCount": 2,
+                    "frameSize": [64, 14, 0],
+                    "loop": true
+                }
+            ]
+        }
     }
 }

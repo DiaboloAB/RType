@@ -62,8 +62,6 @@ void from_json(const nlohmann::json& j, Animation& animation)
     if (!j.contains("frameSize")) throw std::runtime_error("Animation must have a frame size");
     j.at("frameSize").get_to(animation.frameSize);
 
-    if (j.contains("scale")) j.at("scale").get_to(animation.scale);
-    if (j.contains("rotation")) j.at("rotation").get_to(animation.rotation);
     if (j.contains("loop")) j.at("loop").get_to(animation.loop);
 }
 
@@ -86,6 +84,12 @@ void from_json(const nlohmann::json& j, Sticky& sticky)
     j.at("target").get_to(sticky.target);
 
     if (j.contains("offset")) j.at("offset").get_to(sticky.offset);
+}
+
+void from_json(const nlohmann::json& j, Hitbox& hitbox)
+{
+    if (j.contains("size")) j.at("size").get_to(hitbox.size);
+    if (j.contains("offset")) j.at("offset").get_to(hitbox.offset);
 }
 
 }  // namespace RType

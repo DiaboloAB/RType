@@ -3,21 +3,25 @@
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
-    "defaultScene": "scenesTest",
+    "defaultScene": "scene2",
     "fontList": [
         "assets/fonts/Roboto-Medium.ttf",
         "assets/fonts/r-type.ttf"
     ],
     "scenes": [
         {
-            "name": "scenesTest",
-            "path": "scenes/scenesTest.json"
+            "name": "scene2",
+            "path": "scenes/scenes2.json"
         }
     ],
     "prefabs": [
         {
             "name": "HelloWorld",
             "path": "prefabs/HelloWorld.json"
+        },
+        {
+            "name": "Laser",
+            "path": "scenes/prefabs/Laser.json"
         }
     ]
 }

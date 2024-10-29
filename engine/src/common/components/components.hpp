@@ -88,6 +88,15 @@ struct Sticky
     static constexpr const char* name = "Sticky";
 };
 
+struct Hitbox
+{
+    mlg::vec3 size = mlg::vec3(1.0f);
+    mlg::vec3 offset = mlg::vec3(0.0f);
+
+    Hitbox() {};
+    static constexpr const char* name = "Hitbox";
+};
+
 struct Button
 {
     std::string text;

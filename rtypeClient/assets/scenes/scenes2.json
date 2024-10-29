@@ -1,128 +1,142 @@
 {
-    "entities": [
-      {
-        "tag": "player",
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [100, 100, 0] },
-          "Timer": { "active": false},
-          "Hitbox": {
-            "size": [64, 32],
-            "offSet": [0, 0],
-            "isEnemy": false
-          },
-          "Health": {
-            "health": 3
-          },
-          "Animator": [
+  "entities": [
+    {
+      "tag": "player",
+      "staticObject": false,
+      "CppScripts": [
+        "MovePlayer",
+        "AnimPlayer",
+        "PlayerShoot"
+      ],
+      "components": {
+        "Transform": {
+          "position": [100, 100, 0],
+          "scale": [2, 2, 0],
+          "rotation": [0, 0, 0]
+        },
+        "Hitbox": {
+          "size": [16, 32, 0],
+          "offset": [0, 0, 0]
+        },
+        "Animator": {
+          "animations": [
             {
               "name": "default",
               "speed": 1,
-              "texture": "assets/graphics/player/ship/idle.png",
+              "texture": "graphics/player/ship/idle.png",
               "frameCount": 1,
-              "frameSize": [32, 16],
-              "scale": [2, 2],
-              "rotation": 0,
+              "frameSize": [32, 16, 0],
               "loop": true
             },
             {
               "name": "down",
               "speed": 1,
-              "texture": "assets/graphics/player/ship/down.png",
+              "texture": "graphics/player/ship/down.png",
               "frameCount": 1,
-              "frameSize": [32, 16],
-              "scale": [2, 2],
-              "rotation": 0,
+              "frameSize": [32, 16, 0],
               "loop": false
             },
             {
               "name": "up",
               "speed": 1,
-              "texture": "assets/graphics/player/ship/up.png",
+              "texture": "graphics/player/ship/up.png",
               "frameCount": 1,
-              "frameSize": [32, 16],
-              "scale": [2, 2],
-              "rotation": 0,
+              "frameSize": [32, 16, 0],
               "loop": false
             }
-          ],
-          "CppScripts": [
-            "MovePlayer",
-            "AnimPlayer",
-            "PlayerShoot"
           ]
         }
-      },
-      {
-        "tag": "thruster",
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [36, 84, 0] },
-          "Animator": [
+      }
+    },
+    {
+      "tag": "thruster",
+      "staticObject": false,
+      "CppScripts": [
+        "AnimThruster"
+      ],
+      "components": {
+        "Transform": {
+          "position": [0, 0, 0],
+          "scale": [2, 2, 0]
+        },
+        "Sticky": {
+          "target": "player",
+          "offset": [-32, -8, 0]
+        },
+        "Animator": {
+          "animations": [
             {
               "name": "default",
               "speed": 1,
-              "texture": "assets/graphics/player/thruster/low.png",
+              "texture": "graphics/player/thruster/low.png",
               "frameCount": 1,
-              "frameSize": [1, 1],
-              "scale": [1, 1],
-              "rotation": 0,
+              "frameSize": [1, 1, 0],
               "loop": true
             },
             {
               "name": "low",
               "speed": 10,
-              "texture": "assets/graphics/player/thruster/low.png",
+              "texture": "graphics/player/thruster/low.png",
               "frameCount": 2,
-              "frameSize": [32, 32],
-              "scale": [2, 2],
-              "rotation": 0,
+              "frameSize": [32, 32, 0],
               "loop": true
             },
             {
               "name": "full",
               "speed": 10,
-              "texture": "assets/graphics/player/thruster/high.png",
+              "texture": "graphics/player/thruster/high.png",
               "frameCount": 2,
-              "frameSize": [32, 32],
-              "scale": [2, 2],
-              "rotation": 0,
+              "frameSize": [32, 32, 0],
               "loop": true
             }
-          ],
-          "CppScripts": [
-            "MoveThruster",
-            "AnimThruster"
-          ]
-        }
-      },
-      {
-        "tag": "background",
-        "staticObject": true,
-        "components": {
-          "Transform": { "position": [0, 0, -1] },
-          "Sprite": { "texture": "assets/graphics/background.png" }
-        }
-      },
-      {
-        "tag": "enemy_factory",
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [1600, 500, 0] },
-          "Sprite": { "texture": "assets/graphics/enemy/factory.png" },
-          "Timer": { "active": true},
-          "Hitbox": {
-            "size": [130, 50],
-            "offSet": [0, 0],
-            "isEnemy": true
-          },
-          "Health": {
-            "health": 5
-          },
-          "CppScripts": [
-            "EnemyFactory"
           ]
         }
       }
-    ]
-  }
+    },
+    {
+      "tag": "LaserCharge",
+      "staticObject": false,
+      "CppScripts": [
+        "AnimLaserCharge"
+      ],
+      "components": {
+        "Transform": {
+          "position": [0, 0, 0],
+          "scale": [2, 2, 0]
+        },
+        "Sticky": {
+          "target": "player",
+          "offset": [30, -8, 0]
+        },
+        "Animator": {
+          "animations": [
+            {
+              "name": "default",
+              "speed": 1,
+              "texture": "graphics/player/beam/charge.png",
+              "frameCount": 1,
+              "frameSize": [1, 1, 0],
+              "loop": true
+            },
+            {
+              "name": "charging",
+              "speed": 10,
+              "texture": "graphics/player/beam/charge.png",
+              "frameCount": 8,
+              "frameSize": [32, 32, 0],
+              "loop": true
+            },
+            {
+              "name": "charged",
+              "speed": 1,
+              "texture": "graphics/player/beam/charged.png",
+              "frameCount": 1,
+              "frameSize": [12, 12, 0],
+              "loop": true
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

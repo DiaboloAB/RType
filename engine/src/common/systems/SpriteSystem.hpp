@@ -23,7 +23,6 @@ class SpriteSystem : public ISystem
     void load(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Sprite>();
-        int nbSprites = 0;
         for (auto entity : view)
         {
             auto &sprite = view.get<Sprite>(entity);
@@ -92,7 +91,7 @@ class SpriteSystem : public ISystem
             }
             gameContext._runtime->drawSprite(currentAnim.spriteID, transform.position,
                                              currentAnim.getSpriteCoords(animations.currentFrame),
-                                             currentAnim.getScale(), currentAnim.getRotation());
+                                             transform.scale, transform.rotation.x);
         }
     }
 

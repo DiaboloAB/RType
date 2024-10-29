@@ -37,13 +37,11 @@ class Animation
      * @param frameCount Number of frames in the animation.
      * @param speed Speed of the animation.
      * @param frameSize Size of each frame.
-     * @param scale Scale of the animation.
-     * @param rotation Rotation of the animation.
      * @param name Name of the animation.
      * @param loop Boolean to know if the animation should loop.
      */
     Animation(const std::string &filepath, int frameCount, float speed, const mlg::vec3 &frameSize,
-              const mlg::vec3 &scale, float rotation, std::string name, bool loop);
+              std::string name, bool loop);
 
     Animation(){};
 
@@ -82,18 +80,6 @@ class Animation
      * @return The frame size as mlg::vec2.
      */
     mlg::vec3 getFrameSize() { return frameSize; }
-
-    /**
-     * @brief Get the scale of the animation.
-     * @return The scale as mlg::vec2.
-     */
-    mlg::vec3 getScale() { return scale; }
-
-    /**
-     * @brief Get the rotation of the animation.
-     * @return The rotation.
-     */
-    float getRotation() { return rotation; }
 
     /**
      * @brief Get the name of the animation.
