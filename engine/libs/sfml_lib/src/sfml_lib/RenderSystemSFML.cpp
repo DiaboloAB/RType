@@ -134,7 +134,8 @@ void RenderSystemSFML::unloadSprite(int spriteId)
         }
         else
         {
-            std::cerr << "Erreur : le sprite avec l'ID " << spriteId << " est encore utilisé ailleurs." << std::endl;
+            std::cerr << "Erreur : le sprite avec l'ID " << spriteId
+                      << " est encore utilisé ailleurs." << std::endl;
         }
     }
     else
@@ -340,19 +341,19 @@ void RenderSystemSFML::unloadMusic(int musicID)
         }
         else
         {
-            std::cerr << "Erreur : la musique avec l'ID " << musicID << " est encore utilisée ailleurs." << std::endl;
+            std::cerr << "Erreur : la musique avec l'ID " << musicID
+                      << " est encore utilisée ailleurs." << std::endl;
         }
     }
     else
     {
-        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")" << std::endl;
+        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")"
+                  << std::endl;
     }
 }
 
-
 int RenderSystemSFML::loadSound(const std::string& filePath)
 {
-
     for (const auto& [id, buffer] : _soundCache)
     {
         if (buffer->loadFromFile(filePath))
@@ -377,10 +378,10 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
 
 void RenderSystemSFML::updateSounds()
 {
-    _activeSounds.erase(
-        std::remove_if(_activeSounds.begin(), _activeSounds.end(), [](const sf::Sound& sound)
-                       { return sound.getStatus() == sf::Sound::Stopped; }),
-        _activeSounds.end());
+    _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
+                                       [](const sf::Sound& sound)
+                                       { return sound.getStatus() == sf::Sound::Stopped; }),
+                        _activeSounds.end());
 }
 
 void RenderSystemSFML::playSound(int soundId)
@@ -410,7 +411,8 @@ void RenderSystemSFML::unloadSound(int soundId)
         }
         else
         {
-            std::cerr << "Erreur : le son avec l'ID " << soundId << " est encore utilisé ailleurs." << std::endl;
+            std::cerr << "Erreur : le son avec l'ID " << soundId << " est encore utilisé ailleurs."
+                      << std::endl;
         }
     }
     else
@@ -418,7 +420,6 @@ void RenderSystemSFML::unloadSound(int soundId)
         std::cerr << "Erreur : son avec l'ID " << soundId << " non trouvé." << std::endl;
     }
 }
-
 
 int RenderSystemSFML::loadFont(const std::string& filePath)
 {
@@ -486,7 +487,8 @@ void RenderSystemSFML::unloadShader(int shaderId)
         }
         else
         {
-            std::cerr << "Erreur : le shader avec l'ID " << shaderId << " est encore utilisé ailleurs." << std::endl;
+            std::cerr << "Erreur : le shader avec l'ID " << shaderId
+                      << " est encore utilisé ailleurs." << std::endl;
         }
     }
     else
@@ -494,7 +496,6 @@ void RenderSystemSFML::unloadShader(int shaderId)
         std::cerr << "Erreur : shader avec l'ID " << shaderId << " non trouvé." << std::endl;
     }
 }
-
 
 void RenderSystemSFML::setShader(int shaderId)
 {

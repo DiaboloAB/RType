@@ -34,7 +34,8 @@ Room::Room(const std::shared_ptr<PacketFactory> &factory, std::string host, unsi
 Room::~Room()
 {
     if (this->_io_context) this->_io_context->stop();
-    while (this->_recvThread && !this->_recvThread->joinable());
+    while (this->_recvThread && !this->_recvThread->joinable())
+        ;
     this->_recvThread->join();
 }
 
