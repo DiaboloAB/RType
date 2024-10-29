@@ -10,6 +10,8 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
+#include "common/COMPONENTLIST.hpp"
+#include "utils/random.hpp"
 // std
 
 namespace RType
@@ -23,8 +25,13 @@ public:
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (gameContext._runtime->getKeyDown(KeyCode::Space))
-            gameContext._sceneManager.loadPrefab("HelloWorld");
+        mobs::Entity entity;
+        if (gameContext._runtime->getKeyDown(KeyCode::Space)) {
+            entity = gameContext._sceneManager.instantiate("HelloWorld", gameContext);
+            Transform &transform = registry.get<Transform>(entity);
+            transform.position.x = random(0, 800);
+            transform.position.y = random(0, 600);
+        }
     }
 
     static constexpr const char *name = "HelloWorld";

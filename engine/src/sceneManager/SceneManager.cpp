@@ -70,6 +70,7 @@ mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContex
     nlohmann::json prefabJson;
     i >> prefabJson;
     mobs::Entity entity = gameContext._registry.create();
+    _prefabLoaded = true;
     createEntity(prefabJson, entity, gameContext._registry, gameContext);
     return entity;
 }
@@ -89,13 +90,9 @@ bool SceneManager::update(GameContext& gameContext)
         _nextScene = "";
         return true;
     }
-    if (_prefabsToLoad.size() > 0)
+    if (_prefabLoaded)
     {
-        for (const auto& prefab : _prefabsToLoad)
-        {
-            instantiate(prefab, gameContext);
-        }
-        _prefabsToLoad.clear();
+        _prefabLoaded = false;
         return true;
     }
     return false;

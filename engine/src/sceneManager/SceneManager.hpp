@@ -44,7 +44,6 @@ class SceneManager
     ~SceneManager();
 
     void switchScene(const std::string &sceneName) { _nextScene = sceneName; }
-    void loadPrefab(const std::string &prefabName) { _prefabsToLoad.push_back(prefabName); }
 
     /**
      * @brief Loads a scene by name.
@@ -75,15 +74,6 @@ class SceneManager
    private:
 
     /**
-     * @brief Loads a prefab by name.
-     *
-     * @param prefabName The name of the prefab to load.
-     * @param gameContext The context of the game.
-     * @return nlohmann::json The JSON data of the prefab.
-     */
-    void loadPrefabs(const std::string &prefabName, GameContext &gameContext);
-
-    /**
      * @brief Creates an entity from a prefab JSON.
      *
      * @param prefabJson The JSON data of the prefab.
@@ -98,7 +88,7 @@ class SceneManager
      * @brief The name of the next scene to load.
      */
     std::string _nextScene = "";
-    std::vector<std::string> _prefabsToLoad;        ///< The prefabs to load.
+    bool _prefabLoaded = false;
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
