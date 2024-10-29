@@ -1,8 +1,8 @@
 {
-    "tag": "redShip",
+    "tag": "bullet",
     "staticObject": true,
     "CppScripts": [
-        "RedShip"
+        "Bullet"
     ],
     "components": {
         "Transform": {
@@ -10,17 +10,17 @@
             "scale": [2, 2, 0]
         },
         "Hitbox": {
-            "size": [32, 32, 0],
-            "offSet": [16, 16, 0]
+            "size": [7, 6, 0],
+            "offSet": [0, 0, 0]
         },
         "Animator": {
             "animations": [
                 {
                     "name": "default",
                     "speed": 10,
-                    "texture": "graphics/enemy/red_ship.png",
+                    "texture": "graphics/enemy/bullet.png",
                     "frameCount": 8,
-                    "frameSize": [32, 32, 0],
+                    "frameSize": [7, 6, 0],
                     "loop": true
                 }
             ]
