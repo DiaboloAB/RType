@@ -1,5 +1,5 @@
 {
-    "tag": "floor_1",
+    "tag": "floor_high",
     "staticObject": true,
     "CppScripts": [
         "Terrain"
@@ -10,7 +10,7 @@
             "scale": [2, 2, 0]
         },
         "Hitbox": {
-            "size": [64, 16, 0],
+            "size": [64, 48, 0],
             "offSet": [0, 0, 0]
         },
         "Animator": {
@@ -18,9 +18,9 @@
                 {
                     "name": "default",
                     "speed": 1,
-                    "texture": "graphics/terrain/floor_1.png",
+                    "texture": "graphics/terrain/floor_high.png",
                     "frameCount": 1,
-                    "frameSize": [64, 16, 0],
+                    "frameSize": [64, 48, 0],
                     "loop": true
                 }
             ]

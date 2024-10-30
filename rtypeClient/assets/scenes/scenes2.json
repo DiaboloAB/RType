@@ -139,29 +139,153 @@
       }
     },
     {
-      "tag": "redShip",
+      "tag": "gameManager",
       "staticObject": true,
       "CppScripts": [
-        "RedShip"
+        "GameManager"
       ],
       "components": {
-        "Transform": {
-          "position": [800, 300, 0],
-          "scale": [2, 2, 0]
-        },
-        "Hitbox": {
-          "size": [32, 32, 0],
-          "offSet": [16, 16, 0]
-        },
-        "Animator": {
-          "animations": [
+        "EventManager": {
+          "eventList": [
             {
-              "name": "default",
-              "speed": 10,
-              "texture": "graphics/enemy/red_ship.png",
-              "frameCount": 8,
-              "frameSize": [32, 32, 0],
-              "loop": true
+              "prefab": "RedShip",
+              "position": [1920, 300, 0],
+              "delay": 4
+            },
+            {
+              "prefab": "RedShip",
+              "position": [1920, 300, 0],
+              "delay": 5
+            },
+            {
+              "prefab": "RedShip",
+              "position": [1920, 330, 0],
+              "delay": 6
+            },
+            {
+              "prefab": "RedShip",
+              "position": [1920, 300, 0],
+              "delay": 7
+            },
+            {
+              "prefab": "floor_middle",
+              "position": [0, 1016, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_1",
+              "position": [128, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_2",
+              "position": [256, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_0",
+              "position": [384, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_1",
+              "position": [512, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_high",
+              "position": [640, 984, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_middle",
+              "position": [768, 1016, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_1",
+              "position": [896, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_0",
+              "position": [1024, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1152, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1280, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_1",
+              "position": [1408, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_middle",
+              "position": [1536, 1016, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_1",
+              "position": [1664, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_high",
+              "position": [1792, 984, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_0",
+              "position": [1920, 1048, 0],
+              "delay": 0
+            },
+            {
+              "prefab": "floor_1",
+              "position": [1920, 1048, 0],
+              "delay": 2.5
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1920, 1048, 0],
+              "delay": 5
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1920, 1048, 0],
+              "delay": 7.5
+            },
+            {
+              "prefab": "floor_0",
+              "position": [1920, 1048, 0],
+              "delay": 10
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1920, 1048, 0],
+              "delay": 12.5
+            },
+            {
+              "prefab": "floor_1",
+              "position": [1920, 1048, 0],
+              "delay": 15
+            },
+            {
+              "prefab": "floor_middle",
+              "position": [1920, 1016, 0],
+              "delay": 17.5
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1920, 1048, 0],
+              "delay": 20
             }
           ]
         }

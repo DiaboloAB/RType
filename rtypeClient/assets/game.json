@@ -26,6 +26,35 @@
         {
             "name": "Bullet",
             "path": "scenes/prefabs/Bullet.json"
+        },
+        {
+            "name": "RedShip",
+            "path": "scenes/prefabs/RedShip.json"
+        },
+        {
+            "name": "floor_0",
+            "path": "scenes/prefabs/floor_0.json"
+        },
+        {
+            "name": "floor_1",
+            "path": "scenes/prefabs/floor_1.json"
+        },
+        {
+            "name": "floor_2",
+            "path": "scenes/prefabs/floor_2.json"
+        },
+        {
+            "name": "floor_middle",
+            "path": "scenes/prefabs/floor_middle.json"
+        },
+        {
+            "name": "floor_high",
+            "path": "scenes/prefabs/floor_high.json"
+        },
+        {
+            "name": "door",
+            "path": "scenes/prefabs/door.json"
         }
+
     ]
 }

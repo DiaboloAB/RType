@@ -5,12 +5,25 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef COMPONENTLIST_H
-#define COMPONENTLIST_H
+#ifndef EVENT_HPP
+#define EVENT_HPP
 
-#include "common/components/components.hpp"
-#include "common/network/components/networkComp.hpp"
+#include <iostream>
+#include <mlg/mlg.hpp>
+#include <string>
+#include <vector>
 
-#define COMPONENT_TYPES Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, Hitbox, EventManager
+class Event
+{
+    private:
 
-#endif  // COMPONENTLIST_H
+    public:
+        Event() {}
+        ~Event() {}
+
+        std::string prefab = "";
+        mlg::vec3 position = mlg::vec3(0.0f);
+        float delay = 0.0f;
+};
+
+#endif  // EVENT_HPP

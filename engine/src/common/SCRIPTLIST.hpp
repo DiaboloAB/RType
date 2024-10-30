@@ -17,10 +17,12 @@
 #include "common/cppScripts/MovePlayer.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
 #include "common/cppScripts/RedShip.hpp"
+#include "common/cppScripts/GameManager.hpp"
+#include "common/cppScripts/Terrain.hpp"
 #include "common/network/cppScripts/ComServer.hpp"
 
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
-        MoveLaser, Bullet, RedShip
+        MoveLaser, Bullet, RedShip, GameManager, Terrain
 
 #endif  // SCRIPTLIST_H

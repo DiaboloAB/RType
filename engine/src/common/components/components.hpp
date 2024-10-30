@@ -12,6 +12,7 @@
 
 #include "Client.hpp"
 #include "animations/AnimationList.hpp"
+#include "../../utils/Event.hpp"
 #include "mobs/mobs.hpp"
 
 // std
@@ -145,6 +146,15 @@ struct Collider
     Collider() {}
     static constexpr const char* name = "Collider";
 };
+
+struct EventManager
+{
+    std::vector<Event> eventList;
+
+    EventManager() {}
+    static constexpr const char* name = "EventManager";
+};
+
 }  // namespace RType
 
 #endif  // COMPONENTS_H

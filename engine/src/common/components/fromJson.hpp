@@ -78,6 +78,31 @@ void from_json(const nlohmann::json& j, Animator& animator)
     }
 }
 
+void from_json(const nlohmann::json& j, Event& event)
+{
+    if (!j.contains("prefab")) throw std::runtime_error("event must have a prefab name");
+    j.at("prefab").get_to(event.prefab);
+
+    if (!j.contains("position")) throw std::runtime_error("event must have a position");
+    j.at("position").get_to(event.position);
+
+    if (!j.contains("delay")) throw std::runtime_error("event must have a delay");
+    j.at("delay").get_to(event.delay);
+}
+
+void from_json(const nlohmann::json& j, EventManager& eventManager)
+{
+    if (j.contains("eventList"))
+    {
+        for (const auto& event_json : j.at("eventList"))
+        {
+            Event event;
+            from_json(event_json, event);
+            eventManager.eventList.push_back(event);
+        }
+    }
+}
+
 void from_json(const nlohmann::json& j, Sticky& sticky)
 {
     if (!j.contains("target")) throw std::runtime_error("Sticky must have a target");

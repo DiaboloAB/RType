@@ -42,10 +42,10 @@ class RedShip : public RType::ICppScript
             auto &bulletTransform = registry.get<Transform>(entity);
 
             bulletTransform.position = transform.position + mlg::vec3(-20, 32, 0);
-            bulletBasic.tag = basics.tag + std::to_string(bullet_index) + "_bullet";
+            bulletBasic.tag = basics.tag + "_bullet" + std::to_string(bullet_index);
             try
             {
-                getCppScript<Bullet>(basics.tag + std::to_string(bullet_index) + "_bullet", registry)->setDirection(computeDirection(transform.position, registry));
+                getCppScript<Bullet>(basics.tag + "_bullet" + std::to_string(bullet_index), registry)->setDirection(computeDirection(transform.position, registry));
             }
             catch (const std::exception &e)
             {
