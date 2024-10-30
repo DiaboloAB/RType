@@ -16,6 +16,9 @@ public:
     ~PhysicsSystem() {}
 
     void update(mobs::Registry& registry, GameContext& gameContext) override {
+        if (gameContext._runtime->getKeyDown(KeyCode::C)) {
+            displayCollider = !displayCollider;
+        }
         auto view = registry.view<RigidBody, Transform>();
         for (auto entity : view) {
             auto& rb = registry.get<RigidBody>(entity);
@@ -34,33 +37,51 @@ public:
                 if (entity == otherEntity) {
                     continue;
                 }
-
                 auto& otherTransform = registry.get<Transform>(otherEntity);
                 auto& otherCollider = registry.get<Collider>(otherEntity);
+                if (std::find(collider.layerMask.begin(), collider.layerMask.end(), registry.get<Basics>(otherEntity).layer) == collider.layerMask.end()) {
+                    continue;
+                }
 
-                int result = collider.isColliding(otherEntity, otherTransform.position, otherCollider.size);
+                int result = collider.isColliding(transform.position, otherEntity, otherTransform.position, otherCollider.size);
                 if (collider.isTrigger) {
                     try {
-                        if (result == ENTER)
-                            registry.get<CppScriptComponent>(entity).onCollisionEnterAll(registry, gameContext, otherEntity);
-                        else if (result == EXIT)
-                            ;//registry.get<CppScriptComponent>(entity).onCollisionStayAll(registry, gameContext, otherEntity);
-                        else
-                            ;//registry.get<CppScriptComponent>(entity).onCollisionExitAll(registry, gameContext, otherEntity);
+                        if (result == ENTER) {
+                                registry.get<CppScriptComponent>(entity).onCollisionEnterAll(registry, gameContext, otherEntity);
+
+                        }
+                        else if (result == STAY) {
+                                registry.get<CppScriptComponent>(entity).onCollisionStayAll(registry, gameContext, otherEntity);
+                        }
+                        else if (result == EXIT) {
+                                registry.get<CppScriptComponent>(entity).onCollisionExitAll(registry, gameContext, otherEntity);
+                        }
                     } catch (const std::exception& e) {
-                        std::cerr << e.what() << '\n';
                     }
 
                 } else {
-                    // if (result == ENTER) {
-                    //     rb.velocity.y = -rb.velocity.y * rb.restitution;
-                    // }
+                    if (result == ENTER) {
+                    }
                 }
             }
         }
     }
+    void draw(mobs::Registry& registry, GameContext& gameContext) override {
+        if (displayCollider == 0)
+            return;
+        auto view = registry.view<Transform, Collider>();
+        for (auto entity : view) {
+            auto& transform = registry.get<Transform>(entity);
+            auto& collider = registry.get<Collider>(entity);
+            mlg::vec4 spriteCoords(transform.position.x, transform.position.y, collider.size.x, collider.size.y);
+            gameContext._runtime->drawRectangle(spriteCoords, false, mlg::vec3(255.0f, 0.0f, 0.0f));
+        }
+
+    }
 
 private:
+    int displayCollider = 0;
+
     void applyGravity(RigidBody& rb, float deltaTime) {
         const float gravity = 9.8f;
 

@@ -146,12 +146,16 @@ struct Collider
     mlg::vec3 size;
     bool isTrigger = false;
     std::vector<mobs::Entity> collisions;
+    std::vector<std::string> layerMask;
 
-    int isColliding(mobs::Entity entity, mlg::vec3 position, mlg::vec3 size)
+    int isColliding(mlg::vec3 position,
+        mobs::Entity entity, mlg::vec3 otherPosition, mlg::vec3 otherSize)
     {
-        if (position.x < this->size.x + size.x && position.x + size.x > this->size.x &&
-            position.y < this->size.y + size.y && position.y + size.y > this->size.y) {
 
+        if (position.x < otherPosition.x + otherSize.x &&
+            position.x + size.x > otherPosition.x &&
+            position.y < otherPosition.y + otherSize.y &&
+            position.y + size.y > otherPosition.y) {
             if (std::find(collisions.begin(), collisions.end(), entity) != collisions.end()) {
                 return STAY;
             }
