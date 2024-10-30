@@ -26,7 +26,7 @@ UpdateEntity::UpdateEntity(std::vector<char> &buffer) : APacket(buffer)
         std::string(data, this->getPacketSize() - this->getHeaderSize() - sizeof(uint32_t));
 }
 
-UpdateEntity::~UpdateEntity(){};
+UpdateEntity::~UpdateEntity() {};
 
 std::vector<char> UpdateEntity::serializeData() const
 {

@@ -19,12 +19,12 @@ template <typename T>
 static void addCppScriptIfExists(const nlohmann::json& data, mobs::Registry& registry,
                                  mobs::Entity entity)
 {
-    std::cout << "Checking for CppScript: " << T::name << std::endl;
+    // std::cout << "Checking for CppScript: " << T::name << std::endl;
     for (const auto& script : data)
     {
         if (script.get<std::string>() == T::name)
         {
-            std::cout << "Adding CppScript: " << T::name << std::endl;
+            // std::cout << "Adding CppScript: " << T::name << std::endl;
             auto script = std::make_shared<T>();
             registry.get<CppScriptComponent>(entity).addScript(script);
         }
@@ -35,7 +35,7 @@ template <typename... T>
 static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
                                   const nlohmann::json& componentData)
 {
-    std::cout << componentData << std::endl;
+    // std::cout << componentData << std::endl;
     (addCppScriptIfExists<T>(componentData, registry, entity), ...);
 }
 
@@ -82,7 +82,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         if (prefabJson.contains("CppScripts"))
         {
             registry.emplace<CppScriptComponent>(entity, entity);
-            std::cout << "Adding CppScripts to entity" << std::endl;
+            // std::cout << "Adding CppScripts to entity" << std::endl;
             addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"]);
         }
     }

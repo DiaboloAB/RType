@@ -50,26 +50,6 @@ class ColisionSystem : public ISystem
                 auto &transform2 = registry.get<Transform>(entity2);
                 if (intersect(transform1, transform2, hitbox1, hitbox2))
                 {
-                    auto &health1 = registry.get<Health>(entity);
-                    auto &health2 = registry.get<Health>(entity2);
-                    auto &basic = registry.get<Basics>(entity);
-                    auto &basic2 = registry.get<Basics>(entity2);
-
-                    if (health1.health > health2.health)
-                    {
-                        health1.health -= health2.health;
-                        health2.health = 0;
-                    }
-                    else if (health1.health < health2.health)
-                    {
-                        health2.health -= health1.health;
-                        health1.health = 0;
-                    }
-                    else
-                    {
-                        health1.health = 0;
-                        health2.health = 0;
-                    }
                 }
             }
         }

@@ -10,6 +10,7 @@
 
 #include <mlg/mlg.hpp>
 
+#include "../../utils/Event.hpp"
 #include "Client.hpp"
 #include "animations/AnimationList.hpp"
 #include "mobs/mobs.hpp"
@@ -84,8 +85,17 @@ struct Sticky
     std::string target;
     mlg::vec3 offset = mlg::vec3();
 
-    Sticky(){};
+    Sticky() {};
     static constexpr const char* name = "Sticky";
+};
+
+struct Hitbox
+{
+    mlg::vec3 size = mlg::vec3(1.0f);
+    mlg::vec3 offset = mlg::vec3(0.0f);
+
+    Hitbox() {};
+    static constexpr const char* name = "Hitbox";
 };
 
 struct Button
@@ -136,6 +146,15 @@ struct Collider
     Collider() {}
     static constexpr const char* name = "Collider";
 };
+
+struct EventManager
+{
+    std::vector<Event> eventList;
+
+    EventManager() {}
+    static constexpr const char* name = "EventManager";
+};
+
 }  // namespace RType
 
 #endif  // COMPONENTS_H
