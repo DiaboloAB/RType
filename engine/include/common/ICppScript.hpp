@@ -57,7 +57,37 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollision(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionStay(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    {
+    }
+
+    /**
+     * @brief Called when a collision starts.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    {
+    }
+
+    /**
+     * @brief Called when a collision ends.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void onCollisionExit(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    {
+    }
+
+    /**
+     * @brief Called when the script is destroyed.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void callFunction(std::string function, mobs::Registry &registry, GameContext &gameContext)
     {
     }
 

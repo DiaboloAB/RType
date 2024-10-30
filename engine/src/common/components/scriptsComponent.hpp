@@ -98,11 +98,27 @@ struct CppScriptComponent
         }
     }
 
-    void onCollisionAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
+    void onCollisionStayAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
     {
         for (auto& script : scripts)
         {
-            script->onCollision(registry, gameContext, other);
+            script->onCollisionStay(registry, gameContext, other);
+        }
+    }
+
+    void onCollisionEnterAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
+    {
+        for (auto& script : scripts)
+        {
+            script->onCollisionEnter(registry, gameContext, other);
+        }
+    }
+
+    void onCollisionExitAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
+    {
+        for (auto& script : scripts)
+        {
+            script->onCollisionExit(registry, gameContext, other);
         }
     }
 

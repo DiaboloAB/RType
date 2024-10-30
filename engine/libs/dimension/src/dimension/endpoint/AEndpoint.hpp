@@ -110,8 +110,8 @@ class AEndpoint : public IEndpoint
     class EndpointError : public std::exception
     {
        public:
-        EndpointError(std::string error) : _error(error){};
-        ~EndpointError(){};
+        EndpointError(std::string error) : _error(error) {};
+        ~EndpointError() {};
 
        private:
         const char *what() const noexcept override { return _error.c_str(); };

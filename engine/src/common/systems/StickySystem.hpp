@@ -36,7 +36,7 @@ class StickySystem : public ISystem
                 auto &targetTransform = viewTarget.get<Transform>(target);
                 if (basic.tag == sticky.target)
                 {
-                    transform.position = targetTransform.position + sticky.offset;
+                    transform.position = targetTransform.position + sticky.offset * transform.scale;
                 }
             }
         }

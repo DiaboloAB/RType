@@ -39,6 +39,13 @@ void from_json(const nlohmann::json& j, Transform& transform)
     if (j.contains("scale")) j.at("scale").get_to(transform.scale);
 }
 
+void from_json(const nlohmann::json& j, RigidBody& RigidBody)
+{
+    if (j.contains("mass")) j.at("mass").get_to(RigidBody.mass);
+    if (j.contains("restitution")) j.at("restitution").get_to(RigidBody.restitution);
+    if (j.contains("Physic")) j.at("Physic").get_to(RigidBody.Physic);
+}
+
 void from_json(const nlohmann::json& j, Sprite& sprite)
 {
     if (!j.contains("texture")) throw std::runtime_error("Sprite must have a texture file path");
@@ -62,8 +69,6 @@ void from_json(const nlohmann::json& j, Animation& animation)
     if (!j.contains("frameSize")) throw std::runtime_error("Animation must have a frame size");
     j.at("frameSize").get_to(animation.frameSize);
 
-    if (j.contains("scale")) j.at("scale").get_to(animation.scale);
-    if (j.contains("rotation")) j.at("rotation").get_to(animation.rotation);
     if (j.contains("loop")) j.at("loop").get_to(animation.loop);
 }
 
@@ -80,12 +85,59 @@ void from_json(const nlohmann::json& j, Animator& animator)
     }
 }
 
+void from_json(const nlohmann::json& j, Event& event)
+{
+    if (!j.contains("prefab")) throw std::runtime_error("event must have a prefab name");
+    j.at("prefab").get_to(event.prefab);
+
+    if (!j.contains("position")) throw std::runtime_error("event must have a position");
+    j.at("position").get_to(event.position);
+
+    if (!j.contains("delay")) throw std::runtime_error("event must have a delay");
+    j.at("delay").get_to(event.delay);
+}
+
+void from_json(const nlohmann::json& j, EventManager& eventManager)
+{
+    if (j.contains("eventList"))
+    {
+        for (const auto& event_json : j.at("eventList"))
+        {
+            Event event;
+            from_json(event_json, event);
+            eventManager.eventList.push_back(event);
+        }
+    }
+}
+
 void from_json(const nlohmann::json& j, Sticky& sticky)
 {
     if (!j.contains("target")) throw std::runtime_error("Sticky must have a target");
     j.at("target").get_to(sticky.target);
 
     if (j.contains("offset")) j.at("offset").get_to(sticky.offset);
+}
+
+void from_json(const nlohmann::json& j, Hitbox& hitbox)
+{
+    if (j.contains("size")) j.at("size").get_to(hitbox.size);
+    if (j.contains("offset")) j.at("offset").get_to(hitbox.offset);
+}
+
+void from_json(const nlohmann::json& j, Collider& collider)
+{
+    if (!j.contains("size")) throw std::runtime_error("Collider must have a size");
+    j.at("size").get_to(collider.size);
+
+    if (j.contains("isTrigger")) j.at("isTrigger").get_to(collider.isTrigger);
+
+    if (j.contains("layerMask"))
+    {
+        for (const auto& layer : j.at("layerMask"))
+        {
+            collider.layerMask.push_back(layer);
+        }
+    }
 }
 
 }  // namespace RType

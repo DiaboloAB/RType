@@ -11,11 +11,9 @@
 #include "common/COMPONENTLIST.hpp"
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
-#include "utils/random.hpp"
 // std
 
-namespace RType
-{
+using namespace RType;
 
 class HelloWorld : public ICppScript
 {
@@ -25,22 +23,41 @@ class HelloWorld : public ICppScript
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        mobs::Entity entity;
-        if (gameContext._runtime->getKeyDown(KeyCode::Space))
+        if (gameContext._runtime->getKey(KeyCode::UpArrow))
         {
-            entity = gameContext._sceneManager.instantiate("HelloWorld", gameContext);
-            Transform &transform = registry.get<Transform>(entity);
-            transform.position.x = random(0, 800);
-            transform.position.y = random(0, 600);
+            registry.get<Transform>(getEntity()).position.y -= 1;
+        }
+        if (gameContext._runtime->getKey(KeyCode::DownArrow))
+        {
+            registry.get<Transform>(getEntity()).position.y += 1;
+        }
+        if (gameContext._runtime->getKey(KeyCode::LeftArrow))
+        {
+            registry.get<Transform>(getEntity()).position.x -= 1;
+        }
+        if (gameContext._runtime->getKey(KeyCode::RightArrow))
+        {
+            registry.get<Transform>(getEntity()).position.x += 1;
         }
     }
 
+    void onCollisionStay(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+    }
+    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+        std::cout << "collide enter with " << other << std::endl;
+    }
+
+    void onCollisionExit(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+        std::cout << "collide exit with " << other << std::endl;
+    }
     static constexpr const char *name = "HelloWorld";
 
-   private:
+private:
     // Member variables
 };
 
-}  // namespace RType
 
 #endif  // HELLOWORLD_H
