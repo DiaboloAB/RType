@@ -9,7 +9,8 @@
 #include "MainServer.hpp"
 
 namespace RType::Network {
-RoomManager::RoomManager(MainServer &server) : _mainServer(server) {}
+RoomManager::RoomManager(MainServer &server, std::shared_ptr<dimension::PacketFactory> factory) : 
+    _mainServer(server), _packetFactory(factory) {}
 
 RoomManager::~RoomManager() {}
 
@@ -76,6 +77,11 @@ void RoomManager::startRoom(asio::ip::udp::endpoint &sender, std::string &descri
     state._inGame = true;
     state._gameInstance = std::make_shared<GameInstance>(this->_host, state._port, roomCode);
     state._roomThread = std::make_shared<std::thread>([&state]() { state._gameInstance->run(); });
+    auto update = this->_packetFactory->createEmptyPacket<dimension::UpdateEntity>();
+    update->setNetworkId(0);
+    update->setDescription("room:" + this->_host + ":" + std::to_string(state._port) + ":" + roomCode);
+    for (auto &endp : state._endpoints)
+        this->_mainServer.send(update, endp);
 }
 
 void RoomManager::endRoom(asio::ip::udp::endpoint &sender, std::string &description)

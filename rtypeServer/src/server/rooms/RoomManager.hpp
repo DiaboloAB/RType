@@ -22,7 +22,7 @@ class MainServer;
 
 class RoomManager {
     public:
-        RoomManager(MainServer &server);
+        RoomManager(MainServer &server, std::shared_ptr<dimension::PacketFactory> factory);
         ~RoomManager();
 
     public:
@@ -102,5 +102,6 @@ class RoomManager {
         std::unordered_map<std::string, RoomState> _privateRooms;
         std::unordered_map<asio::ip::udp::endpoint, std::string> _clientRooms;
         MainServer &_mainServer;
+        std::shared_ptr<dimension::PacketFactory> _packetFactory;
 };
 }

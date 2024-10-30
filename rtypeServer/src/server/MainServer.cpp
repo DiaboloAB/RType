@@ -9,7 +9,7 @@
 
 namespace RType::Network {
 MainServer::MainServer(std::string host, unsigned int port) : 
-    dimension::AServer(std::make_shared<dimension::PacketFactory>(), host, port), _roomManager(*this)
+    dimension::AServer(std::make_shared<dimension::PacketFactory>(), host, port), _roomManager(*this, this->_packetFactory)
 {
     this->registerEventHandling("create",
         [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.initRoom(sender, desc); });
