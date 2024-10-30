@@ -24,6 +24,40 @@ public:
             applyGravity(rb, gameContext._deltaT);
             updateVelocityAndPosition(transform, rb, gameContext._deltaT);
         }
+
+        auto view2 = registry.view<Transform, Collider>();
+        for (auto entity : view2) {
+            auto& transform = registry.get<Transform>(entity);
+            auto& collider = registry.get<Collider>(entity);
+
+            for (auto otherEntity : view2) {
+                if (entity == otherEntity) {
+                    continue;
+                }
+
+                auto& otherTransform = registry.get<Transform>(otherEntity);
+                auto& otherCollider = registry.get<Collider>(otherEntity);
+
+                int result = collider.isColliding(otherEntity, otherTransform.position, otherCollider.size);
+                if (collider.isTrigger) {
+                    try {
+                        if (result == ENTER)
+                            registry.get<CppScriptComponent>(entity).onCollisionEnterAll(registry, gameContext, otherEntity);
+                        else if (result == EXIT)
+                            ;//registry.get<CppScriptComponent>(entity).onCollisionStayAll(registry, gameContext, otherEntity);
+                        else
+                            ;//registry.get<CppScriptComponent>(entity).onCollisionExitAll(registry, gameContext, otherEntity);
+                    } catch (const std::exception& e) {
+                        std::cerr << e.what() << '\n';
+                    }
+
+                } else {
+                    // if (result == ENTER) {
+                    //     rb.velocity.y = -rb.velocity.y * rb.restitution;
+                    // }
+                }
+            }
+        }
     }
 
 private:

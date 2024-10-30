@@ -124,6 +124,22 @@ void from_json(const nlohmann::json& j, Hitbox& hitbox)
     if (j.contains("offset")) j.at("offset").get_to(hitbox.offset);
 }
 
+void from_json(const nlohmann::json& j, Collider& collider)
+{
+    if (!j.contains("size")) throw std::runtime_error("Collider must have a size");
+    j.at("size").get_to(collider.size);
+
+    if (j.contains("isTrigger")) j.at("isTrigger").get_to(collider.isTrigger);
+
+    if (j.contains("layerMask"))
+    {
+        for (const auto& layer : j.at("layerMask"))
+        {
+            collider.layerMask.push_back(layer);
+        }
+    }
+}
+
 }  // namespace RType
 
 #endif  // FROMJSON_HPP

@@ -20,6 +20,7 @@
 #include "common/cppScripts/RedShip.hpp"
 #include "common/cppScripts/Terrain.hpp"
 #include "common/network/cppScripts/ComServer.hpp"
+#include "common/cppScripts/HelloWorld.hpp"
 
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
