@@ -49,7 +49,7 @@ class Client : public AEndpoint
      * @brief Send ping packet to the endpoint which the client
      * must communicate with.
      */
-     void sendPing() override;
+    void sendPing() override;
 
    public:
     std::chrono::steady_clock::time_point _lastPing;

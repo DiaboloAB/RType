@@ -71,7 +71,8 @@ void Client::connectDirectionEndpoint(std::string host, unsigned int port)
 
 void Client::sendPing()
 {
-    if (this->_directionEndpoint) {
+    if (this->_directionEndpoint)
+    {
         auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
         this->send(pingPacket, *this->_directionEndpoint, false);
     }

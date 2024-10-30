@@ -21,15 +21,16 @@ class RoomRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        this->_redirecter[std::type_index(typeid(dimension::Ping))] = []() 
-            { std::cerr << "Bonjour le 3" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = []() 
-            { std::cerr << "Bonjour le 4" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::Ping))] = []()
+        { std::cerr << "Bonjour le 3" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = []()
+        { std::cerr << "Bonjour le 4" << std::endl; };
     }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        try {
+        try
+        {
             auto &networkC = registry.get<NetworkRoom>(getEntity());
             auto _rcvQueue = networkC.room->getRcvQueue();
             while (!_rcvQueue.empty())
@@ -45,7 +46,9 @@ class RoomRedirect : public RType::ICppScript
                 _rcvQueue.pop();
                 networkC.room->popReceiveQueue();
             }
-        } catch (std::exception &e) {
+        }
+        catch (std::exception &e)
+        {
             ERR_LOG("ClientRedirect", std::string("Something went wrong {") + e.what() + "}");
         }
     }
