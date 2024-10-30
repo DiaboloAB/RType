@@ -14,6 +14,7 @@
 #include "gameContext/GameContext.hpp"
 #include "common/network/cppScripts/redirect/UpdateRedirect.hpp"
 #include "common/network/cppScripts/redirect/EntityRedirect.hpp"
+#include "common/network/cppScripts/redirect/ConnectionRedirect.hpp"
 
 namespace RType
 {
@@ -23,10 +24,12 @@ class ClientRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        //this->_redirecter[std::type_index(typeid(dimension::HiClient))] = []()
-        //{ std::cerr << "Bonjour le 2" << std::endl; };
-        //this->_redirecter[std::type_index(typeid(dimension::Ping))] = []()
-        //{ std::cerr << "Bonjour le 3" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::HiClient))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        {  Network::ConnectionRedirect::handleHiClient(registry, gameContext, packet); };
+        this->_redirecter[std::type_index(typeid(dimension::Ping))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::ConnectionRedirect::handlePingClient(registry, gameContext, packet); };
         this->_redirecter[std::type_index(typeid(dimension::UpdateEntity))] = [](
             mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         { Network::UpdateRedirect::update(registry, gameContext, packet); };
