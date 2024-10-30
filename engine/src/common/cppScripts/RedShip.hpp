@@ -36,29 +36,21 @@ class RedShip : public RType::ICppScript
         if (timer.getTime() > 2)
         {
             timer.reset();
-            std::cout << "Creating bullet | ship :" << basics.tag << std::endl;
             mobs::Entity entity = gameContext._sceneManager.instantiate("Bullet", gameContext);
-            std::string toPrint = "bullet :" + basics.tag + "_bullet" + std::to_string(bullet_index);
-            std::cout << toPrint << " created" << std::endl;
 
             auto &bulletBasic = registry.get<Basics>(entity);
             auto &bulletTransform = registry.get<Transform>(entity);
             auto &entityScript = registry.get<CppScriptComponent>(entity);
 
             bulletTransform.position = transform.position + mlg::vec3(-20, 32, 0);
-            bulletBasic.tag = basics.tag + "_bullet" + std::to_string(bullet_index);
             try
             {
-                std::cout << "Setting direction for bullet: " << basics.tag + "_bullet" + std::to_string(bullet_index) << std::endl;
                 getCppScriptById<Bullet>(entity, registry)->setDirection(computeDirection(transform.position, registry));
             }
             catch (const std::exception &e)
             {
                 std::cerr << e.what() << std::endl;
             }
-            bullet_index++;
-            std::cout << "Bullet created" << std::endl;
-            std::cout << " " << std::endl;
         }
 
 
@@ -72,7 +64,6 @@ class RedShip : public RType::ICppScript
 
    private:
     Timer timer;
-    int bullet_index = 0;
 
     mlg::vec3 computeDirection(mlg::vec3 &position, mobs::Registry &registry) {
         auto view = registry.view<Basics, Transform>();

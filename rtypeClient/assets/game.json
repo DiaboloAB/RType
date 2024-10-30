@@ -58,13 +58,10 @@
         {
             "name": "reactor",
             "path": "scenes/prefabs/reactor.json"
-        }
-        ,
+        },
         {
-            "name": "reactor_reversed",
-            "path": "scenes/prefabs/reactor_reversed.json"
+            "name": "ramp",
+            "path": "scenes/prefabs/ramp.json"
         }
-
-
     ]
 }
