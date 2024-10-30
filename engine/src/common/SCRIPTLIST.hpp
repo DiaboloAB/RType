@@ -13,7 +13,6 @@
 #include "common/cppScripts/AnimThruster.hpp"
 #include "common/cppScripts/Bullet.hpp"
 #include "common/cppScripts/GameManager.hpp"
-#include "common/cppScripts/HelloWorld.hpp"
 #include "common/cppScripts/MoveLaser.hpp"
 #include "common/cppScripts/MovePlayer.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
@@ -26,7 +25,6 @@
 
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
-        MoveLaser, Bullet, RedShip, GameManager, Terrain
-#define SCRIPT_TYPES ComServer, HelloWorld, ClientRedirect, RoomRedirect
+    MoveLaser, Bullet, RedShip, GameManager, Terrain, ClientRedirect, RoomRedirect
 
 #endif  // SCRIPTLIST_H
