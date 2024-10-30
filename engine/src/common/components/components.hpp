@@ -52,12 +52,12 @@ struct Transform
     static constexpr const char* name = "Transform";
 };
 
-struct RigidBody
-{
+struct RigidBody {
     mlg::vec3 velocity;
     mlg::vec3 acceleration;
     float mass = 1.0f;
-    float drag = 0.0f;
+    float restitution = 0.5f;
+    bool Physic = false;
 
     RigidBody() {}
     static constexpr const char* name = "RigidBody";
@@ -137,11 +137,38 @@ struct Audio
     static constexpr const char* name = "Audio";
 };
 
+
+#define ENTER 1
+#define EXIT 2
+#define STAY 3
 struct Collider
 {
     mlg::vec3 size;
     bool isTrigger = false;
-    std::vector<std::tuple<mobs::Entity, mlg::vec3>> collisions;
+    std::vector<mobs::Entity> collisions;
+    std::vector<std::string> layerMask;
+
+    int isColliding(mlg::vec3 position,
+        mobs::Entity entity, mlg::vec3 otherPosition, mlg::vec3 otherSize)
+    {
+
+        if (position.x < otherPosition.x + otherSize.x &&
+            position.x + size.x > otherPosition.x &&
+            position.y < otherPosition.y + otherSize.y &&
+            position.y + size.y > otherPosition.y) {
+            if (std::find(collisions.begin(), collisions.end(), entity) != collisions.end()) {
+                return STAY;
+            }
+            collisions.push_back(entity);
+            return ENTER;
+        }
+        if (std::find(collisions.begin(), collisions.end(), entity) != collisions.end()) {
+            collisions.erase(std::remove(collisions.begin(), collisions.end(), entity), collisions.end());
+            return EXIT;
+        }
+
+        return 0;
+    }
 
     Collider() {}
     static constexpr const char* name = "Collider";

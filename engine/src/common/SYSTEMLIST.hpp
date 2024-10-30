@@ -14,8 +14,9 @@
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/StickySystem.hpp"
+#include "common/systems/PhysicsCollisionSystem.hpp"
 
 #define SYSTEM_TYPES \
-    ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem, RoomSystem
+    ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem, RoomSystem, PhysicsSystem
 
 #endif  // SYSTEMLIST_H
