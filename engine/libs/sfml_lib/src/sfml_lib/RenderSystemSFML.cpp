@@ -145,7 +145,7 @@ void RenderSystemSFML::unloadSprite(int spriteId)
 }
 
 void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords,
-                                  mlg::vec3 scale, float rotation)
+                                   mlg::vec3 scale, float rotation)
 {
     auto it = _spriteCache.find(spriteId);
     if (it != _spriteCache.end())
@@ -153,9 +153,22 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         sf::IntRect spriteRect(spriteCoords.x, spriteCoords.y, spriteCoords.z, spriteCoords.w);
         it->second->setTextureRect(spriteRect);
 
-        it->second->setPosition(position.x, position.y);
+        // Calculer la taille réelle du sprite après application de l'échelle
+        float realWidth = spriteCoords.z * scale.x;
+        float realHeight = spriteCoords.w * scale.y;
+
+        // Calculer la position pour que le centre soit le point d'origine
+        float centerX = position.x - (realWidth / 2.0f);
+        float centerY = position.y - (realHeight / 2.0f);
+
+        // Définir la position ajustée pour que le centre soit constant
+        it->second->setPosition(centerX, centerY);
+        
+        // Appliquer l'échelle et la rotation
         it->second->setScale(scale.x, scale.y);
         it->second->setRotation(rotation);
+        
+        // Dessiner le sprite
         if (_activeShader)
         {
             _window.draw(*it->second, _activeShader);
@@ -170,6 +183,8 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
     }
 }
+
+
 
 void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position)
 {
