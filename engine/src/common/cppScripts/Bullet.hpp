@@ -20,6 +20,7 @@ class Bullet : public RType::ICppScript
     void setDirection(const mlg::vec3 &direction)
     {
         this->direction = direction;
+        std::cout << "Bullet direction set to: " << direction.x << ", " << direction.y << std::endl;
     }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override

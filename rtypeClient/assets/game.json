@@ -54,7 +54,17 @@
         {
             "name": "door",
             "path": "scenes/prefabs/door.json"
+        },
+        {
+            "name": "reactor",
+            "path": "scenes/prefabs/reactor.json"
         }
+        ,
+        {
+            "name": "reactor_reversed",
+            "path": "scenes/prefabs/reactor_reversed.json"
+        }
+
 
     ]
 }

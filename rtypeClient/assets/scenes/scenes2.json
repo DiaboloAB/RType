@@ -286,6 +286,16 @@
               "prefab": "floor_2",
               "position": [1920, 1048, 0],
               "delay": 20
+            },
+            {
+              "prefab": "reactor",
+              "position": [1920, 888, 0],
+              "delay": 23
+            },
+            {
+              "prefab": "floor_2",
+              "position": [1920, 1048, 0],
+              "delay": 25
             }
           ]
         }
