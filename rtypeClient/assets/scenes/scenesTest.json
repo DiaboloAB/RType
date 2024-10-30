@@ -3,6 +3,9 @@
       {
         "tag": "player",
         "staticObject": false,
+        "CppScripts": [
+            "HelloWorld"
+          ],
         "components": {
           "Transform": { "position": [100, 100, 0] },
           "Sprite": { "texture": "graphics/background.png" },

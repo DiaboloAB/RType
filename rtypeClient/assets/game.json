@@ -16,8 +16,8 @@
     ],
     "prefabs": [
         {
-            "name": "test",
-            "path": "test.json"
+            "name": "HelloWorld",
+            "path": "prefabs/HelloWorld.json"
         }
     ]
 }

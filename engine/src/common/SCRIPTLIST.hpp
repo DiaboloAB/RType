@@ -8,8 +8,9 @@
 #ifndef SCRIPTLIST_H
 #define SCRIPTLIST_H
 
+#include "common/cppScripts/HelloWorld.hpp"
 #include "common/network/cppScripts/ComServer.hpp"
 
-#define SCRIPT_TYPES ComServer
+#define SCRIPT_TYPES ComServer, HelloWorld
 
 #endif  // SCRIPTLIST_H

@@ -5,12 +5,13 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef COMPONENTLIST_H
-#define COMPONENTLIST_H
+#ifndef RANDOM_H
+#define RANDOM_H
 
-#include "common/components/components.hpp"
-#include "common/network/components/networkComp.hpp"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
-#define COMPONENT_TYPES Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData
+int random(int min, int max);
 
-#endif  // COMPONENTLIST_H
+#endif  // RANDOM_H

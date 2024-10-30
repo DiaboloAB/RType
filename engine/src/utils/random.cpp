@@ -5,12 +5,15 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef COMPONENTLIST_H
-#define COMPONENTLIST_H
+#include "random.hpp"
 
-#include "common/components/components.hpp"
-#include "common/network/components/networkComp.hpp"
-
-#define COMPONENT_TYPES Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData
-
-#endif  // COMPONENTLIST_H
+int random(int min, int max)
+{
+    static bool first = true;
+    if (first)
+    {
+        srand(time(NULL));
+        first = false;
+    }
+    return min + rand() % ((max + 1) - min);
+}
