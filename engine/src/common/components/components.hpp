@@ -10,9 +10,9 @@
 
 #include <mlg/mlg.hpp>
 
+#include "../../utils/Event.hpp"
 #include "Client.hpp"
 #include "animations/AnimationList.hpp"
-#include "../../utils/Event.hpp"
 #include "mobs/mobs.hpp"
 
 // std

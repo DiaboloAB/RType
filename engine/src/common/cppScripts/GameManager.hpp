@@ -26,7 +26,8 @@ class GameManager : public RType::ICppScript
             event.delay -= gameContext._deltaT;
             if (event.delay <= 0)
             {
-                mobs::Entity entity = gameContext._sceneManager.instantiate(event.prefab, gameContext);
+                mobs::Entity entity =
+                    gameContext._sceneManager.instantiate(event.prefab, gameContext);
                 auto &transform = registry.get<Transform>(entity);
                 auto &basic = registry.get<Basics>(entity);
 
@@ -50,8 +51,8 @@ class GameManager : public RType::ICppScript
 
     static constexpr const char *name = "GameManager";
 
-    private:
-        int _eventID = 0;
+   private:
+    int _eventID = 0;
 };
 
 }  // namespace RType

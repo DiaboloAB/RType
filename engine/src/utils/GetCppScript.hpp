@@ -12,55 +12,58 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+
 #include "common/components/components.hpp"
 #include "common/components/scriptsComponent.hpp"
 
 namespace RType
 {
-    template <typename CppScript>
-    std::shared_ptr<CppScript> getCppScript(std::string tag, mobs::Registry &registry)
+template <typename CppScript>
+std::shared_ptr<CppScript> getCppScript(std::string tag, mobs::Registry &registry)
+{
+    try
     {
-        try
+        mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
+        for (auto entity : view)
         {
-            mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
-            for (auto entity : view)
+            auto &basics = view.get<Basics>(entity);
+            if (basics.tag == tag)
             {
-                auto &basics = view.get<Basics>(entity);
-                if (basics.tag == tag) {
-                    auto &cppScript = view.get<CppScriptComponent>(entity);
-                    std::shared_ptr<CppScript> script = cppScript.getScript<CppScript>();
-                    return script;
-                }
+                auto &cppScript = view.get<CppScriptComponent>(entity);
+                std::shared_ptr<CppScript> script = cppScript.getScript<CppScript>();
+                return script;
             }
-            throw std::runtime_error("Tag not found");
         }
-        catch (const std::exception &e)
-        {
-            throw std::runtime_error("Tag not found");
-        }
+        throw std::runtime_error("Tag not found");
     }
-
-    template <typename CppScript>
-    std::shared_ptr<CppScript> getCppScriptById(mobs::Entity &entity, mobs::Registry &registry)
+    catch (const std::exception &e)
     {
-        try
-        {
-            mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
-            for (auto _entity : view)
-            {
-                if (entity == _entity) {
-                    auto &cppScript = view.get<CppScriptComponent>(entity);
-                    std::shared_ptr<CppScript> script = cppScript.getScript<CppScript>();
-                    return script;
-                }
-            }
-            throw std::runtime_error("Entity not found");
-        }
-        catch (const std::exception &e)
-        {
-            throw std::runtime_error("Entity not found");
-        }
+        throw std::runtime_error("Tag not found");
     }
-} // namespace RType
+}
 
-#endif // GETCPPSCRIPT_H
+template <typename CppScript>
+std::shared_ptr<CppScript> getCppScriptById(mobs::Entity &entity, mobs::Registry &registry)
+{
+    try
+    {
+        mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
+        for (auto _entity : view)
+        {
+            if (entity == _entity)
+            {
+                auto &cppScript = view.get<CppScriptComponent>(entity);
+                std::shared_ptr<CppScript> script = cppScript.getScript<CppScript>();
+                return script;
+            }
+        }
+        throw std::runtime_error("Entity not found");
+    }
+    catch (const std::exception &e)
+    {
+        throw std::runtime_error("Entity not found");
+    }
+}
+}  // namespace RType
+
+#endif  // GETCPPSCRIPT_H

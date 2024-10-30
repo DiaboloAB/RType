@@ -45,14 +45,14 @@ class RedShip : public RType::ICppScript
             bulletTransform.position = transform.position + mlg::vec3(-20, 32, 0);
             try
             {
-                getCppScriptById<Bullet>(entity, registry)->setDirection(computeDirection(transform.position, registry));
+                getCppScriptById<Bullet>(entity, registry)
+                    ->setDirection(computeDirection(transform.position, registry));
             }
             catch (const std::exception &e)
             {
                 std::cerr << e.what() << std::endl;
             }
         }
-
 
         if (transform.position.x < -100)
         {
@@ -65,7 +65,8 @@ class RedShip : public RType::ICppScript
    private:
     Timer timer;
 
-    mlg::vec3 computeDirection(mlg::vec3 &position, mobs::Registry &registry) {
+    mlg::vec3 computeDirection(mlg::vec3 &position, mobs::Registry &registry)
+    {
         auto view = registry.view<Basics, Transform>();
 
         for (auto entity : view)

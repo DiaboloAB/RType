@@ -15,15 +15,14 @@
 
 class Event
 {
-    private:
+   private:
+   public:
+    Event() {}
+    ~Event() {}
 
-    public:
-        Event() {}
-        ~Event() {}
-
-        std::string prefab = "";
-        mlg::vec3 position = mlg::vec3(0.0f);
-        float delay = 0.0f;
+    std::string prefab = "";
+    mlg::vec3 position = mlg::vec3(0.0f);
+    float delay = 0.0f;
 };
 
 #endif  // EVENT_HPP

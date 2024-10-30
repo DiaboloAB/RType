@@ -17,10 +17,7 @@ namespace RType
 class Bullet : public RType::ICppScript
 {
    public:
-    void setDirection(const mlg::vec3 &direction)
-    {
-        this->direction = direction;
-    }
+    void setDirection(const mlg::vec3 &direction) { this->direction = direction; }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {

@@ -23,8 +23,6 @@ class GreyShip : public RType::ICppScript
 
         auto &transform = registry.get<Transform>(getEntity());
 
-        
-
         if (transform.position.x < -100)
         {
             registry.kill(getEntity());
@@ -33,9 +31,9 @@ class GreyShip : public RType::ICppScript
 
     static constexpr const char *name = "GreyShip";
 
-    private:
-        Timer timer;
-        float sinValue = 0;
+   private:
+    Timer timer;
+    float sinValue = 0;
 };
 
 }  // namespace RType
