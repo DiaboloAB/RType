@@ -30,7 +30,7 @@
       },
       {
         "tag": "NetworkCom",
-        "staticObject": true,
+        "staticObject": false,
         "components": {
           "NetworkClient": {}
         },

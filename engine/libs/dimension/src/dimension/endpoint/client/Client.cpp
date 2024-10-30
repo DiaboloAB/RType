@@ -71,7 +71,9 @@ void Client::connectDirectionEndpoint(std::string host, unsigned int port)
 
 void Client::sendPing()
 {
-    auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
-    this->send(pingPacket, *this->_directionEndpoint, false);
+    if (this->_directionEndpoint) {
+        auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
+        this->send(pingPacket, *this->_directionEndpoint, false);
+    }
 }
 }  // namespace dimension

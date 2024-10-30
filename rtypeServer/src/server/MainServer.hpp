@@ -54,6 +54,12 @@ namespace RType::Network {
              */
             void sendPing() override;
 
+        public:
+            /**
+             * @brief Set ping clock of sender to now.
+             */
+            void resetPing(asio::ip::udp::endpoint &sender);
+
         private:
             RoomManager _roomManager;
     };

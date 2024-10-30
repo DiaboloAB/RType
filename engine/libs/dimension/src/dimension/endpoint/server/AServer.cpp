@@ -54,8 +54,7 @@ void AServer::run()
         if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_serverPing)
                 .count() >= 500)
         {
-            auto ping = this->_packetFactory->createEmptyPacket<Ping>();
-            for (auto &endp : this->_connectedEp) this->send(ping, endp.first, false);
+            this->sendPing();
             this->_serverPing = std::chrono::steady_clock::now();
         }
         this->checkLastPing();

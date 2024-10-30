@@ -17,9 +17,12 @@
 #include "Logger.hpp"
 
 namespace RType::Network {
+
+class MainServer;
+
 class RoomManager {
     public:
-        RoomManager();
+        RoomManager(MainServer &server);
         ~RoomManager();
 
     public:
@@ -98,5 +101,6 @@ class RoomManager {
         std::unordered_map<std::string, RoomState> _rooms;
         std::unordered_map<std::string, RoomState> _privateRooms;
         std::unordered_map<asio::ip::udp::endpoint, std::string> _clientRooms;
+        MainServer &_mainServer;
 };
 }

@@ -49,7 +49,7 @@ class RoomRedirect : public RType::ICppScript
             ERR_LOG("ClientRedirect", std::string("Something went wrong {") + e.what() + "}");
         }
     }
-    static constexpr const char *name = "ClientRedirect";
+    static constexpr const char *name = "RoomRedirect";
 
    private:
     std::map<std::type_index, std::function<void()>> _redirecter;

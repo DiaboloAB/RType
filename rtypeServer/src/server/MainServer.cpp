@@ -9,7 +9,7 @@
 
 namespace RType::Network {
 MainServer::MainServer(std::string host, unsigned int port) : 
-    dimension::AServer(std::make_shared<dimension::PacketFactory>(), host, port) 
+    dimension::AServer(std::make_shared<dimension::PacketFactory>(), host, port), _roomManager(*this)
 {
     this->registerEventHandling("create",
         [this](asio::ip::udp::endpoint &sender, std::string &desc) { return this->_roomManager.initRoom(sender, desc); });
@@ -107,6 +107,15 @@ void MainServer::sendPing()
         else {
             auto state = this->_roomManager.getRoomStateFromCode(roomCode);
             if (!state._inGame) this->send(pingPacket, endp.first, false);
+        }
+    }
+}
+
+void MainServer::resetPing(asio::ip::udp::endpoint &sender) {
+    for (auto &endp : this->_connectedEp) {
+        if (endp.first == sender) {
+            endp.second = std::chrono::steady_clock::now();
+            return;
         }
     }
 }

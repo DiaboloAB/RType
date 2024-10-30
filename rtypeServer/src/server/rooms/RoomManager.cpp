@@ -6,9 +6,10 @@
  **********************************************************************************/
 
 #include "RoomManager.hpp"
+#include "MainServer.hpp"
 
 namespace RType::Network {
-RoomManager::RoomManager() {}
+RoomManager::RoomManager(MainServer &server) : _mainServer(server) {}
 
 RoomManager::~RoomManager() {}
 
@@ -87,8 +88,10 @@ void RoomManager::endRoom(asio::ip::udp::endpoint &sender, std::string &descript
         while(!state._roomThread->joinable());
         state._roomThread->join();
     }
-    for (auto &endp : state._endpoints)
+    for (auto &endp : state._endpoints) {
         this->_clientRooms[endp] = "";
+        this->_mainServer.resetPing(sender);
+    }
     return this->deleteRoomFromCode(roomCode);
 }
 
