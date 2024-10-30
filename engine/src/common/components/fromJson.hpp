@@ -39,6 +39,13 @@ void from_json(const nlohmann::json& j, Transform& transform)
     if (j.contains("scale")) j.at("scale").get_to(transform.scale);
 }
 
+void from_json(const nlohmann::json& j, RigidBody& RigidBody)
+{
+    if (j.contains("mass")) j.at("mass").get_to(RigidBody.mass);
+    if (j.contains("restitution")) j.at("restitution").get_to(RigidBody.restitution);
+    if (j.contains("Physic")) j.at("Physic").get_to(RigidBody.Physic);
+}
+
 void from_json(const nlohmann::json& j, Sprite& sprite)
 {
     if (!j.contains("texture")) throw std::runtime_error("Sprite must have a texture file path");

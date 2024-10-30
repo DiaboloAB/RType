@@ -51,12 +51,12 @@ struct Transform
     static constexpr const char* name = "Transform";
 };
 
-struct RigidBody
-{
+struct RigidBody {
     mlg::vec3 velocity;
     mlg::vec3 acceleration;
     float mass = 1.0f;
-    float drag = 0.0f;
+    float restitution = 0.5f;
+    bool Physic = false;
 
     RigidBody() {}
     static constexpr const char* name = "RigidBody";
