@@ -12,6 +12,8 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
+#include "common/network/cppScripts/redirect/UpdateRedirect.hpp"
+#include "common/network/cppScripts/redirect/EntityRedirect.hpp"
 
 namespace RType
 {
@@ -21,18 +23,22 @@ class ClientRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        this->_redirecter[std::type_index(typeid(dimension::HiClient))] = []()
-        { std::cerr << "Bonjour le 2" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::Ping))] = []()
-        { std::cerr << "Bonjour le 3" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::UpdateEntity))] = []()
-        { std::cerr << "Bonjour le 4" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::CreateEntity))] = []()
-        { std::cerr << "Bonjour le 5" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::DestroyEntity))] = []()
-        { std::cerr << "Bonjour le 6" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::MoveEntity))] = []()
-        { std::cerr << "Bonjour le 7" << std::endl; };
+        //this->_redirecter[std::type_index(typeid(dimension::HiClient))] = []()
+        //{ std::cerr << "Bonjour le 2" << std::endl; };
+        //this->_redirecter[std::type_index(typeid(dimension::Ping))] = []()
+        //{ std::cerr << "Bonjour le 3" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::UpdateEntity))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::UpdateRedirect::update(registry, gameContext, packet); };
+        this->_redirecter[std::type_index(typeid(dimension::CreateEntity))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::EntityRedirect::create(registry, gameContext, packet); };
+        this->_redirecter[std::type_index(typeid(dimension::DestroyEntity))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::EntityRedirect::destroy(registry, gameContext, packet); };
+        this->_redirecter[std::type_index(typeid(dimension::MoveEntity))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::EntityRedirect::move(registry, gameContext, packet); };
     }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
@@ -50,7 +56,7 @@ class ClientRedirect : public RType::ICppScript
                 networkC.client->send(validation, packet.second, false);
                 auto typeIndex = networkC.factory.getIndexFromType(packet.first->getPacketType());
                 if (this->_redirecter.find(typeIndex) != this->_redirecter.end())
-                    this->_redirecter.at(typeIndex)();
+                    this->_redirecter.at(typeIndex)(registry, gameContext, packet);
                 _rcvQueue.pop();
                 networkC.client->popReceiveQueue();
             }
@@ -63,7 +69,8 @@ class ClientRedirect : public RType::ICppScript
     static constexpr const char *name = "ClientRedirect";
 
    private:
-    std::map<std::type_index, std::function<void()>> _redirecter;
+    using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
+    std::map<std::type_index, std::function<void(mobs::Registry &, GameContext &, PacketDatas &)>> _redirecter;
 };
 
 }  // namespace RType
