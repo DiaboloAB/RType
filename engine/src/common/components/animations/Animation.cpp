@@ -8,14 +8,11 @@
 #include "Animation.hpp"
 
 Animation::Animation(const std::string &filepath, int frameCount, float speed,
-                     const mlg::vec3 &frameSize, const mlg::vec3 &scale, float rotation,
-                     std::string name, bool loop)
+                     const mlg::vec3 &frameSize, std::string name, bool loop)
     : filepath(filepath),
       frameCount(frameCount),
       speed(speed),
       frameSize(frameSize),
-      scale(scale),
-      rotation(rotation),
       name(name),
       loop(loop)
 {

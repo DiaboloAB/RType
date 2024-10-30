@@ -70,43 +70,34 @@ class vec3
 
     vec3 operator-(const vec3& other) const { return {x - other.x, y - other.y, z - other.z}; }
 
+    vec3 operator*(const vec3& other) const { return {x * other.x, y * other.y, z * other.z}; }
+
     vec3 operator*(float scalar) const { return {x * scalar, y * scalar, z * scalar}; }
 
-    vec3& operator+=(const vec3& other) {
+    vec3 operator/(float scalar) const { return {x / scalar, y / scalar, z / scalar}; }
+
+    vec3& operator+=(const vec3& other)
+    {
         x += other.x;
         y += other.y;
         z += other.z;
         return *this;
     }
 
-    vec3& operator-=(const vec3& other) {
+    vec3& operator-=(const vec3& other)
+    {
         x -= other.x;
         y -= other.y;
         z -= other.z;
         return *this;
     }
 
-    vec3& operator/(float scalar) {
-        x / scalar;
-        y / scalar;
-        z / scalar;
+    vec3& operator*=(float scalar)
+    {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
         return *this;
-    }
-
-    float magnitude() const {
-        return std::sqrt(x * x + y * y + z * z);
-    }
-
-    vec3 normalized() const {
-        float mag = magnitude();
-        if (mag > 0.0f) {
-            return vec3(x / mag, y / mag, z / mag);
-        }
-        return vec3(0.0f, 0.0f, 0.0f);
-    }
-
-    float calculateLength(const mlg::vec3& vec) {
-        return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
     }
 };
 

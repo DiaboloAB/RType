@@ -1,0 +1,29 @@
+{
+    "tag": "greyShip",
+    "staticObject": true,
+    "CppScripts": [
+        "GreyShip"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Hitbox": {
+            "size": [32, 32, 0],
+            "offSet": [16, 16, 0]
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/enemy/red_ship.png",
+                    "frameCount": 8,
+                    "frameSize": [32, 32, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

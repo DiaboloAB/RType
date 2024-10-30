@@ -1,0 +1,29 @@
+{
+    "tag": "door",
+    "staticObject": true,
+    "CppScripts": [
+        "Terrain"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [1.9, 1.9, 0]
+        },
+        "Hitbox": {
+            "size": [192, 96, 0],
+            "offSet": [0, 0, 0]
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 1,
+                    "texture": "graphics/terrain/door.png",
+                    "frameCount": 1,
+                    "frameSize": [192, 96, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

@@ -14,7 +14,7 @@ HiServer::HiServer(uint8_t type) : APacket(type) { this->_packetDataSize = 0; }
 
 HiServer::HiServer(std::vector<char> &buffer) : APacket(buffer) {}
 
-HiServer::~HiServer(){};
+HiServer::~HiServer() {};
 
 std::vector<char> HiServer::serializeData() const
 {

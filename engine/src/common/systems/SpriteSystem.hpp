@@ -91,7 +91,7 @@ class SpriteSystem : public ISystem
             }
             gameContext._runtime->drawSprite(currentAnim.spriteID, transform.position,
                                              currentAnim.getSpriteCoords(animations.currentFrame),
-                                             currentAnim.getScale(), currentAnim.getRotation());
+                                             transform.scale, transform.rotation.x);
         }
     }
 

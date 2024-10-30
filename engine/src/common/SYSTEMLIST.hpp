@@ -8,6 +8,7 @@
 #ifndef SYSTEMLIST_H
 #define SYSTEMLIST_H
 
+#include "common/network/systems/roomSystem.hpp"
 #include "common/systems/AudioSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
@@ -15,6 +16,7 @@
 #include "common/systems/StickySystem.hpp"
 #include "common/systems/PhysicsCollisionSystem.hpp"
 
-#define SYSTEM_TYPES ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem, PhysicsSystem
+#define SYSTEM_TYPES \
+    ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem, RoomSystem
 
 #endif  // SYSTEMLIST_H
