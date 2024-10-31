@@ -42,13 +42,13 @@ class ConnectionRedirect
             }
             networkC.client->setLastPing(std::chrono::steady_clock::now());
 
-            auto duration =
-                std::chrono::steady_clock::now() -
-                std::chrono::steady_clock::time_point(std::chrono::milliseconds(pingTimestamp));
-            auto duration_ms =
-                std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+               std::chrono::system_clock::now().time_since_epoch()).count();
+
+            uint64_t duration = currentTime - pingTimestamp;
+
             LOG("ConnectionRedirect",
-                "[Ping packet] received, latence:" + std::to_string(duration_ms) + "ms.");
+                "[Ping packet] received, latence:" + std::to_string(duration) + "s.");
         }
     }
 
@@ -63,13 +63,13 @@ class ConnectionRedirect
             auto &networkC = view.get<NetworkRoom>(entity);
 
             networkC.room->resetPing(packet.second);
-            auto duration =
-                std::chrono::steady_clock::now() -
-                std::chrono::steady_clock::time_point(std::chrono::milliseconds(pingTimestamp));
-            auto duration_ms =
-                std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+               std::chrono::system_clock::now().time_since_epoch()).count();
+            uint64_t duration = currentTime - pingTimestamp;
+
             LOG("ConnectionRedirect",
-                "[Ping packet] received, latence:" + std::to_string(duration_ms) + "ms.");
+                "[Ping packet] received, latence:" + std::to_string(duration) + "s.");
         }
     }
 };
