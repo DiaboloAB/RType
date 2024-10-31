@@ -122,7 +122,8 @@ struct CppScriptComponent
         }
     }
 
-    void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext, const std::string& action)
+    void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext,
+                            const std::string& action)
     {
         for (auto& script : scripts)
         {

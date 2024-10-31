@@ -9,8 +9,8 @@
 #define GAMEMANAGER_HPP
 
 #include "common/ICppScript.hpp"
-#include "gameContext/GameContext.hpp"
 #include "common/cppScripts/Terrain.hpp"
+#include "gameContext/GameContext.hpp"
 
 namespace RType
 {
@@ -27,7 +27,8 @@ class GameManager : public RType::ICppScript
             event.delay -= gameContext._deltaT;
             if (event.delay <= 0)
             {
-                if (event.type == "instantiate") {
+                if (event.type == "instantiate")
+                {
                     mobs::Entity entity =
                         gameContext._sceneManager.instantiate(event.prefab, gameContext);
                     auto &transform = registry.get<Transform>(entity);
@@ -38,7 +39,8 @@ class GameManager : public RType::ICppScript
                     transform.scale *= event.scale;
                     _eventID++;
                 }
-                if (event.type == "stopScrolling") {
+                if (event.type == "stopScrolling")
+                {
                     mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
                     for (auto _entity : view)
                     {

@@ -87,7 +87,7 @@ void from_json(const nlohmann::json& j, Animator& animator)
 
 void from_json(const nlohmann::json& j, Event& event)
 {
-   if (j.contains("prefab")) j.at("prefab").get_to(event.prefab);
+    if (j.contains("prefab")) j.at("prefab").get_to(event.prefab);
 
     if (j.contains("position")) j.at("position").get_to(event.position);
 

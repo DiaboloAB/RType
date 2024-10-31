@@ -17,11 +17,7 @@ namespace RType
 class Terrain : public RType::ICppScript
 {
    public:
-
-    void setScrolling(bool scrolling)
-    {
-        this->scrolling = scrolling;
-    }
+    void setScrolling(bool scrolling) { this->scrolling = scrolling; }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
