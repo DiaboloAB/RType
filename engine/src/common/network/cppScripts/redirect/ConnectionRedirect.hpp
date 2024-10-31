@@ -33,6 +33,11 @@ class ConnectionRedirect
             for (auto &entity : view) {
 
                 auto &networkC = view.get<NetworkClient>(entity);
+
+                if (*networkC.client->getDirectionEndpoint() != packet.second) {
+                    ERR_LOG("handleConnection", "Invalid sender of packets.");
+                    return;
+                }
                 networkC.client->setLastPing(std::chrono::steady_clock::now());
 
                 auto duration = std::chrono::steady_clock::now() - std::chrono::steady_clock::time_point(std::chrono::milliseconds(pingTimestamp));
