@@ -6,7 +6,7 @@
         "components": {
           "Transform": { "position": [-10000, -10000, 0] },
           "Timer": { "active": false},
-          "Hitbox": {
+          "Collider": {
             "size": [64, 32],
             "offSet": [0, 0],
             "isEnemy": false
@@ -111,7 +111,7 @@
           "Transform": { "position": [1600, 500, 0] },
           "Sprite": { "texture": "assets/graphics/enemy/factory.png" },
           "Timer": { "active": true},
-          "Hitbox": {
+          "Collider": {
             "size": [130, 50],
             "offSet": [0, 0],
             "isEnemy": true

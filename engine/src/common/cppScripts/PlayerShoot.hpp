@@ -34,7 +34,7 @@ class PlayerShoot : public RType::ICppScript
             mobs::Entity laser = gameContext._sceneManager.instantiate("Laser", gameContext);
             auto &animator = registry.get<Animator>(laser).animations;
             auto &transform = registry.get<Transform>(laser);
-            auto &hitbox = registry.get<Hitbox>(laser);
+            auto &collider = registry.get<Collider>(laser);
 
             transform.position =
                 registry.get<Transform>(getEntity()).position + mlg::vec3(50, 0, 0);
@@ -42,25 +42,25 @@ class PlayerShoot : public RType::ICppScript
             if (charge < 0.4)
             {
                 animator.playAnim("small");
-                hitbox.size = mlg::vec3(16, 10, 0);
+                collider.size = mlg::vec3(16, 10, 0);
                 health = 1;
             }
             else if (charge < 1)
             {
                 animator.playAnim("medium");
-                hitbox.size = mlg::vec3(32, 12, 0);
+                collider.size = mlg::vec3(32, 12, 0);
                 health = 2;
             }
             else if (charge < 1.6)
             {
                 animator.playAnim("large");
-                hitbox.size = mlg::vec3(48, 14, 0);
+                collider.size = mlg::vec3(48, 14, 0);
                 health = 3;
             }
             else
             {
                 animator.playAnim("full");
-                hitbox.size = mlg::vec3(64, 14, 0);
+                collider.size = mlg::vec3(64, 14, 0);
                 health = 5;
             }
             timer.reset();

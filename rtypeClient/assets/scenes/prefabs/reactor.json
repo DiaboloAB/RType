@@ -9,7 +9,7 @@
             "position": [0, 0, 0],
             "scale": [2, 2, 0]
         },
-        "Hitbox": {
+        "Collider": {
             "size": [112, 96, 0],
             "offSet": [0, 0, 0]
         },

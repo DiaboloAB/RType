@@ -22,7 +22,6 @@ class MovePlayer : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &transform = registry.get<Transform>(getEntity());
-        auto &hitbox = registry.get<Hitbox>(getEntity());
 
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {

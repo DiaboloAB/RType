@@ -12,6 +12,6 @@
 #include "common/network/components/networkComp.hpp"
 
 #define COMPONENT_TYPES \
-    Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, Hitbox, EventManager, RigidBody, Collider
+    Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, EventManager, RigidBody, Collider
 
 #endif  // COMPONENTLIST_H

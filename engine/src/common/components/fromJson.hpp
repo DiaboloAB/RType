@@ -121,12 +121,6 @@ void from_json(const nlohmann::json& j, Sticky& sticky)
     if (j.contains("offset")) j.at("offset").get_to(sticky.offset);
 }
 
-void from_json(const nlohmann::json& j, Hitbox& hitbox)
-{
-    if (j.contains("size")) j.at("size").get_to(hitbox.size);
-    if (j.contains("offset")) j.at("offset").get_to(hitbox.offset);
-}
-
 void from_json(const nlohmann::json& j, Collider& collider)
 {
     if (!j.contains("size")) throw std::runtime_error("Collider must have a size");
