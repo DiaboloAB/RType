@@ -39,15 +39,6 @@ Room::~Room()
     this->_recvThread->join();
 }
 
-void Room::pingEndpoints()
-{
-    std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
-    if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_lastPing)
-            .count() >= 500)
-    {
-        this->sendPing();
-    }
-}
 
 void Room::addSenderToRoom(asio::ip::udp::endpoint &sender)
 {
