@@ -18,7 +18,22 @@ class EntityRedirect {
     public:
         static void create(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         {
-            std::cerr << "Bonjour from create" << std::endl;
+            try {
+                auto packetCreate = std::dynamic_pointer_cast<dimension::CreateEntity>(packet.first);
+                uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+                               std::chrono::system_clock::now().time_since_epoch()).count();
+                if (packetCreate->getPacketTimeStamp() + 2 >= currentTime)
+                    return;
+                mobs::Entity entity = gameContext._sceneManager.instantiate(packetCreate->getEntityToCreate(), gameContext);
+                auto &transform = registry.get<Transform>(entity);
+                transform.position.x = packetCreate->getPosX();
+                transform.position.y = packetCreate->getPosY();
+                auto &networkData = registry.get<NetworkData>(entity);
+                networkData._id = packetCreate->getNetworkId();
+                LOG("EntityRedirect", "Entity created. {Network id: " + std::to_string(networkData._id) + "}");
+            } catch (std::exception &e) {
+                ERR_LOG("EntityRedirect", std::string("{") + e.what() + "}");
+            }
         };
 
         static void destroy(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)

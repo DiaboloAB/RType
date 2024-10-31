@@ -53,13 +53,15 @@ class ClientRedirect : public RType::ICppScript
             while (!_rcvQueue.empty())
             {
                 auto packet = _rcvQueue.front();
-                auto validation = networkC.factory.createEmptyPacket<dimension::PacketValidation>();
-                validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
-                validation->setPacketReceiveType(packet.first->getPacketType());
-                networkC.client->send(validation, packet.second, false);
                 auto typeIndex = networkC.factory.getIndexFromType(packet.first->getPacketType());
                 if (this->_redirecter.find(typeIndex) != this->_redirecter.end())
                     this->_redirecter.at(typeIndex)(registry, gameContext, packet);
+                if (typeIndex != std::type_index(typeid(dimension::Ping))) {
+                    auto validation = networkC.factory.createEmptyPacket<dimension::PacketValidation>();
+                    validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
+                    validation->setPacketReceiveType(packet.first->getPacketType());
+                    networkC.client->send(validation, packet.second, false);
+                }
                 _rcvQueue.pop();
                 networkC.client->popReceiveQueue();
             }
