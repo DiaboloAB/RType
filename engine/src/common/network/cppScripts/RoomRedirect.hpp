@@ -21,8 +21,9 @@ class RoomRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        this->_redirecter[std::type_index(typeid(dimension::Ping))] = []()
-        { std::cerr << "Bonjour le 3" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::Ping))] = [](
+            mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::ConnectionRedirect::handlePingRoom(registry, gameContext, packet); };
         this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = []()
         { std::cerr << "Bonjour le 4" << std::endl; };
     }
