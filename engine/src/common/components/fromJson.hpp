@@ -88,6 +88,8 @@ void from_json(const nlohmann::json& j, Event& event)
 
     if (!j.contains("delay")) throw std::runtime_error("event must have a delay");
     j.at("delay").get_to(event.delay);
+
+    if (j.contains("scale")) j.at("scale").get_to(event.scale);
 }
 
 void from_json(const nlohmann::json& j, EventManager& eventManager)

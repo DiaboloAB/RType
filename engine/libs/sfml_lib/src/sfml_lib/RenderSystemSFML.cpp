@@ -158,8 +158,8 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         float realHeight = spriteCoords.w * scale.y;
 
         // Calculer la position pour que le centre soit le point d'origine
-        float centerX = position.x - (realWidth / 2.0f);
-        float centerY = position.y - (realHeight / 2.0f);
+        float centerX = position.x - (scale.x > 0 ? 0 : realWidth);
+        float centerY = position.y - (scale.y > 0 ? 0 : realHeight);
 
         // Définir la position ajustée pour que le centre soit constant
         it->second->setPosition(centerX, centerY);
