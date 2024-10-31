@@ -21,9 +21,11 @@
 #include "common/cppScripts/Terrain.hpp"
 #include "common/network/cppScripts/ComServer.hpp"
 #include "common/cppScripts/HelloWorld.hpp"
+#include "common/cppScripts/Menu.hpp"
 
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
-        MoveLaser, Bullet, RedShip, GameManager, Terrain
+        MoveLaser, Bullet, RedShip, GameManager, Terrain, \
+        Menu
 
 #endif  // SCRIPTLIST_H

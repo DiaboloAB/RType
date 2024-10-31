@@ -31,6 +31,9 @@ void from_json(const nlohmann::json& j, Button& button)
 
     if (j.contains("input")) j.at("input").get_to(button.input);
     if (j.contains("content")) j.at("content").get_to(button.content);
+
+    if (j.contains("entity")) j.at("entity").get_to(button.entity);
+    if (j.contains("action")) j.at("action").get_to(button.action);
 }
 
 }  // namespace RType

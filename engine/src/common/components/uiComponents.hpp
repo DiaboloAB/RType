@@ -33,7 +33,7 @@ struct Text
 {
     std::string text = "";
     std::string font = "";
-    mlg::vec3 color = mlg::vec3(1.0f);
+    mlg::vec3 color = mlg::vec3(255.0f);
     int fontSize = 12;
     bool centered = false;
     int font_id = -1;
@@ -56,8 +56,8 @@ struct Button
     std::string content = "";
     bool virtualKeyboard = false;
 
-    // std::string target = "";
-    // std::string action = "";
+    std::string entity = "";
+    std::string action = "";
 
     Button() {}
     static constexpr const char* name = "Button";

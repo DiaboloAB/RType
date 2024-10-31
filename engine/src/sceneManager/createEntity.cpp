@@ -63,7 +63,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
 {
     try
     {
-        bool staticObject = prefabJson.value("staticObject", false);
+        bool staticObject = prefabJson.value("staticObject", true);
         std::string tag = prefabJson.value("tag", "defaultTag");
         std::string layer = prefabJson.value("layer", "defaultLayer");
 
@@ -82,7 +82,6 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         if (prefabJson.contains("CppScripts"))
         {
             registry.emplace<CppScriptComponent>(entity, entity);
-            // std::cout << "Adding CppScripts to entity" << std::endl;
             addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"]);
         }
     }

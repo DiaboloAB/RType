@@ -24,6 +24,10 @@
         {
             "name": "menu",
             "path": "scenes/menu.json"
+        },
+        {
+            "name": "settings",
+            "path": "scenes/settings.json"
         }
     ],
     "prefabs": [

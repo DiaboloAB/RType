@@ -1,6 +1,11 @@
 {
   "entities": [
     {
+      "tag": "menuManager",
+      "staticObject": false,
+      "CppScripts": ["Menu"]
+    },
+    {
       "tag": "background",
       "staticObject": true,
       "components": {
@@ -20,13 +25,31 @@
       "tag": "exitButton",
       "staticObject": true,
       "components": {
-        "Transform": { "position": [150, 450, 0] },
+        "Transform": { "position": [150, 500, 0] },
         "Button": {
           "font": "fonts/r-type.ttf",
           "fontSize": 24,
           "text": "Exit",
           "color": [255, 255, 255],
-          "size": [200, 50, 0]
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "exit"
+        }
+      }
+    },
+    {
+      "tag": "settingsButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 450, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Settings",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "settings"
         }
       }
     },

@@ -75,6 +75,7 @@ class DrawableSystem : public ISystem
                 return;
             }
         } else if (!selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter)) {
+            buttonAction(registry, gameContext, *selectedButton);
         }
 
 
@@ -139,46 +140,55 @@ class DrawableSystem : public ISystem
     }
 
     void moveSelection(mobs::Registry &registry, GameContext &gameContext, Button *selectedButton, Transform *selectedTransform, std::vector<std::pair<Button &, Transform &>> buttons)
-{
-    selectedButton->selected = false;
+    {
+        selectedButton->selected = false;
 
-    mlg::vec3 direction;
-    if (gameContext._runtime->getKeyDown(KeyCode::UpArrow)) direction = {0, -1, 0};
-    else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow)) direction = {0, 1, 0};
-    else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow)) direction = {-1, 0, 0};
-    else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow)) direction = {1, 0, 0};
-    else {
-        selectedButton->selected = true;
-        return;
+        mlg::vec3 direction;
+        if (gameContext._runtime->getKeyDown(KeyCode::UpArrow)) direction = {0, -1, 0};
+        else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow)) direction = {0, 1, 0};
+        else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow)) direction = {-1, 0, 0};
+        else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow)) direction = {1, 0, 0};
+        else {
+            selectedButton->selected = true;
+            return;
+        }
+
+        Button *newSelectedButton = nullptr;
+        float minAdjustedDistance = std::numeric_limits<float>::max();
+        float penaltyFactor = 2.0f; // Adjust this factor to control how much the perpendicular distance affects the priority.
+
+        for (auto &[button, transform] : buttons)
+        {
+            if (&button == selectedButton) continue;
+
+            mlg::vec3 toButton = transform.position - selectedTransform->position;
+            float directionalDistance = toButton.dot(direction);
+            float perpendicularDistance = (toButton - direction * directionalDistance).length();
+
+            // Compute the adjusted distance with a penalty for the perpendicular distance.
+            float adjustedDistance = directionalDistance + penaltyFactor * perpendicularDistance;
+
+            if (directionalDistance > 0 && adjustedDistance < minAdjustedDistance)
+            {
+                minAdjustedDistance = adjustedDistance;
+                newSelectedButton = &button;
+            }
+        }
+
+        if (newSelectedButton)
+            newSelectedButton->selected = true;
+        else
+            selectedButton->selected = true;
     }
 
-    Button *newSelectedButton = nullptr;
-    float minAdjustedDistance = std::numeric_limits<float>::max();
-    float penaltyFactor = 2.0f; // Adjust this factor to control how much the perpendicular distance affects the priority.
-
-    for (auto &[button, transform] : buttons)
+    void buttonAction(mobs::Registry &registry, GameContext &gameContext, Button &button)
     {
-        if (&button == selectedButton) continue;
-
-        mlg::vec3 toButton = transform.position - selectedTransform->position;
-        float directionalDistance = toButton.dot(direction);
-        float perpendicularDistance = (toButton - direction * directionalDistance).length();
-
-        // Compute the adjusted distance with a penalty for the perpendicular distance.
-        float adjustedDistance = directionalDistance + penaltyFactor * perpendicularDistance;
-
-        if (directionalDistance > 0 && adjustedDistance < minAdjustedDistance)
-        {
-            minAdjustedDistance = adjustedDistance;
-            newSelectedButton = &button;
+        try {
+            gameContext.get<CppScriptComponent>(button.entity).onButtonPressedAll(registry, gameContext, button.action);
+        } catch (const std::exception &e) {
+            std::cerr << "no action binded to button" << std::endl;
         }
     }
-
-    if (newSelectedButton)
-        newSelectedButton->selected = true;
-    else
-        selectedButton->selected = true;
-}
 
 
    private:
