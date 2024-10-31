@@ -113,6 +113,22 @@
       }
     },
     {
+      "tag": "Single Player",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [380, 300, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Single Player",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "startGame"
+        }
+      }
+    },
+    {
       "tag": "hostInput",
       "staticObject": true,
       "components": {

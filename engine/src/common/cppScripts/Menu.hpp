@@ -33,6 +33,8 @@ class Menu : public RType::ICppScript
         {
             fullscreen = !fullscreen;
             gameContext._runtime->FullScreenWindow();
+        } else if (action == "startGame") {
+            gameContext._sceneManager.switchScene("scene2");
         }
 
     }
