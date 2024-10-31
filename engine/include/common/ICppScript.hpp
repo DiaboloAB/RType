@@ -85,13 +85,14 @@ class ICppScript
     }
 
     /**
-     * @brief Called when the script is destroyed.
+     * @brief Called when a button is pressed.
      *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
+     * @param action The action associated with the button press.
      */
     virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
-                                 std::string action)
+                                 std::string action, ...)
     {
     }
 
