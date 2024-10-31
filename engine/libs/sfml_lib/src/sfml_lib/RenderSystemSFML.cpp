@@ -30,62 +30,37 @@ void RenderSystemSFML::pollEvents()
     while (_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
-        {
             _currentKeys[KeyCode::Close] = true;
-        }
         if (event.type == sf::Event::KeyPressed)
-        {
             _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = true;
-        }
         if (event.type == sf::Event::KeyReleased)
-        {
             _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = false;
-        }
         if (event.type == sf::Event::MouseButtonPressed)
-        {
             _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = true;
-        }
         if (event.type == sf::Event::MouseButtonReleased)
-        {
             _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = false;
-        }
     }
 }
 
 bool RenderSystemSFML::getKey(KeyCode key)
 {
-    auto it = _currentKeys.find(static_cast<int>(key));
-    if (it != _currentKeys.end())
-    {
-        return it->second;
-    }
-    return false;
+    if (key < 0 || key >= _currentKeys.size())
+        return false;
+    return _currentKeys[key];
 }
 
 bool RenderSystemSFML::getKeyUp(KeyCode key)
 {
-    auto it = _previousKeys.find(static_cast<int>(key));
-    if (it != _previousKeys.end())
-    {
-        if (it->second == true && _currentKeys[static_cast<int>(key)] == false)
-        {
-            return true;
-        }
-    }
-    return false;
+    if (key < 0 || key >= _currentKeys.size())
+        return false;
+    return _currentKeys[key] == false && _previousKeys[key] == true;
 }
 
 bool RenderSystemSFML::getKeyDown(KeyCode key)
 {
-    auto it = _currentKeys.find(static_cast<int>(key));
-    if (it != _currentKeys.end())
-    {
-        if (it->second == true && _previousKeys[static_cast<int>(key)] == false)
-        {
-            return true;
-        }
-    }
-    return false;
+    if (key < 0 || key >= _currentKeys.size())
+        return false;
+    return _currentKeys[key] == true && _previousKeys[key] == false;
 }
 
 void RenderSystemSFML::clearWindow() { _window.clear(sf::Color::Black); }

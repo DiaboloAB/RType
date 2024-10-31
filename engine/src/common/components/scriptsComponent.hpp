@@ -122,6 +122,14 @@ struct CppScriptComponent
         }
     }
 
+    void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext, const std::string& action)
+    {
+        for (auto& script : scripts)
+        {
+            script->onButtonPressed(registry, gameContext, action);
+        }
+    }
+
     void addScript(std::shared_ptr<ICppScript> script)
     {
         script->setEntity(entity);
