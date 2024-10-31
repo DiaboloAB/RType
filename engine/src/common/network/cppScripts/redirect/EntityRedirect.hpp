@@ -74,7 +74,29 @@ class EntityRedirect
 
     static void move(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
-        std::cerr << "Bonjour from move" << std::endl;
+        try {
+            auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+                                       std::chrono::system_clock::now().time_since_epoch())
+                                       .count();
+            if (packetMove->getPacketTimeStamp() + 2 >= currentTime) return;
+            mobs::Registry::View view = registry.view<NetworkData>();
+            uint32_t idToMove = packetMove->getNetworkId();
+            for (auto &entity : view)
+            {
+                auto &networkData = registry.get<NetworkData>(entity);
+                if (networkData._id == idToMove)
+                {
+                    mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
+                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
+                    // call method avec direction et position
+                    return;
+                }
+            }
+        } catch (std::exception &e)
+        {
+            ERR_LOG("EntityRedirect", std::string("move {") + e.what() + "}");
+        }
     };
 };
 }  // namespace RType::Network
