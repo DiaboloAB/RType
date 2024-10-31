@@ -1,0 +1,10 @@
+{
+    "tag": "NetworkRoom",
+    "staticObject": false,
+    "components": {
+      "NetworkRoom": {}
+    },
+    "CppScripts": [
+      "RoomRedirect"
+    ]
+}

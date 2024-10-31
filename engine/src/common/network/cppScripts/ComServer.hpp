@@ -23,24 +23,12 @@ class ComServer : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &networkC = registry.get<NetworkClient>(getEntity());
-        auto _rcvQueue = networkC.client->getRcvQueue();
-        while (!_rcvQueue.empty())
-        {
-            auto packet = _rcvQueue.front();
-            auto validation = networkC.factory.createEmptyPacket<dimension::PacketValidation>();
-            validation->setPacketReceiveTimeStamp(packet.first->getPacketTimeStamp());
-            validation->setPacketReceiveType(packet.first->getPacketType());
-            networkC.client->send(validation, packet.second, false);
-            _rcvQueue.pop();
-            networkC.client->popReceiveQueue();
-        }
         if (gameContext._runtime->getKeyDown(KeyCode::Enter))
         {
             networkC.client->connectServer("127.0.0.1", 8581);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::R))
         {
-            auto &networkC = registry.get<NetworkClient>(getEntity());
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);
             event->setDescription("join=rd");
@@ -49,7 +37,6 @@ class ComServer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyDown(KeyCode::L))
         {
-            auto &networkC = registry.get<NetworkClient>(getEntity());
             auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
             event->setClientEvent(dimension::ClientEventType::ROOM);
             event->setDescription("end=N");

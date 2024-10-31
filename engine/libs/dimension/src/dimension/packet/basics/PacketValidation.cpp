@@ -25,7 +25,7 @@ PacketValidation::PacketValidation(std::vector<char> &buffer) : APacket(buffer)
     std::memcpy(&this->_packetReceiveTimeStamp, data, sizeof(uint64_t));
 }
 
-PacketValidation::~PacketValidation() {};
+PacketValidation::~PacketValidation(){};
 
 std::vector<char> PacketValidation::serializeData() const
 {

@@ -30,12 +30,13 @@
       },
       {
         "tag": "NetworkCom",
-        "staticObject": true,
+        "staticObject": false,
         "components": {
           "NetworkClient": {}
         },
         "CppScripts": [
-          "ComServer"
+          "ComServer",
+          "ClientRedirect"
         ]
       }
     ]

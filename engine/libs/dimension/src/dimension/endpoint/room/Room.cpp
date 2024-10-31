@@ -34,7 +34,8 @@ Room::Room(const std::shared_ptr<PacketFactory> &factory, std::string host, unsi
 Room::~Room()
 {
     if (this->_io_context) this->_io_context->stop();
-    while (this->_recvThread && !this->_recvThread->joinable());
+    while (this->_recvThread && !this->_recvThread->joinable())
+        ;
     this->_recvThread->join();
 }
 
@@ -44,9 +45,7 @@ void Room::pingEndpoints()
     if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_lastPing)
             .count() >= 500)
     {
-        auto ping = this->_packetFactory->createEmptyPacket<Ping>();
-        for (auto &endp : this->_connectedEp) this->send(ping, endp.first, false);
-        this->_lastPing = std::chrono::steady_clock::now();
+        this->sendPing();
     }
 }
 
@@ -60,6 +59,25 @@ bool Room::isConnected(asio::ip::udp::endpoint &endpoint) const
     for (auto &endp : this->_connectedEp)
         if (endp.first == endpoint) return true;
     return false;
+}
+
+void Room::sendPing()
+{
+    auto pingPacket = this->_packetFactory->createEmptyPacket<dimension::Ping>();
+    for (auto &endp : this->_connectedEp) this->send(pingPacket, endp.first, false);
+    this->_lastPing = std::chrono::steady_clock::now();
+}
+
+void Room::resetPing(asio::ip::udp::endpoint &sender)
+{
+    for (auto &endp : this->_connectedEp)
+    {
+        if (endp.first == sender)
+        {
+            endp.second = std::chrono::steady_clock::now();
+            return;
+        }
+    }
 }
 
 std::string Room::getHost() const { return this->_host; }

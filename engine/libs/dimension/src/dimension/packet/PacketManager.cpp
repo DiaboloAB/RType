@@ -10,7 +10,7 @@
 
 namespace dimension
 {
-PacketManager::PacketManager() {};
+PacketManager::PacketManager(){};
 
-PacketManager::~PacketManager() {};
+PacketManager::~PacketManager(){};
 }  // namespace dimension

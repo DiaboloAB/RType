@@ -26,11 +26,11 @@ class RoomSystem : public ISystem
             if (args.find("host") != args.end() && args.find("port") != args.end() &&
                 args.find("code") != args.end())
             {
-                auto entity = registry.create();
-                registry.emplace<Basics>(entity, "room", "", false);
-                registry.emplace<NetworkRoom>(
-                    entity, args.at("host"), static_cast<unsigned int>(std::stoul(args.at("port"))),
-                    args.at("code"));
+                mobs::Entity entity = gameContext._sceneManager.instantiate("room", gameContext);
+                auto &room = registry.get<NetworkRoom>(entity);
+                room.room = std::make_shared<dimension::Room>(
+                    std::make_shared<dimension::PacketFactory>(), args.at("host"),
+                    static_cast<unsigned int>(std::stoul(args.at("port"))), args.at("code"));
             }
         }
         catch (std::exception &e)

@@ -52,7 +52,6 @@ class PhysicsSystem : public ISystem
                 {
                     continue;
                 }
-
                 int result = collider.isColliding(transform.position + collider.offset, otherEntity,
                                                   otherTransform.position + otherCollider.offset,
                                                   otherCollider.size);

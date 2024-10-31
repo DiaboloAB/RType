@@ -62,6 +62,18 @@ class Room : public AEndpoint
      */
     bool isConnected(asio::ip::udp::endpoint &endpoint) const;
 
+    /**
+     * @brief Send ping packet to all connected clients of the room.
+     */
+    void sendPing() override;
+
+    /**
+     * @brief Reset the last ping value of the sender of the packet ping.
+     *
+     * @param sender: Sender of the packet.
+     */
+    void resetPing(asio::ip::udp::endpoint &sender);
+
    public:
     std::string getHost() const;
     unsigned int getPort() const;

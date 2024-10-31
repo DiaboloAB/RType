@@ -75,5 +75,10 @@ class IEndpoint
      * @brief Resend packet which didn't receive any validation to appropriate target.
      */
     virtual void resendValidationList() = 0;
+
+    /**
+     * @brief Method called to handle ping sending to handle if a connection is not keep alive.
+     */
+    virtual void sendPing() = 0;
 };
 }  // namespace dimension
