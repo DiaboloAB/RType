@@ -14,10 +14,23 @@
 #include "gameContext/GameContext.hpp"
 
 namespace RType::Network {
+
+/**
+ * @brief Class UpdateRedirect that store the static method to handle Update packets
+ * from client side.
+ */
 class UpdateRedirect {
     private:
         using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
+
+        /**
+         * @brief Handle Update packet with room context by connecting client to room.
+         * 
+         * @param registry: Reference to the entity-component registry.
+         * @param gameContext: Reference to the game context. 
+         * @param packet: Update packet data & endpoint of packet sender. 
+         */
         static void updateRoom(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet) {
 
             auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
@@ -60,6 +73,15 @@ class UpdateRedirect {
         }
 
     public:
+
+        /**
+         * @brief Call the handler associated with Update packet context stored in
+         * packet description.
+         * 
+         * @param registry: Reference to the entity-component registry.
+         * @param gameContext: Reference to the game context. 
+         * @param packet: Update packet data & endpoint of packet sender. 
+         */
         static void update(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         {
             try {
