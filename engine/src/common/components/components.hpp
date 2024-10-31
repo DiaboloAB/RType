@@ -98,31 +98,6 @@ struct Hitbox
     static constexpr const char* name = "Hitbox";
 };
 
-struct Button
-{
-    std::string text;
-    mlg::vec3 size;
-    std::string font;
-    mlg::vec3 color;
-
-    std::string target = "";
-    std::string action = "";
-
-    Button() {}
-    static constexpr const char* name = "Button";
-};
-struct Text
-{
-    std::string text = "";
-    mlg::vec3 color = mlg::vec3(1.0f);
-    std::string font = "";
-    int id_font = -1;
-    int fontSize = 12;
-
-    Text() {}
-    static constexpr const char* name = "Text";
-};
-
 struct Audio
 {
     std::vector<std::string> sounds;

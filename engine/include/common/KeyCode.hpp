@@ -24,7 +24,6 @@ namespace RType
  */
 enum KeyCode
 {
-    Close,  // Close the window
     A,
     B,
     C,
@@ -79,6 +78,7 @@ enum KeyCode
     Enter,
     Backspace,
     Tab,
-    None
+    None,
+    Close
 };
 }  // namespace RType
