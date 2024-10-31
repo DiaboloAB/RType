@@ -9,6 +9,7 @@
 #define FROMJSON_H
 
 #include "common/components/fromJson.hpp"
+#include "common/components/uiFromJson.hpp"
 #include "common/network/components/fromJsonNetwork.hpp"
 
 #endif  // FROMJSON_H

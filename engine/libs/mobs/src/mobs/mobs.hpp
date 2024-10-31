@@ -120,6 +120,13 @@ class Registry
         {
             return _manager.getComponent<Component>(entity);
         }
+
+        /**
+         * @brief Returns the number of entities in the view.
+         *
+         * @return The number of entities in the view.
+         */
+        Entity front() { return entities.front(); }
     };
 
     /**
