@@ -41,12 +41,6 @@ class Room : public AEndpoint
 
    public:
     /**
-     * @brief Pings connected endpoints to maintain active connections.
-     */
-    void pingEndpoints();
-
-   public:
-    /**
      * @brief Adds a sender endpoint to connected endpoints for handling non-connection packets.
      *
      * @param sender Endpoint to add to the connected endpoints list.
