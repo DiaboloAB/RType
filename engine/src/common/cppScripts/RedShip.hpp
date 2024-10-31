@@ -18,6 +18,14 @@ namespace RType
 class RedShip : public RType::ICppScript
 {
    public:
+    virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext,
+                                  mobs::Entity other) override
+    {
+        auto &animations = registry.get<Animator>(getEntity()).animations;
+
+        animations.playAnim("explosion");
+    }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         int speed = 100;

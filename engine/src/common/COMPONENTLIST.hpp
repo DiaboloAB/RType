@@ -12,8 +12,8 @@
 #include "common/components/uiComponents.hpp"
 #include "common/network/components/networkComp.hpp"
 
-#define COMPONENT_TYPES                                                                          \
-    Transform, Sprite, Animator, Sticky, Hitbox, EventManager, RigidBody, Collider, NetworkRoom, \
-        NetworkClient, NetworkData, Text, Button
+#define COMPONENT_TYPES                                                                       \
+    Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, EventManager, RigidBody, \
+        Collider, Text, Button, NetworkRoom
 
 #endif  // COMPONENTLIST_H

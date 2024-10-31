@@ -25,7 +25,7 @@
 #include "common/network/cppScripts/RoomRedirect.hpp"
 
 #define SCRIPT_TYPES                                                                           \
-    HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, MoveLaser, \
-        Bullet, RedShip, GameManager, Terrain, Menu, ClientRedirect, RoomRedirect, ComServer
+    ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
+        MoveLaser, Bullet, RedShip, GameManager, Terrain, Menu, ClientRedirect, RoomRedirect
 
 #endif  // SCRIPTLIST_H
