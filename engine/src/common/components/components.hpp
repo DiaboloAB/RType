@@ -144,6 +144,7 @@ struct Audio
 struct Collider
 {
     mlg::vec3 size;
+    mlg::vec3 offset;
     bool isTrigger = false;
     std::vector<mobs::Entity> collisions;
     std::vector<std::string> layerMask;
