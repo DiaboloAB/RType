@@ -5,7 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#pragma once
+#ifndef CONNECTIONREDIRECT_HPP
+#define CONNECTIONREDIRECT_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -26,7 +27,18 @@ class ConnectionRedirect
 
         static void handlePingClient(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         {
-            LOG("ConnectionRedirect", "[Ping packet] received");
+            mobs::Registry::View view = registry.view<NetworkClient>();
+            uint64_t pingTimestamp = packet.first->getPacketTimeStamp();
+
+            for (auto &entity : view) {
+
+                auto &networkC = view.get<NetworkClient>(entity);
+                networkC.client->setLastPing(std::chrono::steady_clock::now());
+
+                auto duration = std::chrono::steady_clock::now() - std::chrono::steady_clock::time_point(std::chrono::milliseconds(pingTimestamp));
+                auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+                LOG("ConnectionRedirect", "[Ping packet] received, latence:" + std::to_string(duration_ms) + "ms.");
+            }
         }
 
         static void handlePingServer(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
@@ -35,3 +47,5 @@ class ConnectionRedirect
         }
 };
 } // namespace RType
+
+#endif  // CONNECTIONREDIRECT_HPP
