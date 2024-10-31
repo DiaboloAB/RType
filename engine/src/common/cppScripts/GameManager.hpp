@@ -9,6 +9,7 @@
 #define GAMEMANAGER_HPP
 
 #include "common/ICppScript.hpp"
+#include "common/cppScripts/Terrain.hpp"
 #include "gameContext/GameContext.hpp"
 
 namespace RType
@@ -26,16 +27,33 @@ class GameManager : public RType::ICppScript
             event.delay -= gameContext._deltaT;
             if (event.delay <= 0)
             {
-                mobs::Entity entity =
-                    gameContext._sceneManager.instantiate(event.prefab, gameContext);
-                auto &transform = registry.get<Transform>(entity);
-                auto &basic = registry.get<Basics>(entity);
+                if (event.type == "instantiate")
+                {
+                    mobs::Entity entity =
+                        gameContext._sceneManager.instantiate(event.prefab, gameContext);
+                    auto &transform = registry.get<Transform>(entity);
+                    auto &basic = registry.get<Basics>(entity);
 
-                basic.tag = event.prefab + std::to_string(_eventID);
-                transform.position = event.position;
-                _eventID++;
+                    basic.tag = event.prefab + std::to_string(_eventID);
+                    transform.position = event.position;
+                    transform.scale *= event.scale;
+                    _eventID++;
+                }
+                if (event.type == "stopScrolling")
+                {
+                    mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
+                    for (auto _entity : view)
+                    {
+                        auto &cppScript = view.get<CppScriptComponent>(_entity);
+                        if (cppScript.getScript<Terrain>() != nullptr)
+                        {
+                            cppScript.getScript<Terrain>()->setScrolling(false);
+                        }
+                    }
+                }
             }
         }
+
         for (auto event = eventManager.eventList.begin(); event != eventManager.eventList.end();)
         {
             if (event->delay <= 0)
@@ -44,7 +62,7 @@ class GameManager : public RType::ICppScript
             }
             else
             {
-                ++event;
+                event++;
             }
         }
     }

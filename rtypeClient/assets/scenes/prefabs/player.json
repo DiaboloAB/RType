@@ -12,9 +12,11 @@
       "scale": [2, 2, 0],
       "rotation": [0, 0, 0]
     },
-    "Hitbox": {
+    "Collider": {
       "size": [16, 32, 0],
-      "offset": [0, 0, 0]
+      "offset": [0, 0, 0],
+      "isTrigger": false,
+      "layerMask": "enemy"
     },
     "Animator": {
       "animations": [

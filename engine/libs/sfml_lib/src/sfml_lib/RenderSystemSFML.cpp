@@ -29,8 +29,7 @@ void RenderSystemSFML::pollEvents()
     sf::Event event = {};
     while (_window.pollEvent(event))
     {
-        if (event.type == sf::Event::Closed)
-            _currentKeys[KeyCode::Close] = true;
+        if (event.type == sf::Event::Closed) _currentKeys[KeyCode::Close] = true;
         if (event.type == sf::Event::KeyPressed)
             _currentKeys[convertSFMLKeyToKeyCode(event.key.code)] = true;
         if (event.type == sf::Event::KeyReleased)
@@ -44,22 +43,19 @@ void RenderSystemSFML::pollEvents()
 
 bool RenderSystemSFML::getKey(KeyCode key)
 {
-    if (key < 0 || key >= _currentKeys.size())
-        return false;
+    if (key < 0 || key >= _currentKeys.size()) return false;
     return _currentKeys[key];
 }
 
 bool RenderSystemSFML::getKeyUp(KeyCode key)
 {
-    if (key < 0 || key >= _currentKeys.size())
-        return false;
+    if (key < 0 || key >= _currentKeys.size()) return false;
     return _currentKeys[key] == false && _previousKeys[key] == true;
 }
 
 bool RenderSystemSFML::getKeyDown(KeyCode key)
 {
-    if (key < 0 || key >= _currentKeys.size())
-        return false;
+    if (key < 0 || key >= _currentKeys.size()) return false;
     return _currentKeys[key] == true && _previousKeys[key] == false;
 }
 
@@ -120,7 +116,7 @@ void RenderSystemSFML::unloadSprite(int spriteId)
 }
 
 void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords,
-                                   mlg::vec3 scale, float rotation)
+                                  mlg::vec3 scale, float rotation)
 {
     auto it = _spriteCache.find(spriteId);
     if (it != _spriteCache.end())
@@ -133,16 +129,16 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         float realHeight = spriteCoords.w * scale.y;
 
         // Calculer la position pour que le centre soit le point d'origine
-        float centerX = position.x - (realWidth / 2.0f);
-        float centerY = position.y - (realHeight / 2.0f);
+        float centerX = position.x - (scale.x > 0 ? 0 : realWidth);
+        float centerY = position.y - (scale.y > 0 ? 0 : realHeight);
 
         // Définir la position ajustée pour que le centre soit constant
         it->second->setPosition(centerX, centerY);
-        
+
         // Appliquer l'échelle et la rotation
         it->second->setScale(scale.x, scale.y);
         it->second->setRotation(rotation);
-        
+
         // Dessiner le sprite
         if (_activeShader)
         {
@@ -158,8 +154,6 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
     }
 }
-
-
 
 void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position)
 {

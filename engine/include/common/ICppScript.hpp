@@ -57,7 +57,8 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollisionStay(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionStay(mobs::Registry &registry, GameContext &gameContext,
+                                 mobs::Entity other)
     {
     }
 
@@ -67,7 +68,8 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext,
+                                  mobs::Entity other)
     {
     }
 
@@ -77,7 +79,8 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollisionExit(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionExit(mobs::Registry &registry, GameContext &gameContext,
+                                 mobs::Entity other)
     {
     }
 
@@ -87,7 +90,8 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext, std::string action)
+    virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
+                                 std::string action)
     {
     }
 

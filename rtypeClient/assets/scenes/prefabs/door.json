@@ -7,9 +7,9 @@
     "components": {
         "Transform": {
             "position": [0, 0, 0],
-            "scale": [1.9, 1.9, 0]
+            "scale": [1.9, 2, 0]
         },
-        "Hitbox": {
+        "Collider": {
             "size": [192, 96, 0],
             "offSet": [0, 0, 0]
         },
