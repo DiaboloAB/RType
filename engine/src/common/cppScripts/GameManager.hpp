@@ -10,6 +10,7 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
+#include "common/cppScripts/Terrain.hpp"
 
 namespace RType
 {
@@ -41,10 +42,10 @@ class GameManager : public RType::ICppScript
                     mobs::Registry::View view = registry.view<Basics, CppScriptComponent>();
                     for (auto _entity : view)
                     {
-                        auto &cppScript = view.get<CppScriptComponent>(entity);
+                        auto &cppScript = view.get<CppScriptComponent>(_entity);
                         if (cppScript.getScript<Terrain>() != nullptr)
                         {
-                            cppScript.getScript<Terrain>()->stopScrolling(false);
+                            cppScript.getScript<Terrain>()->setScrolling(false);
                         }
                     }
                 }

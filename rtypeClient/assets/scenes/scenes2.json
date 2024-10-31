@@ -452,7 +452,7 @@
               "type": "instantiate",
               "prefab": "door",
               "position": [1920, 888, 0],
-              "delay": 80
+              "delay": 80.25
             },
             {
               "type": "instantiate",
@@ -809,6 +809,10 @@
               "position": [1920, 0, 0],
               "delay": 122.5,
               "scale": [1, -1, 0]
+            },
+            {
+              "type": "stopScrolling",
+              "delay": 123
             }
           ]
         }

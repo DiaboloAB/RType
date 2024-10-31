@@ -80,14 +80,15 @@ void from_json(const nlohmann::json& j, Animator& animator)
 
 void from_json(const nlohmann::json& j, Event& event)
 {
-    if (!j.contains("prefab")) throw std::runtime_error("event must have a prefab name");
-    j.at("prefab").get_to(event.prefab);
+   if (j.contains("prefab")) j.at("prefab").get_to(event.prefab);
 
-    if (!j.contains("position")) throw std::runtime_error("event must have a position");
-    j.at("position").get_to(event.position);
+    if (j.contains("position")) j.at("position").get_to(event.position);
 
     if (!j.contains("delay")) throw std::runtime_error("event must have a delay");
     j.at("delay").get_to(event.delay);
+
+    if (!j.contains("type")) throw std::runtime_error("event must have a type");
+    j.at("type").get_to(event.type);
 
     if (j.contains("scale")) j.at("scale").get_to(event.scale);
 }
