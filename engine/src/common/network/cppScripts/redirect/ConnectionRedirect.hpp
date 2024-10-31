@@ -41,9 +41,19 @@ class ConnectionRedirect
             }
         }
 
-        static void handlePingServer(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        static void handlePingRoom(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         {
-            LOG("ConnectionRedirect", "[Ping packet] received");
+            mobs::Registry::View view = registry.view<NetworkRoom>();
+            uint64_t pingTimestamp = packet.first->getPacketTimeStamp();
+
+            for (auto &entity : view) {
+                auto &networkC = view.get<NetworkRoom>(entity);
+
+                networkC.room->resetPing(packet.second);
+                auto duration = std::chrono::steady_clock::now() - std::chrono::steady_clock::time_point(std::chrono::milliseconds(pingTimestamp));
+                auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+                LOG("ConnectionRedirect", "[Ping packet] received, latence:" + std::to_string(duration_ms) + "ms.");
+            }
         }
 };
 } // namespace RType
