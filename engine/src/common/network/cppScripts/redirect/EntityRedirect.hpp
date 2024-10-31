@@ -18,6 +18,14 @@ class EntityRedirect
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
    public:
+
+    /**
+     * @brief Handler of CreateEntity packet into the ECS from client side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void create(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         try
@@ -43,6 +51,13 @@ class EntityRedirect
         }
     };
 
+    /**
+     * @brief Handler of DestroyEntity packet into the ECS from client side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void destroy(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         try
@@ -72,6 +87,13 @@ class EntityRedirect
         }
     };
 
+    /**
+     * @brief Handler of MoveEntity packet into the ECS from client side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void move(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         try {
@@ -89,7 +111,7 @@ class EntityRedirect
                 {
                     mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
                     mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
-                    // call method avec direction et position
+                    getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(registry, gameContext, "move", position, direction);
                     return;
                 }
             }
