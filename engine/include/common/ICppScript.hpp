@@ -87,7 +87,7 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void callFunction(std::string function, mobs::Registry &registry, GameContext &gameContext)
+    virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext, std::string action)
     {
     }
 
