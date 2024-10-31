@@ -13,9 +13,8 @@
 #include "common/network/components/networkComp.hpp"
 
 #define COMPONENT_TYPES \
-    Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, Hitbox, EventManager, RigidBody, Collider, \
-    NetworkRoom
-    Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, Hitbox, EventManager, RigidBody, Collider \
-    , Text, Button
+    Transform, Sprite, Animator, Sticky, Hitbox, EventManager, RigidBody, Collider, \
+    NetworkRoom, NetworkClient, NetworkData, \
+    Text, Button
 
 #endif  // COMPONENTLIST_H
