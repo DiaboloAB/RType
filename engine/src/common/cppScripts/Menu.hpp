@@ -17,11 +17,10 @@ namespace RType
 class Menu : public RType::ICppScript
 {
    public:
-    void update(mobs::Registry &registry, GameContext &gameContext) override
-    {
-    }
+    void update(mobs::Registry &registry, GameContext &gameContext) override {}
 
-    void onButtonPressed(mobs::Registry &registry, GameContext &gameContext, std::string action) override
+    void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
+                         std::string action) override
     {
         if (action == "settings")
             gameContext._sceneManager.switchScene("settings");
@@ -34,7 +33,6 @@ class Menu : public RType::ICppScript
             fullscreen = !fullscreen;
             gameContext._runtime->FullScreenWindow();
         }
-
     }
 
     static constexpr const char *name = "Menu";

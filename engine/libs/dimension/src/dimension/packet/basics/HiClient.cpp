@@ -14,7 +14,7 @@ HiClient::HiClient(uint8_t type) : APacket(type) { this->_packetDataSize = 0; }
 
 HiClient::HiClient(std::vector<char> &buffer) : APacket(buffer) {}
 
-HiClient::~HiClient() {};
+HiClient::~HiClient(){};
 
 std::vector<char> HiClient::serializeData() const
 {

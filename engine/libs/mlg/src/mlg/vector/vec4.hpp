@@ -48,13 +48,15 @@ class vec4
      */
     explicit vec4(float value) : x(value), y(value), z(value), w(value) {}
 
-    static vec4 getIntersection(vec4 a, vec4 b) {
+    static vec4 getIntersection(vec4 a, vec4 b)
+    {
         float x = std::max(a.x, b.x);
         float y = std::max(a.y, b.y);
         float x2 = std::min(a.x + a.z, b.x + b.z);
         float y2 = std::min(a.y + a.w, b.y + b.w);
 
-        if (x < x2 && y < y2) {
+        if (x < x2 && y < y2)
+        {
             return vec4(x, y, x2 - x, y2 - y);
         }
         return vec4(0, 0, 0, 0);

@@ -5,8 +5,8 @@
 #include <nlohmann/json.hpp>
 
 #include "components.hpp"
-#include "uiComponents.hpp"
 #include "scriptsComponent.hpp"
+#include "uiComponents.hpp"
 
 namespace RType
 {

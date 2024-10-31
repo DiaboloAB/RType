@@ -28,8 +28,9 @@ class RoomSystem : public ISystem
             {
                 mobs::Entity entity = gameContext._sceneManager.instantiate("room", gameContext);
                 auto &room = registry.get<NetworkRoom>(entity);
-                room.room = std::make_shared<dimension::Room>(std::make_shared<dimension::PacketFactory>(),
-                    args.at("host"), static_cast<unsigned int>(std::stoul(args.at("port"))), args.at("code"));
+                room.room = std::make_shared<dimension::Room>(
+                    std::make_shared<dimension::PacketFactory>(), args.at("host"),
+                    static_cast<unsigned int>(std::stoul(args.at("port"))), args.at("code"));
             }
         }
         catch (std::exception &e)
