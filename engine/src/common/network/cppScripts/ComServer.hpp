@@ -23,7 +23,7 @@ class ComServer : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &networkC = registry.get<NetworkClient>(getEntity());
-        if (gameContext._runtime->getKeyDown(KeyCode::Enter))
+        if (gameContext._runtime->getKeyDown(KeyCode::M))
         {
             networkC.client->connectServer("127.0.0.1", 8581);
         }
