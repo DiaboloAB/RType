@@ -44,7 +44,7 @@ class Bullet : public RType::ICppScript
             mlg::vec3 position = va_arg(args, mlg::vec3);
             mlg::vec3 direction = va_arg(args, mlg::vec3);
 
-            checkPosition(registry, gameContext, position, direction);
+            checkPosition(registry, position, direction);
             
             va_end(args);
         }
@@ -60,11 +60,11 @@ class Bullet : public RType::ICppScript
         return position.x < 0 || position.x > 1920 || position.y < 0 || position.y > 1080;
     }
 
-    void checkPosition(mlg::vec3 NewPosition, mlg::vec3 NewDirection)
+    void checkPosition(mobs::Registry &registry, mlg::vec3 NewPosition, mlg::vec3 NewDirection)
     {
         auto &transform = registry.get<Transform>(getEntity());
 
-        if (position != transform.position)
+        if (NewPosition != transform.position)
         {
             transform.position = NewPosition;
         }
