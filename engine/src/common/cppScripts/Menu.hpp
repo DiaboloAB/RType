@@ -10,6 +10,7 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
+#include "ClientEventType.hpp"
 
 namespace RType
 {
@@ -36,6 +37,28 @@ class Menu : public RType::ICppScript
         else if (action == "startGame")
         {
             gameContext._sceneManager.switchScene("scene2");
+        } 
+        else if (action == "findGame")
+        {
+            mobs::Registry::View view = registry.view<NetworkClient>();
+            for (auto &entity : view) {
+                auto &networkC = registry.get<NetworkClient>(entity);
+                auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+                event->setClientEvent(dimension::ClientEventType::ROOM);
+                event->setDescription("join=rd");
+                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+            }
+        }
+        else if (action == "hostGame")
+        {
+            mobs::Registry::View view = registry.view<NetworkClient>();
+            for (auto &entity : view) {
+                auto &networkC = registry.get<NetworkClient>(entity);
+                auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+                event->setClientEvent(dimension::ClientEventType::ROOM);
+                event->setDescription("create=pv");
+                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+            }
         }
     }
 

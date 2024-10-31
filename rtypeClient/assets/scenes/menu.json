@@ -63,7 +63,9 @@
           "fontSize": 24,
           "text": "Find Game",
           "color": [255, 255, 255],
-          "size": [200, 50, 0]
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "findGame"
         }
       }
     },
@@ -94,7 +96,9 @@
           "fontSize": 24,
           "text": "Host Game",
           "color": [255, 255, 255],
-          "size": [200, 50, 0]
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "hostGame"
         }
       }
     },
