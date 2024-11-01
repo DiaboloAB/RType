@@ -6,6 +6,20 @@
       "CppScripts": ["Menu"]
     },
     {
+      "tag": "soundManager",
+      "staticObject": false,
+      "components": {
+        "Audio": {
+          "musicList": [
+            "sounds/mainTrack.ogg"
+          ],
+          "soundList": [
+            "sounds/bip.ogg"
+          ]
+        }
+      }
+    },
+    {
       "tag": "background",
       "staticObject": true,
       "components": {

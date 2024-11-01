@@ -70,6 +70,13 @@ class SceneManager
     void setScenes(const std::map<std::string, std::string> &scenes) { _scenes = scenes; }
     void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
 
+    /**
+     * @brief Gets the current scene name.
+     *
+     * @return std::string The current scene name.
+     */
+    std::string getCurrentScene() const { return _currentScene; }
+
    private:
     /**
      * @brief Creates an entity from a prefab JSON.

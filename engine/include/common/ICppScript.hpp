@@ -48,6 +48,14 @@ class ICppScript
     virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**
+     * @brief Called when the script is loaded.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void load(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
      * @brief Called every frame to update the script.
      *
      * @param registry Reference to the entity-component registry.
