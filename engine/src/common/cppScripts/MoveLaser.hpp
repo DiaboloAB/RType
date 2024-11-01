@@ -23,6 +23,7 @@ class MoveLaser : public RType::ICppScript
         auto &transform = registry.get<Transform>(getEntity());
         transform.position.x += speed * gameContext._deltaT;
 
+        /// TODO : server responsability
         if (transform.position.x > 2000)
         {
             registry.kill(getEntity());
