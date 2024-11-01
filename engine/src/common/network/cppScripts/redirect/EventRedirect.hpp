@@ -20,6 +20,7 @@ namespace RType::Network {
             NetworkRoom &roomComp) 
             {
                 uint32_t idNewPlayer = roomComp.idFactory.generateNetworkId();
+                ERR_LOG("EventRedirect", "Entité " + std::to_string(idNewPlayer));
                 std::unordered_map<asio::ip::udp::endpoint, uint32_t> connectedId = roomComp.room->getIdMap();
                 auto updateScene = roomComp.factory.createEmptyPacket<dimension::UpdateEntity>();
                 updateScene->setNetworkId(0);
@@ -30,16 +31,16 @@ namespace RType::Network {
                 createPacketAlly->setEntityToCreate("player");
                 createPacketAlly->setPosX(100);
                 createPacketAlly->setPosY((connectedId.size() + 1) * 150);
-                for (auto &endp : connectedId)
+                for (auto &endp : roomComp.room->getIdMap())
                     roomComp.room->send(createPacketAlly, endp.first);
                 int counter = 1;
-                for (auto &endp : connectedId) {
+                for (auto &endp : roomComp.room->getIdMap()) {
                     auto createPacket = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
                     createPacket->setNetworkId(endp.second);
                     createPacket->setEntityToCreate("player");
                     createPacket->setPosX(100);
                     createPacket->setPosY(counter * 150);
-                    roomComp.room->send(createPacket, endp.first);
+                    roomComp.room->send(createPacket, packet.second);
                     counter++;
                 }
                 auto createPacketPlayer = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
