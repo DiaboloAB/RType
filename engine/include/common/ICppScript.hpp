@@ -92,7 +92,7 @@ class ICppScript
      * @param action The action associated with the button press.
      */
     virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
-                                 std::string action, ...)
+                                 std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args)
     {
     }
 

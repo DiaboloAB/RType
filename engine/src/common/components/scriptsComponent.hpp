@@ -123,17 +123,13 @@ struct CppScriptComponent
         }
     }
 
-
     void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext,
-                            const std::string& action, ...)
+                            std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args)
     {
         for (auto& script : scripts)
         {
             try {
-                va_list args;
-                va_start(args, action);
                 script->onButtonPressed(registry, gameContext, action, args);
-                va_end(args);
             } catch (const std::exception& e) {
                 std::cerr << "Error: " << e.what() << std::endl;
             }

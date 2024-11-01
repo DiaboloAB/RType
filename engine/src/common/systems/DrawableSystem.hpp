@@ -212,7 +212,7 @@ class DrawableSystem : public ISystem
         try
         {
             gameContext.get<CppScriptComponent>(button.entity)
-                .onButtonPressedAll(registry, gameContext, button.action, "oui");
+                .onButtonPressedAll(registry, gameContext, button.action, {});
         }
         catch (const std::exception &e)
         {
