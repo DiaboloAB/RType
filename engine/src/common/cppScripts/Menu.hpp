@@ -21,7 +21,7 @@ class Menu : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override {}
 
     void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
-                         std::string action, ...) override
+                         std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args) override
     {
         if (action == "settings")
             gameContext._sceneManager.switchScene("settings");
