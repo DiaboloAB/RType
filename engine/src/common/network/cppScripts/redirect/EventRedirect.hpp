@@ -55,6 +55,7 @@ namespace RType::Network {
 
             static void handleEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
             {
+                ERR_LOG("WOOOOOOOOOOAAAAAAAAA", "DDDDDDDD");
                 try {
                     mobs::Registry::View view = registry.view<NetworkRoom>();
                     auto &networkC = view.get<NetworkRoom>(view.front());

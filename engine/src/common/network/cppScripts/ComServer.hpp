@@ -25,7 +25,7 @@ class ComServer : public RType::ICppScript
         auto &networkC = registry.get<NetworkClient>(getEntity());
         if (gameContext._runtime->getKeyDown(KeyCode::M))
         {
-            networkC.client->connectServer("127.0.0.1", 8581);
+            networkC.client->connectServer("127.0.0.1", 8585);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::R))
         {

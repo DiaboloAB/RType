@@ -64,11 +64,13 @@ class UpdateRedirect
             try
             {
                 networkC.client->connectDirectionEndpoint(host, port);
-
+                if (networkC.client->_directionEndpoint == networkC.client->_serverEndpoint)
+                    ERR_LOG("LA", "LA PUTAIN DE SA MERE");
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=" + code);
                 networkC.client->send(event, *networkC.client->_directionEndpoint);
+                LOG("UpdateRedirect", "Direction endpoint set");
             }
             catch (std::exception &e)
             {
@@ -108,11 +110,11 @@ class UpdateRedirect
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
 
-            if (packetUpdate->getPacketTimeStamp() + 2 >= currentTime) return;
+            if (currentTime - packetUpdate->getPacketTimeStamp() >= 2) return;
 
             std::string packetDescription = packetUpdate->getDescription();
-            if (packetDescription.rfind("room:", 0) == 0) updateRoom(registry, gameContext, packet);
-            if (packetDescription.rfind("scene:", 0) == 0) updateScene(registry, gameContext, packet);
+            if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);
+            if (packetDescription.find("scene:", 0) == 0) updateScene(registry, gameContext, packet);
         }
         catch (std::exception &e)
         {
