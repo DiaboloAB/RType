@@ -53,6 +53,7 @@ src/common/components/animations/AnimationList.cpp
     src/sceneManager/createEntity.cpp
     src/clocksManager/ClockManager.cpp
     src/lua/getKey.cpp
+    src/lua/playMusic.cpp
     src/utils/hexaColorToVec3.cpp
     src/utils/random.cpp
     )

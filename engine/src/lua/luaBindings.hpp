@@ -14,4 +14,7 @@
 
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext);
 
+void playMusicSound(lua_State* L);
+
+
 #endif  // LUABINDINGS_H

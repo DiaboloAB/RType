@@ -90,6 +90,14 @@ int getKeyUp(lua_State* L)
     return 1;
 }
 
+void exitGame(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    gameContext->_running = false;
+}
+
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
 {
     lua_pushlightuserdata(L, gameContext);
@@ -101,6 +109,17 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
 
     lua_pushcclosure(L, (lua_CFunction)getKeyDown, 1);
     lua_setglobal(L, "getKeyDown");
+
+    lua_pushlightuserdata(L, gameContext);
+
+    lua_pushcclosure(L, (lua_CFunction)playMusicSound, 1);
+    lua_setglobal(L, "playMusicSound");
+
+    lua_pushlightuserdata(L, gameContext);
+
+    lua_pushcclosure(L, (lua_CFunction)exitGame, 1);
+    lua_setglobal(L, "exitGame");
+
 }
 
 #endif  // GETKEY_H

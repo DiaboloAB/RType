@@ -155,6 +155,7 @@ void Engine::run()
             _clockManager.getDrawDeltaT() = 0.0f;
         }
     }
+    _systemManager.stop(_registry, *_gameContext);
 }
 
 void Engine::stop()

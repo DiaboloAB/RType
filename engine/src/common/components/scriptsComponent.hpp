@@ -77,15 +77,32 @@ struct Scripts
         }
     }
 
-    Scripts(mobs::Entity entity) : entity(entity) {}
+    void onButtonPressed(mobs::Registry& registry, GameContext& gameContext, std::string action)
+    {
+        for (auto L : luaStates)
+        {
+            lua_getglobal(L, action.c_str());
 
-    ~Scripts()
+            lua_pushlightuserdata(L, &registry);
+            lua_pushlightuserdata(L, &gameContext);
+
+            if (lua_pcall(L, 2, 0, 0) != LUA_OK)
+            {
+                std::cerr << "Failed to call " << action << ": " << lua_tostring(L, -1) << std::endl;
+                lua_pop(L, 1);
+            }
+        }
+    }
+
+    void stopAll(mobs::Registry& registry, GameContext& gameContext)
     {
         for (auto L : luaStates)
         {
             lua_close(L);
         }
     }
+
+    Scripts(mobs::Entity entity) : entity(entity) {}
 };
 
 struct CppScriptComponent

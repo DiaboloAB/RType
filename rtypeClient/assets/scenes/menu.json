@@ -16,7 +16,10 @@
           "soundList": [
             "sounds/bip.ogg"
           ]
-        }
+        },
+        "Scripts": [
+            "scripts/player.lua"
+          ]
       }
     },
     {
