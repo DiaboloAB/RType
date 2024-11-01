@@ -27,6 +27,7 @@ class Bullet : public RType::ICppScript
 
         transform.position += direction * speed * gameContext._deltaT;
 
+        /// TODO : server responsability
         if (outOfBounds(transform.position))
         {
             registry.kill(getEntity());
