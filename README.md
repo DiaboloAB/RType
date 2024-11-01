@@ -2,79 +2,38 @@
   <img src="https://shmups.wiki/images/thumb/6/64/R-Type_Logo.png/500px-R-Type_Logo.png" width="400" alt="logo"/>
 </div>
 
-**Welcome to the RType README! <br>
-In this README you can access informations about many topics!**
+# Build & run the project
 
-# Building the Project
+To build and run the RType project, see the documentation page about [Build and run the project](https://github.com/DiaboloAB/RType/wiki/Build-&-Run). 
 
-## Prerequisites
+> **Note:** The RType project runs on Linux and Windows distributions.
 
-- **CMake** (3.10+)
-- **Conan** (1.36+)
+# Install the game
 
-## Building on Linux
+The game installer is available for Windows and Linux on the [release page](https://github.com/DiaboloAB/RType/releases) of the game.
 
-1. Open a terminal and navigate to your project directory.
-```bash
-cd path\to\your\project
-```
-2. Create a build directory:
-```bash
-mkdir build && cd build
-```
-3. Install dependencies:
-```bash
-conan install .. --output-folder=build/conan --build=missing
-```
-4. Configure with CMake:
-```bash
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-```
-5. Build the project:
-```bash
-cmake --build .
-```
+# Documentation
 
+Here is all the pages about RType project documentation:
 
-## Building on Windows
+- [RType documentation](https://github.com/DiaboloAB/RType/wiki)
+- [[Network] Dimension documentation](https://github.com/DiaboloAB/RType/wiki/Network)
+- [[Engine] Holtzman documentation](https://github.com/DiaboloAB/RType/wiki/Introduction-to-Lua-Scripting-and-JSON-Parsing-in-Our-Game-Engine)
 
-1. Open a terminal and navigate to your project directory.
-```cmd
-cd path\to\your\project
-```
-2. Create a build directory:
-```cmd
-mkdir build && cd build
-```
-3. Install dependencies:
-```cmd
-conan install .. --output-folder=build\conan --build=missing
-```
-4. Configure with CMake:
-```cmd
-cmake .. -DCMAKE_TOOLCHAIN_FILE=conan\conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-```
-5. Build the project
-```cmd
-cmake --build . --config Release
-```
+# Cheat warning
 
-## Customization
+This repository is public for several reasons. As it is a repository for a third-year school project at EPITECH, please refrain from using it for your own EPITECH projects to avoid being flagged for cheating (-42). We are not responsible for any use you make of our repository.
 
-To build with SDL, use:
-```bash
-conan install .. -o graphics=SDL --output-folder=build/conan --build=missing
-```
+# Authors
 
-# General use
-  - [Build & run the project](https://github.com/DiaboloAB/RType/wiki/Build-&-Run)
-  - [Playing guide](https://github.com/DiaboloAB/RType/wiki/Playing-guide)
-
-# Implementing your own features
-  - [Animations](https://github.com/DiaboloAB/RType/wiki/Adding-animation-to-an-entity)
-  - [Game](https://github.com/DiaboloAB/RType/wiki/How-to-create-a-game-%3F)
-
-# Project specifications
-  - [Scripting](https://github.com/DiaboloAB/RType/wiki/Introduction-to-Lua-Scripting-and-JSON-Parsing-in-Our-Game-Engine)
-  - [Network](https://github.com/DiaboloAB/RType/wiki/Network)
-  - [Graphic](https://github.com/DiaboloAB/RType/wiki/RenderSystemSFML-Documentation)
+<table>
+    <tbody>
+        <tr>
+            <td align="center"><a href="https://github.com/mlargeot"><img src="https://avatars.githubusercontent.com/u/114756247?v=4?=100" width="100px;" alt="mlargeot"/><br /><sub><b>mlargeot</b></sub></a><br /></td>
+            <td align="center"><a href="https://github.com/MaxenceLgt"><img src="https://avatars.githubusercontent.com/u/114743051?v=4?s=100" width="100px;" alt="MaxenceLgt"/><br /><sub><b>MaxenceLgt</b></sub></a><br /></td>
+            <td align="center"><a href="https://github.com/DiaboloAB"><img src="https://avatars.githubusercontent.com/u/109909203?v=4?s=100" width="100px;" alt="DiaboloAB"/><br /><sub><b>DiaboloAB</b></sub></a><br /></td>
+            <td align="center"><a href="https://github.com/Raphael-Mabille"><img src="https://avatars.githubusercontent.com/u/114739950?v=4?s=100" width="100px;" alt="Raphael-Mabille"/><br /><sub><b>Raphael-Mabille</b></sub></a><br /></td>
+            <td align="center"><a href="https://github.com/MrMarmotte"><img src="https://avatars.githubusercontent.com/u/114657171?v=4?s=100" width="100px;" alt="MrMarmotte"/><br /><sub><b>MrMarmotte</b></sub></a><br /></td>
+        </tr>
+    </tbody>
+</table>
