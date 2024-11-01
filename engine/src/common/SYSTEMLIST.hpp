@@ -16,7 +16,6 @@
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/StickySystem.hpp"
-#include "common/systems/PhysicsCollisionSystem.hpp"
 #include "common/systems/DrawableSystem.hpp"
 #include "common/systems/AudioSystem.hpp"
 

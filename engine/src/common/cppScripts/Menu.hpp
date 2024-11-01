@@ -29,7 +29,7 @@ class Menu : public RType::ICppScript
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        if (gameContext._sceneManager.getCurrentScene() != "menu" || gameContext._sceneManager.getCurrentScene() != "settings")
+        if (gameContext._sceneManager.getCurrentScene() != "menu")
             return;
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow) || gameContext._runtime->getKeyDown(KeyCode::DownArrow) ||
             gameContext._runtime->getKeyDown(KeyCode::LeftArrow) || gameContext._runtime->getKeyDown(KeyCode::RightArrow)) {
