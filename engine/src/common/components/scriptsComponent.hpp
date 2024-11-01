@@ -15,6 +15,7 @@
 #include "lua/luaBindings.hpp"
 #include "mobs/mobs.hpp"
 // std
+#include <utility>
 
 namespace RType
 {
@@ -122,12 +123,20 @@ struct CppScriptComponent
         }
     }
 
+
     void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext,
-                            const std::string& action)
+                            const std::string& action, ...)
     {
         for (auto& script : scripts)
         {
-            script->onButtonPressed(registry, gameContext, action);
+            try {
+                va_list args;
+                va_start(args, action);
+                script->onButtonPressed(registry, gameContext, action, args);
+                va_end(args);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: " << e.what() << std::endl;
+            }
         }
     }
 

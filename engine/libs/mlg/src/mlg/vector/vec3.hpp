@@ -107,6 +107,8 @@ class vec3
         z *= other.z;
         return *this;
     }
+
+    bool operator!=(const vec3& other) const { return x != other.x || y != other.y || z != other.z; }
 };
 
 }  // namespace mlg

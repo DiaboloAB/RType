@@ -15,6 +15,7 @@
 #include "common/network/cppScripts/redirect/EntityRedirect.hpp"
 #include "common/network/cppScripts/redirect/UpdateRedirect.hpp"
 #include "gameContext/GameContext.hpp"
+#include "utils/Timer.hpp"
 
 namespace RType
 {
@@ -42,6 +43,8 @@ class ClientRedirect : public RType::ICppScript
         this->_redirecter[std::type_index(typeid(dimension::MoveEntity))] =
             [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         { Network::EntityRedirect::move(registry, gameContext, packet); };
+
+        this->timer.start();
     }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
@@ -50,6 +53,14 @@ class ClientRedirect : public RType::ICppScript
         {
             auto &networkC = registry.get<NetworkClient>(getEntity());
             auto _rcvQueue = networkC.client->getRcvQueue();
+
+            timer.update(gameContext._deltaT);
+            if (timer.getTime() > 0.5)
+            {
+                networkC.client->sendPing();
+                timer.reset();
+            }
+
             while (!_rcvQueue.empty())
             {
                 auto packet = _rcvQueue.front();
@@ -76,6 +87,7 @@ class ClientRedirect : public RType::ICppScript
     static constexpr const char *name = "ClientRedirect";
 
    private:
+    Timer timer;
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
     std::map<std::type_index, std::function<void(mobs::Registry &, GameContext &, PacketDatas &)>>
         _redirecter;

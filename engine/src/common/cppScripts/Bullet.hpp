@@ -33,6 +33,23 @@ class Bullet : public RType::ICppScript
         }
     }
 
+
+    void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
+                         std::string action, ...) override
+    {
+        if (action == "move")
+        {
+            va_list args;
+            va_start(args, action);
+            mlg::vec3 position = va_arg(args, mlg::vec3);
+            mlg::vec3 direction = va_arg(args, mlg::vec3);
+
+            checkPosition(registry, position, direction);
+            
+            va_end(args);
+        }
+    }
+
     static constexpr const char *name = "Bullet";
 
    private:
@@ -41,6 +58,20 @@ class Bullet : public RType::ICppScript
     bool outOfBounds(const mlg::vec3 &position)
     {
         return position.x < 0 || position.x > 1920 || position.y < 0 || position.y > 1080;
+    }
+
+    void checkPosition(mobs::Registry &registry, mlg::vec3 NewPosition, mlg::vec3 NewDirection)
+    {
+        auto &transform = registry.get<Transform>(getEntity());
+
+        if (NewPosition != transform.position)
+        {
+            transform.position = NewPosition;
+        }
+        if (direction.x == 0 && direction.y == 0)
+        {
+            direction = NewDirection;
+        }
     }
 };
 
