@@ -25,14 +25,15 @@ class AudioSystem : public ISystem
         auto view = registry.view<Audio>();
         for (auto entity : view)
         {
+            std::cout << "Loading audio for entity " << entity << std::endl;
             auto& audio = view.get<Audio>(entity);
-            for (const auto& sound : audio.sounds)
+            for (auto sound : audio.soundList)
             {
-                audio.soundID = gameContext._runtime->loadSound(gameContext._assetsPath + sound);
+                audio.soundList[sound.first] = gameContext._runtime->loadSound(gameContext._assetsPath + sound.first);
             }
-            for (const auto& music : audio.musics)
+            for (auto music : audio.musicList)
             {
-                gameContext._runtime->loadMusic(music);
+                audio.musicList[music.first] = gameContext._runtime->loadMusic(gameContext._assetsPath + music.first);
             }
         }
     }
@@ -43,27 +44,21 @@ class AudioSystem : public ISystem
         for (auto entity : view)
         {
             auto& audio = view.get<Audio>(entity);
-            if (audio.audioQueue.size() > 0)
+            if (!audio.audioQueue.empty())
             {
                 auto sound = audio.audioQueue.front();
                 audio.audioQueue.pop();
-                if (std::find(audio.musics.begin(), audio.musics.end(), sound) !=
-                    audio.musics.end())
+                if (audio.soundList.find(sound) != audio.soundList.end())
                 {
-                    gameContext._runtime->playMusic(0, true);
+                    gameContext._runtime->playSound(audio.soundList[sound]);
                 }
-                else if (std::find(audio.sounds.begin(), audio.sounds.end(), sound) !=
-                         audio.sounds.end())
+                else if (audio.musicList.find(sound) != audio.musicList.end())
                 {
-                    gameContext._runtime->playSound(audio.soundID);
+                    gameContext._runtime->playMusic(audio.musicList[sound]);
                 }
             }
         }
     }
-
-    // Getters
-
-    // Setters
 
    private:
     // Member variables

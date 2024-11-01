@@ -75,6 +75,15 @@ struct CppScriptComponent
     std::vector<std::shared_ptr<ICppScript>> scripts;
     mobs::Entity entity;
 
+    void loadAll(mobs::Registry& registry, GameContext& gameContext)
+    {
+        std::cout << "test" << std::endl;
+        for (auto& script : scripts)
+        {
+            script->load(registry, gameContext);
+        }
+    }
+
     void startAll(mobs::Registry& registry, GameContext& gameContext)
     {
         for (auto& script : scripts)

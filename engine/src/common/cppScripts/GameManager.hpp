@@ -17,6 +17,7 @@ namespace RType
 class GameManager : public RType::ICppScript
 {
    public:
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &eventManager = registry.get<EventManager>(getEntity());

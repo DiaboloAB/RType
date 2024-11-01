@@ -100,11 +100,10 @@ struct Hitbox
 
 struct Audio
 {
-    std::vector<std::string> sounds;
-    std::vector<std::string> musics;
+    std::map<std::string, int> musicList;
+    std::map<std::string, int> soundList;
     int musicVolume = 50;
     int soundVolume = 50;
-    int soundID = 0;
 
     std::queue<std::string> audioQueue;
 
