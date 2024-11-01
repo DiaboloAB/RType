@@ -36,5 +36,6 @@ CMakeUserPresets.json
 RType
 r-type_server
 r-type_client
+bonus/power4/power4
 .venv/
 env/
