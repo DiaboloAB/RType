@@ -81,7 +81,7 @@
       }
     },
     {
-      "tag": "Fullscreen : off",
+      "tag": "fullscreen",
       "staticObject": true,
       "components": {
         "Transform": { "position": [150, 250, 0] },

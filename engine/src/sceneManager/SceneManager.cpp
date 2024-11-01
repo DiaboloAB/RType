@@ -52,6 +52,7 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
         mobs::Entity entity = gameContext._registry.create();
         createEntity(entityJson, entity, gameContext._registry, gameContext);
     }
+    _currentScene = sceneName;
 }
 
 mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContext& gameContext)
@@ -86,7 +87,6 @@ bool SceneManager::update(GameContext& gameContext)
             if (basics.staticObject) gameContext._registry.kill(entity);
         }
         loadScene(_nextScene, gameContext);
-        _currentScene = _nextScene;
         _nextScene = "";
         return true;
     }

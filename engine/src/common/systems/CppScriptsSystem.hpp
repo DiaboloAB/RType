@@ -34,6 +34,16 @@ class CppScriptsSystem : public ISystem
         }
     }
 
+    void load(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto view = registry.view<CppScriptComponent>();
+        for (auto entity : view)
+        {
+            auto &scripts = view.get<CppScriptComponent>(entity);
+            scripts.loadAll(registry, gameContext);
+        }
+    }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<CppScriptComponent>();
