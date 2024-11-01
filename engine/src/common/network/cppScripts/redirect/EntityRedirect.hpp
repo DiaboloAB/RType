@@ -43,7 +43,7 @@ class EntityRedirect
             auto &networkData = registry.get<NetworkData>(entity);
             networkData._id = packetCreate->getNetworkId();
             LOG("EntityRedirect",
-                "Entity created. {Network id: " + std::to_string(networkData._id) + "}");
+                "Entity created. {Network id: " + std::to_string(networkData._id) + " " + std::to_string(transform.position.x) + " " + std::to_string(transform.position.y) + "}");
         }
         catch (std::exception &e)
         {

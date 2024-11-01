@@ -56,16 +56,10 @@ class UpdateRedirect
         {
             auto &networkC = view.get<NetworkClient>(entity);
 
-            if (*networkC.client->getDirectionEndpoint() != packet.second)
-            {
-                ERR_LOG("handleConnection", "Invalid sender of packets.");
-                return;
-            }
+            if (*networkC.client->getDirectionEndpoint() != packet.second) return;
             try
             {
                 networkC.client->connectDirectionEndpoint(host, port);
-                if (networkC.client->_directionEndpoint == networkC.client->_serverEndpoint)
-                    ERR_LOG("LA", "LA PUTAIN DE SA MERE");
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=" + code);
@@ -86,6 +80,7 @@ class UpdateRedirect
             std::string description = packetUpdate->getDescription();
             size_t pos = description.find(':');
             gameContext._sceneManager.switchScene(description.substr(pos + 1));
+            gameContext._sceneManager.update(gameContext);
             LOG("UpdateRedirect", "Scene switched.");
         } catch (std::exception &e) {
             ERR_LOG("UpdateRedirect", e.what());

@@ -16,6 +16,10 @@
             "isTrigger": true,
             "layerMask": "playerProjectile"
         },
+        "NetworkData": {
+            "id" : 0,
+            "authority" : "client"
+        },
         "Animator": {
             "animations": [
                 {

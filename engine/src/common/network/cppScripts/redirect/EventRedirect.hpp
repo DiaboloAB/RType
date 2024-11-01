@@ -21,6 +21,10 @@ namespace RType::Network {
             {
                 uint32_t idNewPlayer = roomComp.idFactory.generateNetworkId();
                 std::unordered_map<asio::ip::udp::endpoint, uint32_t> connectedId = roomComp.room->getIdMap();
+                auto updateScene = roomComp.factory.createEmptyPacket<dimension::UpdateEntity>();
+                updateScene->setNetworkId(0);
+                updateScene->setDescription("scene:scene3");
+                roomComp.room->send(updateScene, packet.second);
                 auto createPacketAlly = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
                 createPacketAlly->setNetworkId(idNewPlayer);
                 createPacketAlly->setEntityToCreate("player");
@@ -28,10 +32,6 @@ namespace RType::Network {
                 createPacketAlly->setPosY((connectedId.size() + 1) * 150);
                 for (auto &endp : connectedId)
                     roomComp.room->send(createPacketAlly, endp.first);
-                auto updateScene = roomComp.factory.createEmptyPacket<dimension::UpdateEntity>();
-                updateScene->setNetworkId(0);
-                updateScene->setDescription("scene:scene3");
-                roomComp.room->send(updateScene, packet.second);
                 int counter = 1;
                 for (auto &endp : connectedId) {
                     auto createPacket = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
@@ -55,7 +55,6 @@ namespace RType::Network {
 
             static void handleEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
             {
-                ERR_LOG("WOOOOOOOOOOAAAAAAAAA", "DDDDDDDD");
                 try {
                     mobs::Registry::View view = registry.view<NetworkRoom>();
                     auto &networkC = view.get<NetworkRoom>(view.front());

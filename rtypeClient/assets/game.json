@@ -82,6 +82,10 @@
         {
             "name": "ramp",
             "path": "scenes/prefabs/ramp.json"
+        },
+        {
+            "name": "player",
+            "path": "scenes/prefabs/player.json"
         }
     ]
 }

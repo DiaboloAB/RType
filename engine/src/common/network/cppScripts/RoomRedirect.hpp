@@ -24,7 +24,6 @@ class RoomRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        ERR_LOG("HEY HEY HEY", "");
         this->_redirecter[std::type_index(typeid(dimension::Ping))] = 
         [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         { Network::ConnectionRedirect::handlePingRoom(registry, gameContext, packet); };
@@ -52,8 +51,6 @@ class RoomRedirect : public RType::ICppScript
             {
                 auto packet = _rcvQueue.front();
                 auto typeIndex = networkC.factory.getIndexFromType(packet.first->getPacketType());
-                if (typeIndex == std::type_index(typeid(dimension::ClientEvent)))
-                    ERR_LOG("RoomRedirect", "Room event");
                 if (this->_redirecter.find(typeIndex) != this->_redirecter.end())
                     this->_redirecter.at(typeIndex)(registry, gameContext, packet);
                 if (typeIndex != std::type_index(typeid(dimension::Ping)))
