@@ -13,9 +13,7 @@
 RType::KeyCode stringToKeyCode(const std::string& keyName)
 {
     static std::unordered_map<std::string, RType::KeyCode> keyMap = {
-        {"A", RType::KeyCode::A},
-        {"B", RType::KeyCode::B},
-        {"C", RType::KeyCode::C},
+        {"Enter", RType::KeyCode::Enter},
         {"Space", RType::KeyCode::Space},
         {"UpArrow", RType::KeyCode::UpArrow},
         {"DownArrow", RType::KeyCode::DownArrow},

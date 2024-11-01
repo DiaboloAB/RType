@@ -1,17 +1,20 @@
 {
-    "entities": [
-        {
-            "type": "Sprite",
-            "name": "background",
-            "position": {
-                "x": 0,
-                "y": 0
-            },
-            "size": {
-                "width": 1920,
-                "height": 1080
-            },
-            "asset": "background"
+  "entities": [
+    {
+      "tag": "gameManager",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [0, 0, -1] },
+          "Sprite": { "texture": "graphics/casino.png" },
+          "Audio": {
+            "music": [
+              "audio/ambiance.ogg"
+            ]
+          },
+          "Scripts": [
+            "scripts/gameManager.lua"
+          ]
         }
-    ]
+    }
+  ]
 }
