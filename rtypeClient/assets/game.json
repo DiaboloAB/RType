@@ -14,8 +14,8 @@
             "path": "scenes/scenes2.json"
         },
         {
-            "name": "scene3",
-            "path": "scenes/scenes3.json"
+            "name": "multiplayer",
+            "path": "scenes/multiplayer.json"
         },
         {
             "name": "scenesTest",
@@ -86,6 +86,10 @@
         {
             "name": "player",
             "path": "scenes/prefabs/player.json"
+        },
+        {
+            "name": "ally",
+            "path": "scenes/prefabs/ally.json"
         }
     ]
 }

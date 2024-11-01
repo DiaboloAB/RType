@@ -20,15 +20,14 @@ namespace RType::Network {
             NetworkRoom &roomComp) 
             {
                 uint32_t idNewPlayer = roomComp.idFactory.generateNetworkId();
-                ERR_LOG("EventRedirect", "Entité " + std::to_string(idNewPlayer));
                 std::unordered_map<asio::ip::udp::endpoint, uint32_t> connectedId = roomComp.room->getIdMap();
                 auto updateScene = roomComp.factory.createEmptyPacket<dimension::UpdateEntity>();
                 updateScene->setNetworkId(0);
-                updateScene->setDescription("scene:scene3");
+                updateScene->setDescription("scene:multiplayer");
                 roomComp.room->send(updateScene, packet.second);
                 auto createPacketAlly = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
                 createPacketAlly->setNetworkId(idNewPlayer);
-                createPacketAlly->setEntityToCreate("player");
+                createPacketAlly->setEntityToCreate("ally");
                 createPacketAlly->setPosX(100);
                 createPacketAlly->setPosY((connectedId.size() + 1) * 150);
                 for (auto &endp : roomComp.room->getIdMap())
@@ -37,22 +36,27 @@ namespace RType::Network {
                 for (auto &endp : roomComp.room->getIdMap()) {
                     auto createPacket = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
                     createPacket->setNetworkId(endp.second);
-                    createPacket->setEntityToCreate("player");
+                    createPacket->setEntityToCreate("ally");
                     createPacket->setPosX(100);
                     createPacket->setPosY(counter * 150);
                     roomComp.room->send(createPacket, packet.second);
                     counter++;
                 }
+                auto entity = gameContext._sceneManager.instantiate("player", gameContext);
+                auto &networkC = registry.get<NetworkData>(entity);
+                auto &transform = registry.get<Transform>(entity);
+                networkC._id = idNewPlayer;
+                transform.position.x = 100;
+                transform.position.y = (connectedId.size() + 1) * 150;
                 auto createPacketPlayer = roomComp.factory.createEmptyPacket<dimension::CreateEntity>();
                 createPacketPlayer->setNetworkId(idNewPlayer);
                 createPacketPlayer->setEntityToCreate("player");
-                createPacketPlayer->setPosX(100);
-                createPacketPlayer->setPosY((connectedId.size() + 1) * 150);
+                createPacketPlayer->setPosX(transform.position.x);
+                createPacketPlayer->setPosY(transform.position.y);
                 roomComp.room->send(createPacketPlayer, packet.second);
                 roomComp.room->addSenderToRoom(packet.second, idNewPlayer);
                 LOG("EventRedirect", "Client init in game");
             }
-
 
             static void handleEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
             {

@@ -1,6 +1,6 @@
 {
   "tag": "player",
-  "staticObject": false,
+  "staticObject": true,
   "CppScripts": [
     "MovePlayer",
     "AnimPlayer",

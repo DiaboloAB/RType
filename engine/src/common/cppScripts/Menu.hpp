@@ -41,8 +41,8 @@ class Menu : public RType::ICppScript
         else if (action == "findGame")
         {
             mobs::Registry::View view = registry.view<NetworkClient>();
-            for (auto &entity : view) {
-                auto &networkC = registry.get<NetworkClient>(entity);
+            auto &networkC = registry.get<NetworkClient>(view.front());
+            if (networkC.client->_serverEndpoint) {
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=rd");
@@ -52,8 +52,8 @@ class Menu : public RType::ICppScript
         else if (action == "hostGame")
         {
             mobs::Registry::View view = registry.view<NetworkClient>();
-            for (auto &entity : view) {
-                auto &networkC = registry.get<NetworkClient>(entity);
+            auto &networkC = registry.get<NetworkClient>(view.front());
+            if (networkC.client->_serverEndpoint) {
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("create=pv");
