@@ -3,7 +3,7 @@
     "staticObject": true,
     "components": {
         "Transform": { "position": [0, 0, 0] },
-        "Hitbox": {
+        "Collider": {
             "size": [32, 24],
             "offSet": [0, 0],
             "isEnemy": false

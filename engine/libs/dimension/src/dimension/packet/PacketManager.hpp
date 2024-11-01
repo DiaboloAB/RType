@@ -140,8 +140,8 @@ class PacketManager
     class PacketManagerError : public std::exception
     {
        public:
-        PacketManagerError(std::string error) : _error(error) {};
-        ~PacketManagerError() {};
+        PacketManagerError(std::string error) : _error(error){};
+        ~PacketManagerError(){};
 
        private:
         const char *what() const noexcept override { return _error.c_str(); };

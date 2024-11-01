@@ -27,9 +27,22 @@ class Bullet : public RType::ICppScript
 
         transform.position += direction * speed * gameContext._deltaT;
 
+        /// TODO : server responsability
         if (outOfBounds(transform.position))
         {
             registry.kill(getEntity());
+        }
+    }
+
+
+    void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
+                        std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args) override
+    {
+        if (action == "move" && args.size() >= 2) {
+            auto position = std::get<mlg::vec3>(args[0]);
+            auto direction = std::get<mlg::vec3>(args[1]);
+
+            checkPosition(registry, position, direction);
         }
     }
 
@@ -41,6 +54,20 @@ class Bullet : public RType::ICppScript
     bool outOfBounds(const mlg::vec3 &position)
     {
         return position.x < 0 || position.x > 1920 || position.y < 0 || position.y > 1080;
+    }
+
+    void checkPosition(mobs::Registry &registry, mlg::vec3 NewPosition, mlg::vec3 NewDirection)
+    {
+        auto &transform = registry.get<Transform>(getEntity());
+
+        if (NewPosition != transform.position)
+        {
+            transform.position = NewPosition;
+        }
+        if (direction.x == 0 && direction.y == 0)
+        {
+            direction = NewDirection;
+        }
     }
 };
 

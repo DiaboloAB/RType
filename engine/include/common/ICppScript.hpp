@@ -12,12 +12,16 @@
 #include <vector>
 
 #include "mobs/mobs.hpp"
+#include "mlg/mlg.hpp"
 // std
 #include <functional>
 #include <iostream>
 #include <map>
 #include <memory>
 #include <string>
+#include <variant>
+#include <vector>
+
 
 namespace RType
 {
@@ -65,7 +69,8 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollisionStay(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionStay(mobs::Registry &registry, GameContext &gameContext,
+                                 mobs::Entity other)
     {
     }
 
@@ -75,7 +80,8 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext,
+                                  mobs::Entity other)
     {
     }
 
@@ -85,17 +91,20 @@ class ICppScript
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
      */
-    virtual void onCollisionExit(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other)
+    virtual void onCollisionExit(mobs::Registry &registry, GameContext &gameContext,
+                                 mobs::Entity other)
     {
     }
 
     /**
-     * @brief Called when the script is destroyed.
+     * @brief Called when a button is pressed.
      *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
+     * @param action The action associated with the button press.
      */
-    virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext, std::string action)
+    virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
+                                 std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args)
     {
     }
 

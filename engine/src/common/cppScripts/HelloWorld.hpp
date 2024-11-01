@@ -41,23 +41,25 @@ class HelloWorld : public ICppScript
         }
     }
 
-    void onCollisionStay(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    void onCollisionStay(mobs::Registry &registry, GameContext &gameContext,
+                         mobs::Entity other) override
     {
     }
-    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext,
+                          mobs::Entity other) override
     {
         std::cout << "collide enter with " << other << std::endl;
     }
 
-    void onCollisionExit(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    void onCollisionExit(mobs::Registry &registry, GameContext &gameContext,
+                         mobs::Entity other) override
     {
         std::cout << "collide exit with " << other << std::endl;
     }
     static constexpr const char *name = "HelloWorld";
 
-private:
+   private:
     // Member variables
 };
-
 
 #endif  // HELLOWORLD_H

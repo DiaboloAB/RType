@@ -37,12 +37,19 @@ class Client : public AEndpoint
 
    public:
     /**
-     * @brief change direction endpoint of the client based on new ip/port.
+     * @brief Change direction endpoint of the client based on new ip/port.
      *
      * @param host: Host of the instance.
      * @param port: Port of the instance.
      */
     void connectDirectionEndpoint(std::string host, unsigned int port);
+
+   public:
+    /**
+     * @brief Send ping packet to the endpoint which the client
+     * must communicate with.
+     */
+    void sendPing() override;
 
    public:
     std::chrono::steady_clock::time_point _lastPing;

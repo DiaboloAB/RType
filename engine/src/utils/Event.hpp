@@ -22,6 +22,9 @@ class Event
 
     std::string prefab = "";
     mlg::vec3 position = mlg::vec3(0.0f);
+    mlg::vec3 scale = mlg::vec3(1.0f);
+    std::string type = "";
+
     float delay = 0.0f;
 };
 

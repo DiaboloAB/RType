@@ -11,6 +11,8 @@
 #include "common/network/systems/roomSystem.hpp"
 #include "common/systems/AudioSystem.hpp"
 #include "common/systems/CppScriptsSystem.hpp"
+#include "common/systems/DrawableSystem.hpp"
+#include "common/systems/PhysicsCollisionSystem.hpp"
 #include "common/systems/ScriptsSystem.hpp"
 #include "common/systems/SpriteSystem.hpp"
 #include "common/systems/StickySystem.hpp"
@@ -21,5 +23,6 @@
 #define SYSTEM_TYPES \
     ScriptSystem, SpriteSystem, CppScriptsSystem, AudioSystem, StickySystem, RoomSystem, PhysicsSystem \
     , DrawableSystem, AudioSystem
+
 
 #endif  // SYSTEMLIST_H

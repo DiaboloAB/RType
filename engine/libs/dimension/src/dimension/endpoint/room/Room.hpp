@@ -41,12 +41,6 @@ class Room : public AEndpoint
 
    public:
     /**
-     * @brief Pings connected endpoints to maintain active connections.
-     */
-    void pingEndpoints();
-
-   public:
-    /**
      * @brief Adds a sender endpoint to connected endpoints for handling non-connection packets.
      *
      * @param sender Endpoint to add to the connected endpoints list.
@@ -61,6 +55,18 @@ class Room : public AEndpoint
      * @return False otherwise.
      */
     bool isConnected(asio::ip::udp::endpoint &endpoint) const;
+
+    /**
+     * @brief Send ping packet to all connected clients of the room.
+     */
+    void sendPing() override;
+
+    /**
+     * @brief Reset the last ping value of the sender of the packet ping.
+     *
+     * @param sender: Sender of the packet.
+     */
+    void resetPing(asio::ip::udp::endpoint &sender);
 
    public:
     std::string getHost() const;

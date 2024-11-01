@@ -48,6 +48,18 @@ namespace RType::Network {
              */
             void checkLastPing() override;
 
+            /**
+             * @brief Send a ping packet to every connected client that are only connected
+             * the main server.
+             */
+            void sendPing() override;
+
+        public:
+            /**
+             * @brief Set ping clock of sender to now.
+             */
+            void resetPing(asio::ip::udp::endpoint &sender);
+
         private:
             RoomManager _roomManager;
     };

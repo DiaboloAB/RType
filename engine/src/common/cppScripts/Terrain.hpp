@@ -17,18 +17,30 @@ namespace RType
 class Terrain : public RType::ICppScript
 {
    public:
+    void setScrolling(bool scrolling) { this->scrolling = scrolling; }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         int speed = 50;
 
         auto &transform = registry.get<Transform>(getEntity());
 
-        transform.position.x -= speed * gameContext._deltaT;
+        if (scrolling)
+        {
+            transform.position.x -= speed * gameContext._deltaT;
+
+            /// TODO : server responsability
+            if (transform.position.x < -400)
+            {
+                registry.kill(getEntity());
+            }
+        }
     }
 
     static constexpr const char *name = "Terrain";
 
    private:
+    bool scrolling = true;
 };
 
 }  // namespace RType

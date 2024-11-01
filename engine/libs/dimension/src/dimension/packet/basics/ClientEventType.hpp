@@ -6,6 +6,8 @@
  *   Location: Rennes
  **********************************************************************************/
 
+#pragma once
+
 #include <cstdint>
 
 namespace dimension

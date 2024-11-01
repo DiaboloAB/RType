@@ -1,5 +1,6 @@
 {
     "tag": "redShip",
+    "layer": "enemy",
     "staticObject": true,
     "CppScripts": [
         "RedShip"
@@ -9,9 +10,11 @@
             "position": [0, 0, 0],
             "scale": [2, 2, 0]
         },
-        "Hitbox": {
+        "Collider": {
             "size": [32, 32, 0],
-            "offSet": [16, 16, 0]
+            "offSet": [16, 16, 0],
+            "isTrigger": true,
+            "layerMask": "playerProjectile"
         },
         "Animator": {
             "animations": [
@@ -22,6 +25,14 @@
                     "frameCount": 8,
                     "frameSize": [32, 32, 0],
                     "loop": true
+                },
+                {
+                    "name": "explosion",
+                    "speed": 10,
+                    "texture": "graphics/enemy/explosion.png",
+                    "frameCount": 6,
+                    "frameSize": [32, 32, 0],
+                    "loop": false
                 }
             ]
         }

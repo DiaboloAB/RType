@@ -5,7 +5,7 @@
           "Transform": { "position": [100, 100, 0] },
           "Ally": {},
           "Timer": { "active": false},
-          "Hitbox": {
+          "Collider": {
             "size": [64, 32],
             "offSet": [0, 0],
             "isEnemy": false

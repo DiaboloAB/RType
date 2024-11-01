@@ -102,8 +102,8 @@ class APacket
     class PacketException : public std::exception
     {
        public:
-        PacketException(std::string msg) : _msg(msg) {};
-        ~PacketException() {};
+        PacketException(std::string msg) : _msg(msg){};
+        ~PacketException(){};
 
        private:
         const char *what() const noexcept override { return _msg.c_str(); };

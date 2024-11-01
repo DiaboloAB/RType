@@ -16,8 +16,8 @@
     ],
     "prefabs": [
         {
-            "name": "test",
-            "path": "test.json"
+            "name": "room",
+            "path": "scenes/prefabs/room.json"
         }
     ]
 }

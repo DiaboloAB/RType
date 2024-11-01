@@ -38,16 +38,15 @@ class DrawableSystem : public ISystem
         {
             auto &button = viewButton.get<Button>(entity);
             button.font_id = gameContext._runtime->loadFont(gameContext._assetsPath + button.font);
-            if (i++ == 0)
-                button.selected = true;
+            if (i++ == 0) button.selected = true;
         }
 
-        keyboardSprite_id = gameContext._runtime->loadSprite(gameContext._assetsPath + "graphics/keyboard.png");
+        keyboardSprite_id =
+            gameContext._runtime->loadSprite(gameContext._assetsPath + "graphics/keyboard.png");
     }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-
         auto viewButton = registry.view<Button, Transform>();
 
         Button *selectedButton = nullptr;
@@ -59,48 +58,63 @@ class DrawableSystem : public ISystem
             auto &button = viewButton.get<Button>(entity);
             auto &transform = viewButton.get<Transform>(entity);
             buttons.emplace_back(button, transform);
-            if (button.selected) {
+            if (button.selected)
+            {
                 selectedButton = &button;
                 selectedTransform = &transform;
             }
         }
 
-
         if (!selectedButton) return;
 
-
-        if (selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter)) {
-            if (!selectedButton->virtualKeyboard) {
+        if (selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter))
+        {
+            if (!selectedButton->virtualKeyboard)
+            {
                 selectedButton->virtualKeyboard = true;
                 return;
             }
-        } else if (!selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter)) {
+        }
+        else if (!selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter))
+        {
             buttonAction(registry, gameContext, *selectedButton);
         }
 
-
-        if (selectedButton->virtualKeyboard) {
-            if (gameContext._runtime->getKeyDown(KeyCode::Escape)) {
+        if (selectedButton->virtualKeyboard)
+        {
+            if (gameContext._runtime->getKeyDown(KeyCode::Escape))
+            {
                 selectedButton->virtualKeyboard = false;
             }
         }
 
-        if (selectedButton->virtualKeyboard) {
-            if (gameContext._runtime->getKeyDown(KeyCode::UpArrow)) selectedKey.y--;
-            else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow)) selectedKey.y++;
-            else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow)) selectedKey.x--;
-            else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow)) selectedKey.x++;
-            selectedKey.x = (int)(selectedKey.x + 13 ) % 13;
-            selectedKey.y = (int)(selectedKey.y + 4 ) % 4;
-            if (gameContext._runtime->getKeyDown(KeyCode::Enter)) {
-                if (selectedKey.y == 3 && selectedKey.x == 1) {
+        if (selectedButton->virtualKeyboard)
+        {
+            if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
+                selectedKey.y--;
+            else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
+                selectedKey.y++;
+            else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
+                selectedKey.x--;
+            else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
+                selectedKey.x++;
+            selectedKey.x = (int)(selectedKey.x + 13) % 13;
+            selectedKey.y = (int)(selectedKey.y + 4) % 4;
+            if (gameContext._runtime->getKeyDown(KeyCode::Enter))
+            {
+                if (selectedKey.y == 3 && selectedKey.x == 1)
+                {
                     selectedButton->content += " ";
-                } else if (selectedKey.y == 3 && selectedKey.x == 2) {
-                    if (selectedButton->content.size() > 0)
-                        selectedButton->content.pop_back();
-                }else if (selectedKey.y == 3 && selectedKey.x == 3) {
+                }
+                else if (selectedKey.y == 3 && selectedKey.x == 2)
+                {
+                    if (selectedButton->content.size() > 0) selectedButton->content.pop_back();
+                }
+                else if (selectedKey.y == 3 && selectedKey.x == 3)
+                {
                     selectedButton->virtualKeyboard = false;
-                } else
+                }
+                else
                     selectedButton->content += keys[selectedKey.y * 13 + selectedKey.x];
             }
         }
@@ -116,7 +130,8 @@ class DrawableSystem : public ISystem
         {
             auto &text = view.get<Text>(entity);
             auto &transform = view.get<Transform>(entity);
-            gameContext._runtime->drawText(text.font_id, text.text, transform.position, text.fontSize, text.color, text.centered);
+            gameContext._runtime->drawText(text.font_id, text.text, transform.position,
+                                           text.fontSize, text.color, text.centered);
         }
 
         auto viewButton = registry.view<Button, Transform>();
@@ -125,37 +140,48 @@ class DrawableSystem : public ISystem
             auto &button = viewButton.get<Button>(entity);
             auto &transform = viewButton.get<Transform>(entity);
 
-            mlg::vec4 rect = {transform.position.x, transform.position.y, button.size.x, button.size.y};
-            if (button.selected)
-                gameContext._runtime->drawRectangle(rect, false, button.color);
-            gameContext._runtime->drawText(button.font_id, button.text + button.content,
-            mlg::vec3(transform.position.x + 5, transform.position.y + 5, 0)
-            , button.fontSize, button.color, false);
-            if (button.input && button.virtualKeyboard) {
-                gameContext._runtime->drawSprite(keyboardSprite_id, mlg::vec3( 1920 / 2 - 450, 1080 - 350, 0));
+            mlg::vec4 rect = {transform.position.x, transform.position.y, button.size.x,
+                              button.size.y};
+            if (button.selected) gameContext._runtime->drawRectangle(rect, false, button.color);
+            gameContext._runtime->drawText(
+                button.font_id, button.text + button.content,
+                mlg::vec3(transform.position.x + 5, transform.position.y + 5, 0), button.fontSize,
+                button.color, false);
+            if (button.input && button.virtualKeyboard)
+            {
+                gameContext._runtime->drawSprite(keyboardSprite_id,
+                                                 mlg::vec3(1920 / 2 - 450, 1080 - 350, 0));
                 mlg::vec4 rect = {750 + 31 * selectedKey.x, 755 + 43 * selectedKey.y, 30, 30};
                 gameContext._runtime->drawRectangle(rect, false, {255, 255, 255});
             }
         }
     }
 
-    void moveSelection(mobs::Registry &registry, GameContext &gameContext, Button *selectedButton, Transform *selectedTransform, std::vector<std::pair<Button &, Transform &>> buttons)
+    void moveSelection(mobs::Registry &registry, GameContext &gameContext, Button *selectedButton,
+                       Transform *selectedTransform,
+                       std::vector<std::pair<Button &, Transform &>> buttons)
     {
         selectedButton->selected = false;
 
         mlg::vec3 direction;
-        if (gameContext._runtime->getKeyDown(KeyCode::UpArrow)) direction = {0, -1, 0};
-        else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow)) direction = {0, 1, 0};
-        else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow)) direction = {-1, 0, 0};
-        else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow)) direction = {1, 0, 0};
-        else {
+        if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
+            direction = {0, -1, 0};
+        else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
+            direction = {0, 1, 0};
+        else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
+            direction = {-1, 0, 0};
+        else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
+            direction = {1, 0, 0};
+        else
+        {
             selectedButton->selected = true;
             return;
         }
 
         Button *newSelectedButton = nullptr;
         float minAdjustedDistance = std::numeric_limits<float>::max();
-        float penaltyFactor = 2.0f; // Adjust this factor to control how much the perpendicular distance affects the priority.
+        float penaltyFactor = 2.0f;  // Adjust this factor to control how much the perpendicular
+                                     // distance affects the priority.
 
         for (auto &[button, transform] : buttons)
         {
@@ -183,13 +209,16 @@ class DrawableSystem : public ISystem
 
     void buttonAction(mobs::Registry &registry, GameContext &gameContext, Button &button)
     {
-        try {
-            gameContext.get<CppScriptComponent>(button.entity).onButtonPressedAll(registry, gameContext, button.action);
-        } catch (const std::exception &e) {
+        try
+        {
+            gameContext.get<CppScriptComponent>(button.entity)
+                .onButtonPressedAll(registry, gameContext, button.action, {});
+        }
+        catch (const std::exception &e)
+        {
             std::cerr << "no action binded to button" << std::endl;
         }
     }
-
 
    private:
     std::string keys = "0123456789   abcdefghijklmnopqrstuvwxyz.            ";

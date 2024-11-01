@@ -1,5 +1,6 @@
 {
     "tag": "Laser",
+    "layer": "playerProjectile",
     "staticObject": true,
     "CppScripts": [
         "MoveLaser"
@@ -9,9 +10,10 @@
             "position": [0, 0, 0],
             "scale": [2, 2, 0]
         },
-        "Hitbox": {
+        "Collider": {
             "size": [16, 12, 0],
-            "offSet": [0, 0, 0]
+            "offSet": [0, 0, 0],
+            "isTrigger": true
         },
         "Animator": {
             "animations": [

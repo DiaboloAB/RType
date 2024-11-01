@@ -99,6 +99,16 @@ class vec3
         z *= scalar;
         return *this;
     }
+
+    vec3& operator*=(const vec3& other)
+    {
+        x *= other.x;
+        y *= other.y;
+        z *= other.z;
+        return *this;
+    }
+
+    bool operator!=(const vec3& other) const { return x != other.x || y != other.y || z != other.z; }
 };
 
 }  // namespace mlg
