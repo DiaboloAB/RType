@@ -24,13 +24,13 @@ class RoomRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        this->_redirecter[std::type_index(typeid(dimension::Ping))] = 
-        [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        this->_redirecter[std::type_index(typeid(dimension::Ping))] =
+            [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         { Network::ConnectionRedirect::handlePingRoom(registry, gameContext, packet); };
-        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = 
-        [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] =
+            [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         { Network::EventRedirect::handleEvent(registry, gameContext, packet); };
-        
+
         this->timer.start();
     }
 
@@ -75,7 +75,8 @@ class RoomRedirect : public RType::ICppScript
    private:
     Timer timer;
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
-    std::map<std::type_index, std::function<void(mobs::Registry &, GameContext &, PacketDatas &)>> _redirecter;
+    std::map<std::type_index, std::function<void(mobs::Registry &, GameContext &, PacketDatas &)>>
+        _redirecter;
 };
 
 }  // namespace RType

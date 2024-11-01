@@ -73,19 +73,22 @@ class UpdateRedirect
         }
     }
 
-   static void updateScene(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
-   {
-        try {
+    static void updateScene(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+    {
+        try
+        {
             auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
             std::string description = packetUpdate->getDescription();
             size_t pos = description.find(':');
             gameContext._sceneManager.switchScene(description.substr(pos + 1));
             gameContext._sceneManager.update(gameContext);
             LOG("UpdateRedirect", "Scene switched.");
-        } catch (std::exception &e) {
+        }
+        catch (std::exception &e)
+        {
             ERR_LOG("UpdateRedirect", e.what());
         }
-   }
+    }
 
    public:
     /**
@@ -109,7 +112,8 @@ class UpdateRedirect
 
             std::string packetDescription = packetUpdate->getDescription();
             if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);
-            if (packetDescription.find("scene:", 0) == 0) updateScene(registry, gameContext, packet);
+            if (packetDescription.find("scene:", 0) == 0)
+                updateScene(registry, gameContext, packet);
         }
         catch (std::exception &e)
         {

@@ -18,7 +18,6 @@ class EntityRedirect
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
    public:
-
     /**
      * @brief Handler of CreateEntity packet into the ECS from client side.
      *
@@ -43,7 +42,9 @@ class EntityRedirect
             auto &networkData = registry.get<NetworkData>(entity);
             networkData._id = packetCreate->getNetworkId();
             LOG("EntityRedirect",
-                "Entity created. {Network id: " + std::to_string(networkData._id) + " " + std::to_string(transform.position.x) + " " + std::to_string(transform.position.y) + "}");
+                "Entity created. {Network id: " + std::to_string(networkData._id) + " " +
+                    std::to_string(transform.position.x) + " " +
+                    std::to_string(transform.position.y) + "}");
         }
         catch (std::exception &e)
         {
@@ -96,7 +97,8 @@ class EntityRedirect
      */
     static void move(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
-        try {
+        try
+        {
             auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
             uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
@@ -110,12 +112,15 @@ class EntityRedirect
                 if (networkData._id == idToMove)
                 {
                     mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
-                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
-                    getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(registry, gameContext, "move", {position, direction});
+                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(),
+                                        0);
+                    getCppScriptById<ICppScript>(entity, registry)
+                        ->onButtonPressed(registry, gameContext, "move", {position, direction});
                     return;
                 }
             }
-        } catch (std::exception &e)
+        }
+        catch (std::exception &e)
         {
             ERR_LOG("EntityRedirect", std::string("move {") + e.what() + "}");
         }

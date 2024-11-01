@@ -33,7 +33,7 @@ void AEndpoint::send(const std::shared_ptr<APacket> &packet,
         this->_validationList.insert(this->_validationList.end(),
                                      std::make_pair(packet, ResendTimer(endpoint)));
     }
-    //LOG("AEndpoint", "Je send packet " + std::to_string(endpoint.port()));
+    // LOG("AEndpoint", "Je send packet " + std::to_string(endpoint.port()));
     this->_socket->async_send_to(
         asio::buffer(packetData), endpoint,
         [this](std::error_code ec, std::size_t bytes_recvd)
@@ -89,7 +89,7 @@ void AEndpoint::handleDataReceived(std::array<char, 1024> buffer, asio::ip::udp:
                                               endpoint);
     std::lock_guard<std::mutex> lock(this->_queueMutex);
     this->_rcvQueue.push(std::make_pair(packet, endpoint));
-    //LOG("AEndpoint", "Packet received {type: " + std::to_string(packet->getPacketType()) + "}");
+    // LOG("AEndpoint", "Packet received {type: " + std::to_string(packet->getPacketType()) + "}");
 }
 
 void AEndpoint::popReceiveQueue()

@@ -78,7 +78,7 @@ class Room : public AEndpoint
     std::chrono::steady_clock::time_point getLastPing();
     std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getRecvQueue();
     uint32_t getIdFromSender(asio::ip::udp::endpoint &sender);
-    std::unordered_map<asio::ip::udp::endpoint, uint32_t> getIdMap(); 
+    std::unordered_map<asio::ip::udp::endpoint, uint32_t> getIdMap();
 
    private:
     std::string _host;

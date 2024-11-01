@@ -83,7 +83,8 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
         if (prefabJson.contains("CppScripts"))
         {
             registry.emplace<CppScriptComponent>(entity, entity);
-            addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"], gameContext);
+            addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"],
+                                                gameContext);
         }
     }
     catch (const std::exception& e)

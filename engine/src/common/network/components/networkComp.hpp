@@ -9,8 +9,8 @@
 #define NETWORKCOMP_H
 
 #include "Client.hpp"
-#include "Room.hpp"
 #include "IdFactory.hpp"
+#include "Room.hpp"
 
 // std
 #include <memory>

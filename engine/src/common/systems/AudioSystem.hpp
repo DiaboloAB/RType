@@ -29,11 +29,13 @@ class AudioSystem : public ISystem
             auto& audio = view.get<Audio>(entity);
             for (auto sound : audio.soundList)
             {
-                audio.soundList[sound.first] = gameContext._runtime->loadSound(gameContext._assetsPath + sound.first);
+                audio.soundList[sound.first] =
+                    gameContext._runtime->loadSound(gameContext._assetsPath + sound.first);
             }
             for (auto music : audio.musicList)
             {
-                audio.musicList[music.first] = gameContext._runtime->loadMusic(gameContext._assetsPath + music.first);
+                audio.musicList[music.first] =
+                    gameContext._runtime->loadMusic(gameContext._assetsPath + music.first);
             }
         }
     }

@@ -34,11 +34,12 @@ class Bullet : public RType::ICppScript
         }
     }
 
-
-    void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
-                        std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args) override
+    void onButtonPressed(
+        mobs::Registry &registry, GameContext &gameContext, std::string action,
+        const std::vector<std::variant<mlg::vec3, int, std::string>> &args) override
     {
-        if (action == "move" && args.size() >= 2) {
+        if (action == "move" && args.size() >= 2)
+        {
             auto position = std::get<mlg::vec3>(args[0]);
             auto direction = std::get<mlg::vec3>(args[1]);
 
