@@ -12,6 +12,7 @@
 
 #include "common/ICppScript.hpp"
 #include "common/network/cppScripts/redirect/ConnectionRedirect.hpp"
+#include "common/network/cppScripts/redirect/EventRedirect.hpp"
 #include "gameContext/GameContext.hpp"
 #include "utils/Timer.hpp"
 
@@ -26,8 +27,9 @@ class RoomRedirect : public RType::ICppScript
         this->_redirecter[std::type_index(typeid(dimension::Ping))] = 
         [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
         { Network::ConnectionRedirect::handlePingRoom(registry, gameContext, packet); };
-        //this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = []()
-        //{ std::cerr << "Bonjour le 4" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = 
+        [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::EventRedirect::handleEvent(registry, gameContext, packet); };
         
         this->timer.start();
     }

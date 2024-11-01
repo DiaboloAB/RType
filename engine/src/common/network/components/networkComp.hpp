@@ -10,6 +10,7 @@
 
 #include "Client.hpp"
 #include "Room.hpp"
+#include "IdFactory.hpp"
 
 // std
 #include <memory>
@@ -32,6 +33,7 @@ struct NetworkRoom
 {
     std::shared_ptr<dimension::Room> room = nullptr;
     dimension::PacketFactory factory;
+    dimension::IdFactory idFactory;
 
     NetworkRoom() {}
     static constexpr const char* name = "NetworkRoom";

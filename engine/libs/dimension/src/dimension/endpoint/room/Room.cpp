@@ -40,9 +40,10 @@ Room::~Room()
 }
 
 
-void Room::addSenderToRoom(asio::ip::udp::endpoint &sender)
+void Room::addSenderToRoom(asio::ip::udp::endpoint &sender, uint32_t id)
 {
     this->_connectedEp.push_back(std::make_pair(sender, std::chrono::steady_clock::now()));
+    this->_connectedId[sender] = id;
 }
 
 bool Room::isConnected(asio::ip::udp::endpoint &endpoint) const
@@ -89,4 +90,13 @@ std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> Room::g
 {
     return this->_rcvQueue;
 };
+
+uint32_t Room::getIdFromSender(asio::ip::udp::endpoint &sender)
+{
+    if (this->_connectedId.find(sender) != this->_connectedId.end())
+        return this->_connectedId.at(sender);
+    return 5001;
+}
+
+std::unordered_map<asio::ip::udp::endpoint, uint32_t> Room::getIdMap() { return this->_connectedId; };
 }  // namespace dimension
