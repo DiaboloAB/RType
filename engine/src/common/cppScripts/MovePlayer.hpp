@@ -27,7 +27,7 @@ class MovePlayer : public RType::ICppScript
 
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(-1);
@@ -38,7 +38,7 @@ class MovePlayer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(1);
@@ -49,7 +49,7 @@ class MovePlayer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(1);
                 movePacket->setDirectionY(0);
@@ -60,7 +60,7 @@ class MovePlayer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(-1);
                 movePacket->setDirectionY(0);
@@ -72,7 +72,7 @@ class MovePlayer : public RType::ICppScript
 
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(1);
@@ -83,7 +83,7 @@ class MovePlayer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(-1);
@@ -94,7 +94,7 @@ class MovePlayer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(-1);
                 movePacket->setDirectionY(0);
@@ -105,7 +105,7 @@ class MovePlayer : public RType::ICppScript
         }
         if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
         {
-            if (*networkC.client._directionEndpoint) {
+            if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(1);
