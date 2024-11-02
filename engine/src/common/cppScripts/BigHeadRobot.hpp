@@ -5,8 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#ifndef TURRET_HPP
-#define TURRET_HPP
+#ifndef BIGHEADROBOT_HPP
+#define BIGHEADROBOT_HPP
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
@@ -15,10 +15,9 @@
 namespace RType
 {
 
-class Turret : public RType::ICppScript
+class BigHeadRobot : public RType::ICppScript
 {
    public:
-
     virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext,
                                   mobs::Entity other) override
     {
@@ -33,37 +32,19 @@ class Turret : public RType::ICppScript
 
         auto &transform = registry.get<Transform>(getEntity());
         auto &basics = registry.get<Basics>(getEntity());
-        transform.position.x -= speed * gameContext._deltaT;
 
         float deltaX = CoordonatePlayer(registry).x - transform.position.x;
         float deltaY = CoordonatePlayer(registry).y - transform.position.y;
+        
+        double v = 3.0;
 
-        float theta = std::atan2(deltaY, deltaX);;
+        double distance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        float thetaDegrees = theta * 180.0 / M_PI;
-
-        if (transform.scale.y < 0) {
-            thetaDegrees = thetaDegrees * -1;
-        }
-
-        if (thetaDegrees >= -90 && thetaDegrees < 35) {
-            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
-            animations.playAnim("right_down");
-        } else if (thetaDegrees >= 35 && thetaDegrees < 75) {
-            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
-            animations.playAnim("down_right_down");
-        } else if (thetaDegrees >= 75 && thetaDegrees < 105) {
-            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
-            animations.playAnim("down_down_right");
-        } else if (thetaDegrees >= 105 && thetaDegrees < 135) {
-            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
-            animations.playAnim("down_down_left");
-        } else if (thetaDegrees >= 135 && thetaDegrees < 165) {
-            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
-            animations.playAnim("left_down");
-        } else if (thetaDegrees >= 165 && thetaDegrees < -90) {
-            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
-            animations.playAnim("default");
+        if (distance != 0) {
+            double directionX = deltaX / distance;
+            double directionY = deltaY / distance;
+            transform.position.x += directionX * v;
+            transform.position.y += directionY * v;
         }
 
         if (!timer.getState())
@@ -100,7 +81,7 @@ class Turret : public RType::ICppScript
         }
     }
 
-    static constexpr const char *name = "Turret";
+    static constexpr const char *name = "BigHeadRobot";
 
    private:
     Timer timer;
@@ -143,4 +124,4 @@ class Turret : public RType::ICppScript
 
 }  // namespace RType
 
-#endif  // TURRET_HPP
+#endif  // BIGHEADROBOT_HPP

@@ -78,6 +78,14 @@
         {
             "name": "ramp",
             "path": "scenes/prefabs/ramp.json"
+        },
+        {
+            "name": "Turret",
+            "path": "scenes/prefabs/Turret.json"
+        },
+        {
+            "name": "BigHeadRobot",
+            "path": "scenes/prefabs/BigHeadRobot.json"
         }
     ]
 }

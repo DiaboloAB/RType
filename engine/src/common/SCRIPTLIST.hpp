@@ -19,6 +19,8 @@
 #include "common/cppScripts/MovePlayer.hpp"
 #include "common/cppScripts/PlayerShoot.hpp"
 #include "common/cppScripts/RedShip.hpp"
+#include "common/cppScripts/Turret.hpp"
+#include "common/cppScripts/BigHeadRobot.hpp"
 #include "common/cppScripts/Terrain.hpp"
 #include "common/network/cppScripts/ClientRedirect.hpp"
 #include "common/network/cppScripts/ComServer.hpp"
@@ -26,6 +28,7 @@
 
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
-        MoveLaser, Bullet, RedShip, GameManager, Terrain, Menu, ClientRedirect, RoomRedirect
+        MoveLaser, Bullet, RedShip, GameManager, Terrain, Menu, ClientRedirect, RoomRedirect,  \
+        Turret, BigHeadRobot
 
 #endif  // SCRIPTLIST_H

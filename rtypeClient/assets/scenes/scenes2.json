@@ -175,6 +175,18 @@
             },
             {
               "type": "instantiate",
+              "prefab": "Turret",
+              "position": [1000, 300, 0],
+              "delay": 0
+            },
+            {
+              "type": "instantiate",
+              "prefab": "BigHeadRobot",
+              "position": [1000, 300, 0],
+              "delay": 0
+            },
+            {
+              "type": "instantiate",
               "prefab": "floor_middle",
               "position": [0, 1016, 0],
               "delay": 0
