@@ -25,6 +25,7 @@ class AudioSystem : public ISystem
         auto view = registry.view<Audio>();
         for (auto entity : view)
         {
+
             auto& audio = view.get<Audio>(entity);
             for (auto sound : audio.soundList)
             {
