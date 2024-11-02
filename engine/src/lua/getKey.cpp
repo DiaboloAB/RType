@@ -19,6 +19,9 @@ RType::KeyCode stringToKeyCode(const std::string& keyName)
         {"DownArrow", RType::KeyCode::DownArrow},
         {"LeftArrow", RType::KeyCode::LeftArrow},
         {"RightArrow", RType::KeyCode::RightArrow},
+        {"Mouse0", RType::KeyCode::Mouse0},
+        {"Mouse1", RType::KeyCode::Mouse1},
+        {"Mouse2", RType::KeyCode::Mouse2},
         {"Escape", RType::KeyCode::Escape},
     };
 
@@ -107,7 +110,7 @@ void switchScene(lua_State* L)
     gameContext->_sceneManager.switchScene(std::string(scene));
 }
 
-void getMousePosition(lua_State* L)
+int getMousePosition(lua_State* L)
 {
     RType::GameContext* gameContext =
         static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
@@ -116,6 +119,7 @@ void getMousePosition(lua_State* L)
 
     lua_pushnumber(L, pos.x);
     lua_pushnumber(L, pos.y);
+    return 2;
 }
 
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
@@ -127,6 +131,10 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
     lua_pushlightuserdata(L, gameContext);
     lua_pushcclosure(L, (lua_CFunction)getKeyDown, 1);
     lua_setglobal(L, "getKeyDown");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)getKeyUp, 1);
+    lua_setglobal(L, "getKeyUp");
 
     lua_pushlightuserdata(L, gameContext);
     lua_pushcclosure(L, (lua_CFunction)playMusicSound, 1);
@@ -143,6 +151,22 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
     lua_pushlightuserdata(L, gameContext);
     lua_pushcclosure(L, (lua_CFunction)getMousePosition, 1);
     lua_setglobal(L, "getMousePosition");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)getPosition, 1);
+    lua_setglobal(L, "getPosition");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)setPosition, 1);
+    lua_setglobal(L, "setPosition");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)getRigidBody, 1);
+    lua_setglobal(L, "getRigidBody");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)setRigidBody, 1);
+    lua_setglobal(L, "setRigidBody");
 }
 
 #endif  // GETKEY_H

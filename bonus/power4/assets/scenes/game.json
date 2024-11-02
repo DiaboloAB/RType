@@ -6,7 +6,7 @@
           "texture": "graphics/power4.png"
         },
         "Transform": {
-          "position": [0, 0, 0]
+          "position": [0, 0, 10]
         }
       }
     },
@@ -14,7 +14,7 @@
       "layer": "ground",
       "components": {
         "Transform": {
-          "position": [0, 950, 0]
+          "position": [0, 1080, 0]
         },
         "RigidBody": {
           "static": true
@@ -25,25 +25,233 @@
       }
     },
     {
+      "layer": "ground",
       "components": {
         "Transform": {
-          "position": [100, 400, 0]
+          "position": [200, 925, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [800, 100, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [180, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [305, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [420, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [535, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [650, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [765, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [880, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [1000, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "yellowBall",
+      "components": {
+        "Transform": {
+          "position": [1700, 0, 0]
         },
         "Sprite": {
           "texture": "graphics/yellowBall.png"
         },
         "RigidBody": {
           "static": false,
-          "mass": 200
+          "mass": 800
         },
         "Collider": {
           "layerMask": [
-            "ground"
+            "ground", "wall", "yellowBall"
           ],
           "isTrigger": false,
-          "size": [70, 70, 0],
-          "offset": [20, 20, 0]
-        }
+          "size": [70, 115, 0],
+          "offset": [20, 0, 0]
+        },
+        "Scripts": [
+          "scripts/ball.lua"
+        ]
+      }
+    },
+    {
+      "layer": "yellowBall",
+      "components": {
+        "Transform": {
+          "position": [1700, 0, 0]
+        },
+        "Sprite": {
+          "texture": "graphics/yellowBall.png"
+        },
+        "RigidBody": {
+          "static": false,
+          "mass": 800
+        },
+        "Collider": {
+          "layerMask": [
+            "ground", "wall", "yellowBall"
+          ],
+          "isTrigger": false,
+          "size": [70, 115, 0],
+          "offset": [20, 0, 0]
+        },
+        "Scripts": [
+          "scripts/ball.lua"
+        ]
+      }
+    },
+    {
+      "layer": "yellowBall",
+      "components": {
+        "Transform": {
+          "position": [1700, 0, 0]
+        },
+        "Sprite": {
+          "texture": "graphics/yellowBall.png"
+        },
+        "RigidBody": {
+          "static": false,
+          "mass": 800
+        },
+        "Collider": {
+          "layerMask": [
+            "ground", "wall", "yellowBall"
+          ],
+          "isTrigger": false,
+          "size": [70, 115, 0],
+          "offset": [20, 0, 0]
+        },
+        "Scripts": [
+          "scripts/ball.lua"
+        ]
+      }
+    },
+    {
+      "layer": "yellowBall",
+      "components": {
+        "Transform": {
+          "position": [1700, 0, 0]
+        },
+        "Sprite": {
+          "texture": "graphics/yellowBall.png"
+        },
+        "RigidBody": {
+          "static": false,
+          "mass": 800
+        },
+        "Collider": {
+          "layerMask": [
+            "ground", "wall", "yellowBall"
+          ],
+          "isTrigger": false,
+          "size": [70, 115, 0],
+          "offset": [20, 0, 0]
+        },
+        "Scripts": [
+          "scripts/ball.lua"
+        ]
       }
     }
   ]

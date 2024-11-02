@@ -24,10 +24,13 @@ struct Scripts
 {
     std::vector<std::string> scripts;
     std::vector<lua_State*> luaStates;
+    std::map<std::string, lua_State*> luaStatesMap;
     mobs::Entity entity;
 
     void add(const std::string& scriptFile, GameContext& gameContext)
     {
+        std::string tag = gameContext.getTag(entity);
+
         lua_State* L = luaL_newstate();
         luaL_openlibs(L);
         if (luaL_dofile(L, scriptFile.c_str()) != LUA_OK)
@@ -38,8 +41,16 @@ struct Scripts
         {
             initializeLuaBindings(L, &gameContext);
 
+            lua_pushstring(L, tag.c_str());
+            lua_setglobal(L, "entityTag");
+
+            lua_pushinteger(L, entity);
+            lua_setglobal(L, "entityId");
+
             scripts.push_back(scriptFile);
+            luaStatesMap[scriptFile] = L;
             luaStates.push_back(L);
+            std::cout << "Script " << scriptFile << " added to entity " << entity << std::endl;
         }
     }
 

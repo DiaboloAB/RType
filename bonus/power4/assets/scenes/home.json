@@ -4,7 +4,7 @@
       "tag": "gameManager",
         "staticObject": false,
         "components": {
-          "Transform": { "position": [0, 0, -1] },
+          "Transform": { "position": [2, 3, -1] },
           "Sprite": { "texture": "graphics/casino.png" },
           "Audio": {
             "musicList": [
