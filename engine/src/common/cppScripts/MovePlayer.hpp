@@ -29,6 +29,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(-1);
 
@@ -40,6 +41,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(1);
 
@@ -51,6 +53,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(1);
                 movePacket->setDirectionY(0);
 
@@ -62,6 +65,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(-1);
                 movePacket->setDirectionY(0);
 
@@ -74,6 +78,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(1);
 
@@ -85,6 +90,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(-1);
 
@@ -96,6 +102,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(-1);
                 movePacket->setDirectionY(0);
 
@@ -107,6 +114,7 @@ class MovePlayer : public RType::ICppScript
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
                 movePacket->setDirectionX(0);
                 movePacket->setDirectionY(1);
 
