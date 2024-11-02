@@ -18,7 +18,7 @@ namespace RType
 class Menu : public RType::ICppScript
 {
    public:
-    void load(mobs::Registry &registry, GameContext &gameContext) override
+    void start(mobs::Registry &registry, GameContext &gameContext) override
     {
         try
         {
@@ -62,7 +62,7 @@ class Menu : public RType::ICppScript
         else if (action == "fullscreen")
         {
             fullscreen = !fullscreen;
-            gameContext._runtime->FullScreenWindow();
+            gameContext._runtime->FullScreenWindow(fullscreen);
             try
             {
                 gameContext.get<Button>("fullscreen").text =
