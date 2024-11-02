@@ -30,7 +30,6 @@ class Ally : public RType::ICppScript
         mobs::Registry &registry, GameContext &gameContext, std::string action,
         const std::vector<std::variant<mlg::vec3, int, std::string>> &args) override
     {
-        std::cout << "Ally onButtonPressed" << std::endl;
         if (action == "move" && args.size() >= 2)
         {
             auto &transform = registry.get<Transform>(getEntity());
@@ -47,7 +46,6 @@ class Ally : public RType::ICppScript
 
             _direction += networdDirection;
         }
-        std::cout << "Ally onButtonPressed - END" << std::endl;
     }
 
     static constexpr const char *name = "Ally";
