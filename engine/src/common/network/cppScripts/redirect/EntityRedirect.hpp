@@ -119,6 +119,21 @@ class EntityRedirect
                     return;
                 }
             }
+            try {
+                mobs::Registry::View viewRoom = registry.view<NetworkRoom>();
+                for (auto &entity : viewRoom) {
+                    auto &room = registry.get<NetworkRoom>(entity);
+                    auto moveServ = room.factory.createEmptyPacket<dimension::MoveEntity>();
+                    moveServ->setNetworkId(packetMove->getNetworkId());
+                    moveServ->setPosX(packetMove->getPosX());
+                    moveServ->setPosY(packetMove->getPosY());
+                    moveServ->setDirectionX(packetMove->getDirectionX());
+                    moveServ->setDirectionY(packetMove->getDirectionY());
+                    room.room->sendToAll(moveServ);
+                }
+            } catch (std::exception &e) {
+                return;
+            }
         }
         catch (std::exception &e)
         {
