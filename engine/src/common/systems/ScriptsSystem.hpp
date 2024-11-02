@@ -21,8 +21,6 @@ class ScriptSystem : public ISystem
     ScriptSystem() {}
     ~ScriptSystem() {}
 
-    void start(mobs::Registry &registry, GameContext &gameContext) override {}
-
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Scripts>();
