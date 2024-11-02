@@ -18,7 +18,6 @@ namespace RType
 class Turret : public RType::ICppScript
 {
    public:
-
     virtual void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext,
                                   mobs::Entity other) override
     {
@@ -38,30 +37,43 @@ class Turret : public RType::ICppScript
         float deltaX = CoordonatePlayer(registry).x - transform.position.x;
         float deltaY = CoordonatePlayer(registry).y - transform.position.y;
 
-        float theta = std::atan2(deltaY, deltaX);;
+        float theta = std::atan2(deltaY, deltaX);
+        ;
 
         float thetaDegrees = theta * 180.0 / M_PI;
 
-        if (transform.scale.y < 0) {
+        if (transform.scale.y < 0)
+        {
             thetaDegrees = thetaDegrees * -1;
         }
 
-        if (thetaDegrees >= -90 && thetaDegrees < 35) {
+        if (thetaDegrees >= -90 && thetaDegrees < 35)
+        {
             AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("right_down");
-        } else if (thetaDegrees >= 35 && thetaDegrees < 75) {
+        }
+        else if (thetaDegrees >= 35 && thetaDegrees < 75)
+        {
             AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("down_right_down");
-        } else if (thetaDegrees >= 75 && thetaDegrees < 105) {
+        }
+        else if (thetaDegrees >= 75 && thetaDegrees < 105)
+        {
             AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("down_down_right");
-        } else if (thetaDegrees >= 105 && thetaDegrees < 135) {
+        }
+        else if (thetaDegrees >= 105 && thetaDegrees < 135)
+        {
             AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("down_down_left");
-        } else if (thetaDegrees >= 135 && thetaDegrees < 165) {
+        }
+        else if (thetaDegrees >= 135 && thetaDegrees < 165)
+        {
             AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("left_down");
-        } else if (thetaDegrees >= 165 && thetaDegrees < -90) {
+        }
+        else if (thetaDegrees >= 165 && thetaDegrees < -90)
+        {
             AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("default");
         }

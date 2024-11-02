@@ -35,12 +35,13 @@ class BigHeadRobot : public RType::ICppScript
 
         float deltaX = CoordonatePlayer(registry).x - transform.position.x;
         float deltaY = CoordonatePlayer(registry).y - transform.position.y;
-        
+
         double v = 3.0;
 
         double distance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (distance != 0) {
+        if (distance != 0)
+        {
             double directionX = deltaX / distance;
             double directionY = deltaY / distance;
             transform.position.x += directionX * v;
