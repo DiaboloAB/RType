@@ -124,22 +124,17 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
         sf::IntRect spriteRect(spriteCoords.x, spriteCoords.y, spriteCoords.z, spriteCoords.w);
         it->second->setTextureRect(spriteRect);
 
-        // Calculer la taille réelle du sprite après application de l'échelle
         float realWidth = spriteCoords.z * scale.x;
         float realHeight = spriteCoords.w * scale.y;
 
-        // Calculer la position pour que le centre soit le point d'origine
         float centerX = position.x - (scale.x > 0 ? 0 : realWidth);
         float centerY = position.y - (scale.y > 0 ? 0 : realHeight);
 
-        // Définir la position ajustée pour que le centre soit constant
         it->second->setPosition(centerX, centerY);
 
-        // Appliquer l'échelle et la rotation
         it->second->setScale(scale.x, scale.y);
         it->second->setRotation(rotation);
 
-        // Dessiner le sprite
         if (_activeShader)
         {
             _window.draw(*it->second, _activeShader);
