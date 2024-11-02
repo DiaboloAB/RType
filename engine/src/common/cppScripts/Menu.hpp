@@ -104,8 +104,8 @@ class Menu : public RType::ICppScript
             mobs::Registry::View viewClient = registry.view<NetworkClient>();
             auto &networkC = registry.get<NetworkClient>(viewClient.front());
             std::string host = gameContext.get<Button>("hostInput").content;
-            unsigned int port = static_cast<unsigned int>(std::stoul(
-                    gameContext.get<Button>("portInput").content));
+            unsigned int port =
+                static_cast<unsigned int>(std::stoul(gameContext.get<Button>("portInput").content));
             gameContext.get<Text>("status").text = "status: connected";
             gameContext.get<Text>("status").color = mlg::vec3(0, 255, 0);
             networkC.client->connectServer(host, port);
@@ -113,7 +113,8 @@ class Menu : public RType::ICppScript
         else if (action == "joinPrivate")
         {
             auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
-            if (networkC.client->_serverEndpoint) {
+            if (networkC.client->_serverEndpoint)
+            {
                 std::string code = gameContext.get<Button>("Game Code").content;
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
