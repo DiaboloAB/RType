@@ -18,7 +18,7 @@ class RoomSystem : public ISystem
     RoomSystem() {}
     ~RoomSystem() {}
 
-    void start(mobs::Registry &registry, GameContext &gameContext)
+    void load(mobs::Registry &registry, GameContext &gameContext) override
     {
         try
         {
