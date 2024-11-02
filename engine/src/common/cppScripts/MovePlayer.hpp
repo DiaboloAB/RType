@@ -71,13 +71,7 @@ class MovePlayer : public RType::ICppScript
             auto direction = std::get<mlg::vec3>(args[1]);
 
             setPosition(registry, position);
-            setDirection(registry, direction);
-        }
-        else if (action == "setDirection" && args.size() >= 1)
-        {
-            auto direction = std::get<mlg::vec3>(args[0]);
-
-            setDirection(registry, direction);
+            setDirection(direction);
         }
     }
 
@@ -93,9 +87,9 @@ class MovePlayer : public RType::ICppScript
         transform.position = NewPosition;
     }
 
-    void setDirection(mobs::Registry &registry, mlg::vec3 NewDirection)
+    void setDirection(mlg::vec3 NewDirection)
     {
-        _direction = NewDirection;
+        _direction += NewDirection;
     }
 };
 
