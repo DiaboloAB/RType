@@ -34,6 +34,7 @@ class EntityRedirect
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
             if (currentTime - packetCreate->getPacketTimeStamp() >= 2) return;
+            ERR_LOG("Test", packetCreate->getEntityToCreate());
             mobs::Entity entity = gameContext._sceneManager.instantiate(
                 packetCreate->getEntityToCreate(), gameContext);
             auto &transform = registry.get<Transform>(entity);

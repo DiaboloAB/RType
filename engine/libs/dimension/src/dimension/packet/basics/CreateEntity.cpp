@@ -33,7 +33,7 @@ CreateEntity::CreateEntity(std::vector<char> &buffer) : APacket(buffer)
     std::memcpy(&this->_scaleY, data, sizeof(float));
     data += sizeof(float);
     this->_entityToCreate = std::string(data, this->getPacketSize() - this->getHeaderSize() -
-                                                  sizeof(uint32_t) - sizeof(float) - sizeof(float));
+                                                  sizeof(uint32_t) - (4 * sizeof(float)));
 }
 
 CreateEntity::~CreateEntity() {}
@@ -41,7 +41,7 @@ CreateEntity::~CreateEntity() {}
 std::vector<char> CreateEntity::serializeData() const
 {
     std::vector<char> buffer;
-    buffer.resize(sizeof(uint32_t) + sizeof(float) + sizeof(float) + this->_entityToCreate.size());
+    buffer.resize(sizeof(uint32_t) + (4 * sizeof(float)) + this->_entityToCreate.size());
     char *data = buffer.data();
 
     std::memcpy(data, &this->_networkId, sizeof(uint32_t));
