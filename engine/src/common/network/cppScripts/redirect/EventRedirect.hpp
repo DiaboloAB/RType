@@ -47,7 +47,7 @@ class EventRedirect
             roomComp.room->send(createPacket, packet.second);
             counter++;
         }
-        auto entity = gameContext._sceneManager.instantiate("player", gameContext);
+        auto entity = gameContext._sceneManager.instantiate("ally", gameContext);
         auto &networkC = registry.get<NetworkData>(entity);
         auto &transform = registry.get<Transform>(entity);
         networkC._id = idNewPlayer;

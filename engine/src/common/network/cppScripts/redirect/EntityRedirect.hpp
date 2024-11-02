@@ -114,37 +114,59 @@ class EntityRedirect
                     mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
                     mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(),
                                         0);
-                    getCppScriptById<ICppScript>(entity, registry)
-                        ->onButtonPressed(registry, gameContext, "move", {position, direction});
+                    getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(registry, gameContext, "move", {position, direction});
                     return;
                 }
-            }
-            try {
-                mobs::Registry::View viewRoom = registry.view<NetworkRoom>();
-                for (auto &entity : viewRoom) {
-                    auto &room = registry.get<NetworkRoom>(entity);
-                    auto moveServ = room.factory.createEmptyPacket<dimension::MoveEntity>();
-                    moveServ->setNetworkId(packetMove->getNetworkId());
-                    moveServ->setDirectionX(packetMove->getDirectionX());
-                    moveServ->setDirectionY(packetMove->getDirectionY());
-                    mobs::Registry::View viewNdata = registry.view<NetworkData>();
-                    for (auto &entity : viewNdata) {
-                        auto &networkData = registry.get<NetworkData>(entity);
-                        if (networkData._id == moveServ->getNetworkId()) {
-                            auto &transform = registry.get<Transform>(entity);
-                            moveServ->setPosX(transform.position.x);
-                            moveServ->setPosY(transform.position.y);
-                        }
-                    }
-                    room.room->sendToAll(moveServ);
-                }
-            } catch (std::exception &e) {
-                return;
             }
         }
         catch (std::exception &e)
         {
             ERR_LOG("EntityRedirect", std::string("move {") + e.what() + "}");
+        }
+    };
+
+    static void moveServer(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet) 
+    {
+        auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
+        try
+        {
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+                                        std::chrono::system_clock::now().time_since_epoch())
+                                        .count();
+            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
+            mobs::Registry::View view = registry.view<NetworkData>();
+            uint32_t idToMove = packetMove->getNetworkId();
+            for (auto &entity : view) {
+                auto &networkData = registry.get<NetworkData>(entity);
+                if (networkData._id == idToMove)
+                {
+                    mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
+                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
+                    getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(
+                        registry, gameContext, "setDirection", {position, direction});
+                    return;
+                }
+            }
+        } catch (std::exception &e) {
+                ERR_LOG("EntityRedirect", std::string("move {") + e.what() + "}");
+        }
+        mobs::Registry::View viewRoom = registry.view<NetworkRoom>();
+        for (auto &entity : viewRoom) {
+            auto &room = registry.get<NetworkRoom>(entity);
+            auto moveServ = room.factory.createEmptyPacket<dimension::MoveEntity>();
+            moveServ->setNetworkId(packetMove->getNetworkId());
+            moveServ->setDirectionX(packetMove->getDirectionX());
+            moveServ->setDirectionY(packetMove->getDirectionY());
+            mobs::Registry::View viewNdata = registry.view<NetworkData>();
+            for (auto &entity : viewNdata) {
+                auto &networkData = registry.get<NetworkData>(entity);
+                if (networkData._id == moveServ->getNetworkId()) {
+                    auto &transform = registry.get<Transform>(entity);
+                    moveServ->setPosX(transform.position.x);
+                    moveServ->setPosY(transform.position.y);
+                }
+            }
+            room.room->sendToAll(moveServ);
         }
     };
 };
