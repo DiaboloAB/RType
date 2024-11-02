@@ -343,10 +343,6 @@ void RenderSystemSDL::FullScreenWindow(bool fullscreen)
     _isFullScreen = fullscreen;
     SDL_SetWindowFullscreen(_window, _isFullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 }
-{
-    _isFullScreen = !_isFullScreen;
-    SDL_SetWindowFullscreen(_window, _isFullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
-}
 
 void RenderSystemSDL::setFramerateLimit(unsigned int limit) { SDL_Delay(1000 / limit); }
 

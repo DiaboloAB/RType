@@ -44,7 +44,7 @@ class RenderSystemSDL : public RType::IRuntime
 
     void clearWindow() override;
     void updateWindow() override;
-    void FullScreenWindow() override;
+    void FullScreenWindow(bool fullscreen) override;
     bool isWindowOpen() override { return _window != nullptr; }
 
     std::shared_ptr<SDL_Texture> loadTexture(const std::string& filePath);
