@@ -54,7 +54,7 @@ class PhysicsSystem : public ISystem
                 }
                 int result = collider.isColliding(transform.position + collider.offset, otherEntity,
                                                   otherTransform.position + otherCollider.offset,
-                                                  otherCollider.size);
+                                                  otherCollider.size, transform.scale, otherTransform.scale);
                 if (collider.isTrigger)
                 {
                     try
@@ -104,8 +104,8 @@ class PhysicsSystem : public ISystem
             auto& transform = registry.get<Transform>(entity);
             auto& collider = registry.get<Collider>(entity);
             mlg::vec4 spriteCoords(transform.position.x + collider.offset.x,
-                                   transform.position.y + collider.offset.y, collider.size.x,
-                                   collider.size.y);
+                                   transform.position.y + collider.offset.y, collider.size.x * transform.scale.x,
+                                   collider.size.y * transform.scale.y);
             gameContext._runtime->drawRectangle(spriteCoords, false, mlg::vec3(255.0f, 0.0f, 0.0f));
         }
     }

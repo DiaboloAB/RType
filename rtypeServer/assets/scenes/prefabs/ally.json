@@ -10,8 +10,8 @@
       "scale": [2, 2, 0]
     },
     "Collider": {
-      "size": [64, 32, 0],
-      "offSet": [0, 0, 0],
+      "size": [32, 16, 0],
+      "offset": [0, 0, 0],
       "isTrigger": false,
       "layerMask": "enemy"
     },
