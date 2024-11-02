@@ -57,11 +57,11 @@ class GameContext
                 auto &basics = view.get<Basics>(entity);
                 if (basics.tag == tag) return view.get<Component>(entity);
             }
-            throw std::runtime_error("Tag not found");
+            throw std::runtime_error("Tag not found: " + tag);
         }
         catch (const std::exception &e)
         {
-            throw std::runtime_error("Tag not found");
+            throw std::runtime_error(e.what());
         }
     }
 

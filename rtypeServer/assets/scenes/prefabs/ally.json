@@ -1,6 +1,9 @@
 {
   "tag": "ally",
   "staticObject": false,
+  "CppScripts": [
+    "Ally"
+  ],
   "components": {
     "Transform": { 
       "position": [0, 0, 0] ,

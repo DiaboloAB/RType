@@ -34,11 +34,11 @@ std::shared_ptr<CppScript> getCppScript(std::string tag, mobs::Registry &registr
                 return script;
             }
         }
-        throw std::runtime_error("Tag not found");
+        throw std::runtime_error("Tag not found: " + tag);
     }
     catch (const std::exception &e)
     {
-        throw std::runtime_error("Tag not found");
+        throw std::runtime_error(e.what());
     }
 }
 
