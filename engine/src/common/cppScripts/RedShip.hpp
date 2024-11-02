@@ -11,6 +11,7 @@
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
 #include "utils/GetCppScript.hpp"
+#include "common/cppScripts/Bullet.hpp"
 
 namespace RType
 {
