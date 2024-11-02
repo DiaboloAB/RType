@@ -126,7 +126,9 @@
           "fontSize": 24,
           "text": "Join",
           "color": [255, 255, 255],
-          "size": [100, 50, 0]
+          "size": [100, 50, 0],
+          "entity": "menuManager",
+          "action": "joinPrivate"
         }
       }
     },

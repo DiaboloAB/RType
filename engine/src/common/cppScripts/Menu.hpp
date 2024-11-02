@@ -110,6 +110,17 @@ class Menu : public RType::ICppScript
             gameContext.get<Text>("status").color = mlg::vec3(0, 255, 0);
             networkC.client->connectServer(host, port);
         }
+        else if (action == "joinPrivate")
+        {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+            if (networkC.client->_serverEndpoint) {
+                std::string code = gameContext.get<Button>("Game Code").content;
+                auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+                event->setClientEvent(dimension::ClientEventType::ROOM);
+                event->setDescription("join=" + code);
+                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+            }
+        }
     }
 
     static constexpr const char *name = "Menu";
