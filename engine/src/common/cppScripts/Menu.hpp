@@ -101,6 +101,26 @@ class Menu : public RType::ICppScript
                 networkC.client->send(event, *networkC.client->getDirectionEndpoint());
             }
         }
+        else if (action == "connect")
+        {
+            std::string host = "127.0.0.1";
+            unsigned int port = 8581;
+            mobs::Registry::View viewClient = registry.view<NetworkClient>();
+            auto &networkC = registry.get<NetworkClient>(viewClient.front());
+            mobs::Registry::View viewBasics = registry.view<Basics>();
+            for (auto &entity : viewBasics) {
+                auto &basics = registry.get<Basics>(entity);
+                if (basics.tag == "hostInput") {
+                    auto &button = registry.get<Button>(entity);
+                    host = button.content;
+                }
+                if (basics.tag == "portInput") {
+                    auto &button = registry.get<Button>(entity);
+                    port = static_cast<unsigned int>(std::stoul(button.content));
+                }
+            }
+            networkC.client->connectServer(host, port);
+        }
     }
 
     static constexpr const char *name = "Menu";
