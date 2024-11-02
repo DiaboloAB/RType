@@ -266,6 +266,8 @@ class RenderSystemSFML : public RType::IRuntime
     std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
     std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaderCache;
 
+    std::map<std::string, int> _musicCache;
+
     int _nextSpriteId;
     int _nextShaderId;
     int _nextFontId;

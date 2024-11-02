@@ -263,16 +263,13 @@ void RenderSystemSFML::FullScreenWindow()
 
 int RenderSystemSFML::loadMusic(const std::string& filePath)
 {
-    for (const auto& [id, cachedMusic] : _musics)
+
+    if (_musicCache.find(filePath) != _musicCache.end())
     {
-        if (cachedMusic->openFromFile(filePath))
-        {
-            return id;
-        }
+        return _musicCache[filePath];
     }
 
     int musicId = _nextMusicId++;
-
     auto music = std::make_unique<sf::Music>();
     if (!music->openFromFile(filePath))
     {
@@ -281,6 +278,7 @@ int RenderSystemSFML::loadMusic(const std::string& filePath)
     }
 
     _musics[musicId] = std::move(music);
+    _musicCache[filePath] = musicId;
 
     return musicId;
 }
