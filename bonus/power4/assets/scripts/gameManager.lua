@@ -1,4 +1,4 @@
-function load(registry, gameContext)
+function start(registry, gameContext)
     playMusicSound("gameManager", "audio/ambiance.ogg")
 end
 
