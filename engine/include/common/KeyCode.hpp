@@ -64,6 +64,7 @@ enum KeyCode
     Alpha8,
     Alpha9,
     Mouse0,
+    Mouse1,
     Mouse2,
     Mouse3,
     Mouse4,
@@ -79,6 +80,18 @@ enum KeyCode
     Backspace,
     Tab,
     None,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
     Close
 };
 }  // namespace RType

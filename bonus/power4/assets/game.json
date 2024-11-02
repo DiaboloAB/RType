@@ -1,23 +1,21 @@
 {
-    "gameName": "RType",
+    "gameName": "Power 4 - Bonus",
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
-    "description": "A simple game",
-    "defaultScene": "scenesTest",
+    "description": "Holtzman's engine example game",
+    "defaultScene": "home",
     "fontList": [
         "assets/fonts/Roboto-Medium.ttf",
         "assets/fonts/r-type.ttf"
     ],
     "scenes": [
         {
-            "name": "scenesTest",
-            "path": "scenes/scenesTest.json"
-        }
-    ],
-    "prefabs": [
+            "name": "home",
+            "path": "scenes/home.json"
+        },
         {
-            "name": "test",
-            "path": "test.json"
+            "name": "game",
+            "path": "scenes/game.json"
         }
     ]
 }

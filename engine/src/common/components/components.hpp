@@ -59,6 +59,7 @@ struct RigidBody
     float mass = 1.0f;
     float restitution = 0.5f;
     bool Physic = false;
+    bool isStatic = false;
 
     RigidBody() {}
     static constexpr const char* name = "RigidBody";
@@ -114,27 +115,59 @@ struct Collider
     std::vector<mobs::Entity> collisions;
     std::vector<std::string> layerMask;
 
-    int isColliding(mlg::vec3 position, mobs::Entity entity, mlg::vec3 otherPosition,
+    int isColliding(mlg::vec3 position, mobs::Entity otherEntity, mlg::vec3 otherPosition,
                     mlg::vec3 otherSize)
     {
         if (position.x < otherPosition.x + otherSize.x && position.x + size.x > otherPosition.x &&
             position.y < otherPosition.y + otherSize.y && position.y + size.y > otherPosition.y)
         {
-            if (std::find(collisions.begin(), collisions.end(), entity) != collisions.end())
+            if (std::find(collisions.begin(), collisions.end(), otherEntity) != collisions.end())
             {
                 return STAY;
             }
-            collisions.push_back(entity);
+            collisions.push_back(otherEntity);
             return ENTER;
         }
-        if (std::find(collisions.begin(), collisions.end(), entity) != collisions.end())
+        if (std::find(collisions.begin(), collisions.end(), otherEntity) != collisions.end())
         {
-            collisions.erase(std::remove(collisions.begin(), collisions.end(), entity),
+            collisions.erase(std::remove(collisions.begin(), collisions.end(), otherEntity),
                              collisions.end());
             return EXIT;
         }
 
         return 0;
+    }
+
+    mlg::vec4 getOverlap(mlg::vec3 position, mobs::Entity entity, mlg::vec3 otherPosition,
+                    mlg::vec3 otherSize)
+    {
+        mlg::vec4 overlap = mlg::vec4(0, 0, 0, 0);
+        float x = 0;
+        float y = 0;
+        float width = 0;
+        float height = 0;
+
+        if (position.x < otherPosition.x + otherSize.x && position.x + size.x > otherPosition.x)
+        {
+            x = std::max(position.x, otherPosition.x);
+            width = std::min(position.x + size.x, otherPosition.x + otherSize.x) - x;
+        }
+        if (position.y < otherPosition.y + otherSize.y && position.y + size.y > otherPosition.y)
+        {
+            y = std::max(position.y, otherPosition.y);
+            height = std::min(position.y + size.y, otherPosition.y + otherSize.y) - y;
+        }
+        if (width < height)
+        {
+            overlap.x = x - position.x;
+            overlap.z = width;
+        }
+        else
+        {
+            overlap.y = y - position.y;
+            overlap.w = height;
+        }
+        return overlap;
     }
 
     Collider() {}

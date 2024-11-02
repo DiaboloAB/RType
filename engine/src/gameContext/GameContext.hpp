@@ -65,6 +65,12 @@ class GameContext
         }
     }
 
+    std::string getTag(mobs::Entity entity)
+    {
+        if (!_registry.hasComponent<Basics>(entity)) return "";
+        return _registry.get<Basics>(entity).tag;
+    }
+
     /**
      * @brief Put the entity in the destroy queue.
      *
@@ -84,6 +90,10 @@ class GameContext
         }
     }
 
+    float getGameSpeed() const { return _gameSpeed; }
+
+    void setGameSpeed(float gameSpeed) { _gameSpeed = gameSpeed; }
+
     std::shared_ptr<IRuntime> _runtime;  ///< The runtime.
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
@@ -94,6 +104,7 @@ class GameContext
     std::map<std::string, std::string> _args;  ///< The arguments.
 
    private:
+    float _gameSpeed = 1.0f;  ///< The game speed.
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.
 };
 

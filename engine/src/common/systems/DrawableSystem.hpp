@@ -180,8 +180,8 @@ class DrawableSystem : public ISystem
 
         Button *newSelectedButton = nullptr;
         float minAdjustedDistance = std::numeric_limits<float>::max();
-        float penaltyFactor = 2.0f;  // Adjust this factor to control how much the perpendicular
-                                     // distance affects the priority.
+        float penaltyFactor = 2.0f;
+
 
         for (auto &[button, transform] : buttons)
         {
@@ -191,7 +191,6 @@ class DrawableSystem : public ISystem
             float directionalDistance = toButton.dot(direction);
             float perpendicularDistance = (toButton - direction * directionalDistance).length();
 
-            // Compute the adjusted distance with a penalty for the perpendicular distance.
             float adjustedDistance = directionalDistance + penaltyFactor * perpendicularDistance;
 
             if (directionalDistance > 0 && adjustedDistance < minAdjustedDistance)
@@ -216,7 +215,11 @@ class DrawableSystem : public ISystem
         }
         catch (const std::exception &e)
         {
-            std::cerr << "no action binded to button" << std::endl;
+        }
+        try {
+            gameContext.get<Scripts>(button.entity)
+                .onButtonPressed(registry, gameContext, button.action);
+        } catch (std::exception &e) {
         }
     }
 

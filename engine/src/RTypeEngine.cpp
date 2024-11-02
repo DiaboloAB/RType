@@ -137,7 +137,8 @@ void Engine::run()
         {
             _gameContext->_runtime->pollEvents();
             if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
-            _gameContext->_deltaT = _clockManager.getUpdateDeltaT();
+            if (_gameContext->_runtime->getKeyDown(KeyCode::F11)) _gameContext->_runtime->FullScreenWindow(true);
+            _gameContext->_deltaT = _clockManager.getUpdateDeltaT() * _gameContext->getGameSpeed();
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
@@ -147,7 +148,7 @@ void Engine::run()
         }
         if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {
-            _gameContext->_deltaT = _clockManager.getDrawDeltaT();
+            _gameContext->_deltaT = _clockManager.getDrawDeltaT() * _gameContext->getGameSpeed();
 
             _runtime->clearWindow();
             _systemManager.draw(_registry, *_gameContext);
@@ -156,6 +157,7 @@ void Engine::run()
             _clockManager.getDrawDeltaT() = 0.0f;
         }
     }
+    _systemManager.stop(_registry, *_gameContext);
 }
 
 void Engine::stop()

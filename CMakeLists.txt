@@ -10,4 +10,10 @@ add_subdirectory(engine)
 add_subdirectory(rtypeServer)
 add_subdirectory(rtypeClient)
 
+option(BONUS "Build bonus features" OFF)
+
+if (BONUS)
+    add_subdirectory(bonus/power4)
+endif()
+
 include(CPack)
