@@ -1,30 +1,44 @@
 {
     "tag": "redShip",
+    "layer": "enemy",
     "staticObject": true,
+    "CppScripts": [
+        "RedShip"
+    ],
     "components": {
-        "Transform": { "position": [0, 0, 0] },
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
         "Collider": {
-            "size": [32, 32],
-            "offSet": [16, 16],
-            "isEnemy": true
+            "size": [32, 32, 0],
+            "offSet": [16, 16, 0],
+            "isTrigger": true,
+            "layerMask": "playerProjectile"
         },
-        "Health": {
-            "health": 1
+        "NetworkData": {
+            "id" : 0,
+            "authority" : "client"
         },
-        "Animator": [
-            {
-                "name": "default",
-                "speed": 10,
-                "texture": "assets/graphics/enemy/red_ship.png",
-                "frameCount": 8,
-                "frameSize": [32, 32],
-                "scale": [2, 2],
-                "rotation": 0,
-                "loop": true
-            }
-        ],
-        "CppScripts": [
-            "RedShip"
-        ]
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/enemy/red_ship.png",
+                    "frameCount": 8,
+                    "frameSize": [32, 32, 0],
+                    "loop": true
+                },
+                {
+                    "name": "explosion",
+                    "speed": 10,
+                    "texture": "graphics/enemy/explosion.png",
+                    "frameCount": 6,
+                    "frameSize": [32, 32, 0],
+                    "loop": false
+                }
+            ]
+        }
     }
 }

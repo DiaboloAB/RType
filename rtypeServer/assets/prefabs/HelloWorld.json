@@ -1,0 +1,11 @@
+{
+    "components": {
+        "Transform": {
+            "position": [200, 200, 10]
+        },
+        "Sprite": {
+            "texture": "graphics/player.png"
+        }
+
+    }
+}

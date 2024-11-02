@@ -108,7 +108,10 @@ class vec3
         return *this;
     }
 
-    bool operator!=(const vec3& other) const { return x != other.x || y != other.y || z != other.z; }
+    bool operator!=(const vec3& other) const
+    {
+        return x != other.x || y != other.y || z != other.z;
+    }
 };
 
 }  // namespace mlg
