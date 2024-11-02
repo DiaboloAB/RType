@@ -30,15 +30,24 @@ class Ally : public RType::ICppScript
         mobs::Registry &registry, GameContext &gameContext, std::string action,
         const std::vector<std::variant<mlg::vec3, int, std::string>> &args) override
     {
-        std::cerr << "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW" << std::endl; 
+        std::cout << "Ally onButtonPressed" << std::endl;
         if (action == "move" && args.size() >= 2)
         {
-            auto position = std::get<mlg::vec3>(args[0]);
-            auto direction = std::get<mlg::vec3>(args[1]);
+            auto &transform = registry.get<Transform>(getEntity());
+            auto networkPosition = std::get<mlg::vec3>(args[0]);
+            auto networdDirection = std::get<mlg::vec3>(args[1]);
 
-            setPosition(registry, position);
-            setDirection(direction);
+            transform.position = networkPosition;
+            _direction += networdDirection;
+            
+        } else if (action == "setDirection")
+        {
+            auto networdDirection = std::get<mlg::vec3>(args[0]);
+            auto &transform = registry.get<Transform>(getEntity());
+
+            _direction += networdDirection;
         }
+        std::cout << "Ally onButtonPressed - END" << std::endl;
     }
 
     static constexpr const char *name = "Ally";
@@ -46,17 +55,6 @@ class Ally : public RType::ICppScript
    private:
     mlg::vec3 _direction = mlg::vec3(0, 0, 0);
 
-    void setPosition(mobs::Registry &registry, mlg::vec3 NewPosition)
-    {
-        auto &transform = registry.get<Transform>(getEntity());
-
-        transform.position = NewPosition;
-    }
-
-    void setDirection(mlg::vec3 NewDirection)
-    {
-        _direction += NewDirection;
-    }
 };
 
 }  // namespace RType
