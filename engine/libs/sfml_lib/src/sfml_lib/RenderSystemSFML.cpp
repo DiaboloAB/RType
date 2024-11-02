@@ -38,6 +38,37 @@ void RenderSystemSFML::pollEvents()
             _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = true;
         if (event.type == sf::Event::MouseButtonReleased)
             _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = false;
+        if (event.type == sf::Event::JoystickButtonPressed)
+            _currentKeys[convertSFMLJoystickButtonToKeyCode(event.joystickButton.button)] = true;
+        if (event.type == sf::Event::JoystickButtonReleased)
+            _currentKeys[convertSFMLJoystickButtonToKeyCode(event.joystickButton.button)] = false;
+        if (event.type == sf::Event::JoystickMoved)
+        {
+            if (event.joystickMove.axis == sf::Joystick::X)
+            {
+                std::cout << "X axis: " << event.joystickMove.position << std::endl;
+                    _currentKeys[KeyCode::LeftStickRight] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::LeftStickLeft] = event.joystickMove.position < -50;
+ 
+            }
+            else if (event.joystickMove.axis == sf::Joystick::Y)
+            {
+                    _currentKeys[KeyCode::LeftStickDown] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::LeftStickUp] = event.joystickMove.position < -50;
+
+            }
+
+            if (event.joystickMove.axis == sf::Joystick::U)
+            {
+                    _currentKeys[KeyCode::RightStickRight] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::RightStickLeft] = event.joystickMove.position < -50;
+            }
+            else if (event.joystickMove.axis == sf::Joystick::V)
+            {
+                    _currentKeys[KeyCode::RightStickDown] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::RightStickUp] = event.joystickMove.position < -50;
+            }
+        }
     }
 }
 
@@ -597,6 +628,20 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
             return KeyCode::None;
     }
 }
+
+KeyCode RenderSystemSFML::convertSFMLJoystickButtonToKeyCode(unsigned int button)
+{
+    switch (button)
+    {
+    case 0: return KeyCode::ButtonA;
+    case 1: return KeyCode::ButtonB;
+    case 2: return KeyCode::ButtonX;
+    case 3: return KeyCode::ButtonY;
+
+    default: return KeyCode::None;
+    }
+}
+
 
 void RenderSystemSFML::resetShader() { _activeShader = nullptr; }
 

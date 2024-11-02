@@ -280,6 +280,7 @@ class RenderSystemSFML : public RType::IRuntime
 
     KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
+    KeyCode convertSFMLJoystickButtonToKeyCode(unsigned int button);
 
     std::vector<bool> _currentKeys = std::vector<bool>(1000, false);
     std::vector<bool> _previousKeys = std::vector<bool>(1000, false);

@@ -24,61 +24,31 @@ namespace RType
  */
 enum KeyCode
 {
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-    M,
-    N,
-    O,
-    P,
-    Q,
-    R,
-    S,
-    T,
-    U,
-    V,
-    W,
-    X,
-    Y,
-    Z,
-    Comma,
-    Dot,
-    Tiret,
-    Alpha0,
-    Alpha1,
-    Alpha2,
-    Alpha3,
-    Alpha4,
-    Alpha5,
-    Alpha6,
-    Alpha7,
-    Alpha8,
-    Alpha9,
-    Mouse0,
-    Mouse2,
-    Mouse3,
-    Mouse4,
-    Mouse5,
-    Mouse6,
-    UpArrow,
-    DownArrow,
-    LeftArrow,
-    RightArrow,
-    Escape,
-    Space,
-    Enter,
-    Backspace,
-    Tab,
-    None,
-    Close
+    // Keyboard keys
+    A, B, C, D, E, F, G, H, I, J, K, L, M,
+    N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+    Comma, Dot, Tiret, Alpha0, Alpha1, Alpha2,
+    Alpha3, Alpha4, Alpha5, Alpha6, Alpha7, Alpha8, Alpha9,
+    UpArrow, DownArrow, LeftArrow, RightArrow,
+    Escape, Space, Enter, Backspace, Tab, None,
+    
+    // Mouse buttons
+    Mouse0, Mouse1, Mouse2, Mouse3, Mouse4, Mouse5, Mouse6,
+    
+    // Gamepad buttons
+    ButtonA, ButtonB, ButtonX, ButtonY,       // Face buttons
+    LeftBumper, RightBumper,                  // Shoulder buttons
+    LeftTrigger, RightTrigger,                // Trigger buttons
+    Start, Select,                            // Menu buttons
+    LeftStickPress, RightStickPress,          // Pressable thumbsticks
+    DPadUp, DPadDown, DPadLeft, DPadRight,    // D-Pad directions
+    
+    // Controller axes (for analog stick movement)
+    LeftStickUp, LeftStickDown, LeftStickLeft, LeftStickRight,
+    RightStickUp, RightStickDown, RightStickLeft, RightStickRight,
+
+    // Additional controller keys
+    Home, Share, Touchpad,                    // Special buttons on modern controllers
+    Close                                      // Window close event
 };
 }  // namespace RType

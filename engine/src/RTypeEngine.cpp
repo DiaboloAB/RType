@@ -137,6 +137,8 @@ void Engine::run()
         {
             _gameContext->_runtime->pollEvents();
             if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
+            if (_gameContext->_runtime->getKeyDown(KeyCode::RightStickRight))
+             std::cout << "Button A pressed" << std::endl;
             _gameContext->_deltaT = _clockManager.getUpdateDeltaT();
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;
