@@ -22,38 +22,80 @@ class MovePlayer : public RType::ICppScript
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &transform = registry.get<Transform>(getEntity());
+        auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
 
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(0);
+            movePacket->setDirectionY(-1);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction + mlg::vec3(0, -1, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(0);
+            movePacket->setDirectionY(1);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction + mlg::vec3(0, 1, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(1);
+            movePacket->setDirectionY(0);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction + mlg::vec3(1, 0, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(-1);
+            movePacket->setDirectionY(0);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction + mlg::vec3(-1, 0, 0);
         }
 
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(0);
+            movePacket->setDirectionY(1);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction - mlg::vec3(0, -1, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(0);
+            movePacket->setDirectionY(-1);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction - mlg::vec3(0, 1, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(-1);
+            movePacket->setDirectionY(0);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction - mlg::vec3(1, 0, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
         {
+            auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+            movePacket->setDirectionX(0);
+            movePacket->setDirectionY(1);
+
+            networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             _direction = _direction - mlg::vec3(-1, 0, 0);
         }
 
