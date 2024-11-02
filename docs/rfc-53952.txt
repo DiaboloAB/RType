@@ -227,7 +227,7 @@ LARGEOT                         Informational                           [Page 4]
 
         - Scale y: scale y on the screen where the entity is created.
 
-    Each parameter is MANDATORY in this packet except "Scale x" & "Scale y".
+    Each parameter is MANDATORY in this packet.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
