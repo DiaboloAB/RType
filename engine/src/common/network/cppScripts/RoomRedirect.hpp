@@ -32,7 +32,7 @@ class RoomRedirect : public RType::ICppScript
         { Network::EventRedirect::handleEvent(registry, gameContext, packet); };
         this->_redirecter[std::type_index(typeid(dimension::MoveEntity))] =
             [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
-        { Network::EntityRedirect::move(registry, gameContext, packet); };
+        { Network::EntityRedirect::moveServer(registry, gameContext, packet); };
 
         this->timer.start();
     }

@@ -30,6 +30,7 @@ class Ally : public RType::ICppScript
         mobs::Registry &registry, GameContext &gameContext, std::string action,
         const std::vector<std::variant<mlg::vec3, int, std::string>> &args) override
     {
+        std::cerr << "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW" << std::endl; 
         if (action == "move" && args.size() >= 2)
         {
             auto position = std::get<mlg::vec3>(args[0]);
