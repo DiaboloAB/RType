@@ -35,7 +35,6 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction + mlg::vec3(0, -1, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
@@ -47,7 +46,6 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction + mlg::vec3(0, 1, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
@@ -59,7 +57,6 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction + mlg::vec3(1, 0, 0);
         }
         if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
         {
@@ -71,7 +68,6 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction + mlg::vec3(-1, 0, 0);
         }
 
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
@@ -84,7 +80,6 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction - mlg::vec3(0, -1, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
@@ -96,7 +91,6 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction - mlg::vec3(0, 1, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
@@ -108,19 +102,17 @@ class MovePlayer : public RType::ICppScript
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction - mlg::vec3(1, 0, 0);
         }
         if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
         {
             if (networkC.client->_serverEndpoint) {
                 auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
                 movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
-                movePacket->setDirectionX(0);
-                movePacket->setDirectionY(1);
+                movePacket->setDirectionX(1);
+                movePacket->setDirectionY(0);
 
                 networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
             }
-            _direction = _direction - mlg::vec3(-1, 0, 0);
         }
 
         transform.position += _direction * speed * gameContext._deltaT;

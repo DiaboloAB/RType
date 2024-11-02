@@ -143,7 +143,7 @@ class EntityRedirect
                     mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
                     mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
                     getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(
-                        registry, gameContext, "setDirection", {position, direction});
+                        registry, gameContext, "setDirection", {direction});
                     break;
                 }
             }
