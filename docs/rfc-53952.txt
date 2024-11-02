@@ -219,11 +219,15 @@ LARGEOT                         Informational                           [Page 4]
         - Entity prefab path: Since each entity uses a prefab in the
                       ECS, we should specify its path.
 
-        - x: position x on the screen where the entity is created.
+        - Pos x: position x on the screen where the entity is created.
 
-        - y: position y on the screen where the entity is created.
+        - Pos y: position y on the screen where the entity is created.
 
-    Each parameter is MANDATORY in this packet.
+        - Scale x: scale x on the screen where the entity is created.
+
+        - Scale y: scale y on the screen where the entity is created.
+
+    Each parameter is MANDATORY in this packet except "Scale x" & "Scale y".
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -231,8 +235,10 @@ LARGEOT                         Informational                           [Page 4]
     | Type                           | 8              | 4     |
     | Network Id                     | 32             |       |
     | Entity prefab path    		 | 8 * length     |       |
-    | x                              | 32             |       |
-    | y                              | 32             |       |
+    | Pos x                          | 32             |       |
+    | Pos y                          | 32             |       |
+    | Scale x                        | 32             |       |
+    | Scale y                        | 32             |       |
     \---------------------------------------------------------/
 
 
