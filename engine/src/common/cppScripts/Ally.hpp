@@ -14,7 +14,7 @@
 namespace RType
 {
 
-class MovePlayer : public RType::ICppScript
+class Ally : public RType::ICppScript
 {
    public:
     int speed = 600;
@@ -40,7 +40,7 @@ class MovePlayer : public RType::ICppScript
         }
     }
 
-    static constexpr const char *name = "MovePlayer";
+    static constexpr const char *name = "Ally";
 
    private:
     mlg::vec3 _direction = mlg::vec3(0, 0, 0);
