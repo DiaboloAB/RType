@@ -98,28 +98,51 @@ void exitGame(lua_State* L)
     gameContext->_running = false;
 }
 
+void switchScene(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    const char* scene = lua_tostring(L, 1);
+    gameContext->_sceneManager.switchScene(std::string(scene));
+}
+
+void getMousePosition(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    auto pos = gameContext->_runtime->getMousePosition();
+
+    lua_pushnumber(L, pos.x);
+    lua_pushnumber(L, pos.y);
+}
+
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
 {
     lua_pushlightuserdata(L, gameContext);
-
     lua_pushcclosure(L, (lua_CFunction)getKey, 1);
     lua_setglobal(L, "getKey");
 
     lua_pushlightuserdata(L, gameContext);
-
     lua_pushcclosure(L, (lua_CFunction)getKeyDown, 1);
     lua_setglobal(L, "getKeyDown");
 
     lua_pushlightuserdata(L, gameContext);
-
     lua_pushcclosure(L, (lua_CFunction)playMusicSound, 1);
     lua_setglobal(L, "playMusicSound");
 
     lua_pushlightuserdata(L, gameContext);
-
     lua_pushcclosure(L, (lua_CFunction)exitGame, 1);
     lua_setglobal(L, "exitGame");
 
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)switchScene, 1);
+    lua_setglobal(L, "switchScene");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)getMousePosition, 1);
+    lua_setglobal(L, "getMousePosition");
 }
 
 #endif  // GETKEY_H

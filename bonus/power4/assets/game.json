@@ -12,6 +12,10 @@
         {
             "name": "home",
             "path": "scenes/home.json"
+        },
+        {
+            "name": "game",
+            "path": "scenes/game.json"
         }
     ]
 }

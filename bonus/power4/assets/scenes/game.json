@@ -1,0 +1,50 @@
+{
+  "entities": [
+    {
+      "components": {
+        "Sprite": {
+          "texture": "graphics/power4.png"
+        },
+        "Transform": {
+          "position": [0, 0, 0]
+        }
+      }
+    },
+    {
+      "layer": "ground",
+      "components": {
+        "Transform": {
+          "position": [0, 950, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [1920, 100, 0]
+        }
+      }
+    },
+    {
+      "components": {
+        "Transform": {
+          "position": [100, 400, 0]
+        },
+        "Sprite": {
+          "texture": "graphics/yellowBall.png"
+        },
+        "RigidBody": {
+          "static": false,
+          "mass": 200
+        },
+        "Collider": {
+          "layerMask": [
+            "ground"
+          ],
+          "isTrigger": false,
+          "size": [70, 70, 0],
+          "offset": [20, 20, 0]
+        }
+      }
+    }
+  ]
+}

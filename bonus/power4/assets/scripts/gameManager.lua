@@ -12,3 +12,8 @@ end
 function exitGame(registry, gameContext)
     exitGame()
 end
+
+function play(registry, gameContext)
+    print("Play")
+    switchScene("game")
+end

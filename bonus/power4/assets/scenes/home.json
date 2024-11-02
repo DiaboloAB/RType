@@ -27,7 +27,7 @@
           "text": "Play",
           "color": [255, 255, 255],
           "size": [200, 50, 0],
-          "entity": "menuManager",
+          "entity": "gameManager",
           "action": "play"
         }
       }
