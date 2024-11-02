@@ -20,6 +20,8 @@ class RoomSystem : public ISystem
 
     void load(mobs::Registry &registry, GameContext &gameContext) override
     {
+        if (_loadedOnce)
+            return;
         try
         {
             std::map<std::string, std::string> args = gameContext._args;
@@ -32,6 +34,7 @@ class RoomSystem : public ISystem
                     std::make_shared<dimension::PacketFactory>(), args.at("host"),
                     static_cast<unsigned int>(std::stoul(args.at("port"))), args.at("code"));
             }
+            _loadedOnce = true;
         }
         catch (std::exception &e)
         {
@@ -40,5 +43,6 @@ class RoomSystem : public ISystem
     }
 
    private:
+    bool _loadedOnce = false;
 };
 }  // namespace RType
