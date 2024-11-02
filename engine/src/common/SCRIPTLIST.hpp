@@ -8,6 +8,7 @@
 #ifndef SCRIPTLIST_H
 #define SCRIPTLIST_H
 
+#include "common/cppScripts/Ally.hpp"
 #include "common/cppScripts/AnimLaserCharge.hpp"
 #include "common/cppScripts/AnimPlayer.hpp"
 #include "common/cppScripts/AnimThruster.hpp"
@@ -29,6 +30,6 @@
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
         MoveLaser, Bullet, RedShip, GameManager, Terrain, Menu, ClientRedirect, RoomRedirect,  \
-        Turret, BigHeadRobot
+        Turret, BigHeadRobot, Ally
 
 #endif  // SCRIPTLIST_H

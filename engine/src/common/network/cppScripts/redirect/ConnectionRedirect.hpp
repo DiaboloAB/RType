@@ -48,8 +48,8 @@ class ConnectionRedirect
 
             uint64_t duration = currentTime - pingTimestamp;
 
-            LOG("ConnectionRedirect",
-                "[Ping packet] received, latence:" + std::to_string(duration) + "s.");
+            //LOG("ConnectionRedirect",
+            //    "[Ping packet] received, latence:" + std::to_string(duration) + "s.");
         }
     }
 
