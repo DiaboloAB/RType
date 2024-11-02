@@ -42,14 +42,14 @@ class ConnectionRedirect
             }
             networkC.client->setLastPing(std::chrono::steady_clock::now());
 
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
 
             uint64_t duration = currentTime - pingTimestamp;
 
-            //LOG("ConnectionRedirect",
-            //    "[Ping packet] received, latence:" + std::to_string(duration) + "s.");
+            LOG("ConnectionRedirect",
+                "[Ping packet] received, latence:" + std::to_string(duration) + "ms.");
         }
     }
 
@@ -65,13 +65,13 @@ class ConnectionRedirect
 
             networkC.room->resetPing(packet.second);
 
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
             uint64_t duration = currentTime - pingTimestamp;
 
             LOG("ConnectionRedirect",
-                "[Ping packet] received, latence:" + std::to_string(duration) + "s.");
+                "[Ping packet] received, latence:" + std::to_string(duration) + "ms.");
         }
     }
 };

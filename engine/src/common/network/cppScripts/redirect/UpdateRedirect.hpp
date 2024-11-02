@@ -104,11 +104,11 @@ class UpdateRedirect
         try
         {
             auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
 
-            if (currentTime - packetUpdate->getPacketTimeStamp() >= 2) return;
+            if (currentTime - packetUpdate->getPacketTimeStamp() >= 2000) return;
 
             std::string packetDescription = packetUpdate->getDescription();
             if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);

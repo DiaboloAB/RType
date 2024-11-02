@@ -30,10 +30,10 @@ class EntityRedirect
         try
         {
             auto packetCreate = std::dynamic_pointer_cast<dimension::CreateEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (currentTime - packetCreate->getPacketTimeStamp() >= 2) return;
+            if (currentTime - packetCreate->getPacketTimeStamp() >= 2000) return;
             ERR_LOG("Test", packetCreate->getEntityToCreate());
             mobs::Entity entity = gameContext._sceneManager.instantiate(
                 packetCreate->getEntityToCreate(), gameContext);
@@ -67,10 +67,10 @@ class EntityRedirect
         try
         {
             auto packetDestroy = std::dynamic_pointer_cast<dimension::DestroyEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (currentTime - packetDestroy->getPacketTimeStamp() >= 2) return;
+            if (currentTime - packetDestroy->getPacketTimeStamp() >= 2000) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToDestroy = packetDestroy->getNetworkId();
             for (auto &entity : view)
@@ -103,10 +103,10 @@ class EntityRedirect
         try
         {
             auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
+            if (currentTime - packetMove->getPacketTimeStamp() >= 2000) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToMove = packetMove->getNetworkId();
             for (auto &entity : view)
@@ -133,10 +133,10 @@ class EntityRedirect
         auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
         try
         {
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                         std::chrono::system_clock::now().time_since_epoch())
                                         .count();
-            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
+            if (currentTime - packetMove->getPacketTimeStamp() >= 2000) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToMove = packetMove->getNetworkId();
             for (auto &entity : view) {
