@@ -52,14 +52,6 @@ class SystemManager
     }
 
     /**
-     * @brief Starts all systems.
-     *
-     * @param registry The registry containing all entities and components.
-     * @param gameContext The context of the game.
-     */
-    void start(mobs::Registry &registry, GameContext &gameContext);
-
-    /**
      * @brief Stops all systems.
      *
      * @param registry The registry containing all entities and components.

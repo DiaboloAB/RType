@@ -43,6 +43,23 @@ struct Scripts
         }
     }
 
+    void startAll(mobs::Registry& registry, GameContext& gameContext)
+    {
+        for (auto L : luaStates)
+        {
+            lua_getglobal(L, "start");
+
+            lua_pushlightuserdata(L, &registry);
+            lua_pushlightuserdata(L, &gameContext);
+
+            if (lua_pcall(L, 2, 0, 0) != LUA_OK)
+            {
+                std::cerr << "Failed to call start: " << lua_tostring(L, -1) << std::endl;
+                lua_pop(L, 1);
+            }
+        }
+    }
+
     void updateAll(mobs::Registry& registry, GameContext& gameContext)
     {
         for (auto L : luaStates)
@@ -75,14 +92,6 @@ struct CppScriptComponent
 {
     std::vector<std::shared_ptr<ICppScript>> scripts;
     mobs::Entity entity;
-
-    void loadAll(mobs::Registry& registry, GameContext& gameContext)
-    {
-        for (auto& script : scripts)
-        {
-            script->load(registry, gameContext);
-        }
-    }
 
     void startAll(mobs::Registry& registry, GameContext& gameContext)
     {

@@ -76,6 +76,7 @@ class SceneManager
      * @return std::string The current scene name.
      */
     std::string getCurrentScene() const { return _currentScene; }
+    void startEntities(mobs::Registry &registry, GameContext &gameContext);
 
    private:
     /**
@@ -89,12 +90,14 @@ class SceneManager
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
                       mobs::Registry &registry, GameContext &gameContext);
 
+
     /**
      * @brief The name of the next scene to load.
      */
     std::string _nextScene = "";
     bool _prefabLoaded = false;
 
+    std::vector<mobs::Entity> _entitiesToStart;
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
     std::map<std::string, std::string> _scenes;   ///< The scenes.
