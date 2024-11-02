@@ -11,7 +11,7 @@
         },
         "Collider": {
             "size": [32, 32, 0],
-            "offSet": [16, 16, 0]
+            "offset": [16, 16, 0]
         },
         "Animator": {
             "animations": [
