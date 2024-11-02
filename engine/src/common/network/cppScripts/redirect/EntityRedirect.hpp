@@ -125,10 +125,17 @@ class EntityRedirect
                     auto &room = registry.get<NetworkRoom>(entity);
                     auto moveServ = room.factory.createEmptyPacket<dimension::MoveEntity>();
                     moveServ->setNetworkId(packetMove->getNetworkId());
-                    moveServ->setPosX(packetMove->getPosX());
-                    moveServ->setPosY(packetMove->getPosY());
                     moveServ->setDirectionX(packetMove->getDirectionX());
                     moveServ->setDirectionY(packetMove->getDirectionY());
+                    mobs::Registry::View viewNdata = registry.view<NetworkData>();
+                    for (auto &entity : viewNdata) {
+                        auto &networkData = registry.get<NetworkData>(entity);
+                        if (networkData._id == moveServ->getNetworkId()) {
+                            auto &transform = registry.get<Transform>(entity);
+                            moveServ->setPosX(transform.position.x);
+                            moveServ->setPosY(transform.position.y);
+                        }
+                    }
                     room.room->sendToAll(moveServ);
                 }
             } catch (std::exception &e) {
