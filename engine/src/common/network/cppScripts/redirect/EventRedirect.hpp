@@ -34,6 +34,8 @@ class EventRedirect
         createPacketAlly->setEntityToCreate("ally");
         createPacketAlly->setPosX(100);
         createPacketAlly->setPosY((connectedId.size() + 1) * 150);
+        createPacketAlly->setScaleX(1);
+        createPacketAlly->setScaleY(1);
         for (auto &endp : roomComp.room->getIdMap())
             roomComp.room->send(createPacketAlly, endp.first);
         int counter = 1;
@@ -44,6 +46,8 @@ class EventRedirect
             createPacket->setEntityToCreate("ally");
             createPacket->setPosX(100);
             createPacket->setPosY(counter * 150);
+            createPacket->setScaleX(1);
+            createPacket->setScaleY(1);
             roomComp.room->send(createPacket, packet.second);
             counter++;
         }
@@ -58,6 +62,8 @@ class EventRedirect
         createPacketPlayer->setEntityToCreate("player");
         createPacketPlayer->setPosX(transform.position.x);
         createPacketPlayer->setPosY(transform.position.y);
+        createPacketPlayer->setScaleX(1);
+        createPacketPlayer->setScaleY(1);
         roomComp.room->send(createPacketPlayer, packet.second);
         roomComp.room->addSenderToRoom(packet.second, idNewPlayer);
         LOG("EventRedirect", "Client init in game");

@@ -9,6 +9,10 @@
             "position": [0, 0, 0],
             "scale": [2, 2, 0]
         },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
         "Collider": {
             "size": [7, 6, 0],
             "offSet": [0, 0, 0],

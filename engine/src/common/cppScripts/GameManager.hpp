@@ -38,6 +38,10 @@ class GameManager : public RType::ICppScript
                     transform.position = event.position;
                     transform.scale *= event.scale;
                     _eventID++;
+
+                    NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+                    uint32_t networkId = room.idFactory.generateNetworkId();
+                    sendEventSpawn(registry, event.prefab, event.position, event.scale, networkId, room);
                 }
                 if (event.type == "stopScrolling")
                 {
@@ -71,6 +75,22 @@ class GameManager : public RType::ICppScript
 
    private:
     int _eventID = 0;
+
+
+    void sendEventSpawn(mobs::Registry &registry, std::string prefab, mlg::vec3 position, mlg::vec3 scale, uint32_t networkId, NetworkRoom &room)
+    {
+        auto spawnServe = room.factory.createEmptyPacket<dimension::CreateEntity>();
+
+        spawnServe->setNetworkId(networkId);
+
+        spawnServe->setEntityToCreate(prefab);
+        spawnServe->setPosX(position.x);
+        spawnServe->setPosY(position.y);
+        spawnServe->setScaleX(scale.x);
+        spawnServe->setScaleY(scale.y);
+
+        room.room->sendToAll(spawnServe);
+    }
 };
 
 }  // namespace RType

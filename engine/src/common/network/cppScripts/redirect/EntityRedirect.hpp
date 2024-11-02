@@ -40,6 +40,8 @@ class EntityRedirect
             auto &transform = registry.get<Transform>(entity);
             transform.position.x = packetCreate->getPosX();
             transform.position.y = packetCreate->getPosY();
+            transform.scale.x *= packetCreate->getScaleX();
+            transform.scale.y *= packetCreate->getScaleY();
             auto &networkData = registry.get<NetworkData>(entity);
             networkData._id = packetCreate->getNetworkId();
             LOG("EntityRedirect",
