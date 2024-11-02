@@ -101,4 +101,10 @@ std::unordered_map<asio::ip::udp::endpoint, uint32_t> Room::getIdMap()
 {
     return this->_connectedId;
 };
+
+void Room::sendToAll(const std::shared_ptr<APacket> &packet, bool isNew)
+{
+    for (auto &endp : this->_connectedEp)
+        this->send(packet, endp.first, isNew);
+}
 }  // namespace dimension

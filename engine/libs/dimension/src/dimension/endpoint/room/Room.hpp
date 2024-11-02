@@ -69,6 +69,8 @@ class Room : public AEndpoint
      */
     void resetPing(asio::ip::udp::endpoint &sender);
 
+    void sendToAll(const std::shared_ptr<APacket> &packet, bool isNew = true);
+
    public:
     std::string getHost() const;
     unsigned int getPort() const;
