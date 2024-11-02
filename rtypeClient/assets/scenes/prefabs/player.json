@@ -1,6 +1,6 @@
 {
   "tag": "player",
-  "staticObject": false,
+  "staticObject": true,
   "CppScripts": [
     "MovePlayer",
     "AnimPlayer",
@@ -11,6 +11,10 @@
       "position": [100, 100, 0],
       "scale": [2, 2, 0],
       "rotation": [0, 0, 0]
+    },
+    "NetworkData": {
+      "id" : 0,
+      "authority" : "client"
     },
     "Collider": {
       "size": [16, 32, 0],

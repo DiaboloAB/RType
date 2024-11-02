@@ -28,6 +28,8 @@ class Terrain : public RType::ICppScript
         if (scrolling)
         {
             transform.position.x -= speed * gameContext._deltaT;
+
+            /// TODO : server responsability
             if (transform.position.x < -400)
             {
                 registry.kill(getEntity());

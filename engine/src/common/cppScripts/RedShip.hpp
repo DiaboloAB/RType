@@ -62,9 +62,22 @@ class RedShip : public RType::ICppScript
             }
         }
 
+        /// TODO : server responsability
         if (transform.position.x < -100)
         {
             registry.kill(getEntity());
+        }
+    }
+
+    void onButtonPressed(
+        mobs::Registry &registry, GameContext &gameContext, std::string action,
+        const std::vector<std::variant<mlg::vec3, int, std::string>> &args) override
+    {
+        if (action == "move" && args.size() >= 1)
+        {
+            auto position = std::get<mlg::vec3>(args[0]);
+
+            setPosition(registry, position);
         }
     }
 
@@ -89,6 +102,13 @@ class RedShip : public RType::ICppScript
         }
         std::cerr << "Player not found" << std::endl;
         return mlg::vec3(0.0f);
+    }
+
+    void setPosition(mobs::Registry &registry, mlg::vec3 NewPosition)
+    {
+        auto &transform = registry.get<Transform>(getEntity());
+
+        transform.position = NewPosition;
     }
 };
 

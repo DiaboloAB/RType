@@ -1,9 +1,8 @@
 {
-    "tag": "redShip",
-    "layer": "enemy",
+    "tag": "greyShip",
     "staticObject": true,
     "CppScripts": [
-        "RedShip"
+        "GreyShip"
     ],
     "components": {
         "Transform": {
@@ -12,13 +11,7 @@
         },
         "Collider": {
             "size": [32, 32, 0],
-            "offSet": [16, 16, 0],
-            "isTrigger": true,
-            "layerMask": "playerProjectile"
-        },
-        "NetworkData": {
-            "id" : 0,
-            "authority" : "client"
+            "offSet": [16, 16, 0]
         },
         "Animator": {
             "animations": [
@@ -29,14 +22,6 @@
                     "frameCount": 8,
                     "frameSize": [32, 32, 0],
                     "loop": true
-                },
-                {
-                    "name": "explosion",
-                    "speed": 10,
-                    "texture": "graphics/enemy/explosion.png",
-                    "frameCount": 6,
-                    "frameSize": [32, 32, 0],
-                    "loop": false
                 }
             ]
         }

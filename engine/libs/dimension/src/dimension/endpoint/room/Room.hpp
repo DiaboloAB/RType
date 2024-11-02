@@ -41,17 +41,12 @@ class Room : public AEndpoint
 
    public:
     /**
-     * @brief Pings connected endpoints to maintain active connections.
-     */
-    void pingEndpoints();
-
-   public:
-    /**
      * @brief Adds a sender endpoint to connected endpoints for handling non-connection packets.
      *
      * @param sender Endpoint to add to the connected endpoints list.
+     * @param id Endpoint network id
      */
-    void addSenderToRoom(asio::ip::udp::endpoint &sender);
+    void addSenderToRoom(asio::ip::udp::endpoint &sender, uint32_t id);
 
     /**
      * @brief Check if a client is connected to the server.
@@ -82,6 +77,8 @@ class Room : public AEndpoint
     getConnectedEp() const;
     std::chrono::steady_clock::time_point getLastPing();
     std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getRecvQueue();
+    uint32_t getIdFromSender(asio::ip::udp::endpoint &sender);
+    std::unordered_map<asio::ip::udp::endpoint, uint32_t> getIdMap();
 
    private:
     std::string _host;
@@ -89,6 +86,7 @@ class Room : public AEndpoint
     std::string _code;
     std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>>
         _connectedEp;
+    std::unordered_map<asio::ip::udp::endpoint, uint32_t> _connectedId;
     std::chrono::steady_clock::time_point _lastPing;
 };
 }  // namespace dimension

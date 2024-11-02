@@ -56,24 +56,37 @@ class UpdateRedirect
         {
             auto &networkC = view.get<NetworkClient>(entity);
 
-            if (*networkC.client->getDirectionEndpoint() != packet.second)
-            {
-                ERR_LOG("handleConnection", "Invalid sender of packets.");
-                return;
-            }
+            if (*networkC.client->getDirectionEndpoint() != packet.second) return;
             try
             {
                 networkC.client->connectDirectionEndpoint(host, port);
-
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=" + code);
                 networkC.client->send(event, *networkC.client->_directionEndpoint);
+                LOG("UpdateRedirect", "Direction endpoint set");
             }
             catch (std::exception &e)
             {
                 ERR_LOG("UpdateRedirect", "Problem occured during join of room.");
             }
+        }
+    }
+
+    static void updateScene(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+    {
+        try
+        {
+            auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
+            std::string description = packetUpdate->getDescription();
+            size_t pos = description.find(':');
+            gameContext._sceneManager.switchScene(description.substr(pos + 1));
+            gameContext._sceneManager.update(gameContext);
+            LOG("UpdateRedirect", "Scene switched.");
+        }
+        catch (std::exception &e)
+        {
+            ERR_LOG("UpdateRedirect", e.what());
         }
     }
 
@@ -95,10 +108,12 @@ class UpdateRedirect
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
 
-            if (packetUpdate->getPacketTimeStamp() + 2 >= currentTime) return;
+            if (currentTime - packetUpdate->getPacketTimeStamp() >= 2) return;
 
             std::string packetDescription = packetUpdate->getDescription();
-            if (packetDescription.rfind("room:", 0) == 0) updateRoom(registry, gameContext, packet);
+            if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);
+            if (packetDescription.find("scene:", 0) == 0)
+                updateScene(registry, gameContext, packet);
         }
         catch (std::exception &e)
         {

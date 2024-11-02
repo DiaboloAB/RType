@@ -23,7 +23,7 @@ AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host
     { return this->handleHiServer(pair); };
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(Ping)))] =
         [this](std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint> pair)
-    { return this->handleHiServer(pair); };
+    { return this->handlePing(pair); };
     this->initServer(host, port);
 }
 

@@ -67,6 +67,7 @@ void Client::connectDirectionEndpoint(std::string host, unsigned int port)
     asio::ip::udp::resolver::results_type endpoints =
         resolver.resolve(asio::ip::udp::v4(), host, std::to_string(port));
     this->_directionEndpoint = std::make_shared<asio::ip::udp::endpoint>(*endpoints.begin());
+    LOG("Client", "Connect success");
 }
 
 void Client::sendPing()

@@ -11,6 +11,7 @@
 #include <memory>
 #include <vector>
 
+#include "mlg/mlg.hpp"
 #include "mobs/mobs.hpp"
 // std
 #include <functional>
@@ -18,6 +19,8 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <variant>
+#include <vector>
 
 namespace RType
 {
@@ -42,6 +45,14 @@ class ICppScript
      * @param gameContext Reference to the game context.
      */
     virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
+     * @brief Called when the script is loaded.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void load(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**
      * @brief Called every frame to update the script.
@@ -85,13 +96,15 @@ class ICppScript
     }
 
     /**
-     * @brief Called when the script is destroyed.
+     * @brief Called when a button is pressed.
      *
      * @param registry Reference to the entity-component registry.
      * @param gameContext Reference to the game context.
+     * @param action The action associated with the button press.
      */
     virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
-                                 std::string action)
+                                 std::string action,
+                                 const std::vector<std::variant<mlg::vec3, int, std::string>> &args)
     {
     }
 

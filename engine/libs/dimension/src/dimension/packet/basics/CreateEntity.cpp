@@ -62,7 +62,7 @@ void CreateEntity::setNetworkId(const uint32_t &networkId) { this->_networkId = 
 
 void CreateEntity::setPosX(const float &posX) { this->_posX = posX; }
 
-void CreateEntity::setPosY(const float &posY) { this->_posX = posY; }
+void CreateEntity::setPosY(const float &posY) { this->_posY = posY; }
 
 void CreateEntity::setEntityToCreate(const std::string &entityToCreate)
 {

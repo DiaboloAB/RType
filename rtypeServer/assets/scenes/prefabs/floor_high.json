@@ -1,0 +1,29 @@
+{
+    "tag": "floor_high",
+    "staticObject": true,
+    "CppScripts": [
+        "Terrain"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Collider": {
+            "size": [64, 48, 0],
+            "offSet": [0, 0, 0]
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 1,
+                    "texture": "graphics/terrain/floor_high.png",
+                    "frameCount": 1,
+                    "frameSize": [64, 48, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

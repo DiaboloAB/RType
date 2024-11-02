@@ -11,7 +11,10 @@
 #include <iostream>
 
 #include "common/ICppScript.hpp"
+#include "common/network/cppScripts/redirect/ConnectionRedirect.hpp"
+#include "common/network/cppScripts/redirect/EventRedirect.hpp"
 #include "gameContext/GameContext.hpp"
+#include "utils/Timer.hpp"
 
 namespace RType
 {
@@ -21,10 +24,14 @@ class RoomRedirect : public RType::ICppScript
    public:
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
-        this->_redirecter[std::type_index(typeid(dimension::Ping))] = []()
-        { std::cerr << "Bonjour le 3" << std::endl; };
-        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] = []()
-        { std::cerr << "Bonjour le 4" << std::endl; };
+        this->_redirecter[std::type_index(typeid(dimension::Ping))] =
+            [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::ConnectionRedirect::handlePingRoom(registry, gameContext, packet); };
+        this->_redirecter[std::type_index(typeid(dimension::ClientEvent))] =
+            [](mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+        { Network::EventRedirect::handleEvent(registry, gameContext, packet); };
+
+        this->timer.start();
     }
 
     void update(mobs::Registry &registry, GameContext &gameContext) override
@@ -33,12 +40,19 @@ class RoomRedirect : public RType::ICppScript
         {
             auto &networkC = registry.get<NetworkRoom>(getEntity());
             auto _rcvQueue = networkC.room->getRcvQueue();
+
+            timer.update(gameContext._deltaT);
+            if (timer.getTime() > 0.5)
+            {
+                networkC.room->sendPing();
+                timer.reset();
+            }
             while (!_rcvQueue.empty())
             {
                 auto packet = _rcvQueue.front();
                 auto typeIndex = networkC.factory.getIndexFromType(packet.first->getPacketType());
                 if (this->_redirecter.find(typeIndex) != this->_redirecter.end())
-                    this->_redirecter.at(typeIndex)();
+                    this->_redirecter.at(typeIndex)(registry, gameContext, packet);
                 if (typeIndex != std::type_index(typeid(dimension::Ping)))
                 {
                     auto validation =
@@ -59,7 +73,10 @@ class RoomRedirect : public RType::ICppScript
     static constexpr const char *name = "RoomRedirect";
 
    private:
-    std::map<std::type_index, std::function<void()>> _redirecter;
+    Timer timer;
+    using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
+    std::map<std::type_index, std::function<void(mobs::Registry &, GameContext &, PacketDatas &)>>
+        _redirecter;
 };
 
 }  // namespace RType

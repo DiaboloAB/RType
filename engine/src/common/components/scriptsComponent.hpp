@@ -15,6 +15,7 @@
 #include "lua/luaBindings.hpp"
 #include "mobs/mobs.hpp"
 // std
+#include <utility>
 
 namespace RType
 {
@@ -75,6 +76,15 @@ struct CppScriptComponent
     std::vector<std::shared_ptr<ICppScript>> scripts;
     mobs::Entity entity;
 
+    void loadAll(mobs::Registry& registry, GameContext& gameContext)
+    {
+        std::cout << "test" << std::endl;
+        for (auto& script : scripts)
+        {
+            script->load(registry, gameContext);
+        }
+    }
+
     void startAll(mobs::Registry& registry, GameContext& gameContext)
     {
         for (auto& script : scripts)
@@ -122,12 +132,19 @@ struct CppScriptComponent
         }
     }
 
-    void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext,
-                            const std::string& action)
+    void onButtonPressedAll(mobs::Registry& registry, GameContext& gameContext, std::string action,
+                            const std::vector<std::variant<mlg::vec3, int, std::string>>& args)
     {
         for (auto& script : scripts)
         {
-            script->onButtonPressed(registry, gameContext, action);
+            try
+            {
+                script->onButtonPressed(registry, gameContext, action, args);
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Error: " << e.what() << std::endl;
+            }
         }
     }
 

@@ -22,6 +22,7 @@ set(SOURCES
     src/dimension/endpoint/client/Client.cpp
     src/dimension/endpoint/server/AServer.cpp
     src/dimension/endpoint/room/Room.cpp
+    src/dimension/IdFactory.cpp
     )
 
 add_library(dimension_lib STATIC ${SOURCES})

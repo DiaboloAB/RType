@@ -14,6 +14,6 @@
 
 #define COMPONENT_TYPES                                                                       \
     Transform, Sprite, Animator, Sticky, NetworkClient, NetworkData, EventManager, RigidBody, \
-        Collider, Text, Button, NetworkRoom
+        Collider, Text, Button, NetworkRoom, Audio
 
 #endif  // COMPONENTLIST_H

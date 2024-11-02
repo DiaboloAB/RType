@@ -39,19 +39,10 @@ Room::~Room()
     this->_recvThread->join();
 }
 
-void Room::pingEndpoints()
-{
-    std::chrono::steady_clock::time_point actualTime = std::chrono::steady_clock::now();
-    if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - this->_lastPing)
-            .count() >= 500)
-    {
-        this->sendPing();
-    }
-}
-
-void Room::addSenderToRoom(asio::ip::udp::endpoint &sender)
+void Room::addSenderToRoom(asio::ip::udp::endpoint &sender, uint32_t id)
 {
     this->_connectedEp.push_back(std::make_pair(sender, std::chrono::steady_clock::now()));
+    this->_connectedId[sender] = id;
 }
 
 bool Room::isConnected(asio::ip::udp::endpoint &endpoint) const
@@ -97,5 +88,17 @@ std::chrono::steady_clock::time_point Room::getLastPing() { return this->_lastPi
 std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> Room::getRecvQueue()
 {
     return this->_rcvQueue;
+};
+
+uint32_t Room::getIdFromSender(asio::ip::udp::endpoint &sender)
+{
+    if (this->_connectedId.find(sender) != this->_connectedId.end())
+        return this->_connectedId.at(sender);
+    return 5001;
+}
+
+std::unordered_map<asio::ip::udp::endpoint, uint32_t> Room::getIdMap()
+{
+    return this->_connectedId;
 };
 }  // namespace dimension
