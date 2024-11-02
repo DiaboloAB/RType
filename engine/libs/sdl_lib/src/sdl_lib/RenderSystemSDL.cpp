@@ -183,21 +183,6 @@ void RenderSystemSDL::drawRectangle(mlg::vec4& spriteCoords, bool full, const ml
     }
 }
 
-void RenderSystemSDL::updateSounds()
-{
-    for (auto it = _activeSounds.begin(); it != _activeSounds.end();)
-    {
-        if (Mix_Playing(-1) == 0)
-        {
-            it = _activeSounds.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
-
 mlg::vec3 RenderSystemSDL::getTextureSize(int spriteId)
 {
     auto it = _spriteCache.find(spriteId);
@@ -352,7 +337,12 @@ void RenderSystemSDL::clearWindow()
 
 void RenderSystemSDL::updateWindow() { SDL_RenderPresent(_renderer); }
 
-void RenderSystemSDL::FullScreenWindow()
+void RenderSystemSDL::FullScreenWindow(bool fullscreen)
+{
+    if (_isFullScreen == fullscreen) return;
+    _isFullScreen = fullscreen;
+    SDL_SetWindowFullscreen(_window, _isFullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+}
 {
     _isFullScreen = !_isFullScreen;
     SDL_SetWindowFullscreen(_window, _isFullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);

@@ -247,8 +247,9 @@ void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const m
     _window.draw(rectangle);
 }
 
-void RenderSystemSFML::FullScreenWindow()
+void RenderSystemSFML::FullScreenWindow(bool fullscreen)
 {
+    if (_isFullScreen == fullscreen) return;
     if (_isFullScreen)
     {
         _window.create(sf::VideoMode(1920, 1080), "RType", sf::Style::Default);
@@ -331,12 +332,9 @@ void RenderSystemSFML::unloadMusic(int musicID)
 
 int RenderSystemSFML::loadSound(const std::string& filePath)
 {
-    for (const auto& [id, buffer] : _soundCache)
+    if (_soundCache.find(filePath) != _soundCache.end())
     {
-        if (buffer->loadFromFile(filePath))
-        {
-            return id;
-        }
+        return _soundCache[filePath];
     }
 
     int soundId = _nextSoundId++;
@@ -348,23 +346,16 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
         return -1;
     }
 
-    _soundCache[soundId] = soundBuffer;
+    _sounds[soundId] = soundBuffer;
+    _soundCache[filePath] = soundId;
 
     return soundId;
 }
 
-void RenderSystemSFML::updateSounds()
-{
-    _activeSounds.erase(std::remove_if(_activeSounds.begin(), _activeSounds.end(),
-                                       [](const sf::Sound& sound)
-                                       { return sound.getStatus() == sf::Sound::Stopped; }),
-                        _activeSounds.end());
-}
-
 void RenderSystemSFML::playSound(int soundId)
 {
-    auto it = _soundCache.find(soundId);
-    if (it != _soundCache.end())
+    auto it = _sounds.find(soundId);
+    if (it != _sounds.end())
     {
         _activeSounds.emplace_back();
         sf::Sound& sound = _activeSounds.back();
@@ -379,12 +370,12 @@ void RenderSystemSFML::playSound(int soundId)
 
 void RenderSystemSFML::unloadSound(int soundId)
 {
-    auto it = _soundCache.find(soundId);
-    if (it != _soundCache.end())
+    auto it = _sounds.find(soundId);
+    if (it != _sounds.end())
     {
         if (it->second.use_count() == 1)
         {
-            _soundCache.erase(it);
+            _sounds.erase(it);
         }
         else
         {
@@ -400,12 +391,9 @@ void RenderSystemSFML::unloadSound(int soundId)
 
 int RenderSystemSFML::loadFont(const std::string& filePath)
 {
-    for (const auto& [id, buffer] : _fonts)
+    if (_fontCache.find(filePath) != _fontCache.end())
     {
-        if (buffer->loadFromFile(filePath))
-        {
-            return id;
-        }
+        return _fontCache[filePath];
     }
 
     int fontId = _nextFontId++;
@@ -417,6 +405,7 @@ int RenderSystemSFML::loadFont(const std::string& filePath)
     }
 
     _fonts[fontId] = font;
+    _fontCache[filePath] = fontId;
 
     return fontId;
 }
@@ -430,12 +419,9 @@ void RenderSystemSFML::setVerticalSyncEnabled(bool enabled)
 int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
                                  const std::string& fragmentShaderPath)
 {
-    for (const auto& [id, cachedShader] : _shaderCache)
+    if (_shaderCache.find(vertexShaderPath) != _shaderCache.end())
     {
-        if (cachedShader->loadFromFile(vertexShaderPath, fragmentShaderPath))
-        {
-            return id;
-        }
+        return -1;
     }
 
     int shaderId = _nextShaderId++;
@@ -448,19 +434,20 @@ int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
         return -1;
     }
 
-    _shaderCache[shaderId] = shader;
+    _shaders[shaderId] = shader;
+    _shaderCache[vertexShaderPath] = shaderId;
 
     return shaderId;
 }
 
 void RenderSystemSFML::unloadShader(int shaderId)
 {
-    auto it = _shaderCache.find(shaderId);
-    if (it != _shaderCache.end())
+    auto it = _shaders.find(shaderId);
+    if (it != _shaders.end())
     {
         if (it->second.use_count() == 1)
         {
-            _shaderCache.erase(it);
+            _shaders.erase(it);
         }
         else
         {
@@ -476,8 +463,8 @@ void RenderSystemSFML::unloadShader(int shaderId)
 
 void RenderSystemSFML::setShader(int shaderId)
 {
-    auto it = _shaderCache.find(shaderId);
-    if (it != _shaderCache.end())
+    auto it = _shaders.find(shaderId);
+    if (it != _shaders.end())
     {
         _activeShader = it->second.get();
     }

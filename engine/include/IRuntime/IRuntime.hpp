@@ -36,7 +36,7 @@ class IRuntime
    public:
     virtual ~IRuntime() = default;
 
-    virtual void pollEvents() = 0;
+    virtual void pollEvents() {}
 
     /**
      * @brief Pure virtual method to retrieve user input.
@@ -45,7 +45,7 @@ class IRuntime
      * This method must be implemented to capture user input events
      * such as keyboard presses, mouse clicks, or other input devices.
      */
-    virtual bool getKey(KeyCode key) = 0;
+    virtual bool getKey(KeyCode key) { return false; }
 
     /**
      * @brief Pure virtual method to retrieve user input.
@@ -54,7 +54,7 @@ class IRuntime
      * This method must be implemented to capture user input events
      * such as keyboard presses, mouse clicks, or other input devices.
      */
-    virtual bool getKeyUp(KeyCode key) = 0;
+    virtual bool getKeyUp(KeyCode key) { return false; }
 
     /**
      * @brief Pure virtual method to retrieve user input.
@@ -63,7 +63,7 @@ class IRuntime
      * This method must be implemented to capture user input events
      * such as keyboard presses, mouse clicks, or other input devices.
      */
-    virtual bool getKeyDown(KeyCode key) = 0;
+    virtual bool getKeyDown(KeyCode key) { return false; }
 
     /**
      * @brief Pure virtual method to clear the window before a new frame.
@@ -71,7 +71,7 @@ class IRuntime
      * This method must be implemented to clear the window content,
      * preparing it for the next frame to be displayed.
      */
-    virtual void clearWindow() = 0;
+    virtual void clearWindow() {}
 
     /**
      * @brief Pure virtual method to update the window after rendering.
@@ -79,7 +79,7 @@ class IRuntime
      * Must be implemented to handle displaying content on the screen
      * after all rendering operations are completed.
      */
-    virtual void updateWindow() = 0;
+    virtual void updateWindow() {}
 
     /**
      * @brief Pure virtual method to set the window title.
@@ -87,7 +87,7 @@ class IRuntime
      *
      * This method must be implemented to set the title of the window.
      */
-    virtual mlg::vec3 getTextureSize(int spriteId) = 0;
+    virtual mlg::vec3 getTextureSize(int spriteId) { return mlg::vec3(0, 0, 0); }
 
     /**
      * @brief Pure virtual method to set the window title.
@@ -95,7 +95,7 @@ class IRuntime
      *
      * This method must be implemented to set the title of the window.
      */
-    virtual mlg::vec3 getMousePosition() = 0;
+    virtual mlg::vec3 getMousePosition() { return mlg::vec3(0, 0, 0); }
 
     /**
      * @brief Pure virtual method to set the window title.
@@ -104,7 +104,7 @@ class IRuntime
      * This method must be implemented to set the title of the window.
      */
     virtual void drawRectangle(mlg::vec4& spriteCoords, bool full,
-                               const mlg::vec3& color = mlg::vec3(0, 0, 0)) = 0;
+                               const mlg::vec3& color = mlg::vec3(0, 0, 0)) {}
 
     /**
      * @brief Pure virtual method to set the window icon.
@@ -112,7 +112,7 @@ class IRuntime
      *
      * This method must be implemented to set the icon of the window.
      */
-    virtual void setGameIcon(const std::string& filePath) = 0;
+    virtual void setGameIcon(const std::string& filePath) {}
 
     /**
      * @brief Pure virtual method to set the window title.
@@ -120,7 +120,7 @@ class IRuntime
      *
      * This method must be implemented to set the title of the window.
      */
-    virtual int loadFont(const std::string& filePath) = 0;
+    virtual int loadFont(const std::string& filePath) { return 0; }
 
     /**
      * @brief Pure virtual method to load a sprite using a previously loaded texture.
@@ -128,7 +128,7 @@ class IRuntime
      *
      * This method must be implemented to assign a texture to a sprite.
      */
-    virtual int loadSprite(const std::string& filePath) = 0;
+    virtual int loadSprite(const std::string& filePath) { return 0; }
 
     /**
      * @brief Pure virtual method to draw a sprite on the window.
@@ -137,8 +137,8 @@ class IRuntime
      * in the rendering window.
      */
     virtual void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
-                            float rotation) = 0;
-    virtual void drawSprite(int spriteId, mlg::vec3 position) = 0;
+                            float rotation) {}
+    virtual void drawSprite(int spriteId, mlg::vec3 position) {}
 
     /**
      * @brief Pure virtual method to draw text on the window.
@@ -147,7 +147,7 @@ class IRuntime
      * on the screen.
      */
     virtual void drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
-                          unsigned int fontSize, const mlg::vec3& color, bool centered) = 0;
+                          unsigned int fontSize, const mlg::vec3& color, bool centered) {}
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
@@ -155,7 +155,7 @@ class IRuntime
      * This method should allow switching the window to fullscreen mode or returning
      * to normal windowed mode.
      */
-    virtual void FullScreenWindow() = 0;
+    virtual void FullScreenWindow(bool fullscreen) {}
 
     /**
      * @brief Pure virtual method to check if the window is open.
@@ -165,7 +165,7 @@ class IRuntime
      * It is useful for determining if the game should continue running or if the
      * window has been closed, prompting a shutdown of the rendering loop.
      */
-    virtual bool isWindowOpen() = 0;
+    virtual bool isWindowOpen() { return true; }
 
     /**
      * @brief Pure virtual method to unload a sprite from memory.
@@ -173,7 +173,7 @@ class IRuntime
      *
      * This method must be implemented to remove a sprite from memory.
      */
-    virtual void unloadSprite(int spriteId) = 0;
+    virtual void unloadSprite(int spriteId) {}
 
     /**
      * @brief Pure virtual method to load a music file.
@@ -183,7 +183,7 @@ class IRuntime
      *
      * This method must be implemented to load a music file into memory.
      */
-    virtual int loadMusic(const std::string& filePath) = 0;
+    virtual int loadMusic(const std::string& filePath) { return 0; }
 
     /**
      * @brief Pure virtual method to play a music file.
@@ -193,14 +193,14 @@ class IRuntime
      * This method must be implemented to play a music file that has been loaded
      * into memory.
      */
-    virtual void playMusic(int musicID, bool loop = true) = 0;
+    virtual void playMusic(int musicID, bool loop = true) {}
 
     /**
      * @brief Pure virtual method to stop the currently playing music.
      *
      * This method must be implemented to stop the currently playing music.
      */
-    virtual void stopCurrentMusic() = 0;
+    virtual void stopCurrentMusic() {}
 
     /**
      * @brief Pure virtual method to unload a music file from memory.
@@ -208,7 +208,7 @@ class IRuntime
      *
      * This method must be implemented to remove a music file from memory.
      */
-    virtual void unloadMusic(int musicID) = 0;
+    virtual void unloadMusic(int musicID) {}
 
     /**
      * @brief Pure virtual method to load a sound file.
@@ -218,7 +218,7 @@ class IRuntime
      *
      * This method must be implemented to load a sound file into memory.
      */
-    virtual int loadSound(const std::string& filePath) = 0;
+    virtual int loadSound(const std::string& filePath) { return 0; }
 
     /**
      * @brief Pure virtual method to play a sound file.
@@ -227,7 +227,7 @@ class IRuntime
      * This method must be implemented to play a sound file that has been loaded
      * into memory.
      */
-    virtual void playSound(const int soundID) = 0;
+    virtual void playSound(const int soundID) {}
 
     /**
      * @brief Pure virtual method to unload a sound file from memory.
@@ -235,7 +235,7 @@ class IRuntime
      *
      * This method must be implemented to remove a sound file from memory.
      */
-    virtual void unloadSound(const int soundID) = 0;
+    virtual void unloadSound(const int soundID) {}
 
     /**
      * @brief Pure virtual method to set the framerate limit.
@@ -243,7 +243,7 @@ class IRuntime
      *
      * This method must be implemented to set the maximum framerate for the game.
      */
-    virtual void setFramerateLimit(unsigned int limit) = 0;
+    virtual void setFramerateLimit(unsigned int limit) {}
 
     /**
      * @brief Pure virtual method to set the vertical sync.
@@ -251,16 +251,16 @@ class IRuntime
      *
      * This method must be implemented to enable or disable vertical sync.
      */
-    virtual void setVerticalSyncEnabled(bool enabled) = 0;
-
-    virtual void updateSounds() = 0;
+    virtual void setVerticalSyncEnabled(bool enabled) {}
 
     virtual int loadShader(const std::string& vertexShaderPath,
-                           const std::string& fragmentShaderPath) = 0;
-    virtual void setShader(int shaderId) = 0;
-    virtual void resetShader() = 0;
+                           const std::string& fragmentShaderPath) { return 0; }
+    virtual void setShader(int shaderId) {}
+    virtual void resetShader() {}
 
-    virtual void unloadShader(int shaderId) = 0;
+    virtual void setMouseCursorVisible(bool visible) {}
+
+    virtual void unloadShader(int shaderId) {}
 
    private:
     // No private member data defined in this interface.

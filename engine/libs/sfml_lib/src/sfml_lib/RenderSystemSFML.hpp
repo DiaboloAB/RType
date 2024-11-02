@@ -174,7 +174,7 @@ class RenderSystemSFML : public RType::IRuntime
      *
      * Allows switching the window to fullscreen mode or returning to normal windowed mode.
      */
-    void FullScreenWindow() override;
+    void FullScreenWindow(bool fullscreen) override;
 
     /**
      * @brief Checks if the window is open.
@@ -246,8 +246,6 @@ class RenderSystemSFML : public RType::IRuntime
 
     void setVerticalSyncEnabled(bool enabled) override;
 
-    void updateSounds() override;
-
     int loadShader(const std::string& vertexShaderPath,
                    const std::string& fragmentShaderPath) override;
     void setShader(int shaderId) override;
@@ -258,15 +256,18 @@ class RenderSystemSFML : public RType::IRuntime
     bool _isFullScreen;
     sf::RenderWindow _window;
 
-    std::unordered_map<std::string, std::shared_ptr<sf::Texture>> _textures;
     std::unordered_map<int, std::shared_ptr<sf::Sprite>> _spriteCache;
     std::unordered_map<int, std::shared_ptr<sf::Music>> _musics;
-    std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _soundBuffers;
-    std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _soundCache;
+    std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _sounds;
+    std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaders;
     std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
-    std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaderCache;
+
+    std::unordered_map<std::string, std::shared_ptr<sf::Texture>> _textures;
 
     std::map<std::string, int> _musicCache;
+    std::map<std::string, int> _soundCache;
+    std::map<std::string, int> _fontCache;
+    std::map<std::string, int> _shaderCache;
 
     int _nextSpriteId;
     int _nextShaderId;

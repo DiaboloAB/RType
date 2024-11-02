@@ -63,7 +63,7 @@ class Menu : public RType::ICppScript
         else if (action == "fullscreen")
         {
             fullscreen = !fullscreen;
-            gameContext._runtime->FullScreenWindow();
+            gameContext._runtime->FullScreenWindow(true);
             try
             {
                 gameContext.get<Button>("fullscreen").text =

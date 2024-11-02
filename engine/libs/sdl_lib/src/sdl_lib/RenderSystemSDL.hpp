@@ -75,7 +75,6 @@ class RenderSystemSDL : public RType::IRuntime
     void setGameIcon(const std::string& filePath) override;
     void setFramerateLimit(unsigned int limit) override;
     void setVerticalSyncEnabled(bool enabled) override;
-    void updateSounds() override;
 
     int loadShader(const std::string& vertexShaderPath,
                    const std::string& fragmentShaderPath) override;
