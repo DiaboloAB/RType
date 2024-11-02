@@ -92,7 +92,7 @@ class AServer : public AEndpoint
      * @return true
      * @return false
      */
-    bool isConnected(asio::ip::udp::endpoint &endpoint) const;
+    bool isConnected(asio::ip::udp::endpoint &endpoint);
 
    protected:
     std::string _host;

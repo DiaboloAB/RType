@@ -59,8 +59,9 @@ void AServer::run()
         }
         this->checkLastPing();
         this->resendValidationList();
+
         std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> queueAtT =
-            this->_rcvQueue;
+            this->getRcvQueue();
         while (!queueAtT.empty())
         {
             auto &packet = queueAtT.front();
@@ -72,8 +73,9 @@ void AServer::run()
     }
 }
 
-bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const
+bool AServer::isConnected(asio::ip::udp::endpoint &endpoint)
 {
+    std::lock_guard<std::mutex> lock(this->_listMutex);
     for (auto &connected : this->_connectedEp)
         if (connected.first == endpoint) return true;
     return false;
