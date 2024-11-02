@@ -202,7 +202,7 @@
         "Text": {
           "font": "fonts/r-type.ttf",
           "fontSize": 17,
-          "text": "status: connected",
+          "text": "status: not connected",
           "color": [255, 0, 0],
           "size": [200, 30, 0]
         }

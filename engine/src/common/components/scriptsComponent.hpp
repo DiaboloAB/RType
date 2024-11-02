@@ -78,7 +78,6 @@ struct CppScriptComponent
 
     void loadAll(mobs::Registry& registry, GameContext& gameContext)
     {
-        std::cout << "test" << std::endl;
         for (auto& script : scripts)
         {
             script->load(registry, gameContext);
