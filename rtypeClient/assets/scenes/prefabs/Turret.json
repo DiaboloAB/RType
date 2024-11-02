@@ -1,0 +1,80 @@
+{
+    "tag": "Turret",
+    "layer": "enemy",
+    "staticObject": true,
+    "CppScripts": [
+        "Turret"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [3, 3, 0]
+        },
+        "Collider": {
+            "size": [32, 32, 0],
+            "offSet": [16, 16, 0],
+            "isTrigger": true,
+            "layerMask": "playerProjectile"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/enemy/turret/Turret_default_down_left.png",
+                    "frameCount": 1,
+                    "frameSize": [16, 16, 0],
+                    "loop": false
+                },
+                {
+                    "name": "left_down",
+                    "speed": 10,
+                    "texture": "graphics/enemy/turret/Turret_default_down_left_down.png",
+                    "frameCount": 1,
+                    "frameSize": [16, 16, 0],
+                    "loop": false
+                },
+                {
+                    "name": "down_down_left",
+                    "speed": 10,
+                    "texture": "graphics/enemy/turret/Turret_default_down_down_left.png",
+                    "frameCount": 1,
+                    "frameSize": [16, 16, 0],
+                    "loop": false
+                },
+                {
+                    "name": "down_down_right",
+                    "speed": 10,
+                    "texture": "graphics/enemy/turret/Turret_default_down_down_right.png",
+                    "frameCount": 1,
+                    "frameSize": [16, 16, 0],
+                    "loop": false
+                },
+                {
+                    "name": "down_right_down",
+                    "speed": 10,
+                    "texture": "graphics/enemy/turret/Turret_default_down_right_down.png",
+                    "frameCount": 1,
+                    "frameSize": [16, 16, 0],
+                    "loop": false
+                },
+                {
+                    "name": "right_down",
+                    "speed": 10,
+                    "texture": "graphics/enemy/turret/Turret_default_down_right.png",
+                    "frameCount": 1,
+                    "frameSize": [16, 16, 0],
+                    "loop": false
+                },
+                {
+                    "name": "explosion",
+                    "speed": 10,
+                    "texture": "graphics/enemy/explosion.png",
+                    "frameCount": 6,
+                    "frameSize": [32, 32, 0],
+                    "loop": false
+                }
+            ]
+        }
+    }
+}
