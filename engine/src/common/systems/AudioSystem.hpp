@@ -25,7 +25,6 @@ class AudioSystem : public ISystem
         auto view = registry.view<Audio>();
         for (auto entity : view)
         {
-            std::cout << "Loading audio for entity " << entity << std::endl;
             auto& audio = view.get<Audio>(entity);
             for (auto sound : audio.soundList)
             {
@@ -46,10 +45,9 @@ class AudioSystem : public ISystem
         for (auto entity : view)
         {
             auto& audio = view.get<Audio>(entity);
-            if (!audio.audioQueue.empty())
+            while (!audio.audioQueue.empty())
             {
                 auto sound = audio.audioQueue.front();
-                audio.audioQueue.pop();
                 if (audio.soundList.find(sound) != audio.soundList.end())
                 {
                     gameContext._runtime->playSound(audio.soundList[sound]);
@@ -58,6 +56,7 @@ class AudioSystem : public ISystem
                 {
                     gameContext._runtime->playMusic(audio.musicList[sound]);
                 }
+                audio.audioQueue.pop();
             }
         }
     }

@@ -70,6 +70,8 @@ class SceneManager
     void setScenes(const std::map<std::string, std::string> &scenes) { _scenes = scenes; }
     void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
 
+    void startNewEntities(mobs::Registry &registry, GameContext &gameContext);
+
     /**
      * @brief Gets the current scene name.
      *
@@ -94,6 +96,7 @@ class SceneManager
      */
     std::string _nextScene = "";
     bool _prefabLoaded = false;
+    std::vector<mobs::Entity> _entitiesToStart;
 
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.

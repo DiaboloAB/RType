@@ -26,7 +26,8 @@ static void addCppScriptIfExists(const nlohmann::json& data, mobs::Registry& reg
         {
             // std::cout << "Adding CppScript: " << T::name << std::endl;
             auto script = std::make_shared<T>();
-            script->start(registry, gameContext);
+            // std::cout << "Starting script: " << T::name << std::endl;
+            // script->start(registry, gameContext);
             registry.get<CppScriptComponent>(entity).addScript(script);
         }
     }
@@ -86,6 +87,7 @@ void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity e
             addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"],
                                                 gameContext);
         }
+        _entitiesToStart.push_back(entity);
     }
     catch (const std::exception& e)
     {

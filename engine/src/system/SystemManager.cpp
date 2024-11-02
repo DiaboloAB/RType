@@ -19,15 +19,6 @@ SystemManager::~SystemManager()
     // Destructor implementation
 }
 
-void SystemManager::start(mobs::Registry &registry, GameContext &gameContext)
-{
-    std::cout << "SystemManager: Starting systems" << std::endl;
-    for (auto &system : _systems)
-    {
-        system->start(registry, gameContext);
-    }
-}
-
 void SystemManager::update(mobs::Registry &registry, GameContext &gameContext)
 {
     for (auto &system : _systems)

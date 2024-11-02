@@ -98,4 +98,26 @@ bool SceneManager::update(GameContext& gameContext)
     return false;
 }
 
+void SceneManager::startNewEntities(mobs::Registry& registry, GameContext& gameContext)
+{
+    for (auto entity : _entitiesToStart)
+    {
+        if (registry.hasComponent<Scripts>(entity))
+        {
+            auto& scripts = registry.get<Scripts>(entity);
+            scripts.startAll(registry, gameContext);
+        }
+
+        if (registry.hasComponent<CppScriptComponent>(entity))
+        {
+            auto& cppScripts = registry.get<CppScriptComponent>(entity);
+            for (auto& script : cppScripts.scripts)
+            {
+                script->start(registry, gameContext);
+            }
+        }
+    }
+    _entitiesToStart.clear();
+}
+
 }  // namespace RType

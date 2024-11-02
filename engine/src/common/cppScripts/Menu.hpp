@@ -18,10 +18,11 @@ namespace RType
 class Menu : public RType::ICppScript
 {
    public:
-    void load(mobs::Registry &registry, GameContext &gameContext) override
+    void start(mobs::Registry &registry, GameContext &gameContext) override
     {
         try
         {
+            std::cout << "Menu started" << std::endl;
             gameContext.get<Audio>("soundManager").audioQueue.push("sounds/mainTrack.ogg");
         }
         catch (std::exception &e)

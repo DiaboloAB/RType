@@ -18,8 +18,10 @@ class RoomSystem : public ISystem
     RoomSystem() {}
     ~RoomSystem() {}
 
-    void start(mobs::Registry &registry, GameContext &gameContext)
+    void load(mobs::Registry &registry, GameContext &gameContext) override
     {
+        if (loadedOnce)
+            return;
         try
         {
             std::map<std::string, std::string> args = gameContext._args;
@@ -37,8 +39,10 @@ class RoomSystem : public ISystem
         {
             ERR_LOG("RoomSystem", std::string("Something went wrong {") + e.what() + "}");
         }
+        loadedOnce = true;
     }
 
    private:
+    bool loadedOnce = false;
 };
 }  // namespace RType
