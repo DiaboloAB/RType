@@ -37,6 +37,16 @@ elif [ "$COMMAND" == "build-off" ]; then
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=OFF
     cmake --build . -- -j 4
 
+elif [ "$COMMAND" == "build-bonus" ]; then
+
+    echo "Building project..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=SFML
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=SFML -DBONUS=ON
+    cmake --build . -- -j 4
+
 elif [ "$COMMAND" == "build-test" ]; then
 
     echo "Building tests..."

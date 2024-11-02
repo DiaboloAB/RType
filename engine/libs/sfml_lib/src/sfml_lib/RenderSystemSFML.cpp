@@ -185,7 +185,8 @@ mlg::vec3 RenderSystemSFML::getTextureSize(int spriteId)
 mlg::vec3 RenderSystemSFML::getMousePosition()
 {
     sf::Vector2i position = sf::Mouse::getPosition(_window);
-    return mlg::vec3(position.x, position.y, 0);
+    sf::Vector2f fixedPos = _window.mapPixelToCoords(position);
+    return mlg::vec3(fixedPos.x, fixedPos.y, 0);
 }
 
 void RenderSystemSFML::setGameIcon(const std::string& filePath)
@@ -574,6 +575,28 @@ KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
             return KeyCode::Dot;
         case sf::Keyboard::Dash:
             return KeyCode::Tiret;
+        case sf::Keyboard::F1:
+            return KeyCode::F1;
+        case sf::Keyboard::F2:
+            return KeyCode::F2;
+        case sf::Keyboard::F3:
+            return KeyCode::F3;
+        case sf::Keyboard::F4:
+            return KeyCode::F4;
+        case sf::Keyboard::F5:
+            return KeyCode::F5;
+        case sf::Keyboard::F6:
+            return KeyCode::F6;
+        case sf::Keyboard::F7:
+            return KeyCode::F7;
+        case sf::Keyboard::F8:
+            return KeyCode::F8;
+        case sf::Keyboard::F9:
+            return KeyCode::F9;
+        case sf::Keyboard::F10:
+            return KeyCode::F10;
+        case sf::Keyboard::F11:
+            return KeyCode::F11;
         default:
             return KeyCode::None;
     }
@@ -586,9 +609,9 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
         case sf::Mouse::Left:
             return KeyCode::Mouse0;
         case sf::Mouse::Right:
-            return KeyCode::Mouse2;
+            return KeyCode::Mouse1;
         case sf::Mouse::Middle:
-            return KeyCode::Mouse3;
+            return KeyCode::Mouse2;
         case sf::Mouse::XButton1:
             return KeyCode::Mouse4;
         case sf::Mouse::XButton2:
