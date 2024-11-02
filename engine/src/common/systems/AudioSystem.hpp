@@ -25,15 +25,17 @@ class AudioSystem : public ISystem
         auto view = registry.view<Audio>();
         for (auto entity : view)
         {
-            std::cout << "Loading audio for entity " << entity << std::endl;
+
             auto& audio = view.get<Audio>(entity);
             for (auto sound : audio.soundList)
             {
-                audio.soundList[sound.first] = gameContext._runtime->loadSound(gameContext._assetsPath + sound.first);
+                audio.soundList[sound.first] =
+                    gameContext._runtime->loadSound(gameContext._assetsPath + sound.first);
             }
             for (auto music : audio.musicList)
             {
-                audio.musicList[music.first] = gameContext._runtime->loadMusic(gameContext._assetsPath + music.first);
+                audio.musicList[music.first] =
+                    gameContext._runtime->loadMusic(gameContext._assetsPath + music.first);
             }
         }
     }

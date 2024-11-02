@@ -15,7 +15,7 @@
           "rotation": [0, 0, 0]
         },
         "Collider": {
-          "size": [16, 32, 0],
+          "size": [64, 32, 0],
           "offset": [0, 0, 0],
           "layerMask": "enemy",
           "isTrigger": false
@@ -172,6 +172,18 @@
               "prefab": "RedShip",
               "position": [1920, 300, 0],
               "delay": 7
+            },
+            {
+              "type": "instantiate",
+              "prefab": "Turret",
+              "position": [1000, 300, 0],
+              "delay": 0
+            },
+            {
+              "type": "instantiate",
+              "prefab": "BigHeadRobot",
+              "position": [1000, 300, 0],
+              "delay": 0
             },
             {
               "type": "instantiate",

@@ -139,16 +139,21 @@ void from_json(const nlohmann::json& j, Collider& collider)
     }
 }
 
-void from_json(const nlohmann::json& j, Audio& audio) {
-   if (j.contains("musicList")) {
-      for (const auto& music : j.at("musicList")) {
-        audio.musicList[music] = -1;
-      }
+void from_json(const nlohmann::json& j, Audio& audio)
+{
+    if (j.contains("musicList"))
+    {
+        for (const auto& music : j.at("musicList"))
+        {
+            audio.musicList[music] = -1;
+        }
     }
-    if (j.contains("soundList")) {
-      for (const auto& sound : j.at("soundList")) {
-        audio.soundList[sound] = -1;
-      }
+    if (j.contains("soundList"))
+    {
+        for (const auto& sound : j.at("soundList"))
+        {
+            audio.soundList[sound] = -1;
+        }
     }
     if (j.contains("musicVolume")) j.at("musicVolume").get_to(audio.musicVolume);
     if (j.contains("soundVolume")) j.at("soundVolume").get_to(audio.soundVolume);

@@ -67,7 +67,7 @@ void MoveEntity::setNetworkId(const uint32_t &networkId) { this->_networkId = ne
 
 void MoveEntity::setPosX(const float &posX) { this->_posX = posX; }
 
-void MoveEntity::setPosY(const float &posY) { this->_posX = posY; }
+void MoveEntity::setPosY(const float &posY) { this->_posY = posY; }
 
 void MoveEntity::setDirectionX(const float &directionX) { this->_directionX = directionX; }
 

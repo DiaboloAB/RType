@@ -11,8 +11,8 @@
 #include <memory>
 #include <vector>
 
-#include "mobs/mobs.hpp"
 #include "mlg/mlg.hpp"
+#include "mobs/mobs.hpp"
 // std
 #include <functional>
 #include <iostream>
@@ -21,7 +21,6 @@
 #include <string>
 #include <variant>
 #include <vector>
-
 
 namespace RType
 {
@@ -104,7 +103,8 @@ class ICppScript
      * @param action The action associated with the button press.
      */
     virtual void onButtonPressed(mobs::Registry &registry, GameContext &gameContext,
-                                 std::string action, const std::vector<std::variant<mlg::vec3, int, std::string>>& args)
+                                 std::string action,
+                                 const std::vector<std::variant<mlg::vec3, int, std::string>> &args)
     {
     }
 

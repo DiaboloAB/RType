@@ -129,7 +129,9 @@
           "fontSize": 24,
           "text": "Join",
           "color": [255, 255, 255],
-          "size": [100, 50, 0]
+          "size": [100, 50, 0],
+          "entity": "menuManager",
+          "action": "joinPrivate"
         }
       }
     },
@@ -161,7 +163,7 @@
           "color": [255, 255, 255],
           "size": [200, 30, 0],
           "input": true,
-          "content": "0.0.0.0"
+          "content": "127.0.0.1"
         }
       }
     },
@@ -177,7 +179,7 @@
           "color": [255, 255, 255],
           "size": [100, 30, 0],
           "input": true,
-          "content": "8000"
+          "content": "8581"
         }
       }
     },
@@ -191,7 +193,9 @@
           "fontSize": 17,
           "text": "Connect",
           "color": [255, 255, 255],
-          "size": [100, 30, 0]
+          "size": [100, 30, 0],
+          "entity": "menuManager",
+          "action": "connect"
         }
       }
     },
@@ -203,7 +207,7 @@
         "Text": {
           "font": "fonts/r-type.ttf",
           "fontSize": 17,
-          "text": "status: connected",
+          "text": "status: not connected",
           "color": [255, 0, 0],
           "size": [200, 30, 0]
         }

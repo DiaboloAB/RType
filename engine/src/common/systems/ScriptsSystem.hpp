@@ -21,18 +21,6 @@ class ScriptSystem : public ISystem
     ScriptSystem() {}
     ~ScriptSystem() {}
 
-    void start(mobs::Registry &registry, GameContext &gameContext) override {}
-
-    void load(mobs::Registry &registry, GameContext &gameContext) override
-    {
-        auto view = registry.view<Scripts>();
-        for (auto entity : view)
-        {
-            auto &scripts = view.get<Scripts>(entity);
-            scripts.loadAll(registry, gameContext);
-        }
-    }
-
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Scripts>();

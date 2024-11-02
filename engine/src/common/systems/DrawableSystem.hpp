@@ -224,7 +224,7 @@ class DrawableSystem : public ISystem
     }
 
    private:
-    std::string keys = "0123456789   abcdefghijklmnopqrstuvwxyz.            ";
+    std::string keys = "0123456789   ABCDEFGHIJKLMNOPQRSTUVWXYZ.            ";
 
     mlg::vec3 selectedKey = {0, 0, 0};
     int keyboardSprite_id;

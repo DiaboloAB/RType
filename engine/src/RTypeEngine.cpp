@@ -124,13 +124,11 @@ void Engine::loadGame()
     _sceneManager.setPrefabs(prefabsMap);
 
     std::cout << "Default scene: " << _gameConfig["defaultScene"] << std::endl;
-    _sceneManager.loadScene(_gameConfig["defaultScene"], *_gameContext);
+    _sceneManager.switchScene(_gameConfig["defaultScene"]);
 }
 
 void Engine::run()
 {
-    _systemManager.load(_registry, *_gameContext);
-    _systemManager.start(_registry, *_gameContext);
     while (_gameContext->_runtime->isWindowOpen() && _gameContext->_running && !_stop)
     {
         _clockManager.update();
@@ -144,7 +142,10 @@ void Engine::run()
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
-        if (_sceneManager.update(*_gameContext)) _systemManager.load(_registry, *_gameContext);
+        if (_sceneManager.update(*_gameContext)) {
+            _systemManager.load(_registry, *_gameContext);
+            _sceneManager.startEntities(_registry, *_gameContext);
+        }
         if (_clockManager.getDrawDeltaT() >= _clockManager.getTargetDrawDeltaT())
         {
             _gameContext->_deltaT = _clockManager.getDrawDeltaT() * _gameContext->getGameSpeed();

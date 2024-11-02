@@ -18,7 +18,6 @@ class EntityRedirect
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
    public:
-
     /**
      * @brief Handler of CreateEntity packet into the ECS from client side.
      *
@@ -34,7 +33,7 @@ class EntityRedirect
             uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (packetCreate->getPacketTimeStamp() + 2 >= currentTime) return;
+            if (currentTime - packetCreate->getPacketTimeStamp() >= 2) return;
             mobs::Entity entity = gameContext._sceneManager.instantiate(
                 packetCreate->getEntityToCreate(), gameContext);
             auto &transform = registry.get<Transform>(entity);
@@ -43,7 +42,9 @@ class EntityRedirect
             auto &networkData = registry.get<NetworkData>(entity);
             networkData._id = packetCreate->getNetworkId();
             LOG("EntityRedirect",
-                "Entity created. {Network id: " + std::to_string(networkData._id) + "}");
+                "Entity created. {Network id: " + std::to_string(networkData._id) + " " +
+                    std::to_string(transform.position.x) + " " +
+                    std::to_string(transform.position.y) + "}");
         }
         catch (std::exception &e)
         {
@@ -66,7 +67,7 @@ class EntityRedirect
             uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (packetDestroy->getPacketTimeStamp() + 2 >= currentTime) return;
+            if (currentTime - packetDestroy->getPacketTimeStamp() >= 2) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToDestroy = packetDestroy->getNetworkId();
             for (auto &entity : view)
@@ -96,12 +97,13 @@ class EntityRedirect
      */
     static void move(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
-        try {
+        try
+        {
             auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
             uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (packetMove->getPacketTimeStamp() + 2 >= currentTime) return;
+            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToMove = packetMove->getNetworkId();
             for (auto &entity : view)
@@ -110,15 +112,59 @@ class EntityRedirect
                 if (networkData._id == idToMove)
                 {
                     mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
-                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
+                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(),
+                                        0);
                     getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(registry, gameContext, "move", {position, direction});
                     return;
                 }
             }
-        } catch (std::exception &e)
+        }
+        catch (std::exception &e)
         {
             ERR_LOG("EntityRedirect", std::string("move {") + e.what() + "}");
         }
+    };
+
+    static void moveServer(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet) 
+    {
+        auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
+        try
+        {
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+                                        std::chrono::system_clock::now().time_since_epoch())
+                                        .count();
+            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
+            mobs::Registry::View view = registry.view<NetworkData>();
+            uint32_t idToMove = packetMove->getNetworkId();
+            for (auto &entity : view) {
+                auto &networkData = registry.get<NetworkData>(entity);
+                if (networkData._id == idToMove)
+                {
+                    mlg::vec3 position(packetMove->getPosX(), packetMove->getPosY(), 0);
+                    mlg::vec3 direction(packetMove->getDirectionX(), packetMove->getDirectionY(), 0);
+                    getCppScriptById<ICppScript>(entity, registry)->onButtonPressed(
+                        registry, gameContext, "setDirection", {direction});
+                    break;
+                }
+            }
+        } catch (std::exception &e) {
+                ERR_LOG("EntityRedirect", std::string("move {") + e.what() + "}");
+        }
+        auto &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+        auto moveServ = room.factory.createEmptyPacket<dimension::MoveEntity>();
+        moveServ->setNetworkId(packetMove->getNetworkId());
+        moveServ->setDirectionX(packetMove->getDirectionX());
+        moveServ->setDirectionY(packetMove->getDirectionY());
+        mobs::Registry::View viewNdata = registry.view<NetworkData>();
+        for (auto &entity : viewNdata) {
+            auto &networkData = registry.get<NetworkData>(entity);
+            if (networkData._id == moveServ->getNetworkId()) {
+                auto &transform = registry.get<Transform>(entity);
+                moveServ->setPosX(transform.position.x);
+                moveServ->setPosY(transform.position.y);
+            }
+        }
+        room.room->sendToAll(moveServ);
     };
 };
 }  // namespace RType::Network

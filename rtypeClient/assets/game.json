@@ -14,6 +14,10 @@
             "path": "scenes/scenes2.json"
         },
         {
+            "name": "multiplayer",
+            "path": "scenes/multiplayer.json"
+        },
+        {
             "name": "scenesTest",
             "path": "scenes/scenesTest.json"
         },
@@ -78,6 +82,22 @@
         {
             "name": "ramp",
             "path": "scenes/prefabs/ramp.json"
+        },
+        {
+            "name": "player",
+            "path": "scenes/prefabs/player.json"
+        },
+        {
+            "name": "ally",
+            "path": "scenes/prefabs/ally.json"
+        },
+        {
+            "name": "Turret",
+            "path": "scenes/prefabs/Turret.json"
+        },
+        {
+            "name": "BigHeadRobot",
+            "path": "scenes/prefabs/BigHeadRobot.json"
         }
     ]
 }

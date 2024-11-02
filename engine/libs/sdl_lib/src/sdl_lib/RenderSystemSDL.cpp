@@ -129,12 +129,21 @@ void RenderSystemSDL::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spr
     {
         SDL_Rect srcRect = {static_cast<int>(spriteRect.x), static_cast<int>(spriteRect.y),
                             static_cast<int>(spriteRect.z), static_cast<int>(spriteRect.w)};
-        SDL_Rect dstRect = {static_cast<int>(position.x), static_cast<int>(position.y),
-                            static_cast<int>(spriteRect.z * scale.x),
-                            static_cast<int>(spriteRect.w * scale.y)};
 
-        SDL_RenderCopyEx(_renderer, it->second.get(), &srcRect, &dstRect, rotation, nullptr,
-                         SDL_FLIP_NONE);
+        float realWidth = spriteRect.z * scale.x;
+        float realHeight = spriteRect.w * scale.y;
+
+        float centerX = position.x - (scale.x > 0 ? 0 : realWidth);
+        float centerY = position.y - (scale.y > 0 ? 0 : realHeight);
+
+        SDL_Rect dstRect = {static_cast<int>(centerX), static_cast<int>(centerY),
+                            static_cast<int>(realWidth), static_cast<int>(realHeight)};
+
+        if (SDL_RenderCopyEx(_renderer, it->second.get(), &srcRect, &dstRect, rotation, nullptr,
+                             SDL_FLIP_NONE) != 0)
+        {
+            std::cerr << "Erreur SDL_RenderCopyEx : " << SDL_GetError() << std::endl;
+        }
     }
     else
     {

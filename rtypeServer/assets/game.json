@@ -3,21 +3,77 @@
     "iconPath": "assets/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
-    "defaultScene": "scenesTest",
+    "defaultScene": "multiplayer",
     "fontList": [
         "assets/fonts/Roboto-Medium.ttf",
         "assets/fonts/r-type.ttf"
     ],
     "scenes": [
         {
-            "name": "scenesTest",
-            "path": "scenes/scenesTest.json"
+            "name": "multiplayer",
+            "path": "scenes/multiplayer.json"
         }
     ],
     "prefabs": [
         {
             "name": "room",
             "path": "scenes/prefabs/room.json"
+        },
+        {
+            "name": "HelloWorld",
+            "path": "prefabs/HelloWorld.json"
+        },
+        {
+            "name": "Laser",
+            "path": "scenes/prefabs/Laser.json"
+        },
+        {
+            "name": "Bullet",
+            "path": "scenes/prefabs/Bullet.json"
+        },
+        {
+            "name": "RedShip",
+            "path": "scenes/prefabs/RedShip.json"
+        },
+        {
+            "name": "floor_0",
+            "path": "scenes/prefabs/floor_0.json"
+        },
+        {
+            "name": "floor_1",
+            "path": "scenes/prefabs/floor_1.json"
+        },
+        {
+            "name": "floor_2",
+            "path": "scenes/prefabs/floor_2.json"
+        },
+        {
+            "name": "floor_middle",
+            "path": "scenes/prefabs/floor_middle.json"
+        },
+        {
+            "name": "floor_high",
+            "path": "scenes/prefabs/floor_high.json"
+        },
+        {
+            "name": "door",
+            "path": "scenes/prefabs/door.json"
+        },
+        {
+            "name": "reactor",
+            "path": "scenes/prefabs/reactor.json"
+        },
+        {
+            "name": "ramp",
+            "path": "scenes/prefabs/ramp.json"
+        },
+        {
+            "name": "player",
+            "path": "scenes/prefabs/player.json"
+        },
+        {
+            "name": "ally",
+            "path": "scenes/prefabs/ally.json"
         }
     ]
 }

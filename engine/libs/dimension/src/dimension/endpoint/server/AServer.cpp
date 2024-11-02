@@ -17,7 +17,8 @@ AServer::AServer(const std::shared_ptr<PacketFactory> &factory, std::string host
         std::type_index(typeid(dimension::ClientEvent)))] =
         [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleEvent(pair); };
-    this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(dimension::HiServer)))] =
+    this->_packetH[this->_packetFactory->getTypeFromIndex(
+        std::type_index(typeid(dimension::HiServer)))] =
         [this](std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint> pair)
     { return this->handleHiServer(pair); };
     this->_packetH[this->_packetFactory->getTypeFromIndex(std::type_index(typeid(Ping)))] =
@@ -58,8 +59,9 @@ void AServer::run()
         }
         this->checkLastPing();
         this->resendValidationList();
+
         std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> queueAtT =
-            this->_rcvQueue;
+            this->getRcvQueue();
         while (!queueAtT.empty())
         {
             auto &packet = queueAtT.front();
@@ -71,8 +73,9 @@ void AServer::run()
     }
 }
 
-bool AServer::isConnected(asio::ip::udp::endpoint &endpoint) const
+bool AServer::isConnected(asio::ip::udp::endpoint &endpoint)
 {
+    std::lock_guard<std::mutex> lock(this->_listMutex);
     for (auto &connected : this->_connectedEp)
         if (connected.first == endpoint) return true;
     return false;
