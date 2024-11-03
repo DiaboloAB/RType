@@ -20,34 +20,34 @@ class GameState : public RType::ICppScript
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        bool isPlayerAlive = false;
-        bool isAllyAlive = false;
-        auto view = registry.view<Basics, CppScriptComponent>();
-        for (auto entity : view)
-        {
-            if (view.get<Basics>(entity).tag == "player")
-            {
-                isPlayerAlive = true;
-                break;
-            }
-            if (view.get<Basics>(entity).tag == "ally")
-            {
-                isAllyAlive = true;
-                break;
-            }
-        }
-        if (!isPlayerAlive && !isAllyAlive)
-        {
-            try {
-                auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+        // bool isPlayerAlive = false;
+        // bool isAllyAlive = false;
+        // auto view = registry.view<Basics, CppScriptComponent>();
+        // for (auto entity : view)
+        // {
+        //     if (view.get<Basics>(entity).tag == "player")
+        //     {
+        //         isPlayerAlive = true;
+        //         break;
+        //     }
+        //     if (view.get<Basics>(entity).tag == "ally")
+        //     {
+        //         isAllyAlive = true;
+        //         break;
+        //     }
+        // }
+        // if (!isPlayerAlive && !isAllyAlive)
+        // {
+        //     try {
+        //         auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
 
-                if (networkC.client->_serverEndpoint) {
-                    gameContext._sceneManager.switchScene("gameOver");
-                    return;
-                }
-            } catch (const std::exception &e) {}
-            exit(0);
-        }
+        //         if (networkC.client->_serverEndpoint) {
+        //             gameContext._sceneManager.switchScene("gameOver");
+        //             return;
+        //         }
+        //     } catch (const std::exception &e) {}
+        //     exit(0);
+        // }
     }
 
     static constexpr const char *name = "GameState";

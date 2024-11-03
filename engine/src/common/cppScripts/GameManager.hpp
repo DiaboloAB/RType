@@ -31,6 +31,15 @@ class GameManager : public RType::ICppScript
                 {
                     mobs::Entity entity =
                         gameContext._sceneManager.instantiate(event.prefab, gameContext);
+                    if (!registry.hasComponent<NetworkData>(entity) && !registry.hasComponent<Transform>(entity) && !registry.hasComponent<Basics>(entity))
+                    {
+                        if (registry.hasComponent<Basics>(entity))
+                        {
+                            auto &basic = registry.get<Basics>(entity);
+                            throw std::runtime_error(basic.tag + " must have NetworkData and Transform components");
+                        }
+                        throw std::runtime_error("Entity must have Basics components");
+                    }
                     auto &transform = registry.get<Transform>(entity);
                     auto &basic = registry.get<Basics>(entity);
                     auto &networkData = registry.get<NetworkData>(entity);

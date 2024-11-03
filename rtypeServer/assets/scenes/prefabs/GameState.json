@@ -6,6 +6,10 @@
         "GameState"
     ],
     "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [1, 1, 0]
+        },
         "NetworkData": {
             "id": 0,
             "authority": "server"
