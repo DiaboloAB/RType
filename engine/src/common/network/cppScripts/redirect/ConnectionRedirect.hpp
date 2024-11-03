@@ -47,7 +47,8 @@ class ConnectionRedirect
     {
         auto ping = std::dynamic_pointer_cast<dimension::Ping>(packet.first);
         auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
-        if (*networkC.client->getDirectionEndpoint() != packet.second)
+        if (*networkC.client->getDirectionEndpoint() != packet.second && 
+            *networkC.client->_serverEndpoint != packet.second)
         {
             ERR_LOG("handleConnection", "Invalid sender of packets.");
             return;

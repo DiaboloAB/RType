@@ -81,7 +81,7 @@ class Menu : public RType::ICppScript
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=rd");
-                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
             }
         }
         else if (action == "hostGame")
@@ -92,7 +92,7 @@ class Menu : public RType::ICppScript
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("create=pv");
-                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
             }
         }
         else if (action == "connect")
@@ -113,7 +113,7 @@ class Menu : public RType::ICppScript
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=" + code);
-                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
             }
         }
         else if (action == "returnToMenu")

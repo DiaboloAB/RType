@@ -57,7 +57,8 @@ class UpdateRedirect
         {
             auto &networkC = view.get<NetworkClient>(entity);
 
-            if (*networkC.client->getDirectionEndpoint() != packet.second) return;
+            if (*networkC.client->getDirectionEndpoint() != packet.second && 
+                *networkC.client->_serverEndpoint != packet.second) return;
             try
             {
                 networkC.client->connectDirectionEndpoint(host, port);
