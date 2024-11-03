@@ -52,6 +52,8 @@ class ISystem
      */
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
+    virtual void events(mobs::Registry &registry, GameContext &gameContext) {}
+
     /**
      * @brief Called every frame to draw the system.
      *

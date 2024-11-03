@@ -149,6 +149,8 @@ void Engine::run()
             if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
             _gameContext->_deltaT = _clockManager.getUpdateDeltaT();
             _systemManager.update(_registry, *_gameContext);
+            _systemManager.events(_registry, *_gameContext);
+            _gameContext->clearEvents();
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
         if (_sceneManager.update(*_gameContext)) {

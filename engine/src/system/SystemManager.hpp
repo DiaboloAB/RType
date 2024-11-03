@@ -83,6 +83,8 @@ class SystemManager
      */
     void draw(mobs::Registry &registry, GameContext &gameContext);
 
+    void events(mobs::Registry &registry, GameContext &gameContext);
+
     int getSystemCount() const { return _systems.size(); }
 
    private:

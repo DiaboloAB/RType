@@ -19,6 +19,9 @@
 #include <chrono>
 #include <iostream>
 #include <memory>
+#include <queue>
+#include <string>
+#include <unordered_map>
 
 namespace RType
 {
@@ -86,6 +89,20 @@ class GameContext
         }
     }
 
+    void addEvent(std::string event, std::vector<std::variant<float, std::string>> args)
+    {
+        _events[event] = args;
+    }
+
+    bool hasEvent(std::string event) { return _events.find(event) != _events.end(); }
+
+    std::vector<std::variant<float, std::string>> getEvent(std::string event)
+    {
+        return _events[event];
+    }
+
+    void clearEvents() { _events.clear(); }
+
     std::shared_ptr<IRuntime> _runtime;  ///< The runtime.
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
@@ -99,6 +116,7 @@ class GameContext
     int _systemCount = 0;                        ///< The number of systems.
 
    private:
+    std::unordered_map<std::string, std::vector<std::variant<float, std::string>>> _events;  ///< The events.
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.
 };
 
