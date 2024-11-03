@@ -59,6 +59,8 @@ struct Button
     std::string entity = "";
     std::string action = "";
 
+    std::vector<std::string> events;
+
     Button() {}
     static constexpr const char* name = "Button";
 };

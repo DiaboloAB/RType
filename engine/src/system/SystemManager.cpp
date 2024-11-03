@@ -50,3 +50,11 @@ void SystemManager::stop(mobs::Registry &registry, GameContext &gameContext)
         system->stop(registry, gameContext);
     }
 }
+
+void SystemManager::events(mobs::Registry &registry, GameContext &gameContext)
+{
+    for (auto &system : _systems)
+    {
+        system->events(registry, gameContext);
+    }
+}

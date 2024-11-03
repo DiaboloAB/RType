@@ -62,6 +62,8 @@ class ICppScript
      */
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
+    virtual void events(mobs::Registry &registry, GameContext &gameContext) {}
+
     /**
      * @brief Called when a collision occurs.
      *

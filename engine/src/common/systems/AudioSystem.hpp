@@ -52,12 +52,36 @@ class AudioSystem : public ISystem
                 audio.audioQueue.pop();
                 if (audio.soundList.find(sound) != audio.soundList.end())
                 {
+                    gameContext._runtime->setSoundVolume(audio.soundVolume);
                     gameContext._runtime->playSound(audio.soundList[sound]);
                 }
                 else if (audio.musicList.find(sound) != audio.musicList.end())
                 {
                     gameContext._runtime->playMusic(audio.musicList[sound]);
                 }
+            }
+        }
+    }
+
+    void events(mobs::Registry& registry, GameContext& gameContext) override
+    {
+        auto view = registry.view<Audio>();
+        for (auto entity : view)
+        {
+            auto& audio = view.get<Audio>(entity);
+            if (gameContext.hasEvent("raiseAudio"))
+            {
+                audio.musicVolume += 10;
+                audio.soundVolume += 10;
+                if (audio.musicVolume > 100) audio.musicVolume = 100;
+                if (audio.soundVolume > 100) audio.soundVolume = 100;
+            }
+            if (gameContext.hasEvent("lowerAudio"))
+            {
+                audio.musicVolume -= 10;
+                audio.soundVolume -= 10;
+                if (audio.musicVolume < 0) audio.musicVolume = 0;
+                if (audio.soundVolume < 0) audio.soundVolume = 0;
             }
         }
     }

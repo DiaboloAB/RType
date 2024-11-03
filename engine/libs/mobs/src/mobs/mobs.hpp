@@ -85,6 +85,8 @@ class Registry
         return _componentManager.getComponent<Component>(entity);
     }
 
+    int getEntityCount() { return _entityManager.getNbLivingEntity(); }
+
     /**
      * @struct View
      * @brief Provides an iterable view of entities and their components.

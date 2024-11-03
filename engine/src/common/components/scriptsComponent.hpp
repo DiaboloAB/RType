@@ -144,6 +144,14 @@ struct CppScriptComponent
         }
     }
 
+    void eventsAll(mobs::Registry& registry, GameContext& gameContext)
+    {
+        for (auto& script : scripts)
+        {
+            script->events(registry, gameContext);
+        }
+    }
+
     void onCollisionStayAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
     {
         for (auto& script : scripts)

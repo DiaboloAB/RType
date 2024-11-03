@@ -38,6 +38,36 @@ void RenderSystemSFML::pollEvents()
             _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = true;
         if (event.type == sf::Event::MouseButtonReleased)
             _currentKeys[convertSFMLMouseToKeyCode(event.mouseButton.button)] = false;
+        if (event.type == sf::Event::JoystickButtonPressed)
+            _currentKeys[convertSFMLJoystickButtonToKeyCode(event.joystickButton.button)] = true;
+        if (event.type == sf::Event::JoystickButtonReleased)
+            _currentKeys[convertSFMLJoystickButtonToKeyCode(event.joystickButton.button)] = false;
+        if (event.type == sf::Event::JoystickMoved)
+        {
+            if (event.joystickMove.axis == sf::Joystick::X)
+            {
+                    _currentKeys[KeyCode::LeftStickRight] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::LeftStickLeft] = event.joystickMove.position < -50;
+ 
+            }
+            if (event.joystickMove.axis == sf::Joystick::Y)
+            {
+                    _currentKeys[KeyCode::LeftStickDown] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::LeftStickUp] = event.joystickMove.position < -50;
+
+            }
+
+            if (event.joystickMove.axis == sf::Joystick::Z)
+            {
+                    _currentKeys[KeyCode::RightStickRight] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::RightStickLeft] = event.joystickMove.position < -50;
+            }
+            if (event.joystickMove.axis == sf::Joystick::R)
+            {
+                    _currentKeys[KeyCode::RightStickDown] = event.joystickMove.position > 50;
+                    _currentKeys[KeyCode::RightStickUp] = event.joystickMove.position < -50;
+            }
+        }
     }
 }
 
@@ -72,7 +102,7 @@ std::shared_ptr<sf::Texture> RenderSystemSFML::loadTexture(const std::string& fi
     auto texture = std::make_shared<sf::Texture>();
     if (!texture->loadFromFile(filePath))
     {
-        std::cerr << "Erreur lors du chargement de la texture : " << filePath << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading texture: " << filePath << std::endl;
         return nullptr;
     }
     _textures[filePath] = texture;
@@ -103,15 +133,10 @@ void RenderSystemSFML::unloadSprite(int spriteId)
         {
             _spriteCache.erase(it);
         }
-        else
-        {
-            std::cerr << "Erreur : le sprite avec l'ID " << spriteId
-                      << " est encore utilisé ailleurs." << std::endl;
-        }
     }
     else
     {
-        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem: Error unloading sprite: " << spriteId << std::endl;
     }
 }
 
@@ -146,7 +171,7 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 sp
     }
     else
     {
-        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem: Error drawing sprite: " << spriteId << std::endl;
     }
 }
 
@@ -167,7 +192,7 @@ void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position)
     }
     else
     {
-        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem: Error drawing sprite: " << spriteId << std::endl;
     }
 }
 
@@ -191,13 +216,12 @@ mlg::vec3 RenderSystemSFML::getMousePosition()
 
 void RenderSystemSFML::setGameIcon(const std::string& filePath)
 {
-    sf::Image icon;
-    if (!icon.loadFromFile(filePath))
+    if (!_icon.loadFromFile(filePath))
     {
-        std::cerr << "Erreur lors du chargement de l'icône du jeu : " << filePath << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading icon: " << filePath << std::endl;
         return;
     }
-    _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    _window.setIcon(_icon.getSize().x, _icon.getSize().y, _icon.getPixelsPtr());
 }
 
 void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
@@ -206,7 +230,7 @@ void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const ml
     auto it = _fonts.find(fontID);
     if (it == _fonts.end())
     {
-        std::cerr << "Erreur : police non trouvée (ID: " << fontID << ")" << std::endl;
+        std::cerr << "SFMLRenderSystem: Error drawing text: font not found" << std::endl;
         return;
     }
 
@@ -275,7 +299,7 @@ int RenderSystemSFML::loadMusic(const std::string& filePath)
     auto music = std::make_unique<sf::Music>();
     if (!music->openFromFile(filePath))
     {
-        std::cerr << "Erreur lors du chargement de la musique : " << filePath << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading music: " << filePath << std::endl;
         return -1;
     }
 
@@ -296,7 +320,7 @@ void RenderSystemSFML::playMusic(int musicID, bool loop)
     }
     else
     {
-        std::cerr << "Erreur : musique non trouvée (ID: " << musicID << ")" << std::endl;
+        std::cerr << "SFMLRenderSystem: Error playing music: music not found" << std::endl;
     }
 }
 
@@ -318,16 +342,10 @@ void RenderSystemSFML::unloadMusic(int musicID)
         {
             _musics.erase(it);
         }
-        else
-        {
-            std::cerr << "Erreur : la musique avec l'ID " << musicID
-                      << " est encore utilisée ailleurs." << std::endl;
-        }
     }
     else
     {
-        std::cerr << "Erreur : musique non trouvée pour déchargement (ID: " << musicID << ")"
-                  << std::endl;
+        std::cerr << "SFMLRenderSystem: Error unloading music: music not found" << std::endl;
     }
 }
 
@@ -343,7 +361,7 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
     auto soundBuffer = std::make_shared<sf::SoundBuffer>();
     if (!soundBuffer->loadFromFile(filePath))
     {
-        std::cerr << "Erreur : impossible de charger le son depuis " << filePath << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading sound: " << filePath << std::endl;
         return -1;
     }
 
@@ -361,11 +379,12 @@ void RenderSystemSFML::playSound(int soundId)
         _activeSounds.emplace_back();
         sf::Sound& sound = _activeSounds.back();
         sound.setBuffer(*it->second);
+        sound.setVolume(_soundVolume);
         sound.play();
     }
     else
     {
-        std::cerr << "Erreur : son avec l'ID " << soundId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem: Error playing sound: sound not found" << std::endl;
     }
 }
 
@@ -378,15 +397,10 @@ void RenderSystemSFML::unloadSound(int soundId)
         {
             _sounds.erase(it);
         }
-        else
-        {
-            std::cerr << "Erreur : le son avec l'ID " << soundId << " est encore utilisé ailleurs."
-                      << std::endl;
-        }
     }
     else
     {
-        std::cerr << "Erreur : son avec l'ID " << soundId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem: Error unloading sound: sound not found" << std::endl;
     }
 }
 
@@ -401,7 +415,7 @@ int RenderSystemSFML::loadFont(const std::string& filePath)
     auto font = std::make_shared<sf::Font>();
     if (!font->loadFromFile(filePath))
     {
-        std::cerr << "Erreur : impossible de charger la police depuis " << filePath << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading font: " << filePath << std::endl;
         return -1;
     }
 
@@ -430,8 +444,8 @@ int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
     auto shader = std::make_shared<sf::Shader>();
     if (!shader->loadFromFile(vertexShaderPath, fragmentShaderPath))
     {
-        std::cerr << "Erreur : impossible de charger le shader depuis " << vertexShaderPath
-                  << " et " << fragmentShaderPath << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading shader: " << vertexShaderPath << " - "
+                  << fragmentShaderPath << std::endl;
         return -1;
     }
 
@@ -450,15 +464,10 @@ void RenderSystemSFML::unloadShader(int shaderId)
         {
             _shaders.erase(it);
         }
-        else
-        {
-            std::cerr << "Erreur : le shader avec l'ID " << shaderId
-                      << " est encore utilisé ailleurs." << std::endl;
-        }
     }
     else
     {
-        std::cerr << "Erreur : shader avec l'ID " << shaderId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem: Error unloading shader: shader not found" << std::endl;
     }
 }
 
@@ -471,7 +480,8 @@ void RenderSystemSFML::setShader(int shaderId)
     }
     else
     {
-        std::cerr << "Erreur : shader avec l'ID " << shaderId << " non trouvé." << std::endl;
+        std::cerr << "SFMLRenderSystem::setShader : shader with ID " << shaderId << " not found."
+                  << std::endl;
     }
 }
 
@@ -619,6 +629,36 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
         default:
             return KeyCode::None;
     }
+}
+
+KeyCode RenderSystemSFML::convertSFMLJoystickButtonToKeyCode(unsigned int button)
+{
+    switch (button)
+    {
+        case 0: return KeyCode::ButtonA;        // A button
+        case 1: return KeyCode::ButtonB;        // B button
+        case 2: return KeyCode::ButtonX;        // X button
+        case 3: return KeyCode::ButtonY;        // Y button
+        case 4: return KeyCode::LeftBumper;     // Left bumper (LB)
+        case 5: return KeyCode::RightBumper;    // Right bumper (RB)
+        case 6: return KeyCode::LeftTrigger;    // Left trigger (may also be an axis)
+        case 7: return KeyCode::RightTrigger;   // Right trigger (may also be an axis)
+        case 8: return KeyCode::Select;         // Select/Back button
+        case 9: return KeyCode::Start;          // Start/Options button
+        case 10: return KeyCode::LeftStickPress; // Pressable left stick
+        case 11: return KeyCode::RightStickPress; // Pressable right stick
+        case 12: return KeyCode::DPadUp;        // D-Pad up
+        case 13: return KeyCode::DPadDown;      // D-Pad down
+        case 14: return KeyCode::DPadLeft;      // D-Pad left
+        case 15: return KeyCode::DPadRight;     // D-Pad right
+
+        default: return KeyCode::None;
+    }
+}
+
+void RenderSystemSFML::setSoundVolume(int volume)
+{
+    _soundVolume = volume;
 }
 
 void RenderSystemSFML::resetShader() { _activeShader = nullptr; }

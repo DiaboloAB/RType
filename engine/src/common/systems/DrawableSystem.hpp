@@ -67,7 +67,7 @@ class DrawableSystem : public ISystem
 
         if (!selectedButton) return;
 
-        if (selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter))
+        if (selectedButton->input && gameContext._input.getAction("Action1"))
         {
             if (!selectedButton->virtualKeyboard)
             {
@@ -75,14 +75,14 @@ class DrawableSystem : public ISystem
                 return;
             }
         }
-        else if (!selectedButton->input && gameContext._runtime->getKeyDown(KeyCode::Enter))
+        else if (!selectedButton->input && gameContext._input.getAction("Action1"))
         {
             buttonAction(registry, gameContext, *selectedButton);
         }
 
         if (selectedButton->virtualKeyboard)
         {
-            if (gameContext._runtime->getKeyDown(KeyCode::Escape))
+            if (gameContext._input.getAction("Action2"))
             {
                 selectedButton->virtualKeyboard = false;
             }
@@ -90,17 +90,17 @@ class DrawableSystem : public ISystem
 
         if (selectedButton->virtualKeyboard)
         {
-            if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
+            if (gameContext._input.getAction("Up"))
                 selectedKey.y--;
-            else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
+            else if (gameContext._input.getAction("Down"))
                 selectedKey.y++;
-            else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
+            else if (gameContext._input.getAction("Left"))
                 selectedKey.x--;
-            else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
+            else if (gameContext._input.getAction("Right"))
                 selectedKey.x++;
             selectedKey.x = (int)(selectedKey.x + 13) % 13;
             selectedKey.y = (int)(selectedKey.y + 4) % 4;
-            if (gameContext._runtime->getKeyDown(KeyCode::Enter))
+            if (gameContext._input.getAction("Action1"))
             {
                 if (selectedKey.y == 3 && selectedKey.x == 1)
                 {
@@ -123,6 +123,7 @@ class DrawableSystem : public ISystem
 
         moveSelection(registry, gameContext, selectedButton, selectedTransform, buttons);
     }
+
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Text, Transform>();
@@ -164,13 +165,13 @@ class DrawableSystem : public ISystem
         selectedButton->selected = false;
 
         mlg::vec3 direction;
-        if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
+        if (gameContext._input.getAction("Up"))
             direction = {0, -1, 0};
-        else if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
+        else if (gameContext._input.getAction("Down"))
             direction = {0, 1, 0};
-        else if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
+        else if (gameContext._input.getAction("Left"))
             direction = {-1, 0, 0};
-        else if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
+        else if (gameContext._input.getAction("Right"))
             direction = {1, 0, 0};
         else
         {
@@ -181,7 +182,6 @@ class DrawableSystem : public ISystem
         Button *newSelectedButton = nullptr;
         float minAdjustedDistance = std::numeric_limits<float>::max();
         float penaltyFactor = 2.0f;
-
 
         for (auto &[button, transform] : buttons)
         {
@@ -208,6 +208,13 @@ class DrawableSystem : public ISystem
 
     void buttonAction(mobs::Registry &registry, GameContext &gameContext, Button &button)
     {
+        if (button.events.size() > 0)
+        {
+            for (auto &event : button.events)
+            {
+                gameContext.addEvent(event, {});
+            }
+        }
         try
         {
             gameContext.get<CppScriptComponent>(button.entity)

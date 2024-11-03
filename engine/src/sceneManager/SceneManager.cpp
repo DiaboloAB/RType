@@ -50,9 +50,11 @@ void SceneManager::loadScene(const std::string& sceneName, GameContext& gameCont
     for (const auto& entityJson : sceneJson["entities"])
     {
         mobs::Entity entity = gameContext._registry.create();
-        createEntity(entityJson, entity, gameContext._registry, gameContext);
+        bool alreadyLoaded = std::find(_alreadyLoadedScenes.begin(), _alreadyLoadedScenes.end(), sceneName) != _alreadyLoadedScenes.end();
+        createEntity(entityJson, entity, gameContext._registry, gameContext, alreadyLoaded);
     }
     _currentScene = sceneName;
+    _alreadyLoadedScenes.push_back(sceneName);
 }
 
 mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContext& gameContext)
