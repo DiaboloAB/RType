@@ -126,7 +126,6 @@ void from_json(const nlohmann::json& j, Collider& collider)
 {
     if (!j.contains("size")) throw std::runtime_error("Collider must have a size");
     j.at("size").get_to(collider.size);
-    if (j.contains("offset")) j.at("offset").get_to(collider.offset);
 
     if (j.contains("isTrigger")) j.at("isTrigger").get_to(collider.isTrigger);
 
@@ -137,6 +136,15 @@ void from_json(const nlohmann::json& j, Collider& collider)
             collider.layerMask.push_back(layer);
         }
     }
+
+    if (j.contains("events"))
+    {
+        for (const auto& event : j.at("events"))
+        {
+            collider.events.push_back(event);
+        }
+    }
+    if (j.contains("offset")) j.at("offset").get_to(collider.offset);
 }
 
 void from_json(const nlohmann::json& j, Audio& audio)

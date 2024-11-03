@@ -208,12 +208,10 @@ class DrawableSystem : public ISystem
 
     void buttonAction(mobs::Registry &registry, GameContext &gameContext, Button &button)
     {
-        if (button.events.size() > 0)
+
+        for (auto &event : button.events)
         {
-            for (auto &event : button.events)
-            {
-                gameContext.addEvent(event, {});
-            }
+            gameContext.addEvent(event, {});
         }
         try
         {

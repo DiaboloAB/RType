@@ -102,6 +102,8 @@ class RenderSystemSFML : public RType::IRuntime
     sf::Music* _currentMusic = nullptr;
     std::vector<sf::Sound> _activeSounds;
 
+    int _currentMusicId = -1;
+
     KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     KeyCode convertSFMLJoystickButtonToKeyCode(unsigned int button);

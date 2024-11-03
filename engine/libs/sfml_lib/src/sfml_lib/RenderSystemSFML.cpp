@@ -314,9 +314,14 @@ void RenderSystemSFML::playMusic(int musicID, bool loop)
     auto it = _musics.find(musicID);
     if (it != _musics.end())
     {
+        if (musicID != _currentMusicId)
+        {
+            stopCurrentMusic();
+        }
         _currentMusic = it->second.get();
         _currentMusic->setLoop(loop);
         _currentMusic->play();
+        _currentMusicId = musicID;
     }
     else
     {

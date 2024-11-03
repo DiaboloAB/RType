@@ -2,19 +2,24 @@
   "entities": [
     {
       "tag": "gameManager",
-        "staticObject": false,
-        "components": {
-          "Transform": { "position": [2, 3, -1] },
-          "Sprite": { "texture": "graphics/casino.png" },
-          "Audio": {
-            "musicList": [
-            "audio/ambiance.ogg"
-            ]
-          },
-          "Scripts": [
-            "scripts/gameManager.lua"
+      "staticObject": false,
+      "components": {
+        "Transform": { "position": [2, 3, -1] },
+        "Sprite": { "texture": "graphics/casino.png" },
+        "Audio": {
+          "musicList": [
+          "audio/ambiance.ogg",
+          "audio/win.ogg"
+          ],
+          "soundList": [
+            "audio/lose.ogg",
+            "audio/luigi-oh-yeah.ogg"
           ]
-        }
+        },
+        "Scripts": [
+          "scripts/gameManager.lua"
+        ]
+      }
     },
     {
       "tag": "playButton",
