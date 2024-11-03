@@ -19,12 +19,26 @@ class ConnectionRedirect
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
    public:
+    /**
+     * @brief Handler of HiClient packet into the ECS from client side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void handleHiClient(mobs::Registry &registry, GameContext &gameContext,
                                PacketDatas &packet)
     {
         LOG("ConnectionRedirect", "[HiClient packet] received");
     }
 
+    /**
+     * @brief Handler of Ping packet into the ECS from client side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void handlePingClient(mobs::Registry &registry, GameContext &gameContext,
                                  PacketDatas &packet)
     {
@@ -47,6 +61,13 @@ class ConnectionRedirect
             "[Ping packet] received, latence:" + std::to_string(networkC.latency) + "ms.");
     }
 
+    /**
+     * @brief Handler of Ping packet into the ECS from room side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void handlePingRoom(mobs::Registry &registry, GameContext &gameContext,
                                PacketDatas &packet)
     {

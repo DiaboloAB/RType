@@ -130,6 +130,13 @@ class EntityRedirect
         }
     };
 
+    /**
+     * @brief Handler of MoveEntity packet into the ECS from server side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void moveServer(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet) 
     {
         auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);

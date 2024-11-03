@@ -69,6 +69,12 @@ class Room : public AEndpoint
      */
     void resetPing(asio::ip::udp::endpoint &sender);
 
+    /**
+     * @brief Send packet to all connected endpoints.
+     * 
+     * @param packet: Packet to send.
+     * @param isNew: Set to know if packet need validation.
+     */
     void sendToAll(const std::shared_ptr<APacket> &packet, bool isNew = true);
 
    public:
