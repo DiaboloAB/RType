@@ -113,7 +113,6 @@ struct Scripts
 
             if (lua_pcall(L, 2, 0, 0) != LUA_OK)
             {
-                std::cerr << "Failed to call events: " << lua_tostring(L, -1) << std::endl;
                 lua_pop(L, 1);
             }
 
