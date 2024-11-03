@@ -25,14 +25,17 @@ class AudioSystem : public ISystem
         auto view = registry.view<Audio>();
         for (auto entity : view)
         {
+
             auto& audio = view.get<Audio>(entity);
-            for (const auto& sound : audio.sounds)
+            for (auto sound : audio.soundList)
             {
-                gameContext._runtime->loadSound(sound);
+                audio.soundList[sound.first] =
+                    gameContext._runtime->loadSound(gameContext._assetsPath + sound.first);
             }
-            for (const auto& music : audio.musics)
+            for (auto music : audio.musicList)
             {
-                gameContext._runtime->loadMusic(music);
+                audio.musicList[music.first] =
+                    gameContext._runtime->loadMusic(gameContext._assetsPath + music.first);
             }
         }
     }
@@ -43,27 +46,45 @@ class AudioSystem : public ISystem
         for (auto entity : view)
         {
             auto& audio = view.get<Audio>(entity);
-            if (audio.audioQueue.size() > 0)
+            if (!audio.audioQueue.empty())
             {
                 auto sound = audio.audioQueue.front();
                 audio.audioQueue.pop();
-                if (std::find(audio.musics.begin(), audio.musics.end(), sound) !=
-                    audio.musics.end())
+                if (audio.soundList.find(sound) != audio.soundList.end())
                 {
-                    gameContext._runtime->playMusic(sound, true);
+                    gameContext._runtime->setSoundVolume(audio.soundVolume);
+                    gameContext._runtime->playSound(audio.soundList[sound]);
                 }
-                else if (std::find(audio.sounds.begin(), audio.sounds.end(), sound) !=
-                         audio.sounds.end())
+                else if (audio.musicList.find(sound) != audio.musicList.end())
                 {
-                    gameContext._runtime->playSound(sound);
+                    gameContext._runtime->playMusic(audio.musicList[sound]);
                 }
             }
         }
     }
 
-    // Getters
-
-    // Setters
+    void events(mobs::Registry& registry, GameContext& gameContext) override
+    {
+        auto view = registry.view<Audio>();
+        for (auto entity : view)
+        {
+            auto& audio = view.get<Audio>(entity);
+            if (gameContext.hasEvent("raiseAudio"))
+            {
+                audio.musicVolume += 10;
+                audio.soundVolume += 10;
+                if (audio.musicVolume > 100) audio.musicVolume = 100;
+                if (audio.soundVolume > 100) audio.soundVolume = 100;
+            }
+            if (gameContext.hasEvent("lowerAudio"))
+            {
+                audio.musicVolume -= 10;
+                audio.soundVolume -= 10;
+                if (audio.musicVolume < 0) audio.musicVolume = 0;
+                if (audio.soundVolume < 0) audio.soundVolume = 0;
+            }
+        }
+    }
 
    private:
     // Member variables

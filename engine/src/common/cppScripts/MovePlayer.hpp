@@ -14,41 +14,141 @@
 namespace RType
 {
 
-class MovePlayerScript : public RType::ICppScript
+class MovePlayer : public RType::ICppScript
 {
    public:
+    int speed = 600;
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
-        auto &transform = registry.get<Transform>(_entity);
-        auto &hitbox = registry.get<Hitbox>(_entity);
-        int speed = 600;
-        if (gameContext._runtime->getKey(KeyCode::UpArrow))
+        auto &transform = registry.get<Transform>(getEntity());
+        auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+
+        if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
-            transform.position.y -= speed * gameContext._deltaT;
-            if (transform.position.y < 0) transform.position.y = 0;
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(0);
+                movePacket->setDirectionY(-1);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
         }
-        if (gameContext._runtime->getKey(KeyCode::DownArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
-            transform.position.y += speed * gameContext._deltaT;
-            if (transform.position.y > 1080 - hitbox.size.y)
-                transform.position.y = 1080 - hitbox.size.y;
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(0);
+                movePacket->setDirectionY(1);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
         }
-        if (gameContext._runtime->getKey(KeyCode::RightArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
-            transform.position.x += speed * gameContext._deltaT;
-            if (transform.position.x > 1920 - hitbox.size.x)
-                transform.position.x = 1920 - hitbox.size.x;
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(1);
+                movePacket->setDirectionY(0);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
         }
-        if (gameContext._runtime->getKey(KeyCode::LeftArrow))
+        if (gameContext._runtime->getKeyDown(KeyCode::LeftArrow))
         {
-            transform.position.x -= speed * gameContext._deltaT;
-            if (transform.position.x < 0) transform.position.x = 0;
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(-1);
+                movePacket->setDirectionY(0);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
+        }
+
+        if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
+        {
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(0);
+                movePacket->setDirectionY(1);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
+        {
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(0);
+                movePacket->setDirectionY(-1);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
+        {
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(-1);
+                movePacket->setDirectionY(0);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
+        }
+        if (gameContext._runtime->getKeyUp(KeyCode::LeftArrow))
+        {
+            if (networkC.client->_serverEndpoint) {
+                auto movePacket = networkC.factory.createEmptyPacket<dimension::MoveEntity>();
+                movePacket->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                movePacket->setDirectionX(1);
+                movePacket->setDirectionY(0);
+
+                networkC.client->send(movePacket, *networkC.client->_directionEndpoint, true);
+            }
+        }
+
+        transform.position += _direction * speed * gameContext._deltaT;
+        // TODO: block the player in the screen
+    }
+
+    void onButtonPressed(
+        mobs::Registry &registry, GameContext &gameContext, std::string action,
+        const std::vector<std::variant<mlg::vec3, int, std::string>> &args) override
+    {
+        if (action == "move" && args.size() >= 2)
+        {
+            auto position = std::get<mlg::vec3>(args[0]);
+            auto direction = std::get<mlg::vec3>(args[1]);
+
+            setPosition(registry, position);
+            setDirection(direction);
         }
     }
-    void setEntity(mobs::Entity entity) override { _entity = entity; }
+
+    static constexpr const char *name = "MovePlayer";
 
    private:
-    mobs::Entity _entity;
+    mlg::vec3 _direction = mlg::vec3(0, 0, 0);
+
+    void setPosition(mobs::Registry &registry, mlg::vec3 NewPosition)
+    {
+        auto &transform = registry.get<Transform>(getEntity());
+
+        transform.position = NewPosition;
+    }
+
+    void setDirection(mlg::vec3 NewDirection)
+    {
+        _direction += NewDirection;
+    }
 };
 
 }  // namespace RType

@@ -1,0 +1,35 @@
+{
+    "gameName": "Power 4 - Bonus",
+    "iconPath": "assets/icon.png",
+    "version": "1.0.0",
+    "description": "Holtzman's engine example game",
+    "defaultScene": "home",
+    "fontList": [
+        "assets/fonts/Roboto-Medium.ttf",
+        "assets/fonts/r-type.ttf"
+    ],
+    "scenes": [
+        {
+            "name": "home",
+            "path": "scenes/home.json"
+        },
+        {
+            "name": "game",
+            "path": "scenes/game.json"
+        },
+        {
+            "name": "end",
+            "path": "scenes/end.json"
+        }
+    ],
+    "prefabs": [
+        {
+            "name": "redBall",
+            "path": "scenes/prefabs/redBall.json"
+        },
+        {
+            "name": "yellowBall",
+            "path": "scenes/prefabs/yellowBall.json"
+        }
+    ]
+}

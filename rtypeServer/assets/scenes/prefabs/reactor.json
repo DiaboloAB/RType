@@ -1,0 +1,36 @@
+{
+    "tag": "reactor",
+    "layer": "wall",
+    "staticObject": true,
+    "CppScripts": [
+        "Terrain"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Collider": {
+            "size": [112, 96, 0],
+            "offSet": [0, 0, 0],
+            "isTrigger": true,
+            "layerMask": "ally"
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 1,
+                    "texture": "graphics/terrain/reactor.png",
+                    "frameCount": 1,
+                    "frameSize": [112, 96, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

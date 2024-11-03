@@ -1,0 +1,46 @@
+{
+    "entities": [
+      {
+        "tag": "player",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [100, 100, 0] },
+          "Collider": {
+            "size": [32, 32, 0],
+            "isTrigger": true,
+            "layerMask": ["enemy"]
+          },
+          "Animator": {
+            "animations": [
+              {
+                "name": "default",
+                "speed": 10,
+                "texture": "graphics/enemy/red_ship.png",
+                "frameCount": 8,
+                "frameSize": [32, 32, 0],
+                "scale": [2, 2, 0],
+                "rotation": 0,
+                "loop": true
+              }
+            ]
+          }
+        },
+        "CppScripts": [
+            "HelloWorld"
+          ]
+      },
+      {
+        "tag": "enemy",
+        "layer": "enemy",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [200, 200, 0] },
+          "Sprite": { "texture": "graphics/enemy/red_ship.png" },
+          "Collider": {
+            "size": [32, 32, 0],
+            "isTrigger": true
+          }
+        }
+      }
+    ]
+}

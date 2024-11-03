@@ -1,0 +1,335 @@
+{
+  "entities": [
+    {
+      "components": {
+        "Sprite": {
+          "texture": "graphics/power4.png"
+        },
+        "Transform": {
+          "position": [0, 0, 10]
+        }
+      }
+    },
+    {
+      "tag": "winner",
+      "staticObject": false,
+      "components": {
+        "Transform": {
+          "position": [500, 200, 0]
+        },
+        "Text": {
+          "font": "fonts/Roboto.ttf",
+          "fontSize": 100,
+          "text": "",
+          "color": [255, 255, 255]
+        }
+      }
+    },
+    {
+      "layer": "ground",
+      "components": {
+        "Transform": {
+          "position": [0, 1080, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [1920, 100, 0]
+        }
+      }
+    },
+    {
+      "layer": "ground",
+      "components": {
+        "Transform": {
+          "position": [200, 925, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [800, 100, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [180, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [305, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [420, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [535, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [650, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [765, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [880, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "wall",
+      "components": {
+        "Transform": {
+          "position": [1000, 240, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "size": [20, 700, 0]
+        }
+      }
+    },
+    {
+      "layer": "yellowBall",
+      "components": {
+        "Transform": {
+          "position": [1600, 800, 0]
+        },
+        "Sprite": {
+          "texture": "graphics/yellowBall.png"
+        },
+        "RigidBody": {
+          "static": false,
+          "mass": 800
+        },
+        "Collider": {
+          "layerMask": [
+            "ground", "wall", "yellowBall"
+          ],
+          "isTrigger": false,
+          "size": [70, 115, 0],
+          "offset": [20, 0, 0]
+        },
+        "Scripts": [
+          "scripts/ball.lua"
+        ]
+      }
+    },
+    {
+      "tag": "triggerColumn1",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [200, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn1", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn2",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [315, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn2", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn3",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [430, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn3", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn4",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [545, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn4", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn5",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [660, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn5", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn6",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [775, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn6", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn7",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [890, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn7", "triggerColumn" ]
+        }
+      }
+    }
+  ]
+}

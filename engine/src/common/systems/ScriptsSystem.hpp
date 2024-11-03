@@ -8,8 +8,7 @@
 #ifndef SCRIPTSSYSTEM_H
 #define SCRIPTSSYSTEM_H
 
-#include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
+#include <common/COMPONENTLIST.hpp>
 #include <system/ISystem.hpp>
 // std
 
@@ -22,8 +21,6 @@ class ScriptSystem : public ISystem
     ScriptSystem() {}
     ~ScriptSystem() {}
 
-    void start(mobs::Registry &registry, GameContext &gameContext) override {}
-
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Scripts>();
@@ -31,6 +28,25 @@ class ScriptSystem : public ISystem
         {
             auto &scripts = view.get<Scripts>(entity);
             scripts.updateAll(registry, gameContext);
+        }
+    }
+
+    void stop(mobs::Registry &registry, GameContext &gameContext) override {
+        auto view = registry.view<Scripts>();
+        for (auto entity : view)
+        {
+            auto &scripts = view.get<Scripts>(entity);
+            scripts.stopAll(registry, gameContext);
+        }
+    }
+
+    void events(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto view = registry.view<Scripts>();
+        for (auto entity : view)
+        {
+            auto &scripts = view.get<Scripts>(entity);
+            scripts.eventsAll(registry, gameContext);
         }
     }
 

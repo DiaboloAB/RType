@@ -8,11 +8,11 @@
 #ifndef CPPSCRIPTSSYSTEM_H
 #define CPPSCRIPTSSYSTEM_H
 
-#include <common/components.hpp>
-#include <common/scriptsComponent.hpp>
+#include <common/COMPONENTLIST.hpp>
 #include <system/ISystem.hpp>
 
-#include "../ICppScript.hpp"
+#include "common/ICppScript.hpp"
+#include "common/components/scriptsComponent.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 
@@ -24,16 +24,6 @@ class CppScriptsSystem : public ISystem
     CppScriptsSystem(){};
     ~CppScriptsSystem(){};
 
-    void start(mobs::Registry &registry, GameContext &gameContext) override
-    {
-        auto view = registry.view<CppScriptComponent>();
-        for (auto entity : view)
-        {
-            auto &scripts = view.get<CppScriptComponent>(entity);
-            scripts.startAll(registry, gameContext);
-        }
-    }
-
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<CppScriptComponent>();
@@ -41,6 +31,16 @@ class CppScriptsSystem : public ISystem
         {
             auto &scripts = view.get<CppScriptComponent>(entity);
             scripts.updateAll(registry, gameContext);
+        }
+    }
+
+    void events(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto view = registry.view<CppScriptComponent>();
+        for (auto entity : view)
+        {
+            auto &scripts = view.get<CppScriptComponent>(entity);
+            scripts.eventsAll(registry, gameContext);
         }
     }
 

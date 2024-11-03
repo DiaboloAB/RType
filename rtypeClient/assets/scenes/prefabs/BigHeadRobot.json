@@ -1,0 +1,40 @@
+{
+    "tag": "BigHeadRobot",
+    "layer": "enemy",
+    "staticObject": true,
+    "CppScripts": [
+        "BigHeadRobot"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [3, 3, 0]
+        },
+        "Collider": {
+            "size": [128, 128, 0],
+            "offSet": [64, 64, 0],
+            "isTrigger": true,
+            "layerMask": "playerProjectile"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 3,
+                    "texture": "graphics/enemy/Big_head_Robot.png",
+                    "frameCount": 3,
+                    "frameSize": [33, 33, 0],
+                    "loop": true
+                },
+                {
+                    "name": "explosion",
+                    "speed": 10,
+                    "texture": "graphics/enemy/explosion.png",
+                    "frameCount": 6,
+                    "frameSize": [32, 32, 0],
+                    "loop": false
+                }
+            ]
+        }
+    }
+}

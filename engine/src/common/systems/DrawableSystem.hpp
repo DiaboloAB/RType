@@ -10,7 +10,7 @@
 
 #include <system/ISystem.hpp>
 
-#include "common/components.hpp"
+#include "common/components/uiComponents.hpp"
 // std
 
 namespace RType
@@ -22,6 +22,108 @@ class DrawableSystem : public ISystem
     DrawableSystem() {}
     ~DrawableSystem() {}
 
+    void load(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto view = registry.view<Text>();
+        for (auto entity : view)
+        {
+            auto &text = view.get<Text>(entity);
+            text.font_id = gameContext._runtime->loadFont(gameContext._assetsPath + text.font);
+        }
+
+        int i = 0;
+
+        auto viewButton = registry.view<Button>();
+        for (auto entity : viewButton)
+        {
+            auto &button = viewButton.get<Button>(entity);
+            button.font_id = gameContext._runtime->loadFont(gameContext._assetsPath + button.font);
+            if (i++ == 0) button.selected = true;
+        }
+
+        keyboardSprite_id =
+            gameContext._runtime->loadSprite(gameContext._assetsPath + "graphics/keyboard.png");
+    }
+
+    void update(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto viewButton = registry.view<Button, Transform>();
+
+        Button *selectedButton = nullptr;
+        Transform *selectedTransform = nullptr;
+        std::vector<std::pair<Button &, Transform &>> buttons;
+
+        for (auto entity : viewButton)
+        {
+            auto &button = viewButton.get<Button>(entity);
+            auto &transform = viewButton.get<Transform>(entity);
+            buttons.emplace_back(button, transform);
+            if (button.selected)
+            {
+                selectedButton = &button;
+                selectedTransform = &transform;
+            }
+        }
+
+        if (!selectedButton) return;
+
+        if (selectedButton->input && gameContext._input.getAction("Action1"))
+        {
+            if (!selectedButton->virtualKeyboard)
+            {
+                selectedButton->virtualKeyboard = true;
+                return;
+            }
+        }
+        else if (!selectedButton->input && gameContext._input.getAction("Action1"))
+        {
+            buttonAction(registry, gameContext, *selectedButton);
+        }
+
+        if (selectedButton->virtualKeyboard)
+        {
+            if (gameContext._input.getAction("Action2"))
+            {
+                selectedButton->virtualKeyboard = false;
+            }
+        }
+
+        if (selectedButton->virtualKeyboard)
+        {
+            if (gameContext._input.getAction("Up"))
+                selectedKey.y--;
+            else if (gameContext._input.getAction("Down"))
+                selectedKey.y++;
+            else if (gameContext._input.getAction("Left"))
+                selectedKey.x--;
+            else if (gameContext._input.getAction("Right"))
+                selectedKey.x++;
+            selectedKey.x = (int)(selectedKey.x + 13) % 13;
+            selectedKey.y = (int)(selectedKey.y + 4) % 4;
+            if (gameContext._input.getAction("Action1"))
+            {
+                if (selectedKey.y == 3 && selectedKey.x == 1)
+                {
+                    selectedButton->content += " ";
+                }
+                else if (selectedKey.y == 3 && selectedKey.x == 2)
+                {
+                    if (selectedButton->content.size() > 0) selectedButton->content.pop_back();
+                }
+                else if (selectedKey.y == 3 && selectedKey.x == 3)
+                {
+                    selectedButton->virtualKeyboard = false;
+                }
+                else
+                    selectedButton->content += keys[selectedKey.y * 13 + selectedKey.x];
+            }
+        }
+
+        if (selectedButton->virtualKeyboard) return;
+
+        moveSelection(registry, gameContext, selectedButton, selectedTransform, buttons);
+    }
+
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Text, Transform>();
@@ -29,69 +131,108 @@ class DrawableSystem : public ISystem
         {
             auto &text = view.get<Text>(entity);
             auto &transform = view.get<Transform>(entity);
-            gameContext._runtime->drawText(text.font, text.text, transform.position, text.fontSize,
-                                           text.color);
+            gameContext._runtime->drawText(text.font_id, text.text, transform.position,
+                                           text.fontSize, text.color, text.centered);
         }
 
-        auto view2 = registry.view<Paragraph, Transform>();
-        for (auto entity : view2)
+        auto viewButton = registry.view<Button, Transform>();
+        for (auto entity : viewButton)
         {
-            auto &paragraph = view2.get<Paragraph>(entity);
-            auto &transform = view2.get<Transform>(entity);
-            int i = 0;
-            for (auto line : paragraph.lines)
-            {
-                gameContext._runtime->drawText(
-                    paragraph.font, line,
-                    mlg::vec3(transform.position.x, transform.position.y + i, transform.position.z),
-                    paragraph.fontSize, paragraph.color, true);
-                i += paragraph.fontSize + 5;
-            }
-        }
+            auto &button = viewButton.get<Button>(entity);
+            auto &transform = viewButton.get<Transform>(entity);
 
-        auto view3 = registry.view<Button, Transform>();
-        for (auto entity : view3)
-        {
-            auto &button = view3.get<Button>(entity);
-            auto &transform = view3.get<Transform>(entity);
-            mlg::vec3 mousePos = gameContext._runtime->getMousePosition();
-            if (mousePos.x > transform.position.x &&
-                mousePos.x < transform.position.x + button.size.x &&
-                mousePos.y > transform.position.y &&
-                mousePos.y < transform.position.y + button.size.y)
-            {
-                mlg::vec4 buttonRect(transform.position.x, transform.position.y, button.size.x,
-                                     button.size.y);
-                gameContext._runtime->drawRectangle(
-                    buttonRect, gameContext._runtime->getKey(KeyCode::Mouse0), button.color);
-                if (gameContext._runtime->getKey(KeyCode::Mouse0))
-                {
-                    try
-                    {
-                        gameContext.get<CppScriptComponent>(button.target)
-                            .callAllFunctions(button.action, registry, gameContext);
-                    }
-                    catch (const std::exception &e)
-                    {
-                        std::cerr << "Error: " << e.what() << std::endl;
-                    }
-                }
-            }
+            mlg::vec4 rect = {transform.position.x, transform.position.y, button.size.x,
+                              button.size.y};
+            if (button.selected) gameContext._runtime->drawRectangle(rect, false, button.color);
             gameContext._runtime->drawText(
-                button.font, button.text,
-                mlg::vec3(transform.position.x + button.size.x / 2 - 5,
-                          transform.position.y + button.size.y / 2 - 5, 0),
-                16, mlg::vec3(255, 255, 255), true);
-            // gameContext._runtime->drawButton(button.text, transform.position, button.size,
-            // button.color,
-            //                                  button.textColor, button.fontSize);
+                button.font_id, button.text + button.content,
+                mlg::vec3(transform.position.x + 5, transform.position.y + 5, 0), button.fontSize,
+                button.color, false);
+            if (button.input && button.virtualKeyboard)
+            {
+                gameContext._runtime->drawSprite(keyboardSprite_id,
+                                                 mlg::vec3(1920 / 2 - 450, 1080 - 350, 0));
+                mlg::vec4 rect = {750 + 31 * selectedKey.x, 755 + 43 * selectedKey.y, 30, 30};
+                gameContext._runtime->drawRectangle(rect, false, {255, 255, 255});
+            }
         }
     }
-    // Getters
 
-    // Setters
+    void moveSelection(mobs::Registry &registry, GameContext &gameContext, Button *selectedButton,
+                       Transform *selectedTransform,
+                       std::vector<std::pair<Button &, Transform &>> buttons)
+    {
+        selectedButton->selected = false;
+
+        mlg::vec3 direction;
+        if (gameContext._input.getAction("Up"))
+            direction = {0, -1, 0};
+        else if (gameContext._input.getAction("Down"))
+            direction = {0, 1, 0};
+        else if (gameContext._input.getAction("Left"))
+            direction = {-1, 0, 0};
+        else if (gameContext._input.getAction("Right"))
+            direction = {1, 0, 0};
+        else
+        {
+            selectedButton->selected = true;
+            return;
+        }
+
+        Button *newSelectedButton = nullptr;
+        float minAdjustedDistance = std::numeric_limits<float>::max();
+        float penaltyFactor = 2.0f;
+
+        for (auto &[button, transform] : buttons)
+        {
+            if (&button == selectedButton) continue;
+
+            mlg::vec3 toButton = transform.position - selectedTransform->position;
+            float directionalDistance = toButton.dot(direction);
+            float perpendicularDistance = (toButton - direction * directionalDistance).length();
+
+            float adjustedDistance = directionalDistance + penaltyFactor * perpendicularDistance;
+
+            if (directionalDistance > 0 && adjustedDistance < minAdjustedDistance)
+            {
+                minAdjustedDistance = adjustedDistance;
+                newSelectedButton = &button;
+            }
+        }
+
+        if (newSelectedButton)
+            newSelectedButton->selected = true;
+        else
+            selectedButton->selected = true;
+    }
+
+    void buttonAction(mobs::Registry &registry, GameContext &gameContext, Button &button)
+    {
+
+        for (auto &event : button.events)
+        {
+            gameContext.addEvent(event, {});
+        }
+        try
+        {
+            gameContext.get<CppScriptComponent>(button.entity)
+                .onButtonPressedAll(registry, gameContext, button.action, {});
+        }
+        catch (const std::exception &e)
+        {
+        }
+        try {
+            gameContext.get<Scripts>(button.entity)
+                .onButtonPressed(registry, gameContext, button.action);
+        } catch (std::exception &e) {
+        }
+    }
 
    private:
+    std::string keys = "0123456789   ABCDEFGHIJKLMNOPQRSTUVWXYZ.            ";
+
+    mlg::vec3 selectedKey = {0, 0, 0};
+    int keyboardSprite_id;
     // Member variables
 };
 

@@ -1,0 +1,127 @@
+{
+    "gameName": "RType",
+    "iconPath": "graphics/icon.png",
+    "version": "1.0.0",
+    "description": "A simple game",
+    "defaultScene": "menu",
+    "fontList": [
+        "assets/fonts/Roboto-Medium.ttf",
+        "assets/fonts/r-type.ttf"
+    ],
+    "scenes": [
+        {
+            "name": "scene2",
+            "path": "scenes/scenes2.json"
+        },
+        {
+            "name": "multiplayer",
+            "path": "scenes/multiplayer.json"
+        },
+        {
+            "name": "scenesTest",
+            "path": "scenes/scenesTest.json"
+        },
+        {
+            "name": "scenesTest2",
+            "path": "scenes/scenesTest2.json"
+        },
+        {
+            "name": "menu",
+            "path": "scenes/menu.json"
+        },
+        {
+            "name": "settings",
+            "path": "scenes/settings.json"
+        },
+        {
+            "name": "gameOver",
+            "path": "scenes/gameOver.json"
+        }
+    ],
+    "prefabs": [
+        {
+            "name": "HelloWorld",
+            "path": "prefabs/HelloWorld.json"
+        },
+        {
+            "name": "GameState",
+            "path": "scenes/prefabs/GameState.json"
+        },
+        {
+            "name": "Explosion",
+            "path": "scenes/prefabs/Explosion.json"
+        },
+        {
+            "name": "Laser",
+            "path": "scenes/prefabs/Laser.json"
+        },
+        {
+            "name": "LaserMedium",
+            "path": "scenes/prefabs/LaserMedium.json"
+        },
+        {
+            "name": "LaserLarge",
+            "path": "scenes/prefabs/LaserLarge.json"
+        },
+        {
+            "name": "LaserFull",
+            "path": "scenes/prefabs/LaserFull.json"
+        },
+        {
+            "name": "Bullet",
+            "path": "scenes/prefabs/Bullet.json"
+        },
+        {
+            "name": "RedShip",
+            "path": "scenes/prefabs/RedShip.json"
+        },
+        {
+            "name": "floor_0",
+            "path": "scenes/prefabs/floor_0.json"
+        },
+        {
+            "name": "floor_1",
+            "path": "scenes/prefabs/floor_1.json"
+        },
+        {
+            "name": "floor_2",
+            "path": "scenes/prefabs/floor_2.json"
+        },
+        {
+            "name": "floor_middle",
+            "path": "scenes/prefabs/floor_middle.json"
+        },
+        {
+            "name": "floor_high",
+            "path": "scenes/prefabs/floor_high.json"
+        },
+        {
+            "name": "door",
+            "path": "scenes/prefabs/door.json"
+        },
+        {
+            "name": "reactor",
+            "path": "scenes/prefabs/reactor.json"
+        },
+        {
+            "name": "ramp",
+            "path": "scenes/prefabs/ramp.json"
+        },
+        {
+            "name": "player",
+            "path": "scenes/prefabs/player.json"
+        },
+        {
+            "name": "ally",
+            "path": "scenes/prefabs/ally.json"
+        },
+        {
+            "name": "Turret",
+            "path": "scenes/prefabs/Turret.json"
+        },
+        {
+            "name": "BigHeadRobot",
+            "path": "scenes/prefabs/BigHeadRobot.json"
+        }
+    ]
+}

@@ -1,11 +1,10 @@
-    EPITECH Rennes
-                                                                 LARGEOT Morgan
-                                                                LARGEOT Maxence
-                                                                  BOITEL Alexis
-                                                                  DORIEL Arthur
-                                                                MABILLE Raphael
-Document: rfc-53952.txt                                          EPITECH Rennes
-                                                                 September 2024
+EPITECH Rennes                                                    LARGEOT Morgan
+                                                                 LARGEOT Maxence
+                                                                   BOITEL Alexis
+                                                                   DORIEL Arthur
+                                                                 MABILLE Raphael
+Document: rfc-53952.txt                                           EPITECH Rennes
+                                                                    October 2024
 
                             R-Type Protocol
 
@@ -38,34 +37,30 @@ Abstract
     implementation of an ECS, Game Engine and UDP network protocol.
     Distribution of this memo is unlimited.
 
-Conventions used in this document
-
-    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-    document are to be interpreted as described in RFC-2119.
-
 LARGEOT                         Informational                           [Page 1]
 
-                            R-Type Protocol                       September 2024
+                            R-Type Protocol                       October 2024
 
 
 Table of Contents
-      1. R-Type architecture.............................................2
-      2. Client and server communication.................................2
-      3. Packet header...................................................3
-      4. Packets payload.................................................3
-          4.1  HiServer..................................................4
-          4.2  HiClient..................................................4
-          4.3  AdiosServer...............................................4
-          4.4  Ping......................................................4
-          4.5  CreateEntity..............................................5
-          4.6  DestroyEntity.............................................5
-          4.7  MoveEntity................................................5
-          4.8  UpdateEntity..............................................6
-          4.9  ClientEvents..............................................6
-          4.10 KickClient................................................6
-          4.11 PacketValidation..........................................7
-      5. Security Considerations.........................................7
+
+  1. R-Type architecture.............................................2
+  2. Client and server communication.................................2
+  3. Packet header...................................................3
+  4. Timestamp.......................................................3
+  5. Packets payload.................................................3
+      5.1  HiServer..................................................4
+      5.2  HiClient..................................................4
+      5.3  AdiosServer...............................................4
+      5.4  Ping......................................................4
+      5.5  CreateEntity..............................................5
+      5.6  DestroyEntity.............................................5
+      5.7  MoveEntity................................................5
+      5.8  UpdateEntity..............................................6
+      5.9  ClientEvents..............................................6
+      5.10 PacketValidation..........................................6
+  6. Security Considerations.........................................7
+  7. More............................................................7
 
 
 1. R-Type architecture
@@ -86,23 +81,22 @@ Table of Contents
     client's actions to other connected clients.
     The server will send a positive or negative response with “HiClient” packet.
     This first packet is very important. If it is not received or invalid,
-    the server will kick the client and will not be able to process further
-    requests from the client.
+    the server will not take the client into account and will not be able 
+    to process any further requests from the client.
 
     If the server does not receive any packets from the client for more
     than 4 seconds, the server will consider that the connection has been lost
     and close it.
 
-
 LARGEOT                         Informational                           [Page 2]
 
-                            R-Type Protocol                       September 2024
+                            R-Type Protocol                         October 2024
 
     The client must do the same as the server. If it does not receive any
     packets from the server for more than 4 seconds, the client must close the
     connection with the server.
 
-    Good practice would be to send at least one "Ping"  packet from the
+    Good practice would be to send at least one "Ping" packet from the
     client to the server and vice versa every second.
 
 
@@ -126,7 +120,25 @@ LARGEOT                         Informational                           [Page 2]
     identification upon receipt (example: HiServer -> type: 1).
 
 
-4. Packet Payload
+4. Timestamp:
+
+    The Timestamp field is a 64-bit integer representing the number of
+    seconds that have elapsed since January 1, 1970, 00:00:00 UTC (the Unix epoch).
+    This format is commonly referred to as the Unix timestamp.
+
+    For example, a timestamp with the value `1700000000` would correspond
+    to Semptember 14, 2023, 01:46:40 UTC.
+    This timestamp allows precise measurement of when a packet was sent,
+    and is ideal for time-sensitive applications such as latency calculation,
+    synchronization, or packet ordering in communication protocols.
+    
+    Since the value is based on UTC, there are no concerns regarding time zones
+    or daylight saving adjustments. The Timestamp is stored in seconds,
+    meaning that the resolution is sufficient for most network communication
+    scenarios where millisecond precision is not required.
+
+
+5. Packet Payload
 
     In this part, we will see all the packets that can be used in this
     protocol. In each case, the description omits the headers described
@@ -137,15 +149,27 @@ LARGEOT                         Informational                           [Page 2]
     This corresponds to the TYPE of the header, which is therefore
     indicated for each packet.
 
-
 LARGEOT                         Informational                           [Page 3]
 
-                            R-Type Protocol                       September 2024
+                            R-Type Protocol                         October 2024
+
+5.1 HiServer
+
+    The client send an 'HiServer' packet to establish a connection
+    with the server and wait for a packet 'HiClient' in response.
+
+    /---------------------------------------------------------\
+    | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 0     |
+    \---------------------------------------------------------/
 
 
-4.1 HiServer
+5.2 HiClient
 
-    Client -> Server
+    In response of the 'HiServer' packet, the server send a
+    'HiClient' Packet to tell the client that the connection
+    is established.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -154,9 +178,11 @@ LARGEOT                         Informational                           [Page 3]
     \---------------------------------------------------------/
 
 
-4.2 HiClient
+5.3 AdiosServer
 
-    Client <- Server
+    When a client quits, it first informs the server by sending 
+    an 'AdiosServer' packet to prevent the server from continuing
+    to send it any packets.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -165,9 +191,11 @@ LARGEOT                         Informational                           [Page 3]
     \---------------------------------------------------------/
 
 
-4.3 AdiosServer
+5.4 Ping
 
-    Client -> Server
+    By sending this packet every second, the client informs 
+    the server that the connection between them is alive,
+    so they both can continue to send packets.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
@@ -175,61 +203,87 @@ LARGEOT                         Informational                           [Page 3]
     | Type                           | 8              | 3     |
     \---------------------------------------------------------/
 
-4.4 Ping
+LARGEOT                         Informational                           [Page 4]
 
-    Client -> Server
-    Client <- Server
+                            R-Type Protocol                         October 2024 
+
+5.5 CreateEntity
+    
+    To allow the display of an entity for all the clients, the
+    server must send a 'CreateEntity' packet to associated
+    clients. This packet is based on 4 parameters:
+
+        - Network Id: Id of the entity to create in the Network.
+                      (could cause issues if it was based on ECS ids)
+
+        - Entity prefab path: Since each entity uses a prefab in the
+                      ECS, we should specify its path.
+
+        - Pos x: position x on the screen where the entity is created.
+
+        - Pos y: position y on the screen where the entity is created.
+
+        - Scale x: scale x on the screen where the entity is created.
+
+        - Scale y: scale y on the screen where the entity is created.
+
+    Each parameter is MANDATORY in this packet.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 4     |
+    | Network Id                     | 32             |       |
+    | Entity prefab path    		 | 8 * length     |       |
+    | Pos x                          | 32             |       |
+    | Pos y                          | 32             |       |
+    | Scale x                        | 32             |       |
+    | Scale y                        | 32             |       |
     \---------------------------------------------------------/
 
 
-LARGEOT                         Informational                           [Page 4]
+5.6 DestroyEntity
 
-                            R-Type Protocol                       September 2024 
+    To stop the display of an entity for all the client, the
+    server must send a 'DestroyEntity' packet to associated
+    clients. This packet is based on 1 parameter:
 
+        - Network Id: Id of the entity to destroy in the Network.
+                      (could cause issues if it was based on ECS ids)
 
-4.5 CreateEntity
-
-    Client -> Server
-    Client <- Server
+    Each parameter is MANDATORY in this packet.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 5     |
-    | Entity Id                      | 32             |       |
-    | Entity prefab path    		 | 8 * length     |       |
-    | x                              | 32             |       |
-    | y                              | 32             |       |
+    | Network Id                     | 32             |       |
     \---------------------------------------------------------/
 
 
-4.6 DestroyEntity
+5.7 MoveEntity
 
-    Client <- Server
+    To move the entity of the screen based on its direction
+    for all the client, the server must send a 'MoveEntity'
+    packet to associated clients. This packet is based on 5
+    parameters:
 
-    /---------------------------------------------------------\
-    | Name                           | Size (bits)    | Value |
-    |--------------------------------|----------------|-------|
-    | Type                           | 8              | 6     |
-    | Entity Id                      | 32             |       |
-    \---------------------------------------------------------/
+    - Network Id: Id of the entity to move in the Network.
+                      (could cause issues if it was based on ECS ids)
 
+    - x: position x on the screen where the entity is located.
+    
+    - y: position y on the screen where the entity is located.
 
-4.7 MoveEntity
+    - direction x: direction of the entity on x axis.
 
-    Client -> Server
-    Client <- Server
+    - direction y: direction of the entity on y axis.
 
     /---------------------------------------------------------\
     | Name                           | Size (in bits) | Value |
     |--------------------------------|----------------|-------|
-    | Type                           | 8              | 7     |
-    | Entity Id                      | 32             |       |
+    | Type                           | 8              | 6     |
+    | Network Id                     | 32             |       |
     | x                              | 32             |       |
     | y                              | 32             |       |
     | direction x                    | 32             |       |
@@ -238,74 +292,98 @@ LARGEOT                         Informational                           [Page 4]
 
 LARGEOT                         Informational                           [Page 5]
 
-                            R-Type Protocol                       September 2024 
+                            R-Type Protocol                         October 2024 
 
+5.8 UpdateEntity
 
-4.8 UpdateEntity
+    To update the entity of the screen based on the element
+    we want to update, the server must send a 'UpdateEntity'
+    packet to associated clients. This packet is based on 2
+    parameters:
 
-    Client <- Server
+        - Network Id: Id of the entity to update in the Network.
+                   (could cause issues if it was based on ECS ids)
+
+        - Description: Precision of an action. For example, if the
+                   server want to update a score, it sends
+                   'UpdateEntity' packet with "score = value" as
+                   description.
 
     /---------------------------------------------------------\
     | Name                           | Size (bits)    | Value |
+    |--------------------------------|----------------|-------|
+    | Type                           | 8              | 7     |
+    | Network Id                     | 32             |       |
+    | Description                    | 8 * length     |       |
+    \---------------------------------------------------------/
+
+
+5.9 ClientEvents
+
+   To tell the server that the client is doing a particular action,
+    the client triggers an event based on 2 parameters:
+
+        - IdEvent: For example, the client sets id to 1 to tell the
+               server that he wants to move his entity.
+
+        - Description: Precision of an action. For example, if the
+                   client wants to move, he may specify its direction
+                   ("left", "right", "down", "up").
+
+    The Id is MANDATORY in this packet.
+    The Description is OPTIONAL in this packet (null if not used).
+
+    /---------------------------------------------------------\
+    | Name                           | Size (in bits) | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 8     |
-    | Entity Id                      | 32             |       |
-    | Score                          | 32             |       |
+    | IdEvent                        | 8              |       |
+    | Description                    | 8 * length     |       |
     \---------------------------------------------------------/
 
 
-4.9 ClientEvents
+5.10 PacketValidation
 
-    Client -> Server
+    When a packet is sent, this packet wait for a validation
+    that tells to the client as the server that the packet has
+    been recived. This packet is based on 2 parameters:
+
+        - PacketType: Type of the packet received.
+
+        - PacketTimestamp: Timestamp of the packet received.
+
+    Each parameter is MANDATORY in this packet.
 
     /---------------------------------------------------------\
-    | Name                           | Size (bits)    | Value |
+    | Name                           | Size (in bits) | Value |
     |--------------------------------|----------------|-------|
     | Type                           | 8              | 9     |
-    \---------------------------------------------------------/
-
-
-4.10 KickClient
-
-    Client <- Server
-
-    /---------------------------------------------------------\
-    | Name                           | Size (bits)    | Value |
-    |--------------------------------|----------------|-------|
-    | Type                           | 8              | 10    |
-    | Reason			             | 8 * length     |       |
-    \---------------------------------------------------------/
-
-
-LARGEOT                         Informational                           [Page 6]
-
-                            R-Type Protocol                       September 2024 
-
-
-4.11 PacketValidation
-
-    Client -> Server
-    Client <- Server
-
-    /---------------------------------------------------------\
-    | Name                           | Size (bits)    | Value |
-    |--------------------------------|----------------|-------|
-    | Type                           | 8              | 11    |
-    | PacketReceiveType              | 8              |       |
+    | PacketType                     | 8              |       |
     | PacketTimestamp                | 64             |       |
     \---------------------------------------------------------/
 
-5. Security Considerations
+LARGEOT                         Informational                           [Page 6]
+
+                            R-Type Protocol                         October 2024 
+
+6. Security Considerations
 
     The UDP protocol does not provide confirmation of receipt of Packets,
     which is why it is important to carefully check the total length upon
     receipt.
 
-    Some packets needs validation. To do that, when you receive one packets
-    from the following list, send "PacketValidation" Packet with packet type
-    and timestamp: HiClient, CreateEntity and DestroyEntity.
+    Every packets needs validation. To do that, when you receive one packets,
+    send "PacketValidation" Packet with packet type and timestamp.
 
     In case of an error, for example an invalid packet, nothing should be
     returned.
+
+7. More
+
+    To see more documentation about network with it's implementation in the
+    project, creation of personnalized packets, creation of events and example
+    of communication; See the network section of the wiki:
+    
+    https://github.com/DiaboloAB/RType/wiki/Network
 
 LARGEOT                         Informational                           [Page 7]

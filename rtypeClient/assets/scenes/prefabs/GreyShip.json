@@ -1,0 +1,33 @@
+{
+    "tag": "greyShip",
+    "staticObject": true,
+    "CppScripts": [
+        "GreyShip"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Collider": {
+            "size": [32, 32, 0],
+            "offset": [16, 16, 0]
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/enemy/red_ship.png",
+                    "frameCount": 8,
+                    "frameSize": [32, 32, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

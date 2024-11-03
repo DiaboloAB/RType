@@ -1,0 +1,103 @@
+{
+  "entities": [
+    {
+      "tag": "background",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [0, 0, -1] },
+        "Sprite": { "texture": "graphics/background.png" }
+      }
+    },
+    {
+      "tag": "exitButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 450, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Exit",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "exit"
+        }
+      }
+    },
+    {
+      "tag": "backButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 400, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Home",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "return"
+        }
+      }
+    },
+    {
+      "tag": "Volume",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 200, 0] },
+        "Text": {
+          "text": "Volume : 50",
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24
+        }
+      }
+    },
+    {
+      "tag": "Minus",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [300, 200, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "-",
+          "color": [255, 255, 255],
+          "size": [50, 50, 0],
+          "events": [ "lowerAudio" ]
+        }
+      }
+    },
+    {
+      "tag": "Plus",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [350, 200, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "+",
+          "color": [255, 255, 255],
+          "size": [50, 50, 0],
+          "events": [ "raiseAudio" ]
+        }
+      }
+    },
+    {
+      "tag": "fullscreen",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 250, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Fullscreen : off",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "fullscreen"
+        }
+      }
+    }
+
+  ]
+}

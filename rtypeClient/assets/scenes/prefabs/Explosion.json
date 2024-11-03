@@ -1,0 +1,38 @@
+{
+    "tag": "explosion",
+    "layer": "none",
+    "staticObject": true,
+    "CppScripts": [
+        "Explosion"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "NetworkData": {
+            "id" : 0,
+            "authority" : "client"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 1,
+                    "texture": "graphics/enemy/red_ship.png",
+                    "frameCount": 1,
+                    "frameSize": [1, 1, 0],
+                    "loop": true
+                },
+                {
+                    "name": "explosion",
+                    "speed": 10,
+                    "texture": "graphics/enemy/explosion.png",
+                    "frameCount": 6,
+                    "frameSize": [32, 32, 0],
+                    "loop": false
+                }
+            ]
+        }
+    }
+}

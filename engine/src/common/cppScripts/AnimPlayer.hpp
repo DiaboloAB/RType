@@ -14,7 +14,7 @@
 namespace RType
 {
 
-class AnimPlayerScript : public RType::ICppScript
+class AnimPlayer : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
@@ -22,29 +22,30 @@ class AnimPlayerScript : public RType::ICppScript
         int speed = 300;
         if (gameContext._runtime->getKeyDown(KeyCode::UpArrow))
         {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("up");
         }
         if (gameContext._runtime->getKeyUp(KeyCode::UpArrow))
         {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("default");
         }
         if (gameContext._runtime->getKeyDown(KeyCode::DownArrow))
         {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("down");
         }
         if (gameContext._runtime->getKeyUp(KeyCode::DownArrow))
         {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("default");
         }
     }
-    void setEntity(mobs::Entity entity) override { _entity = entity; }
+
+    static constexpr const char *name = "AnimPlayer";
 
    private:
-    mobs::Entity _entity;
+    // Member variables
 };
 
 }  // namespace RType

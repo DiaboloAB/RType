@@ -6,76 +6,94 @@
  **********************************************************************************/
 
 #include "SceneManager.hpp"
-#include "common/components.hpp"
-#include "common/scriptsComponent.hpp"
+#include "common/COMPONENTLIST.hpp"
+#include "common/FROMJSON.hpp"
+#include "common/SCRIPTLIST.hpp"
 #include "gameContext/GameContext.hpp"
 // std
 #include <iostream>
 
 using namespace RType;
 
+template <typename T>
+static void addCppScriptIfExists(const nlohmann::json& data, mobs::Registry& registry,
+                                 mobs::Entity entity, GameContext& gameContext)
+{
+    // std::cout << "Checking for CppScript: " << T::name << std::endl;
+    for (const auto& script : data)
+    {
+        if (script.get<std::string>() == T::name)
+        {
+            // std::cout << "Adding CppScript: " << T::name << std::endl;
+            auto script = std::make_shared<T>();
+            // script->start(registry, gameContext);
+            registry.get<CppScriptComponent>(entity).addScript(script);
+        }
+    }
+}
+
+template <typename... T>
+static void addCppScriptsToEntity(mobs::Registry& registry, mobs::Entity entity,
+                                  const nlohmann::json& componentData, GameContext& gameContext)
+{
+    // std::cout << componentData << std::endl;
+    (addCppScriptIfExists<T>(componentData, registry, entity, gameContext), ...);
+}
+
+template <typename T>
+static void addComponentIfExists(const nlohmann::json& data, mobs::Registry& registry,
+                                 mobs::Entity entity)
+{
+    if (data.contains(T::name))
+    {
+        T component;
+        data.at(T::name).get_to(component);
+        registry.emplace<T>(entity, component);
+    }
+}
+
+template <typename... T>
+static void addComponentsToEntity(const nlohmann::json& componentData, mobs::Registry& registry,
+                                  mobs::Entity entity)
+{
+    (addComponentIfExists<T>(componentData, registry, entity), ...);
+}
+
 void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
-                                mobs::Registry& registry, GameContext& gameContext)
+                                mobs::Registry& registry, GameContext& gameContext, bool alreadyLoaded)
 {
     try
     {
-        bool staticObject = false;
-        std::string tag = "defaultTag";
-
-        try
-        {
-            staticObject = prefabJson["staticObject"].get<bool>();
+        bool staticObject = prefabJson.value("staticObject", true);
+        if (alreadyLoaded && !staticObject) {
+            registry.kill(entity);
+            return;
         }
-        catch (const std::exception& e)
+        std::string tag = prefabJson.value("tag", "defaultTag");
+        std::string layer = prefabJson.value("layer", "defaultLayer");
+
+        registry.emplace<Basics>(entity, tag, layer, staticObject);
+        _entitiesToStart.push_back(entity);
+
+        addComponentsToEntity<COMPONENT_TYPES>(prefabJson["components"], registry, entity);
+
+        if (prefabJson["components"].contains("Scripts"))
         {
-            staticObject = false;
+            registry.emplace<Scripts>(entity, entity);
+            auto& scripts = registry.get<Scripts>(entity);
+            for (const auto& script : prefabJson["components"]["Scripts"])
+                scripts.add(gameContext._assetsPath + script.get<std::string>(), gameContext);
         }
 
-        try
+        if (prefabJson.contains("CppScripts"))
         {
-            tag = prefabJson["tag"].get<std::string>();
-        }
-        catch (const std::exception& e)
-        {
-            tag = "defaultTag";
-        }
-
-        registry.emplace<Basics>(entity, tag, staticObject);
-
-        for (const auto& componentJson : prefabJson["components"].items())
-        {
-            try
-            {
-                const std::string& componentName = componentJson.key();
-                const auto& data = componentJson.value();
-
-                if (componentName == "Scripts")
-                {
-                    registry.emplace<Scripts>(entity);
-                    auto& scripts = registry.get<Scripts>(entity);
-                    for (const auto& script : data)
-                    {
-                        scripts.addScript(script.get<std::string>(), gameContext);
-                    }
-                }
-                if (componentName == "CppScripts")
-                {
-                    addScriptsToEntity(registry, entity, data);
-                }
-                auto it = _componentCreators.find(componentName);
-                if (it != _componentCreators.end())
-                {
-                    it->second(registry, entity, data);
-                }
-            }
-            catch (const std::exception& e)
-            {
-                std::cerr << "Error: Could not create component" << std::endl;
-            }
+            registry.emplace<CppScriptComponent>(entity, entity);
+            addCppScriptsToEntity<SCRIPT_TYPES>(registry, entity, prefabJson["CppScripts"],
+                                                gameContext);
         }
     }
     catch (const std::exception& e)
     {
-        std::cerr << "Error: Could not create entity" << std::endl;
+        std::cerr << "Error: Could not create entity: " << e.what() << std::endl;
     }
 }

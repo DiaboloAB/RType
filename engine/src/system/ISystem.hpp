@@ -29,14 +29,6 @@ class ISystem
     ~ISystem() = default;
 
     /**
-     * @brief Called when the system starts.
-     *
-     * @param registry Reference to the entity-component registry.
-     * @param gameContext Reference to the game context.
-     */
-    virtual void start(mobs::Registry &registry, GameContext &gameContext) {}
-
-    /**
      * @brief Called when a new object or scene is loaded.
      *
      * @param registry Reference to the entity-component registry.
@@ -59,6 +51,14 @@ class ISystem
      * @param gameContext Reference to the game context.
      */
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
+
+    /**
+     * @brief Called every frame to update the system.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
+    virtual void events(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**
      * @brief Called every frame to draw the system.

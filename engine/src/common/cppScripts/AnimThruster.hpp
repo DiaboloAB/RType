@@ -14,7 +14,7 @@
 namespace RType
 {
 
-class AnimThrusterScript : public RType::ICppScript
+class AnimThruster : public RType::ICppScript
 {
    public:
     void update(mobs::Registry &registry, GameContext &gameContext) override
@@ -22,19 +22,20 @@ class AnimThrusterScript : public RType::ICppScript
         int speed = 300;
         if (gameContext._runtime->getKeyDown(KeyCode::RightArrow))
         {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("low");
         }
         if (gameContext._runtime->getKeyUp(KeyCode::RightArrow))
         {
-            AnimationList &animations = registry.get<Animator>(_entity).animations;
+            AnimationList &animations = registry.get<Animator>(getEntity()).animations;
             animations.playAnim("default");
         }
     }
-    void setEntity(mobs::Entity entity) override { _entity = entity; }
+
+    static constexpr const char *name = "AnimThruster";
 
    private:
-    mobs::Entity _entity;
+    // Member variables
 };
 
 }  // namespace RType

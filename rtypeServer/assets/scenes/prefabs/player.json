@@ -1,0 +1,55 @@
+{
+  "tag": "player",
+  "staticObject": false,
+  "layer": "player",
+  "CppScripts": [
+    "MovePlayer",
+    "AnimPlayer",
+    "PlayerShoot"
+  ],
+  "components": {
+    "Transform": {
+      "position": [100, 100, 0],
+      "scale": [2, 2, 0],
+      "rotation": [0, 0, 0]
+    },
+    "NetworkData": {
+      "id" : 0,
+      "authority" : "client"
+    },
+    "Collider": {
+      "size": [32, 16, 0],
+      "offset": [0, 0, 0],
+      "isTrigger": false,
+      "layerMask": "enemy"
+    },
+    "Animator": {
+      "animations": [
+        {
+          "name": "default",
+          "speed": 1,
+          "texture": "graphics/player/ship/idle.png",
+          "frameCount": 1,
+          "frameSize": [32, 16, 0],
+          "loop": true
+        },
+        {
+          "name": "down",
+          "speed": 1,
+          "texture": "graphics/player/ship/down.png",
+          "frameCount": 1,
+          "frameSize": [32, 16, 0],
+          "loop": false
+        },
+        {
+          "name": "up",
+          "speed": 1,
+          "texture": "graphics/player/ship/up.png",
+          "frameCount": 1,
+          "frameSize": [32, 16, 0],
+          "loop": false
+        }
+      ]
+    }
+  }
+}

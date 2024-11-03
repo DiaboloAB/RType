@@ -1,139 +1,96 @@
 #!/bin/bash
 
-usage() {
-    echo "Usage: $0 <command> [path]"
-    echo "Commands:"
-    echo "  clean: Clean build directory."
-    echo "  build: Build project."
-    echo "  thread-build: Build project with 4 threads."
-    echo "  rebuild: Rebuild project."
-    echo "  runtest: Run tests."
-    echo "  run: Run project."
-    echo "  check-clang: Check code formatting in the specified directory."
-    echo "       path: the directory to check for format issues (e.g., src or include)"
-    echo "  fix-clang: Fix code formatting in the specified directory."
-    exit 1
+usage()
+{
+    echo "Usage: $0 <build|build-sdl|build-off|build-test|run-test|pack|clean|rebuild>"
 }
-
-if [ $# -lt 1 ]; then
-    usage
-fi
 
 COMMAND=$1
 
-if [ "$COMMAND" == "runtest" ]; then
+if [ "$COMMAND" == "build" ]; then
+
+    echo "Building project..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=SFML
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=SFML
+    cmake --build . -- -j 4
+
+elif [ "$COMMAND" == "build-sdl" ]; then
+
+    echo "Building project with SDL..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=SDL
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=SDL
+    cmake --build . -- -j 4
+
+elif [ "$COMMAND" == "build-off" ]; then
+
+    echo "Building project without graphics..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=OFF
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=OFF
+    cmake --build . -- -j 4
+
+elif [ "$COMMAND" == "build-bonus" ]; then
+
+    echo "Building project..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=SFML
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=SFML -DBONUS=ON
+    cmake --build . -- -j 4
+
+elif [ "$COMMAND" == "build-test" ]; then
+
+    echo "Building tests..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=ON
+    cmake --build .
+
+elif [ "$COMMAND" == "run-test" ]; then
+
     echo "Running tests..."
+    mkdir build
     cd build
     ./libs/mobs/test_mobs
     ./libs/mlg/test_mlg
     ./engine/test_engine
     cd ..
-elif [ "$COMMAND" == "build" ]; then
-    conan profile detect --force
-    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-    cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-    cmake --build .
-elif [ "$COMMAND" == "build-test" ]; then
-    conan profile detect --force
-    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-    cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DTESTS=ON
-    cmake --build .
-elif [ "$COMMAND" == "thread-build" ]; then
-    conan profile detect --force
-    conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-    cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
-    cmake --build . -- -j 4
+
 elif [ "$COMMAND" == "pack" ]; then
+
+    echo "Packing project..."
+    mkdir build
+    cd build
     conan profile detect --force
     conan install . --output-folder=build/conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true"
-    cd build
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
     cpack --config CPackConfig.cmake
+
 elif [ "$COMMAND" == "clean" ]; then
+
     echo "Cleaning project..."
     rm -rf build
     rm r-type_client
     rm r-type_server
     rm CMakeUserPresets.json
+
 elif [ "$COMMAND" == "rebuild" ]; then
+
     echo "Rebuilding project..."
     $0 clean
     $0 build
-elif [ "$COMMAND" == "run" ]; then
-    echo "Running project..."
-    ./r-type_client
-    cd ..
-elif [ "$COMMAND" == "check-clang" ]; then
-    if [ $# -ne 2 ]; then
-        usage
-    fi
 
-    DIRECTORY=$2
-
-    if [ ! -d "$DIRECTORY" ]; then
-        echo "Directory $DIRECTORY does not exist."
-        exit 1
-    fi
-
-    IGNORE_LIST=(
-        "$DIRECTORY/build/*"
-        "*CMakeFiles*"
-        "*tests/*"
-    )
-
-    ERROR_FLAG=0
-
-    FIND_CMD="find \"$DIRECTORY\" -type f \( -name '*.cpp' -o -name '*.hpp' \)"
-    for IGNORE in "${IGNORE_LIST[@]}"; do
-        FIND_CMD+=" -not -path \"$IGNORE\""
-    done
-
-    FILES=$(eval $FIND_CMD)
-
-    for FILE in $FILES; do
-        clang-format --dry-run --Werror "$FILE"
-        if [ $? -ne 0 ]; then
-            echo "::error file=$FILE::File $FILE is not formatted correctly."
-            ERROR_FLAG=1
-        fi
-    done
-
-    exit $ERROR_FLAG
-elif [ "$COMMAND" == "fix-clang" ]; then
-    if [ $# -ne 2 ]; then
-        usage
-    fi
-
-    DIRECTORY=$2
-
-    if [ ! -d "$DIRECTORY" ]; then
-        echo "Directory $DIRECTORY does not exist."
-        exit 1
-    fi
-
-    IGNORE_LIST=(
-        "$DIRECTORY/build/*"
-        "*CMakeFiles*"
-        "*tests/*"
-    )
-
-    FIND_CMD="find \"$DIRECTORY\" -type f \( -name '*.cpp' -o -name '*.hpp' \)"
-    for IGNORE in "${IGNORE_LIST[@]}"; do
-        FIND_CMD+=" -not -path \"$IGNORE\""
-    done
-
-    FILES=$(eval $FIND_CMD)
-
-    for FILE in $FILES; do
-        clang-format -i "$FILE"
-    done
-
-elif [ "$COMMAND" == "help" ]; then
-    usage
 else
-    echo "Unknown command: $COMMAND"
     usage
 fi

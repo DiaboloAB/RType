@@ -1,0 +1,35 @@
+{
+    "tag": "bullet",
+    "staticObject": true,
+    "CppScripts": [
+        "Bullet"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
+        "Collider": {
+            "size": [7, 6, 0],
+            "offSet": [0, 0, 0],
+            "isTrigger": true,
+            "layerMask": "player"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/enemy/bullet.png",
+                    "frameCount": 8,
+                    "frameSize": [7, 6, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

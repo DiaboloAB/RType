@@ -26,7 +26,7 @@ class SpriteSystem : public ISystem
         for (auto entity : view)
         {
             auto &sprite = view.get<Sprite>(entity);
-            gameContext._runtime->loadSprite(sprite.filePath);
+            sprite.id = gameContext._runtime->loadSprite(gameContext._assetsPath + sprite.filePath);
         }
 
         auto viewAnim = registry.view<Animator>();
@@ -35,7 +35,8 @@ class SpriteSystem : public ISystem
             AnimationList &animations = viewAnim.get<Animator>(entity).animations;
             for (auto &anim : animations.animations)
             {
-                gameContext._runtime->loadSprite(anim.getFilePath());
+                anim.spriteID =
+                    gameContext._runtime->loadSprite(gameContext._assetsPath + anim.getFilePath());
             }
         }
     }
@@ -62,7 +63,7 @@ class SpriteSystem : public ISystem
             auto &transform = *std::get<1>(entry);
             auto &sprite = *std::get<2>(entry);
 
-            gameContext._runtime->drawSprite(sprite.filePath, transform.position);
+            gameContext._runtime->drawSprite(sprite.id, transform.position);
         }
 
         auto viewAnim = registry.view<Transform, Animator>();
@@ -88,9 +89,9 @@ class SpriteSystem : public ISystem
                     }
                 }
             }
-            gameContext._runtime->drawSprite(currentAnim.getFilePath(), transform.position,
+            gameContext._runtime->drawSprite(currentAnim.spriteID, transform.position,
                                              currentAnim.getSpriteCoords(animations.currentFrame),
-                                             currentAnim.getScale(), currentAnim.getRotation());
+                                             transform.scale, transform.rotation.x);
         }
     }
 

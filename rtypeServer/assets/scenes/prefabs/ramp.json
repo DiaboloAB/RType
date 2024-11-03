@@ -1,0 +1,33 @@
+{
+    "tag": "ramp",
+    "staticObject": true,
+    "CppScripts": [
+        "Terrain"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Collider": {
+            "size": [64, 40, 0],
+            "offSet": [0, 0, 0]
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 1,
+                    "texture": "graphics/terrain/ramp.png",
+                    "frameCount": 1,
+                    "frameSize": [64, 40, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

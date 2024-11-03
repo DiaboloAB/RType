@@ -33,11 +33,6 @@ class SceneManager
 {
    public:
     /**
-     * @brief The name of the next scene to load.
-     */
-    std::string _nextScene = "";
-
-    /**
      * @brief Constructs a new SceneManager object.
      */
     SceneManager();
@@ -46,6 +41,8 @@ class SceneManager
      * @brief Destroys the SceneManager object.
      */
     ~SceneManager();
+
+    void switchScene(const std::string &sceneName) { _nextScene = sceneName; }
 
     /**
      * @brief Loads a scene by name.
@@ -62,7 +59,7 @@ class SceneManager
      * @param gameContext The context of the game.
      * @return mobs::Entity The entity created from the prefab.
      */
-    mobs::Entity loadPrefab(const std::string &prefabName, GameContext &gameContext);
+    mobs::Entity instantiate(const std::string &prefabName, GameContext &gameContext);
 
     /**
      * @brief Updates the scene manager.
@@ -70,6 +67,35 @@ class SceneManager
      * @param gameContext The context of the game.
      */
     bool update(GameContext &gameContext);
+
+    /**
+     * @brief Sets the scenes.
+     *
+     * @param scenes The scenes to set.
+     */
+    void setScenes(const std::map<std::string, std::string> &scenes) { _scenes = scenes; }
+
+    /**
+     * @brief Sets the prefabs.
+     *
+     * @param prefabs The prefabs to set.
+     */
+    void setPrefabs(const std::map<std::string, std::string> &prefabs) { _prefabs = prefabs; }
+
+    /**
+     * @brief Gets the current scene name.
+     *
+     * @return std::string The current scene name.
+     */
+    std::string getCurrentScene() const { return _currentScene; }
+
+    /**
+     * @brief Starts all entities in the scene.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
+    void startEntities(mobs::Registry &registry, GameContext &gameContext);
 
    private:
     /**
@@ -81,39 +107,18 @@ class SceneManager
      * @param gameContext The context of the game.
      */
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
-                      mobs::Registry &registry, GameContext &gameContext);
+                      mobs::Registry &registry, GameContext &gameContext, bool alreadyLoaded = false);
 
-    /**
-     * @brief Adds scripts to an entity.
-     *
-     * @param registry The registry containing all entities and components.
-     * @param entity The entity to add scripts to.
-     * @param componentData The JSON data of the scripts to add.
-     */
-    void addScriptsToEntity(mobs::Registry &registry, mobs::Entity entity,
-                            const nlohmann::json &componentData);
 
-    using ComponentCreator =
-        std::function<void(mobs::Registry &, mobs::Entity, const nlohmann::json &)>;
-    using CppScriptCreator = std::function<std::shared_ptr<RType::ICppScript>()>;
+    std::string _nextScene = ""; ///< The next scene to load.
+    bool _prefabLoaded = false; ///< Whether the prefabs have been loaded.
 
-    std::unordered_map<std::string, ComponentCreator> _componentCreators;  ///< Component creators.
-    std::unordered_map<std::string, CppScriptCreator> _cppScriptCreators;  ///< C++ script creators.
-
-    /**
-     * @brief Initializes the component creators.
-     */
-    void initComponentCreators();
-
-    /**
-     * @brief Initializes the C++ script creators.
-     */
-    void initCppScriptCreators();
-
-    std::string _defaultScene;              ///< The default scene name.
-    std::string _currentScene;              ///< The current scene name.
-    std::vector<std::string> _scenesList;   ///< List of all scenes.
-    std::vector<std::string> _prefabsList;  ///< List of all prefabs.
+    std::vector<std::string> _alreadyLoadedScenes; ///< The scenes that have already been loaded. So we don't load non-static entities again.
+    std::vector<mobs::Entity> _entitiesToStart;   ///< The entities to start.
+    std::string _defaultScene;                    ///< The default scene name.
+    std::string _currentScene;                    ///< The current scene name.
+    std::map<std::string, std::string> _scenes;   ///< The scenes.
+    std::map<std::string, std::string> _prefabs;  ///< The prefabs.
 };
 
 }  // namespace RType
