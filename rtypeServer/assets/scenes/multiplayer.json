@@ -101,6 +101,12 @@
             "eventList": [
               {
                 "type": "instantiate",
+                "prefab": "GameState",
+                "position": [0, 0, 0],
+                "delay": 0.1
+              },
+              {
+                "type": "instantiate",
                 "prefab": "RedShip",
                 "position": [1920, 300, 0],
                 "delay": 4

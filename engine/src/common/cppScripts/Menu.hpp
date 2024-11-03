@@ -116,6 +116,10 @@ class Menu : public RType::ICppScript
                 networkC.client->send(event, *networkC.client->getDirectionEndpoint());
             }
         }
+        else if (action == "returnToMenu")
+        {
+            gameContext._sceneManager.switchScene("menu");
+        }
     }
 
     static constexpr const char *name = "Menu";

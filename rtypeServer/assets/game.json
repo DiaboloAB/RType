@@ -20,6 +20,10 @@
             "path": "scenes/prefabs/room.json"
         },
         {
+            "name": "GameState",
+            "path": "scenes/prefabs/GameState.json"
+        },
+        {
             "name": "HelloWorld",
             "path": "prefabs/HelloWorld.json"
         },
