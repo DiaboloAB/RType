@@ -19,6 +19,15 @@ class Terrain : public RType::ICppScript
    public:
     void setScrolling(bool scrolling) { this->scrolling = scrolling; }
 
+    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+        NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+        auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+        killServe->setNetworkId(registry.get<NetworkData>(other)._id);
+        room.room->sendToAll(killServe);
+        registry.kill(other);
+    }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         int speed = 50;
@@ -29,9 +38,21 @@ class Terrain : public RType::ICppScript
         {
             transform.position.x -= speed * gameContext._deltaT;
 
-            /// TODO : server responsability
+            try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+            } catch (const std::exception &e) {
+            }
             if (transform.position.x < -400)
             {
+                NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+                auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+                killServe->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+                room.room->sendToAll(killServe);
+
                 registry.kill(getEntity());
             }
         }

@@ -84,7 +84,7 @@ void MainServer::checkLastPing() {
             it++;
             continue;
         }
-        if (std::chrono::duration_cast<std::chrono::seconds>(actualTime - it->second).count() < 4) {
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - it->second).count() < 4000) {
             it++;
             continue;
         }

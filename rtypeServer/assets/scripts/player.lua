@@ -1,5 +1,5 @@
 function update(registry, gameContext)
     if getKeyDown("H") then
-        print("HellowWorld")
+        -- print("HellowWorld")
     end
 end

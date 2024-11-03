@@ -30,15 +30,18 @@ class EntityRedirect
         try
         {
             auto packetCreate = std::dynamic_pointer_cast<dimension::CreateEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (currentTime - packetCreate->getPacketTimeStamp() >= 2) return;
+            auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
+            if (networkC.latency >= 600) return;
             mobs::Entity entity = gameContext._sceneManager.instantiate(
                 packetCreate->getEntityToCreate(), gameContext);
             auto &transform = registry.get<Transform>(entity);
             transform.position.x = packetCreate->getPosX();
             transform.position.y = packetCreate->getPosY();
+            transform.scale.x *= packetCreate->getScaleX();
+            transform.scale.y *= packetCreate->getScaleY();
             auto &networkData = registry.get<NetworkData>(entity);
             networkData._id = packetCreate->getNetworkId();
             LOG("EntityRedirect",
@@ -64,10 +67,11 @@ class EntityRedirect
         try
         {
             auto packetDestroy = std::dynamic_pointer_cast<dimension::DestroyEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (currentTime - packetDestroy->getPacketTimeStamp() >= 2) return;
+            auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
+            if (networkC.latency >= 600) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToDestroy = packetDestroy->getNetworkId();
             for (auto &entity : view)
@@ -100,10 +104,11 @@ class EntityRedirect
         try
         {
             auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
+            auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
+            if (networkC.latency >= 600) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToMove = packetMove->getNetworkId();
             for (auto &entity : view)
@@ -125,15 +130,23 @@ class EntityRedirect
         }
     };
 
+    /**
+     * @brief Handler of MoveEntity packet into the ECS from server side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void moveServer(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet) 
     {
         auto packetMove = std::dynamic_pointer_cast<dimension::MoveEntity>(packet.first);
         try
         {
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                         std::chrono::system_clock::now().time_since_epoch())
                                         .count();
-            if (currentTime - packetMove->getPacketTimeStamp() >= 2) return;
+            auto &networkC = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+            if (networkC.room->getLatencyFromSender(packet.second) >= 600) return;
             mobs::Registry::View view = registry.view<NetworkData>();
             uint32_t idToMove = packetMove->getNetworkId();
             for (auto &entity : view) {

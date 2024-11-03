@@ -20,23 +20,26 @@ Client::~Client()
 
 void Client::connectServer(std::string host, unsigned int port)
 {
-    if (this->_io_context != nullptr) return;
     try
     {
-        this->_io_context = std::make_shared<asio::io_context>();
-        asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), 0);
-        this->_socket = std::make_shared<asio::ip::udp::socket>(*this->_io_context, endpoint);
+        if (!this->_io_context) this->_io_context = std::make_shared<asio::io_context>();
+        if (!this->_socket) {
+            asio::ip::udp::endpoint endpoint(asio::ip::udp::v4(), 0);
+            this->_socket = std::make_shared<asio::ip::udp::socket>(*this->_io_context, endpoint);
+        }
         asio::ip::udp::resolver resolver(*this->_io_context);
         asio::ip::udp::resolver::results_type endpoints =
             resolver.resolve(asio::ip::udp::v4(), host, std::to_string(port));
         this->_serverEndpoint = std::make_shared<asio::ip::udp::endpoint>(*endpoints.begin());
         this->_directionEndpoint = _serverEndpoint;
-        this->receive();
-        this->_recvThread =
-            std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
+        if (!this->_recvThread) {
+            this->receive();
+            this->_recvThread =
+                std::make_shared<std::thread>(std::thread([this] { this->_io_context->run(); }));
+        }
         auto hiServer = this->_packetFactory->createEmptyPacket<HiServer>();
         this->send(hiServer, *this->_serverEndpoint, false);
-        LOG("Client", "Connection to server established.");
+        LOG("Client", "Connection to server send.");
     }
     catch (std::exception &e)
     {

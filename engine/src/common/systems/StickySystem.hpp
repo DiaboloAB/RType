@@ -27,6 +27,7 @@ class StickySystem : public ISystem
 
         for (auto entity : view)
         {
+            bool found = false;
             auto &sticky = view.get<Sticky>(entity);
             auto &transform = view.get<Transform>(entity);
 
@@ -37,8 +38,12 @@ class StickySystem : public ISystem
                 if (basic.tag == sticky.target)
                 {
                     transform.position = targetTransform.position + sticky.offset * transform.scale;
+                    found = true;
+                    break;
                 }
             }
+            if (!found)
+                registry.kill(entity);
         }
     }
 

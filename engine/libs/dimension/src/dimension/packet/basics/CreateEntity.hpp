@@ -56,18 +56,24 @@ class CreateEntity : public APacket
     uint32_t getNetworkId() const;
     float getPosX() const;
     float getPosY() const;
+    float getScaleX() const;
+    float getScaleY() const;
     std::string getEntityToCreate() const;
 
    public:
     void setNetworkId(const uint32_t &networkId);
     void setPosX(const float &posX);
     void setPosY(const float &posY);
+    void setScaleX(const float &scaleX);
+    void setScaleY(const float &scaleY);
     void setEntityToCreate(const std::string &entityToCreate);
 
    private:
     uint32_t _networkId;
     float _posX;
     float _posY;
+    float _scaleX;
+    float _scaleY;
     std::string _entityToCreate;
 };
 }  // namespace dimension

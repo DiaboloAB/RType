@@ -1,5 +1,6 @@
 {
     "tag": "bullet",
+    "layer": "ally",
     "staticObject": true,
     "CppScripts": [
         "Bullet"
@@ -12,7 +13,12 @@
         "Collider": {
             "size": [7, 6, 0],
             "offSet": [0, 0, 0],
-            "isTrigger": true
+            "isTrigger": true,
+            "layerMask": "ally"
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
         },
         "Animator": {
             "animations": [
