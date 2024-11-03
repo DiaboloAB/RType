@@ -23,17 +23,16 @@ jobs:
           sudo apt-get install -y clang-format
       - name: Run clang check
         run: |
-          chmod +x ./tools.sh
-          ./clang.sh check > log.txt
+          ./clang.sh check
 
       - name: Search for warnings or errors
         run: |
-          if grep -E "warning|error" log.txt; then
-            echo "Found warnings or errors!"
+          if [ -s log.txt ]; then
+            echo "Errors found in log.txt"
             cat log.txt
             exit 1
           else
-            echo "No warnings or errors found."
+            echo "No errors found in log.txt"
           fi
 
   build:

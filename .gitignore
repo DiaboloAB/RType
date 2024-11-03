@@ -40,3 +40,4 @@ bonus/power4/power4
 .venv/
 env/
 **/power4
+log.txt

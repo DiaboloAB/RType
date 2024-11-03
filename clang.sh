@@ -9,9 +9,10 @@ COMMAND=$1
 
 if [ "$COMMAND" == "check" ]; then
 
+    rm -f log.txt
     echo "Checking formatting..."
-    find engine -name "*.cpp" -o -name "*.hpp" | while read file; do
-        clang-format -n "$file"
+    for file in $(find engine -name "*.cpp" -o -name "*.hpp"); do
+        clang-format -n "$file" 2>> log.txt
     done
 
 elif [ "$COMMAND" == "fix" ]; then
