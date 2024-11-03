@@ -212,7 +212,6 @@ class DrawableSystem : public ISystem
         {
             for (auto &event : button.events)
             {
-                std::cout << "event: " << event << std::endl;
                 gameContext.addEvent(event, {});
             }
         }
