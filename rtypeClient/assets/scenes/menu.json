@@ -214,6 +214,34 @@
       }
     },
     {
+      "tag": "Room",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [1700, 940, 0] },
+        "Text": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Room: ",
+          "color": [255, 255, 255],
+          "size": [200, 30, 0]
+        }
+      }
+    },
+    {
+      "tag": "connectedNb",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [1700, 970, 0] },
+        "Text": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Connected: ",
+          "color": [255, 255, 255],
+          "size": [200, 30, 0]
+        }
+      }
+    },
+    {
       "tag": "NetworkCom",
       "staticObject": false,
       "components": {

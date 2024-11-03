@@ -76,6 +76,7 @@ class ConnectionRedirect
     {
         auto ping = std::dynamic_pointer_cast<dimension::Ping>(packet.first);
         auto &networkC = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+        if (!networkC.room->isConnected(packet.second)) return;
         if (ping->getRecepTs() != 0) networkC.room->setSenderLatency(packet.second, ping->getPacketTimeStamp());
         networkC.room->resetPing(packet.second);
         ping->setRecepTs(std::chrono::duration_cast<std::chrono::milliseconds>(
