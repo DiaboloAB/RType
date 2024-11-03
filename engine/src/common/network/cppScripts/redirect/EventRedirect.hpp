@@ -19,6 +19,14 @@ class EventRedirect
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
    public:
+
+    /**
+     * @brief Send to client entities to create when someone's connecting.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void sendNewConnection(mobs::Registry &registry, GameContext &gameContext,
                                   PacketDatas &packet, NetworkRoom &roomComp)
     {
@@ -34,6 +42,8 @@ class EventRedirect
         createPacketAlly->setEntityToCreate("ally");
         createPacketAlly->setPosX(100);
         createPacketAlly->setPosY((connectedId.size() + 1) * 150);
+        createPacketAlly->setScaleX(1);
+        createPacketAlly->setScaleY(1);
         for (auto &endp : roomComp.room->getIdMap())
             roomComp.room->send(createPacketAlly, endp.first);
         int counter = 1;
@@ -44,6 +54,8 @@ class EventRedirect
             createPacket->setEntityToCreate("ally");
             createPacket->setPosX(100);
             createPacket->setPosY(counter * 150);
+            createPacket->setScaleX(1);
+            createPacket->setScaleY(1);
             roomComp.room->send(createPacket, packet.second);
             counter++;
         }
@@ -58,11 +70,20 @@ class EventRedirect
         createPacketPlayer->setEntityToCreate("player");
         createPacketPlayer->setPosX(transform.position.x);
         createPacketPlayer->setPosY(transform.position.y);
+        createPacketPlayer->setScaleX(1);
+        createPacketPlayer->setScaleY(1);
         roomComp.room->send(createPacketPlayer, packet.second);
         roomComp.room->addSenderToRoom(packet.second, idNewPlayer);
         LOG("EventRedirect", "Client init in game");
     }
 
+    /**
+     * @brief Handler of Events packet into the ECS from room side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void handleEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         try
@@ -97,10 +118,101 @@ class EventRedirect
         }
     }
 
+    /**
+     * @brief Handle events links to game in room.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void gameEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
-        LOG("EventRedirect", "Game event received");
+        auto event = std::dynamic_pointer_cast<dimension::ClientEvent>(packet.first);
+
+        if (dimension::ClientEventType::ATTACK == event->getClientEvent())
+        {
+            std::string description = event->getDescription();
+
+            if (description.find("laser:shoot") != std::string::npos)
+            {
+                handleLaser(registry, gameContext, packet);
+                return;
+            }
+            return;
+        }
         return;
+    }
+
+    /**
+     * @brief Handler of player shoot.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
+    static void handleLaser(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+    {
+        auto event = std::dynamic_pointer_cast<dimension::ClientEvent>(packet.first);
+        auto description = event->getDescription();
+
+        size_t firstEqual = description.find('=');
+        size_t secondEqual = description.find('=', firstEqual + 1);
+        std::string laserSize = description.substr(firstEqual + 1, secondEqual - firstEqual - 1);
+        std::string playerId = description.substr(description.find_last_of('=') + 1, description.size());
+        std::string prefabName = "Laser";
+
+        if (laserSize == "medium") {
+            prefabName = "LaserMedium";
+        } else if (laserSize == "large") {
+            prefabName = "LaserLarge";
+        } else if (laserSize == "full") {
+            prefabName = "LaserFull";
+        }
+
+        mobs::Entity laser = gameContext._sceneManager.instantiate(prefabName, gameContext);
+
+        auto view = registry.view<Basics, NetworkData>();
+
+        for (auto entity : view)
+        {
+            auto &networkData = registry.get<NetworkData>(entity);
+            if (std::to_string(networkData._id) == playerId)
+            {
+                auto &transform = registry.get<Transform>(entity);
+                auto &laserTransform = registry.get<Transform>(laser);
+                auto &laserNetworkData = registry.get<NetworkData>(laser);
+
+                NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+                uint32_t networkId = room.idFactory.generateNetworkId();
+
+                laserTransform.position = transform.position + mlg::vec3(50, 0, 0);
+                laserNetworkData._id = networkId;
+                sendLaserSpawn(registry, prefabName, laserTransform.position, laserNetworkData._id, registry.get<NetworkRoom>(registry.view<NetworkRoom>().front()));
+            }
+        }
+    }
+
+    /**
+     * @brief Send laser to create to clients.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param prefab: Entity to create.
+     * @param position: Position at creation.
+     * @param networkId: Id of the entity.
+     * @param room: Reference to room component.
+     */
+    static void sendLaserSpawn(mobs::Registry &registry, std::string prefab, mlg::vec3 position, uint32_t networkId, NetworkRoom &room)
+    {
+        auto spawnServe = room.factory.createEmptyPacket<dimension::CreateEntity>();
+
+        spawnServe->setNetworkId(networkId);
+        spawnServe->setEntityToCreate(prefab);
+        spawnServe->setPosX(position.x);
+        spawnServe->setPosY(position.y);
+        spawnServe->setScaleX(1);
+        spawnServe->setScaleY(1);
+
+        room.room->sendToAll(spawnServe);
     }
 };
 }  // namespace RType::Network

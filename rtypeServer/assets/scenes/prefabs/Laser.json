@@ -13,7 +13,12 @@
         "Collider": {
             "size": [16, 12, 0],
             "offSet": [0, 0, 0],
-            "isTrigger": true
+            "isTrigger": true,
+            "layerMask": "wall"
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
         },
         "Animator": {
             "animations": [
@@ -23,30 +28,6 @@
                     "texture": "graphics/player/beam/small.png",
                     "frameCount": 2,
                     "frameSize": [16, 12, 0],
-                    "loop": true
-                },
-                {
-                    "name": "medium",
-                    "speed": 10,
-                    "texture": "graphics/player/beam/medium.png",
-                    "frameCount": 2,
-                    "frameSize": [32, 12, 0],
-                    "loop": true
-                },
-                {
-                    "name": "large",
-                    "speed": 10,
-                    "texture": "graphics/player/beam/large.png",
-                    "frameCount": 2,
-                    "frameSize": [48, 14, 0],
-                    "loop": true
-                },
-                {
-                    "name": "full",
-                    "speed": 10,
-                    "texture": "graphics/player/beam/full.png",
-                    "frameCount": 2,
-                    "frameSize": [64, 14, 0],
                     "loop": true
                 }
             ]

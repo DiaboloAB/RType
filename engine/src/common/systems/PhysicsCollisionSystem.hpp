@@ -54,7 +54,7 @@ class PhysicsSystem : public ISystem
                 }
                 int result = collider.isColliding(transform.position + collider.offset, otherEntity,
                                                   otherTransform.position + otherCollider.offset,
-                                                  otherCollider.size);
+                                                  otherCollider.size, myAbsVec(transform.scale), myAbsVec(otherTransform.scale));
                 if (collider.isTrigger)
                 {
                     try
@@ -111,8 +111,8 @@ class PhysicsSystem : public ISystem
             auto& transform = registry.get<Transform>(entity);
             auto& collider = registry.get<Collider>(entity);
             mlg::vec4 spriteCoords(transform.position.x + collider.offset.x,
-                                   transform.position.y + collider.offset.y, collider.size.x,
-                                   collider.size.y);
+                                   transform.position.y + collider.offset.y, collider.size.x * myAbs(transform.scale.x),
+                                   collider.size.y * myAbs(transform.scale.y));
             gameContext._runtime->drawRectangle(spriteCoords, false, mlg::vec3(255.0f, 0.0f, 0.0f));
         }
     }
@@ -129,6 +129,18 @@ class PhysicsSystem : public ISystem
         rb.acceleration.y += gravitationalForce.y / rb.mass;
 
         rb.acceleration.y += (rb.mass * 0.1f);
+    }
+
+    float myAbs(float value)
+    {
+        if (value < 0)
+            return -value;
+        return value;
+    }
+
+    mlg::vec3 myAbsVec(mlg::vec3 value)
+    {
+        return mlg::vec3(myAbs(value.x), myAbs(value.y), myAbs(value.z));
     }
 
     void updateVelocityAndPosition(Transform& transform, RigidBody& rb, float deltaTime)

@@ -29,6 +29,10 @@ void RoomManager::initRoom(asio::ip::udp::endpoint &sender, std::string &descrip
     if (description == "create=pv") this->_privateRooms[roomCode] = roomState;
     else if (description == "create=rd") this->_rooms[roomCode] = roomState;
     this->_clientRooms[sender] = roomCode;
+    auto update = _packetFactory->createEmptyPacket<dimension::UpdateEntity>();
+    update->setDescription("state:" + roomCode + ":" + std::to_string(1));
+    update->setNetworkId(0);
+    this->_mainServer.send(update, sender);
     LOG("RoomManager", "New room created -> " + roomCode);
 }
 
@@ -44,6 +48,11 @@ void RoomManager::joinRoom(asio::ip::udp::endpoint &sender, std::string &descrip
                 pvRoom.second._nbConnected += 1;
                 pvRoom.second._endpoints.push_back(sender);
                 this->_clientRooms[sender] = code;
+                auto update = _packetFactory->createEmptyPacket<dimension::UpdateEntity>();
+                update->setDescription("state:" + code + ":" + std::to_string(pvRoom.second._nbConnected));
+                update->setNetworkId(0);
+                for (auto &endp : pvRoom.second._endpoints)
+                    this->_mainServer.send(update, endp);
                 LOG("RoomManager", "Private room joined -> " + pvRoom.first);
                 return;
             }
@@ -60,6 +69,11 @@ void RoomManager::joinRandom(asio::ip::udp::endpoint &sender)
             rdRoom.second._endpoints.push_back(sender);
             rdRoom.second._nbConnected += 1;
             this->_clientRooms[sender] = rdRoom.first;
+            auto update = _packetFactory->createEmptyPacket<dimension::UpdateEntity>();
+            update->setDescription("state:" + rdRoom.first + ":" + std::to_string(rdRoom.second._nbConnected));
+            update->setNetworkId(0);
+            for (auto &endp : rdRoom.second._endpoints)
+                this->_mainServer.send(update, endp);
             LOG("RoomManager", "Random room joined -> " + rdRoom.first);
             return;
         }

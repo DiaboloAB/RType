@@ -50,5 +50,12 @@ class Ping : public APacket
      * @return empty std::vector<char> because nothing to serialize.
      */
     std::vector<char> serializeData() const override;
+
+    public:
+        uint64_t getRecepTs() const;
+        void setRecepTs(const uint64_t &ts);
+
+    private:
+        uint64_t _recepTs = 0;
 };
 }  // namespace dimension

@@ -118,10 +118,12 @@ struct Collider
     std::vector<std::string> events;
 
     int isColliding(mlg::vec3 position, mobs::Entity otherEntity, mlg::vec3 otherPosition,
-                    mlg::vec3 otherSize)
+                    mlg::vec3 otherSize, mlg::vec3 scale, mlg::vec3 otherScale)
     {
-        if (position.x < otherPosition.x + otherSize.x && position.x + size.x > otherPosition.x &&
-            position.y < otherPosition.y + otherSize.y && position.y + size.y > otherPosition.y)
+        if (position.x < otherPosition.x + otherSize.x * otherScale.x &&
+            position.x + size.x * scale.x > otherPosition.x &&
+            position.y < otherPosition.y + otherSize.y * otherScale.y &&
+            position.y + size.y * scale.y > otherPosition.y)
         {
             if (std::find(collisions.begin(), collisions.end(), otherEntity) != collisions.end())
             {

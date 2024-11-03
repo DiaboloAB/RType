@@ -19,6 +19,11 @@ class Ally : public RType::ICppScript
    public:
     int speed = 600;
 
+    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+        std::cout << "Ally collision with " << registry.get<Basics>(other).tag << std::endl;
+    }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &transform = registry.get<Transform>(getEntity());

@@ -15,7 +15,7 @@
       "authority" : "client"
     },
     "Collider": {
-      "size": [16, 32, 0],
+      "size": [32, 16, 0],
       "offset": [0, 0, 0],
       "isTrigger": false,
       "layerMask": "enemy"
@@ -25,7 +25,7 @@
         {
           "name": "default",
           "speed": 1,
-          "texture": "graphics/player/ship/idle.png",
+          "texture": "graphics/player/ally/idle.png",
           "frameCount": 1,
           "frameSize": [32, 16, 0],
           "loop": true
@@ -33,7 +33,7 @@
         {
           "name": "down",
           "speed": 1,
-          "texture": "graphics/player/ship/down.png",
+          "texture": "graphics/player/ally/down.png",
           "frameCount": 1,
           "frameSize": [32, 16, 0],
           "loop": false
@@ -41,7 +41,7 @@
         {
           "name": "up",
           "speed": 1,
-          "texture": "graphics/player/ship/up.png",
+          "texture": "graphics/player/ally/up.png",
           "frameCount": 1,
           "frameSize": [32, 16, 0],
           "loop": false

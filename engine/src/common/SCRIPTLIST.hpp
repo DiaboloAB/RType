@@ -14,7 +14,9 @@
 #include "common/cppScripts/AnimThruster.hpp"
 #include "common/cppScripts/BigHeadRobot.hpp"
 #include "common/cppScripts/Bullet.hpp"
+#include "common/cppScripts/Explosion.hpp"
 #include "common/cppScripts/GameManager.hpp"
+#include "common/cppScripts/GameState.hpp"
 #include "common/cppScripts/HelloWorld.hpp"
 #include "common/cppScripts/Menu.hpp"
 #include "common/cppScripts/MoveLaser.hpp"
@@ -30,6 +32,6 @@
 #define SCRIPT_TYPES                                                                           \
     ComServer, HelloWorld, AnimLaserCharge, MovePlayer, PlayerShoot, AnimPlayer, AnimThruster, \
         MoveLaser, Bullet, RedShip, GameManager, Terrain, Menu, ClientRedirect, RoomRedirect,  \
-        Turret, BigHeadRobot, Ally
+        Turret, BigHeadRobot, Ally, Explosion, GameState
 
 #endif  // SCRIPTLIST_H

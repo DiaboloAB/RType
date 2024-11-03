@@ -13,6 +13,10 @@
             "size": [64, 16, 0],
             "offSet": [0, 0, 0]
         },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
         "Animator": {
             "animations": [
                 {

@@ -20,12 +20,28 @@
             "path": "scenes/prefabs/room.json"
         },
         {
+            "name": "GameState",
+            "path": "scenes/prefabs/GameState.json"
+        },
+        {
             "name": "HelloWorld",
             "path": "prefabs/HelloWorld.json"
         },
         {
             "name": "Laser",
             "path": "scenes/prefabs/Laser.json"
+        },
+        {
+            "name": "LaserMedium",
+            "path": "scenes/prefabs/LaserMedium.json"
+        },
+        {
+            "name": "LaserLarge",
+            "path": "scenes/prefabs/LaserLarge.json"
+        },
+        {
+            "name": "LaserFull",
+            "path": "scenes/prefabs/LaserFull.json"
         },
         {
             "name": "Bullet",
