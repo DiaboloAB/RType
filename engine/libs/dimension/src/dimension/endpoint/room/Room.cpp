@@ -107,4 +107,18 @@ void Room::sendToAll(const std::shared_ptr<APacket> &packet, bool isNew)
     for (auto &endp : this->_connectedEp)
         this->send(packet, endp.first, isNew);
 }
+
+uint64_t Room::getLatencyFromSender(asio::ip::udp::endpoint &sender)
+{
+    if (this->_connectedLatency.find(sender) == this->_connectedLatency.end()) return 0;
+    return this->_connectedLatency.at(sender);
+}
+
+void Room::setSenderLatency(asio::ip::udp::endpoint &sender, uint64_t lastPing)
+{
+    uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()).count();
+    this->_connectedLatency[sender] = currentTime - lastPing;
+    LOG("Room", "Latency client : " + std::to_string(currentTime - lastPing) + "ms.");
+}
 }  // namespace dimension
