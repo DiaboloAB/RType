@@ -28,51 +28,37 @@ class ConnectionRedirect
     static void handlePingClient(mobs::Registry &registry, GameContext &gameContext,
                                  PacketDatas &packet)
     {
-        mobs::Registry::View view = registry.view<NetworkClient>();
-        uint64_t pingTimestamp = packet.first->getPacketTimeStamp();
-
-        for (auto &entity : view)
+        auto ping = std::dynamic_pointer_cast<dimension::Ping>(packet.first);
+        auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
+        if (*networkC.client->getDirectionEndpoint() != packet.second)
         {
-            auto &networkC = view.get<NetworkClient>(entity);
-
-            if (*networkC.client->getDirectionEndpoint() != packet.second)
-            {
-                ERR_LOG("handleConnection", "Invalid sender of packets.");
-                return;
-            }
-            networkC.client->setLastPing(std::chrono::steady_clock::now());
-
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                       std::chrono::system_clock::now().time_since_epoch())
-                                       .count();
-
-            uint64_t duration = currentTime - pingTimestamp;
-
-            LOG("ConnectionRedirect",
-                "[Ping packet] received, latence:" + std::to_string(duration) + "ms.");
+            ERR_LOG("handleConnection", "Invalid sender of packets.");
+            return;
         }
+        if (ping->getRecepTs() == 0) {
+            ping->setRecepTs(std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count());
+            return networkC.client->send(ping, packet.second, false);
+        }
+        uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                std::chrono::system_clock::now().time_since_epoch()).count();
+        networkC.latency = currentTime - ping->getPacketTimeStamp();
+        LOG("ConnectionRedirect",
+            "[Ping packet] received, latence:" + std::to_string(networkC.latency) + "ms.");
     }
 
     static void handlePingRoom(mobs::Registry &registry, GameContext &gameContext,
                                PacketDatas &packet)
     {
-        mobs::Registry::View view = registry.view<NetworkRoom>();
-        uint64_t pingTimestamp = packet.first->getPacketTimeStamp();
-
-        for (auto &entity : view)
-        {
-            auto &networkC = view.get<NetworkRoom>(entity);
-
-            networkC.room->resetPing(packet.second);
-
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                       std::chrono::system_clock::now().time_since_epoch())
-                                       .count();
-            uint64_t duration = currentTime - pingTimestamp;
-
-            LOG("ConnectionRedirect",
-                "[Ping packet] received, latence:" + std::to_string(duration) + "ms.");
-        }
+        auto ping = std::dynamic_pointer_cast<dimension::Ping>(packet.first);
+        auto &networkC = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+        if (ping->getRecepTs() != 0) return;
+        networkC.room->resetPing(packet.second);
+        ping->setRecepTs(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+        networkC.room->send(ping, packet.second, false);
+        LOG("ConnectionRedirect",
+            "[Ping packet] received, latence:" + std::to_string(0) + "ms.");
     }
 };
 }  // namespace RType::Network
