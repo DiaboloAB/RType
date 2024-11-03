@@ -215,13 +215,12 @@ mlg::vec3 RenderSystemSFML::getMousePosition()
 
 void RenderSystemSFML::setGameIcon(const std::string& filePath)
 {
-    sf::Image icon;
-    if (!icon.loadFromFile(filePath))
+    if (!_icon.loadFromFile(filePath))
     {
         std::cerr << "SFMLRenderSystem: Error loading icon: " << filePath << std::endl;
         return;
     }
-    _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    _window.setIcon(_icon.getSize().x, _icon.getSize().y, _icon.getPixelsPtr());
 }
 
 void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,

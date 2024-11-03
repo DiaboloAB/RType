@@ -253,6 +253,7 @@ class RenderSystemSFML : public RType::IRuntime
     void unloadShader(int shaderId) override;
 
    private:
+    sf::Image _icon;
     bool _isFullScreen;
     sf::RenderWindow _window;
 
@@ -285,7 +286,6 @@ class RenderSystemSFML : public RType::IRuntime
     std::vector<bool> _currentKeys = std::vector<bool>(1000, false);
     std::vector<bool> _previousKeys = std::vector<bool>(1000, false);
 
-    sf::Image _icon;
     sf::Shader* _activeShader;
 };
 

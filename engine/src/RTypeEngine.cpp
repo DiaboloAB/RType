@@ -55,8 +55,9 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 #endif
     }
 
+
     std::cout << "Engine Status: Constructing game context" << std::endl;
-    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _clockManager, _runtime);
+    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _clockManager, _input, _runtime);
     _gameContext->_args = args;
     std::cout << "Engine Status: Loading game" << std::endl;
 
@@ -124,6 +125,13 @@ void Engine::loadGame()
     }
     _sceneManager.setPrefabs(prefabsMap);
 
+    if (_gameConfig.contains("iconPath"))
+    {
+        std::string iconPath = _gameConfig["iconPath"];
+        std::cout << "Icon path: " << _assetsPath + iconPath << std::endl;
+        _runtime->setGameIcon(std::string(_assetsPath + iconPath));
+    }
+
     std::cout << "Default scene: " << _gameConfig["defaultScene"] << std::endl;
     _sceneManager.switchScene(_gameConfig["defaultScene"]);
 }
@@ -137,6 +145,7 @@ void Engine::run()
         if (_clockManager.getUpdateDeltaT() >= _clockManager.getTargetUpdateDeltaT())
         {
             _gameContext->_runtime->pollEvents();
+            _gameContext->_input.update(_gameContext->_runtime);
             if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
             _gameContext->_deltaT = _clockManager.getUpdateDeltaT();
             _systemManager.update(_registry, *_gameContext);

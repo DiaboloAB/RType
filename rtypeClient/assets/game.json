@@ -1,6 +1,6 @@
 {
     "gameName": "RType",
-    "iconPath": "assets/icon.png",
+    "iconPath": "graphics/icon.png",
     "version": "1.0.0",
     "description": "A simple game",
     "defaultScene": "menu",

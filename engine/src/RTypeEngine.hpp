@@ -13,6 +13,7 @@
 #include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
+#include "input/Input.hpp"
 // std
 #include <atomic>
 #include <chrono>
@@ -57,6 +58,7 @@ class Engine
     SystemManager _systemManager;  ///< Manager for handling various systems.
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
+    Input _input;                  ///< Input manager for handling user input.
 
     std::string _assetsPath = "assets/";       ///< Path to the assets directory.
     std::map<std::string, std::string> _args;  ///< Map of arguments passed to the engine.
