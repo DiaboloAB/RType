@@ -19,6 +19,14 @@ class EventRedirect
     using PacketDatas = std::pair<std::shared_ptr<dimension::APacket>, asio::ip::udp::endpoint>;
 
    public:
+
+    /**
+     * @brief Send to client entities to create when someone's connecting.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void sendNewConnection(mobs::Registry &registry, GameContext &gameContext,
                                   PacketDatas &packet, NetworkRoom &roomComp)
     {
@@ -69,6 +77,13 @@ class EventRedirect
         LOG("EventRedirect", "Client init in game");
     }
 
+    /**
+     * @brief Handler of Events packet into the ECS from room side.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void handleEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         try
@@ -103,6 +118,13 @@ class EventRedirect
         }
     }
 
+    /**
+     * @brief Handle events links to game in room.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void gameEvent(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         auto event = std::dynamic_pointer_cast<dimension::ClientEvent>(packet.first);
@@ -121,6 +143,13 @@ class EventRedirect
         return;
     }
 
+    /**
+     * @brief Handler of player shoot.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param gameContext: Reference to the game context.
+     * @param packet: Update packet data & endpoint of packet sender.
+     */
     static void handleLaser(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
         auto event = std::dynamic_pointer_cast<dimension::ClientEvent>(packet.first);
@@ -163,6 +192,15 @@ class EventRedirect
         }
     }
 
+    /**
+     * @brief Send laser to create to clients.
+     *
+     * @param registry: Reference to the entity-component registry.
+     * @param prefab: Entity to create.
+     * @param position: Position at creation.
+     * @param networkId: Id of the entity.
+     * @param room: Reference to room component.
+     */
     static void sendLaserSpawn(mobs::Registry &registry, std::string prefab, mlg::vec3 position, uint32_t networkId, NetworkRoom &room)
     {
         auto spawnServe = room.factory.createEmptyPacket<dimension::CreateEntity>();
