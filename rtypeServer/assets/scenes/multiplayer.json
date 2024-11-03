@@ -115,6 +115,84 @@
                 "type": "instantiate",
                 "prefab": "RedShip",
                 "position": [1920, 300, 0],
+                "delay": 4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 10
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 10.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 11
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 10.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 15.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 16.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 15.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 16.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 15
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 16.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 16
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 16.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
                 "delay": 5
               },
               {
@@ -143,6 +221,78 @@
               },
               {
                 "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 80
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 80.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 81
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 80.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 85.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 86.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 85.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 86.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 85
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 86.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 86
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 86.2
+              },
+              {
+                "type": "instantiate",
                 "prefab": "floor_2",
                 "position": [256, 1048, 0],
                 "delay": 0.1
@@ -152,6 +302,79 @@
                 "prefab": "floor_0",
                 "position": [384, 1048, 0],
                 "delay": 0.1
+              },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 90
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 90.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 91
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 90.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 95.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 96.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 95.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 96.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 95
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 96.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 96
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 96.2
               },
               {
                 "type": "instantiate",
@@ -170,6 +393,79 @@
                 "prefab": "floor_middle",
                 "position": [768, 1016, 0],
                 "delay": 0.1
+              },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 110
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 110.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 111
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 110.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 115.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 116.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 115.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 116.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 115
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 116.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 116
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 116.2
               },
               {
                 "type": "instantiate",
@@ -336,7 +632,7 @@
               {
                 "type": "instantiate",
                 "prefab": "ramp",
-                "position": [1920, 1000, 0],
+                "position": [1920, 3400, 0],
                 "delay": 50
               },
               {
@@ -348,7 +644,7 @@
               {
                 "type": "instantiate",
                 "prefab": "ramp",
-                "position": [1920, 1000, 0],
+                "position": [1920, 3400, 0],
                 "delay": 55,
                 "scale": [-1, 1, 0]
               },
@@ -670,6 +966,79 @@
                 "delay": 87.5,
                 "scale": [1, -1, 0]
               },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 77
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 73.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 75
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 70.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 75.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 76.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 75.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 76.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 75
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 76.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 76
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 76.2
+              },
               {
                 "type": "instantiate",
                 "prefab": "floor_0",
@@ -690,6 +1059,79 @@
                 "position": [1920, 0, 0],
                 "delay": 95,
                 "scale": [1, -1, 0]
+              },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 63
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 63.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 63
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 63.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 63.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 63.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 63.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 63.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 63
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 63.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 63
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 63.2
               },
               {
                 "type": "instantiate",
@@ -719,6 +1161,79 @@
                 "delay": 105,
                 "scale": [1, -1, 0]
               },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 50
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 50.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 51
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 50.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 52.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 56.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 55.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 51.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 55
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 58.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 56
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 56.2
+              },
               {
                 "type": "instantiate",
                 "prefab": "floor_high",
@@ -732,6 +1247,79 @@
                 "position": [1920, 0, 0],
                 "delay": 110,
                 "scale": [1, -1, 0]
+              },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 40
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 40.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 42
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 43.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 45.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 49.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 45.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 42.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 45
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 46.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 46
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 46.2
               },
               {
                 "type": "instantiate",
@@ -754,6 +1342,79 @@
                 "delay": 117.5,
                 "scale": [1, -1, 0]
               },
+
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 30
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 30.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 31
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 30.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 35.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 36.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 35.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 36.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 35
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 36.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 36
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 36.2
+              },
               {
                 "type": "instantiate",
                 "prefab": "floor_1",
@@ -767,6 +1428,78 @@
                 "position": [1920, 0, 0],
                 "delay": 122.5,
                 "scale": [1, -1, 0]
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 20
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 20.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 21
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 20.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 800, 0],
+                "delay": 25.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 26.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 340, 0],
+                "delay": 25.2
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 26.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 400, 0],
+                "delay": 25
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 300, 0],
+                "delay": 26.4
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 500, 0],
+                "delay": 26
+              },
+              {
+                "type": "instantiate",
+                "prefab": "RedShip",
+                "position": [1920, 600, 0],
+                "delay": 26.2
               },
               {
                 "type": "stopScrolling",
