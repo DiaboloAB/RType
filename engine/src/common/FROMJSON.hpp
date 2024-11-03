@@ -11,5 +11,6 @@
 #include "common/components/fromJson.hpp"
 #include "common/components/uiFromJson.hpp"
 #include "common/network/components/fromJsonNetwork.hpp"
+#include "common/components/adminFromJson.hpp"
 
 #endif  // FROMJSON_H

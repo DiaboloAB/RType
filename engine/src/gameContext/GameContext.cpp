@@ -15,8 +15,8 @@
 using namespace RType;
 
 GameContext::GameContext(std::string assetsPath, mobs::Registry &registry,
-                         SceneManager &sceneManager, std::shared_ptr<IRuntime> runtime)
-    : _assetsPath(assetsPath), _runtime(runtime), _registry(registry), _sceneManager(sceneManager)
+                         SceneManager &sceneManager, ClockManager &clockManager, Input &input, std::shared_ptr<IRuntime> runtime)
+    : _assetsPath(assetsPath), _runtime(runtime), _registry(registry), _sceneManager(sceneManager), _clockManager(clockManager), _input(input)
 {
 }
 

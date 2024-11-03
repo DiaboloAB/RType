@@ -13,6 +13,7 @@
 #include "clocksManager/ClockManager.hpp"
 #include "gameContext/GameContext.hpp"
 #include "system/SystemManager.hpp"
+#include "input/Input.hpp"
 // std
 #include <atomic>
 #include <chrono>
@@ -45,9 +46,15 @@ class Engine
      */
     void run();
 
+    /**
+     * @brief Stops the game engine.
+     */
     void stop();
 
    private:
+    /**
+     * @brief Initializes the engine.
+     */
     void loadGame();
 
     std::shared_ptr<IRuntime> _runtime = nullptr;         ///< Shared pointer to the runtime system.
@@ -57,11 +64,12 @@ class Engine
     SystemManager _systemManager;  ///< Manager for handling various systems.
     SceneManager _sceneManager;    ///< Manager for handling scenes.
     ClockManager _clockManager;    ///< Manager for handling clocks and timing.
+    Input _input;                  ///< Input manager for handling user input.
 
     std::string _assetsPath = "assets/";       ///< Path to the assets directory.
     std::map<std::string, std::string> _args;  ///< Map of arguments passed to the engine.
     nlohmann::json _gameConfig;                ///< JSON object for storing game configuration.
-    std::atomic<bool> _stop = false;
-    std::mutex _stopmtx;
+    std::atomic<bool> _stop = false;       ///< Atomic boolean for stopping the engine.
+    std::mutex _stopmtx;               ///< Mutex for stopping the engine.
 };
 }  // namespace RType

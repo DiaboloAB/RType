@@ -36,6 +36,12 @@ class IRuntime
    public:
     virtual ~IRuntime() = default;
 
+    /**
+     * @brief Pure virtual method to poll events.
+     *
+     * This method must be implemented to poll events such as user input
+     * or window events.
+     */
     virtual void pollEvents() {}
 
     /**
@@ -253,13 +259,66 @@ class IRuntime
      */
     virtual void setVerticalSyncEnabled(bool enabled) {}
 
+    /**
+     * @brief Pure virtual method to load a shader.
+     * @param vertexShaderPath The path to the vertex shader file.
+     * @param fragmentShaderPath The path to the fragment shader file.
+     * @return The ID of the loaded shader.
+     *
+     * This method must be implemented to load a shader from a vertex and fragment
+     * shader file.
+     */
     virtual int loadShader(const std::string& vertexShaderPath,
                            const std::string& fragmentShaderPath) { return 0; }
+
+    /**
+     * @brief Pure virtual method to set the active shader.
+     * @param shaderId The ID of the shader to set as active.
+     */
     virtual void setShader(int shaderId) {}
+
+    /**
+     * @brief Pure virtual method to reset the active shader.
+     *
+     * This method must be implemented to reset the active shader to the default
+     * shader.
+     */
     virtual void resetShader() {}
 
+    /**
+     * @brief Pure virtual method to set the sound volume.
+     * @param volume The volume level to set.
+     *
+     * This method must be implemented to set the volume level for sound effects.
+     */
+    virtual void setSoundVolume(int volume) {}
+
+    /**
+     * @brief Pure virtual method to set the music volume.
+     * @param volume The volume level to set.
+     *
+     * This method must be implemented to set the volume level for music.
+     */
+    virtual void setMusicVolume(int volume) {}
+
+    /**
+     * @brief Pure virtual method to load a texture from a file.
+     * @param filePath The path to the texture file.
+     * @return A shared pointer to the loaded texture.
+     *
+     * This method must be implemented to load a texture from a file and return
+     * a shared pointer to the loaded texture.
+     */
     virtual void setMouseCursorVisible(bool visible) {}
 
+    /**
+     * @brief Pure virtual method to load a texture from a file.
+     * @param filePath The path to the texture file.
+     * @return A shared pointer to the loaded texture.
+     *
+     * This method must be implemented to load a texture from a file and return
+     * a shared pointer to the loaded texture.
+     */
     virtual void unloadShader(int shaderId) {}
 
    private:

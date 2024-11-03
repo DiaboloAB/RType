@@ -44,7 +44,7 @@ class RenderSystemSDL : public RType::IRuntime
 
     void clearWindow() override;
     void updateWindow() override;
-    void FullScreenWindow() override;
+    void FullScreenWindow(bool fullscreen) override;
     bool isWindowOpen() override { return _window != nullptr; }
 
     std::shared_ptr<SDL_Texture> loadTexture(const std::string& filePath);
@@ -75,7 +75,6 @@ class RenderSystemSDL : public RType::IRuntime
     void setGameIcon(const std::string& filePath) override;
     void setFramerateLimit(unsigned int limit) override;
     void setVerticalSyncEnabled(bool enabled) override;
-    void updateSounds() override;
 
     int loadShader(const std::string& vertexShaderPath,
                    const std::string& fragmentShaderPath) override;

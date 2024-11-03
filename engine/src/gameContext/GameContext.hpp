@@ -10,6 +10,8 @@
 
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
+#include <clocksManager/ClockManager.hpp>
+#include <input/Input.hpp>
 
 #include "IRuntime/IRuntime.hpp"
 #include "common/COMPONENTLIST.hpp"
@@ -17,6 +19,9 @@
 #include <chrono>
 #include <iostream>
 #include <memory>
+#include <queue>
+#include <string>
+#include <unordered_map>
 
 namespace RType
 {
@@ -30,7 +35,7 @@ class GameContext
      * @param sceneManager Reference to the scene manager.
      * @param runtime Shared pointer to the runtime system. Defaults to nullptr.
      */
-    GameContext(std::string assetsPath, mobs::Registry &registry, SceneManager &sceneManager,
+    GameContext(std::string assetsPath, mobs::Registry &registry, SceneManager &sceneManager, ClockManager &clockManager, Input &input,
                 std::shared_ptr<IRuntime> runtime = nullptr);
 
     /**
@@ -90,6 +95,38 @@ class GameContext
         }
     }
 
+    /**
+     * @brief Updates the game context.
+     */
+    void addEvent(std::string event, std::vector<std::variant<float, std::string>> args)
+    {
+        _events[event] = args;
+    }
+
+    /**
+     * @brief Checks if an event exists.
+     *
+     * @param event The event to check.
+     * @return true if the event exists, false otherwise.
+     */
+    bool hasEvent(std::string event) { return _events.find(event) != _events.end(); }
+
+    /**
+     * @brief Gets the event.
+     *
+     * @param event The event to get.
+     * @return The event.
+     */
+    std::vector<std::variant<float, std::string>> getEvent(std::string event)
+    {
+        return _events[event];
+    }
+
+    /**
+     * @brief Clears all events.
+     */
+    void clearEvents() { _events.clear(); }
+
     float getGameSpeed() const { return _gameSpeed; }
 
     void setGameSpeed(float gameSpeed) { _gameSpeed = gameSpeed; }
@@ -97,13 +134,18 @@ class GameContext
     std::shared_ptr<IRuntime> _runtime;  ///< The runtime.
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
+    ClockManager &_clockManager;          ///< The clock manager.
+    Input &_input;                        ///< The input manager.
 
     bool _running = true;  ///< The running state.
     float _deltaT = 0.0f;  ///< The delta time.
     const std::string _assetsPath;
     std::map<std::string, std::string> _args;  ///< The arguments.
+    int _systemCount = 0;                        ///< The number of systems.
 
    private:
+    std::unordered_map<std::string, std::vector<std::variant<float, std::string>>> _events;  ///< The events.
+
     float _gameSpeed = 1.0f;  ///< The game speed.
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.
 };

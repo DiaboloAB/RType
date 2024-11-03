@@ -34,6 +34,12 @@ void from_json(const nlohmann::json& j, Button& button)
 
     if (j.contains("entity")) j.at("entity").get_to(button.entity);
     if (j.contains("action")) j.at("action").get_to(button.action);
+
+    if (j.contains("events")) {
+        for (auto& event : j.at("events")) {
+            button.events.push_back(event);
+        }
+    }
 }
 
 }  // namespace RType
