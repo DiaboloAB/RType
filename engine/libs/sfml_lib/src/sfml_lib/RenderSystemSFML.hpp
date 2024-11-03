@@ -106,8 +106,8 @@ class RenderSystemSFML : public RType::IRuntime
     KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
     KeyCode convertSFMLJoystickButtonToKeyCode(unsigned int button);
 
-    std::vector<bool> _currentKeys = std::vector<bool>(1000, false);
-    std::vector<bool> _previousKeys = std::vector<bool>(1000, false);
+    std::unordered_map<int, bool> _currentKeys;
+    std::unordered_map<int, bool> _previousKeys;
 
     int _soundVolume = 50;
 

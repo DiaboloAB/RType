@@ -81,30 +81,42 @@ class RenderSystemSDL : public RType::IRuntime
     void setShader(int shaderId) override;
     void resetShader() override;
     void unloadShader(int shaderId) override;
+    void setSoundVolume(int volume) override;
 
    private:
     bool _isFullScreen;
     SDL_Window* _window;
     SDL_Renderer* _renderer;
 
-    std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> _textures;
     std::unordered_map<int, std::shared_ptr<SDL_Texture>> _spriteCache;
     std::unordered_map<int, std::shared_ptr<Mix_Music>> _musics;
     std::unordered_map<int, std::shared_ptr<Mix_Chunk>> _soundCache;
     std::unordered_map<int, std::shared_ptr<TTF_Font>> _fonts;
 
+    std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> _textures;
+
+    std::map<std::string, int> _musicCache;
+    std::map<std::string, int> _sound_Cache;
+    std::map<std::string, int> _fontCache;
+    std::map<std::string, int> _shaderCache;
+
     int _nextSpriteId;
+    int _nextShaderId;
     int _nextFontId;
     int _nextMusicId;
     int _nextSoundId;
 
     Mix_Music* _currentMusic = nullptr;
     std::vector<Mix_Chunk*> _activeSounds;
-    std::unordered_map<int, bool> _currentKeys;
-    std::unordered_map<int, bool> _previousKeys;
 
     KeyCode convertSDLKeyToKeyCode(SDL_Keycode key);
     KeyCode convertSDLMouseToKeyCode(Uint8 button);
+    KeyCode convertSDLJoystickButtonToKeyCode(Uint8 button);
+
+    std::unordered_map<int, bool> _currentKeys;
+    std::unordered_map<int, bool> _previousKeys;
+
+    int _soundVolume = 50;
 };
 
 }  // namespace RType

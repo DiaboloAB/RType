@@ -8,7 +8,7 @@ RenderSystemSDL::RenderSystemSDL()
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
-        std::cerr << "Erreur SDL: " << SDL_GetError() << std::endl;
+        std::cerr << "Error SDL: " << SDL_GetError() << std::endl;
         return;
     }
 
@@ -16,7 +16,7 @@ RenderSystemSDL::RenderSystemSDL()
                                SDL_WINDOW_SHOWN);
     if (!_window)
     {
-        std::cerr << "Erreur lors de la création de la fenêtre: " << SDL_GetError() << std::endl;
+        std::cerr << "Error while creating the window: " << SDL_GetError() << std::endl;
         return;
     }
 
@@ -24,18 +24,18 @@ RenderSystemSDL::RenderSystemSDL()
         SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!_renderer)
     {
-        std::cerr << "Erreur lors de la création du renderer: " << SDL_GetError() << std::endl;
+        std::cerr << "Error while creating the renderer: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(_window);
         return;
     }
 
     if (TTF_Init() == -1)
     {
-        std::cerr << "Erreur TTF: " << TTF_GetError() << std::endl;
+        std::cerr << "TTF Error:" << TTF_GetError() << std::endl;
     }
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
-        std::cerr << "Erreur SDL_mixer: " << Mix_GetError() << std::endl;
+        std::cerr << "Error SDL_mixer: " << Mix_GetError() << std::endl;
     }
 }
 
@@ -100,7 +100,7 @@ std::shared_ptr<SDL_Texture> RenderSystemSDL::loadTexture(const std::string& fil
     SDL_Texture* rawTexture = IMG_LoadTexture(_renderer, filePath.c_str());
     if (!rawTexture)
     {
-        std::cerr << "Erreur lors du chargement de la texture : " << filePath << " - "
+        std::cerr << "Error while loading the texture: " << filePath << " - "
                   << IMG_GetError() << std::endl;
         return nullptr;
     }
@@ -142,12 +142,12 @@ void RenderSystemSDL::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spr
         if (SDL_RenderCopyEx(_renderer, it->second.get(), &srcRect, &dstRect, rotation, nullptr,
                              SDL_FLIP_NONE) != 0)
         {
-            std::cerr << "Erreur SDL_RenderCopyEx : " << SDL_GetError() << std::endl;
+            std::cerr << "Error SDL_RenderCopyEx : " << SDL_GetError() << std::endl;
         }
     }
     else
     {
-        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
+        std::cerr << "Error: Sprite with ID " << spriteId << " not found." << std::endl;
     }
 }
 
@@ -162,7 +162,7 @@ void RenderSystemSDL::drawSprite(int spriteId, mlg::vec3 position)
     }
     else
     {
-        std::cerr << "Erreur : sprite avec l'ID " << spriteId << " non trouvé." << std::endl;
+        std::cerr << "Error: Sprite with ID " << spriteId << " not found." << std::endl;
     }
 }
 
@@ -197,15 +197,23 @@ mlg::vec3 RenderSystemSDL::getTextureSize(int spriteId)
 
 int RenderSystemSDL::loadFont(const std::string& filePath)
 {
+
+    if (_fontCache.find(filePath) != _fontCache.end())
+    {
+        return _fontCache[filePath];
+    }
+
     int fontID = _nextFontId++;
     TTF_Font* rawFont = TTF_OpenFont(filePath.c_str(), 24);
     if (!rawFont)
     {
-        std::cerr << "Erreur lors du chargement de la police : " << TTF_GetError() << std::endl;
+        std::cerr << "SFMLRenderSystem: Error loading font: " << filePath << std::endl;
         return -1;
     }
 
+    std::cerr << "SFMLRenderSystem: Error loading font: " << filePath << std::endl;
     _fonts[fontID] = std::shared_ptr<TTF_Font>(rawFont, TTF_CloseFont);
+    _fontCache[filePath] = fontID;
     return fontID;
 }
 
@@ -215,7 +223,7 @@ void RenderSystemSDL::drawText(int fontID, const std::string& textStr, const mlg
     auto it = _fonts.find(fontID);
     if (it == _fonts.end())
     {
-        std::cerr << "Erreur : police non trouvée (ID: " << fontID << ")" << std::endl;
+        std::cerr << "Error: Font not found (ID: " << fontID << ")" << std::endl;
         return;
     }
     SDL_Color sdlColor = {static_cast<Uint8>(color.x), static_cast<Uint8>(color.y),
@@ -246,15 +254,21 @@ void RenderSystemSDL::unloadFont(int fontID)
 
 int RenderSystemSDL::loadMusic(const std::string& filePath)
 {
+    if (_musicCache.find(filePath) != _musicCache.end())
+    {
+        return _musicCache[filePath];
+    }
+
     int musicID = _nextMusicId++;
     Mix_Music* rawMusic = Mix_LoadMUS(filePath.c_str());
     if (!rawMusic)
     {
-        std::cerr << "Erreur lors du chargement de la musique : " << Mix_GetError() << std::endl;
+        std::cerr << "Error while loading the music: " << Mix_GetError() << std::endl;
         return -1;
     }
 
     _musics[musicID] = std::shared_ptr<Mix_Music>(rawMusic, Mix_FreeMusic);
+    _musicCache[filePath] = musicID;
     return musicID;
 }
 
@@ -280,15 +294,21 @@ void RenderSystemSDL::unloadMusic(int musicID)
 
 int RenderSystemSDL::loadSound(const std::string& filePath)
 {
+    if (_sound_Cache.find(filePath) != _sound_Cache.end())
+    {
+        return _sound_Cache[filePath];
+    }
+
     int soundID = _nextSoundId++;
     Mix_Chunk* rawSound = Mix_LoadWAV(filePath.c_str());
     if (!rawSound)
     {
-        std::cerr << "Erreur lors du chargement du son : " << Mix_GetError() << std::endl;
+        std::cerr << "Error while loading the sound: " << Mix_GetError() << std::endl;
         return -1;
     }
 
     _soundCache[soundID] = std::shared_ptr<Mix_Chunk>(rawSound, Mix_FreeChunk);
+    _sound_Cache[filePath] = soundID;
     return soundID;
 }
 
@@ -322,7 +342,7 @@ void RenderSystemSDL::setGameIcon(const std::string& filePath)
     SDL_Surface* icon = IMG_Load(filePath.c_str());
     if (!icon)
     {
-        std::cerr << "Erreur lors du chargement de l'icône : " << IMG_GetError() << std::endl;
+        std::cerr << "Error while loading the icon: : " << IMG_GetError() << std::endl;
         return;
     }
     SDL_SetWindowIcon(_window, icon);
@@ -353,30 +373,29 @@ void RenderSystemSDL::setVerticalSyncEnabled(bool enabled)
 int RenderSystemSDL::loadShader(const std::string& vertexShaderPath,
                                 const std::string& fragmentShaderPath)
 {
-    std::cerr << "Erreur : Les shaders ne sont pas supportés par SDL sans OpenGL." << std::endl;
+    std::cerr << "Error: Shaders are not supported by SDL without OpenGL." << std::endl;
     return -1;
 }
 
 void RenderSystemSDL::setShader(int shaderId)
 {
-    std::cerr << "Erreur : Les shaders ne sont pas supportés par SDL sans OpenGL." << std::endl;
+    std::cerr << "Error: Shaders are not supported by SDL without OpenGL." << std::endl;
 }
 
 void RenderSystemSDL::resetShader()
 {
-    std::cerr << "Erreur : Les shaders ne sont pas supportés par SDL sans OpenGL." << std::endl;
+    std::cerr << "Error: Shaders are not supported by SDL without OpenGL." << std::endl;
 }
 
 void RenderSystemSDL::unloadShader(int shaderId)
 {
-    std::cerr << "Erreur : Les shaders ne sont pas supportés par SDL sans OpenGL." << std::endl;
+    std::cerr << "Error: Shaders are not supported by SDL without OpenGL." << std::endl;
 }
 
 KeyCode RenderSystemSDL::convertSDLKeyToKeyCode(SDL_Keycode key)
 {
     switch (key)
     {
-        // Lettres
         case SDLK_a:
             return KeyCode::A;
         case SDLK_b:
@@ -429,8 +448,6 @@ KeyCode RenderSystemSDL::convertSDLKeyToKeyCode(SDL_Keycode key)
             return KeyCode::Y;
         case SDLK_z:
             return KeyCode::Z;
-
-        // Touches de navigation
         case SDLK_UP:
             return KeyCode::UpArrow;
         case SDLK_DOWN:
@@ -439,8 +456,6 @@ KeyCode RenderSystemSDL::convertSDLKeyToKeyCode(SDL_Keycode key)
             return KeyCode::LeftArrow;
         case SDLK_RIGHT:
             return KeyCode::RightArrow;
-
-        // Autres touches courantes
         case SDLK_ESCAPE:
             return KeyCode::Escape;
         case SDLK_SPACE:
@@ -451,8 +466,6 @@ KeyCode RenderSystemSDL::convertSDLKeyToKeyCode(SDL_Keycode key)
             return KeyCode::Backspace;
         case SDLK_TAB:
             return KeyCode::Tab;
-
-        // Chiffres en haut du clavier
         case SDLK_0:
             return KeyCode::Alpha0;
         case SDLK_1:
@@ -473,16 +486,12 @@ KeyCode RenderSystemSDL::convertSDLKeyToKeyCode(SDL_Keycode key)
             return KeyCode::Alpha8;
         case SDLK_9:
             return KeyCode::Alpha9;
-
-        // Symboles
         case SDLK_COMMA:
             return KeyCode::Comma;
         case SDLK_PERIOD:
             return KeyCode::Dot;
         case SDLK_MINUS:
             return KeyCode::Tiret;
-
-        // Gestion des autres cas
         default:
             return KeyCode::None;
     }
@@ -505,6 +514,36 @@ KeyCode RenderSystemSDL::convertSDLMouseToKeyCode(Uint8 button)
         default:
             return KeyCode::None;
     }
+}
+
+KeyCode RenderSystemSDL::convertSDLJoystickButtonToKeyCode(Uint8 button)
+{
+    switch (button)
+    {
+        case 0: return KeyCode::ButtonA;        // A button
+        case 1: return KeyCode::ButtonB;        // B button
+        case 2: return KeyCode::ButtonX;        // X button
+        case 3: return KeyCode::ButtonY;        // Y button
+        case 4: return KeyCode::LeftBumper;     // Left bumper (LB)
+        case 5: return KeyCode::RightBumper;    // Right bumper (RB)
+        case 6: return KeyCode::LeftTrigger;    // Left trigger (may also be an axis)
+        case 7: return KeyCode::RightTrigger;   // Right trigger (may also be an axis)
+        case 8: return KeyCode::Select;         // Select/Back button
+        case 9: return KeyCode::Start;          // Start/Options button
+        case 10: return KeyCode::LeftStickPress; // Pressable left stick
+        case 11: return KeyCode::RightStickPress; // Pressable right stick
+        case 12: return KeyCode::DPadUp;        // D-Pad up
+        case 13: return KeyCode::DPadDown;      // D-Pad down
+        case 14: return KeyCode::DPadLeft;      // D-Pad left
+        case 15: return KeyCode::DPadRight;     // D-Pad right
+
+        default: return KeyCode::None;
+    }
+}
+
+void RenderSystemSDL::setSoundVolume(int volume)
+{
+    _soundVolume = volume;
 }
 
 }  // namespace RType
