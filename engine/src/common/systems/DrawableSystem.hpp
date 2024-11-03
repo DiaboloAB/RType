@@ -223,7 +223,11 @@ class DrawableSystem : public ISystem
         }
         catch (const std::exception &e)
         {
-            std::cerr << "no action binded to button" << std::endl;
+        }
+        try {
+            gameContext.get<Scripts>(button.entity)
+                .onButtonPressed(registry, gameContext, button.action);
+        } catch (std::exception &e) {
         }
     }
 

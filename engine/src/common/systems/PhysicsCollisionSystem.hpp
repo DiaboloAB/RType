@@ -28,9 +28,10 @@ class PhysicsSystem : public ISystem
         {
             auto& rb = registry.get<RigidBody>(entity);
             auto& transform = registry.get<Transform>(entity);
-
-            applyGravity(rb, gameContext._deltaT);
-            updateVelocityAndPosition(transform, rb, gameContext._deltaT);
+            if (!rb.isStatic) {
+                applyGravity(rb, gameContext._deltaT);
+                updateVelocityAndPosition(transform, rb, gameContext._deltaT);
+            }
         }
 
         auto view2 = registry.view<Transform, Collider>();
@@ -38,7 +39,6 @@ class PhysicsSystem : public ISystem
         {
             auto& transform = registry.get<Transform>(entity);
             auto& collider = registry.get<Collider>(entity);
-
             for (auto otherEntity : view2)
             {
                 if (entity == otherEntity)
@@ -79,10 +79,17 @@ class PhysicsSystem : public ISystem
                     {
                     }
                 }
-                else
+                else if (result == STAY)
                 {
-                    if (result == ENTER)
-                    {
+                    if (registry.hasComponent<RigidBody>(entity) && !registry.get<RigidBody>(entity).isStatic) {
+                        mlg::vec4 overlap = collider.getOverlap(
+                            transform.position + collider.offset, entity,
+                            otherTransform.position + otherCollider.offset, otherCollider.size);
+                        transform.position.x -= overlap.z;
+                        transform.position.y -= overlap.w;
+
+                        registry.get<RigidBody>(entity).velocity.x = 0;
+                        registry.get<RigidBody>(entity).velocity.y = 0;
                     }
                 }
             }

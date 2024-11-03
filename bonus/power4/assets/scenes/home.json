@@ -1,0 +1,52 @@
+{
+  "entities": [
+    {
+      "tag": "gameManager",
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [2, 3, -1] },
+          "Sprite": { "texture": "graphics/casino.png" },
+          "Audio": {
+            "musicList": [
+            "audio/ambiance.ogg"
+            ]
+          },
+          "Scripts": [
+            "scripts/gameManager.lua"
+          ]
+        }
+    },
+    {
+      "tag": "playButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [500, 400, 0] },
+        "Button": {
+          "font": "fonts/Roboto.ttf",
+          "fontSize": 24,
+          "text": "Play",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "gameManager",
+          "action": "play"
+        }
+      }
+    },
+    {
+      "tag": "exitButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [500, 500, 0] },
+        "Button": {
+          "font": "fonts/Roboto.ttf",
+          "fontSize": 24,
+          "text": "Exit",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "gameManager",
+          "action": "exitGame"
+        }
+      }
+    }
+  ]
+}
