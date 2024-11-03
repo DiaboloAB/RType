@@ -106,8 +106,6 @@ class Menu : public RType::ICppScript
             std::string host = gameContext.get<Button>("hostInput").content;
             unsigned int port =
                 static_cast<unsigned int>(std::stoul(gameContext.get<Button>("portInput").content));
-            gameContext.get<Text>("status").text = "status: connected";
-            gameContext.get<Text>("status").color = mlg::vec3(0, 255, 0);
             networkC.client->connectServer(host, port);
         }
         else if (action == "joinPrivate")

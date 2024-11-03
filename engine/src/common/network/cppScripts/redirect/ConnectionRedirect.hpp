@@ -29,6 +29,9 @@ class ConnectionRedirect
     static void handleHiClient(mobs::Registry &registry, GameContext &gameContext,
                                PacketDatas &packet)
     {
+
+        gameContext.get<Text>("status").text = "status: connected";
+        gameContext.get<Text>("status").color = mlg::vec3(0, 255, 0);
         LOG("ConnectionRedirect", "[HiClient packet] received");
     }
 
