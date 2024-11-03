@@ -107,8 +107,8 @@ class UpdateRedirect
             uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-
-            if (currentTime - packetUpdate->getPacketTimeStamp() >= 2000) return;
+            auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
+            if (networkC.latency >= 600) return;
 
             std::string packetDescription = packetUpdate->getDescription();
             if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);
