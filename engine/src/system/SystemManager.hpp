@@ -83,6 +83,8 @@ class SystemManager
      */
     void draw(mobs::Registry &registry, GameContext &gameContext);
 
+    int getSystemCount() const { return _systems.size(); }
+
    private:
     std::vector<std::unique_ptr<ISystem>> _systems;  ///< Container for all systems.
 };

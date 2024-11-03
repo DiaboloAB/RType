@@ -56,7 +56,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
     }
 
     std::cout << "Engine Status: Constructing game context" << std::endl;
-    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _runtime);
+    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _clockManager, _runtime);
     _gameContext->_args = args;
     std::cout << "Engine Status: Loading game" << std::endl;
 
@@ -71,6 +71,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
     }
 
     addSystemsToManager<SYSTEM_TYPES>(_systemManager);
+    _gameContext->_systemCount = _systemManager.getSystemCount();
 
     std::cout << "Engine Status: Running" << std::endl;
 }
@@ -137,8 +138,6 @@ void Engine::run()
         {
             _gameContext->_runtime->pollEvents();
             if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
-            if (_gameContext->_runtime->getKeyDown(KeyCode::RightStickRight))
-             std::cout << "Button A pressed" << std::endl;
             _gameContext->_deltaT = _clockManager.getUpdateDeltaT();
             _systemManager.update(_registry, *_gameContext);
             _clockManager.getUpdateDeltaT() = 0.0f;

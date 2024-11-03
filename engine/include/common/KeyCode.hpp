@@ -31,7 +31,8 @@ enum KeyCode
     Alpha3, Alpha4, Alpha5, Alpha6, Alpha7, Alpha8, Alpha9,
     UpArrow, DownArrow, LeftArrow, RightArrow,
     Escape, Space, Enter, Backspace, Tab, None,
-    
+    F1, F2, F3, F4, F5, F6, F7, F8, F9, F10,
+
     // Mouse buttons
     Mouse0, Mouse1, Mouse2, Mouse3, Mouse4, Mouse5, Mouse6,
     

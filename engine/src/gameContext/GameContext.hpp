@@ -10,6 +10,7 @@
 
 #include <mobs/mobs.hpp>
 #include <sceneManager/SceneManager.hpp>
+#include <clocksManager/ClockManager.hpp>
 
 #include "IRuntime/IRuntime.hpp"
 #include "common/COMPONENTLIST.hpp"
@@ -30,7 +31,7 @@ class GameContext
      * @param sceneManager Reference to the scene manager.
      * @param runtime Shared pointer to the runtime system. Defaults to nullptr.
      */
-    GameContext(std::string assetsPath, mobs::Registry &registry, SceneManager &sceneManager,
+    GameContext(std::string assetsPath, mobs::Registry &registry, SceneManager &sceneManager, ClockManager &clockManager,
                 std::shared_ptr<IRuntime> runtime = nullptr);
 
     /**
@@ -87,11 +88,13 @@ class GameContext
     std::shared_ptr<IRuntime> _runtime;  ///< The runtime.
     mobs::Registry &_registry;           ///< The registry.
     SceneManager &_sceneManager;         ///< The scene manager.
+    ClockManager &_clockManager;          ///< The clock manager.
 
     bool _running = true;  ///< The running state.
     float _deltaT = 0.0f;  ///< The delta time.
     const std::string _assetsPath;
     std::map<std::string, std::string> _args;  ///< The arguments.
+    int _systemCount = 0;                        ///< The number of systems.
 
    private:
     std::queue<mobs::Entity> _entitiesToDestroy;  ///< The entities to destroy.

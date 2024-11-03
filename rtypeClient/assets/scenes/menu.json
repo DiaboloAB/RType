@@ -6,6 +6,22 @@
       "CppScripts": ["Menu"]
     },
     {
+      "staticObject": false,
+      "components": {
+        "Transform": { "position": [0, 0, 0] },
+        "Metrics": {
+        }
+      }
+    },
+    {
+      "staticObject": false,
+      "components": {
+        "Transform": { "position": [1000, 900, 0] },
+        "Console": {
+        }
+      }
+    },
+    {
       "tag": "soundManager",
       "staticObject": false,
       "components": {

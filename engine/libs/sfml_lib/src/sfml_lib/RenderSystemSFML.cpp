@@ -46,24 +46,23 @@ void RenderSystemSFML::pollEvents()
         {
             if (event.joystickMove.axis == sf::Joystick::X)
             {
-                std::cout << "X axis: " << event.joystickMove.position << std::endl;
                     _currentKeys[KeyCode::LeftStickRight] = event.joystickMove.position > 50;
                     _currentKeys[KeyCode::LeftStickLeft] = event.joystickMove.position < -50;
  
             }
-            else if (event.joystickMove.axis == sf::Joystick::Y)
+            if (event.joystickMove.axis == sf::Joystick::Y)
             {
                     _currentKeys[KeyCode::LeftStickDown] = event.joystickMove.position > 50;
                     _currentKeys[KeyCode::LeftStickUp] = event.joystickMove.position < -50;
 
             }
 
-            if (event.joystickMove.axis == sf::Joystick::U)
+            if (event.joystickMove.axis == sf::Joystick::Z)
             {
                     _currentKeys[KeyCode::RightStickRight] = event.joystickMove.position > 50;
                     _currentKeys[KeyCode::RightStickLeft] = event.joystickMove.position < -50;
             }
-            else if (event.joystickMove.axis == sf::Joystick::V)
+            if (event.joystickMove.axis == sf::Joystick::R)
             {
                     _currentKeys[KeyCode::RightStickDown] = event.joystickMove.position > 50;
                     _currentKeys[KeyCode::RightStickUp] = event.joystickMove.position < -50;
@@ -605,6 +604,26 @@ KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
             return KeyCode::Dot;
         case sf::Keyboard::Dash:
             return KeyCode::Tiret;
+        case sf::Keyboard::F1:
+            return KeyCode::F1;
+        case sf::Keyboard::F2:
+            return KeyCode::F2;
+        case sf::Keyboard::F3:
+            return KeyCode::F3;
+        case sf::Keyboard::F4:
+            return KeyCode::F4;
+        case sf::Keyboard::F5:
+            return KeyCode::F5;
+        case sf::Keyboard::F6:
+            return KeyCode::F6;
+        case sf::Keyboard::F7:
+            return KeyCode::F7;
+        case sf::Keyboard::F8:
+            return KeyCode::F8;
+        case sf::Keyboard::F9:
+            return KeyCode::F9;
+        case sf::Keyboard::F10:
+            return KeyCode::F10;
         default:
             return KeyCode::None;
     }
@@ -633,12 +652,25 @@ KeyCode RenderSystemSFML::convertSFMLJoystickButtonToKeyCode(unsigned int button
 {
     switch (button)
     {
-    case 0: return KeyCode::ButtonA;
-    case 1: return KeyCode::ButtonB;
-    case 2: return KeyCode::ButtonX;
-    case 3: return KeyCode::ButtonY;
+        case 0: return KeyCode::ButtonA;        // A button
+        case 1: return KeyCode::ButtonB;        // B button
+        case 2: return KeyCode::ButtonX;        // X button
+        case 3: return KeyCode::ButtonY;        // Y button
+        case 4: return KeyCode::LeftBumper;     // Left bumper (LB)
+        case 5: return KeyCode::RightBumper;    // Right bumper (RB)
+        case 6: return KeyCode::LeftTrigger;    // Left trigger (may also be an axis)
+        case 7: return KeyCode::RightTrigger;   // Right trigger (may also be an axis)
+        case 8: return KeyCode::Select;         // Select/Back button
+        case 9: return KeyCode::Start;          // Start/Options button
+        case 10: return KeyCode::LeftStickPress; // Pressable left stick
+        case 11: return KeyCode::RightStickPress; // Pressable right stick
+        case 12: return KeyCode::DPadUp;        // D-Pad up
+        case 13: return KeyCode::DPadDown;      // D-Pad down
+        case 14: return KeyCode::DPadLeft;      // D-Pad left
+        case 15: return KeyCode::DPadRight;     // D-Pad right
+        // Add more button mappings as needed
 
-    default: return KeyCode::None;
+        default: return KeyCode::None;
     }
 }
 
