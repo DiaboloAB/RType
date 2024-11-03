@@ -73,10 +73,6 @@ class Menu : public RType::ICppScript
                 std::cerr << e.what() << std::endl;
             }
         }
-        else if (action == "startGame")
-        {
-            gameContext._sceneManager.switchScene("scene2");
-        }
         else if (action == "findGame")
         {
             auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
@@ -85,7 +81,7 @@ class Menu : public RType::ICppScript
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=rd");
-                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
             }
         }
         else if (action == "hostGame")
@@ -96,7 +92,7 @@ class Menu : public RType::ICppScript
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("create=pv");
-                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
             }
         }
         else if (action == "connect")
@@ -106,8 +102,6 @@ class Menu : public RType::ICppScript
             std::string host = gameContext.get<Button>("hostInput").content;
             unsigned int port =
                 static_cast<unsigned int>(std::stoul(gameContext.get<Button>("portInput").content));
-            gameContext.get<Text>("status").text = "status: connected";
-            gameContext.get<Text>("status").color = mlg::vec3(0, 255, 0);
             networkC.client->connectServer(host, port);
         }
         else if (action == "joinPrivate")
@@ -119,8 +113,12 @@ class Menu : public RType::ICppScript
                 auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
                 event->setClientEvent(dimension::ClientEventType::ROOM);
                 event->setDescription("join=" + code);
-                networkC.client->send(event, *networkC.client->getDirectionEndpoint());
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
             }
+        }
+        else if (action == "returnToMenu")
+        {
+            gameContext._sceneManager.switchScene("menu");
         }
     }
 

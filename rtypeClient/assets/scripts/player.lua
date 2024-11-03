@@ -2,6 +2,6 @@
 
 function update(registry, gameContext)
     if getKey("RightArrow") then
-        print("HellowWorld")
+        -- print("HellowWorld")
     end
 end

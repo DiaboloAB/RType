@@ -13,7 +13,7 @@ namespace dimension
 
 APacket::APacket(uint8_t type) : _packetType(type)
 {
-    this->_packetTimeStamp = std::chrono::duration_cast<std::chrono::seconds>(
+    this->_packetTimeStamp = std::chrono::duration_cast<std::chrono::milliseconds>(
                                  std::chrono::system_clock::now().time_since_epoch())
                                  .count();
 }

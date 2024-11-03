@@ -11,7 +11,7 @@
             "scale": [2, 2, 0]
         },
         "Collider": {
-            "size": [32, 32, 0],
+            "size": [16, 16, 0],
             "offset": [16, 16, 0],
             "isTrigger": true,
             "layerMask": "playerProjectile"

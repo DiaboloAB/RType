@@ -69,6 +69,12 @@ class Room : public AEndpoint
      */
     void resetPing(asio::ip::udp::endpoint &sender);
 
+    /**
+     * @brief Send packet to all connected endpoints.
+     * 
+     * @param packet: Packet to send.
+     * @param isNew: Set to know if packet need validation.
+     */
     void sendToAll(const std::shared_ptr<APacket> &packet, bool isNew = true);
 
    public:
@@ -81,6 +87,11 @@ class Room : public AEndpoint
     std::queue<std::pair<std::shared_ptr<APacket>, asio::ip::udp::endpoint>> getRecvQueue();
     uint32_t getIdFromSender(asio::ip::udp::endpoint &sender);
     std::unordered_map<asio::ip::udp::endpoint, uint32_t> getIdMap();
+    uint64_t getLatencyFromSender(asio::ip::udp::endpoint &sender);
+
+    public:
+        void setSenderLatency(asio::ip::udp::endpoint &sender, uint64_t lastPing);
+
 
    private:
     std::string _host;
@@ -88,6 +99,7 @@ class Room : public AEndpoint
     std::string _code;
     std::list<std::pair<asio::ip::udp::endpoint, std::chrono::steady_clock::time_point>>
         _connectedEp;
+    std::unordered_map<asio::ip::udp::endpoint, uint64_t> _connectedLatency;
     std::unordered_map<asio::ip::udp::endpoint, uint32_t> _connectedId;
     std::chrono::steady_clock::time_point _lastPing;
 };

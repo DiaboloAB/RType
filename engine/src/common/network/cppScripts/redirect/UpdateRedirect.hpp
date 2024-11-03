@@ -34,6 +34,7 @@ class UpdateRedirect
      */
     static void updateRoom(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
     {
+        ERR_LOG("Update", "Room redirect");
         auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
         mobs::Registry::View view = registry.view<NetworkClient>();
 
@@ -56,7 +57,8 @@ class UpdateRedirect
         {
             auto &networkC = view.get<NetworkClient>(entity);
 
-            if (*networkC.client->getDirectionEndpoint() != packet.second) return;
+            if (*networkC.client->getDirectionEndpoint() != packet.second && 
+                *networkC.client->_serverEndpoint != packet.second) return;
             try
             {
                 networkC.client->connectDirectionEndpoint(host, port);
@@ -90,6 +92,30 @@ class UpdateRedirect
         }
     }
 
+    static void updateEntity(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+    {
+        auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
+        std::string packetDescription = packetUpdate->getDescription();
+
+        std::cout << "Packet description: " << packetDescription << std::endl;
+    }
+
+    static void updateMenu(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+    {;
+        auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
+        std::string description = packetUpdate->getDescription();
+        size_t pos1 = description.find(':');
+        size_t pos2 = description.find(':', pos1 + 1);
+
+        if (pos1 != std::string::npos && pos2 != std::string::npos) {
+            std::string code = description.substr(pos1 + 1, pos2 - pos1 - 1);
+            std::string connected = description.substr(pos2 + 1);
+
+            gameContext.get<Text>("Room").text = "Room: " + code;
+            gameContext.get<Text>("connectedNb").text = "Connected: " + connected;
+        } else return;
+    }
+
    public:
     /**
      * @brief Call the handler associated with Update packet context stored in
@@ -104,16 +130,17 @@ class UpdateRedirect
         try
         {
             auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
-            uint64_t currentTime = std::chrono::duration_cast<std::chrono::seconds>(
+            uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                                        std::chrono::system_clock::now().time_since_epoch())
                                        .count();
-
-            if (currentTime - packetUpdate->getPacketTimeStamp() >= 2) return;
-
+            auto &networkC = registry.get<NetworkClient>(registry.view<NetworkClient>().front());
+            if (networkC.latency >= 600) return;
             std::string packetDescription = packetUpdate->getDescription();
             if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);
+            if (packetDescription.find("entity", 0) == 0) updateEntity(registry, gameContext, packet);
             if (packetDescription.find("scene:", 0) == 0)
                 updateScene(registry, gameContext, packet);
+            if (packetDescription.find("state:", 0) == 0) updateMenu(registry, gameContext, packet);
         }
         catch (std::exception &e)
         {

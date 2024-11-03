@@ -38,7 +38,7 @@ class RoomSystem : public ISystem
         }
         catch (std::exception &e)
         {
-            ERR_LOG("RoomSystem", std::string("Something went wrong {") + e.what() + "}");
+            ERR_LOG("RoomSystem", std::string("Something went wrong roomSystem {") + e.what() + "}");
         }
     }
 

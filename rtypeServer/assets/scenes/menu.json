@@ -77,21 +77,6 @@
       },
       {
         "staticObject": false,
-        "tag": "Solo",
-        "components": {
-          "Transform": { "position": [100, 300, 0] },
-          "Button": {
-            "size": [200, 40],
-            "text": "Solo",
-            "font": "assets/fonts/r-type.ttf",
-            "color": [0, 0, 255],
-            "target": "GameManager",
-            "action": "Solo"
-          }
-        }
-      },
-      {
-        "staticObject": false,
         "tag": "Multi",
         "components": {
           "Transform": { "position": [100, 350, 0] },
