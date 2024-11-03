@@ -12,7 +12,8 @@
         "Collider": {
             "size": [7, 6, 0],
             "offSet": [0, 0, 0],
-            "isTrigger": true
+            "isTrigger": true,
+            "layerMask": "ally"
         },
         "NetworkData": {
             "id": 0,

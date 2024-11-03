@@ -10,6 +10,7 @@
 
 #include "common/ICppScript.hpp"
 #include "gameContext/GameContext.hpp"
+#include "utils/GetCppScript.hpp"
 
 namespace RType
 {
@@ -30,6 +31,36 @@ class Bullet : public RType::ICppScript
         /// TODO : server responsability
         if (outOfBounds(transform.position))
         {
+            registry.kill(getEntity());
+        }
+    }
+
+    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+        try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+        } catch (const std::exception &e) {
+        }
+
+
+        auto &basics = registry.get<Basics>(other);
+
+        if (basics.tag == "ally")
+        {
+            NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+            auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+
+            killServe->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+            room.room->sendToAll(killServe);
+
+            killServe->setNetworkId(registry.get<NetworkData>(other)._id);
+            room.room->sendToAll(killServe);
+
+            registry.kill(other);
             registry.kill(getEntity());
         }
     }

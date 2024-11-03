@@ -27,6 +27,11 @@ class RedShip : public RType::ICppScript
         animations.playAnim("explosion");
     }
 
+    void start(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        timer.start();
+    }
+
     void update(mobs::Registry &registry, GameContext &gameContext) override
     {
         int speed = 100;
@@ -35,9 +40,13 @@ class RedShip : public RType::ICppScript
         auto &basics = registry.get<Basics>(getEntity());
         transform.position.x -= speed * gameContext._deltaT;
 
-        if (!timer.getState())
-        {
-            timer.start();
+        try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+        } catch (const std::exception &e) {
         }
 
         timer.update(gameContext._deltaT);
@@ -50,12 +59,20 @@ class RedShip : public RType::ICppScript
             auto &bulletBasic = registry.get<Basics>(entity);
             auto &bulletTransform = registry.get<Transform>(entity);
             auto &entityScript = registry.get<CppScriptComponent>(entity);
+            auto &networkData = registry.get<NetworkData>(entity);
 
             bulletTransform.position = transform.position + mlg::vec3(-20, 32, 0);
             try
             {
+                mlg::vec3 direction = computeDirection(transform.position, registry);
                 getCppScriptById<Bullet>(entity, registry)
-                    ->setDirection(computeDirection(transform.position, registry));
+                    ->setDirection(direction);
+
+                NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+                uint32_t networkId = room.idFactory.generateNetworkId();
+                networkData._id = networkId;
+                sendBulletSpawn(registry, "Bullet", bulletTransform.position, networkId, room);
+                sendBulletMove(registry, entity, bulletTransform.position, direction, networkId, room);
             }
             catch (const std::exception &e)
             {
@@ -94,10 +111,10 @@ class RedShip : public RType::ICppScript
         for (auto entity : view)
         {
             auto &basics = view.get<Basics>(entity);
-            if (basics.tag == "player")
+            if (basics.tag == "ally")
             {
                 auto &playerTransform = view.get<Transform>(entity);
-                mlg::vec3 newPos = playerTransform.position - position;
+                mlg::vec3 newPos = playerTransform.position - mlg::vec3(0, 20, 0) - position;
                 return newPos.normalize();
             }
         }
@@ -110,6 +127,33 @@ class RedShip : public RType::ICppScript
         auto &transform = registry.get<Transform>(getEntity());
 
         transform.position = NewPosition;
+    }
+
+    void sendBulletSpawn(mobs::Registry &registry, std::string prefab, mlg::vec3 position, uint32_t networkId, NetworkRoom &room)
+    {
+        auto spawnServe = room.factory.createEmptyPacket<dimension::CreateEntity>();
+
+        spawnServe->setNetworkId(networkId);
+        spawnServe->setEntityToCreate(prefab);
+        spawnServe->setPosX(position.x);
+        spawnServe->setPosY(position.y);
+        spawnServe->setScaleX(1);
+        spawnServe->setScaleY(1);
+
+        room.room->sendToAll(spawnServe);
+    }
+
+    void sendBulletMove(mobs::Registry &registry, mobs::Entity entity, mlg::vec3 position, mlg::vec3 direction, uint32_t networkId, NetworkRoom &room)
+    {
+        auto moveServe = room.factory.createEmptyPacket<dimension::MoveEntity>();
+
+        moveServe->setNetworkId(networkId);
+        moveServe->setPosX(position.x);
+        moveServe->setPosY(position.y);
+        moveServe->setDirectionX(direction.x);
+        moveServe->setDirectionY(direction.y);
+
+        room.room->sendToAll(moveServe);
     }
 };
 

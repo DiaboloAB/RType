@@ -1,6 +1,7 @@
 {
   "tag": "player",
   "staticObject": false,
+  "layer": "player",
   "CppScripts": [
     "MovePlayer",
     "AnimPlayer",
