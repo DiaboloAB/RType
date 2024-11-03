@@ -378,6 +378,7 @@ void RenderSystemSFML::playSound(int soundId)
         _activeSounds.emplace_back();
         sf::Sound& sound = _activeSounds.back();
         sound.setBuffer(*it->second);
+        sound.setVolume(_soundVolume);
         sound.play();
     }
     else
@@ -652,6 +653,10 @@ KeyCode RenderSystemSFML::convertSFMLJoystickButtonToKeyCode(unsigned int button
     }
 }
 
+void RenderSystemSFML::setSoundVolume(int volume)
+{
+    _soundVolume = volume;
+}
 
 void RenderSystemSFML::resetShader() { _activeShader = nullptr; }
 

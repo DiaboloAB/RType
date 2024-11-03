@@ -123,6 +123,7 @@ class DrawableSystem : public ISystem
 
         moveSelection(registry, gameContext, selectedButton, selectedTransform, buttons);
     }
+
     void draw(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto view = registry.view<Text, Transform>();
@@ -207,6 +208,14 @@ class DrawableSystem : public ISystem
 
     void buttonAction(mobs::Registry &registry, GameContext &gameContext, Button &button)
     {
+        if (button.events.size() > 0)
+        {
+            for (auto &event : button.events)
+            {
+                std::cout << "event: " << event << std::endl;
+                gameContext.addEvent(event, {});
+            }
+        }
         try
         {
             gameContext.get<CppScriptComponent>(button.entity)

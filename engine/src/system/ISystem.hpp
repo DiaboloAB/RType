@@ -52,6 +52,12 @@ class ISystem
      */
     virtual void update(mobs::Registry &registry, GameContext &gameContext) {}
 
+    /**
+     * @brief Called every frame to update the system.
+     *
+     * @param registry Reference to the entity-component registry.
+     * @param gameContext Reference to the game context.
+     */
     virtual void events(mobs::Registry &registry, GameContext &gameContext) {}
 
     /**

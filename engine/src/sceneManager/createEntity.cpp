@@ -60,16 +60,20 @@ static void addComponentsToEntity(const nlohmann::json& componentData, mobs::Reg
 }
 
 void SceneManager::createEntity(const nlohmann::json& prefabJson, mobs::Entity entity,
-                                mobs::Registry& registry, GameContext& gameContext)
+                                mobs::Registry& registry, GameContext& gameContext, bool alreadyLoaded)
 {
-    _entitiesToStart.push_back(entity);
     try
     {
         bool staticObject = prefabJson.value("staticObject", true);
+        if (alreadyLoaded && !staticObject) {
+            registry.kill(entity);
+            return;
+        }
         std::string tag = prefabJson.value("tag", "defaultTag");
         std::string layer = prefabJson.value("layer", "defaultLayer");
 
         registry.emplace<Basics>(entity, tag, layer, staticObject);
+        _entitiesToStart.push_back(entity);
 
         addComponentsToEntity<COMPONENT_TYPES>(prefabJson["components"], registry, entity);
 

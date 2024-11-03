@@ -252,6 +252,8 @@ class RenderSystemSFML : public RType::IRuntime
     void resetShader() override;
     void unloadShader(int shaderId) override;
 
+    void setSoundVolume(int volume) override;
+
    private:
     sf::Image _icon;
     bool _isFullScreen;
@@ -285,6 +287,8 @@ class RenderSystemSFML : public RType::IRuntime
 
     std::vector<bool> _currentKeys = std::vector<bool>(1000, false);
     std::vector<bool> _previousKeys = std::vector<bool>(1000, false);
+
+    int _soundVolume = 50;
 
     sf::Shader* _activeShader;
 };

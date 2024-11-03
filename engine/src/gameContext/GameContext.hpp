@@ -89,18 +89,36 @@ class GameContext
         }
     }
 
+    /**
+     * @brief Updates the game context.
+     */
     void addEvent(std::string event, std::vector<std::variant<float, std::string>> args)
     {
         _events[event] = args;
     }
 
+    /**
+     * @brief Checks if an event exists.
+     *
+     * @param event The event to check.
+     * @return true if the event exists, false otherwise.
+     */
     bool hasEvent(std::string event) { return _events.find(event) != _events.end(); }
 
+    /**
+     * @brief Gets the event.
+     *
+     * @param event The event to get.
+     * @return The event.
+     */
     std::vector<std::variant<float, std::string>> getEvent(std::string event)
     {
         return _events[event];
     }
 
+    /**
+     * @brief Clears all events.
+     */
     void clearEvents() { _events.clear(); }
 
     std::shared_ptr<IRuntime> _runtime;  ///< The runtime.

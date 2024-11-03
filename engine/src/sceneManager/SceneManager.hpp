@@ -88,7 +88,7 @@ class SceneManager
      * @param gameContext The context of the game.
      */
     void createEntity(const nlohmann::json &prefabJson, mobs::Entity entity,
-                      mobs::Registry &registry, GameContext &gameContext);
+                      mobs::Registry &registry, GameContext &gameContext, bool alreadyLoaded = false);
 
 
     /**
@@ -97,7 +97,8 @@ class SceneManager
     std::string _nextScene = "";
     bool _prefabLoaded = false;
 
-    std::vector<mobs::Entity> _entitiesToStart;
+    std::vector<std::string> _alreadyLoadedScenes; ///< The scenes that have already been loaded. So we don't load non-static entities again.
+    std::vector<mobs::Entity> _entitiesToStart;   ///< The entities to start.
     std::string _defaultScene;                    ///< The default scene name.
     std::string _currentScene;                    ///< The current scene name.
     std::map<std::string, std::string> _scenes;   ///< The scenes.

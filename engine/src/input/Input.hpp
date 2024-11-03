@@ -26,12 +26,15 @@ public:
         addAction("Right", Action({ KeyCode::RightArrow, KeyCode::LeftStickRight }));
         addAction("Action1", Action({ KeyCode::Enter, KeyCode::ButtonA }));
         addAction("Action2", Action({ KeyCode::Escape, KeyCode::ButtonB }));
-        // Default axes
-        // addAxis("Horizontal", Axis({ KeyCode::Right }, { KeyCode::Left }));
-        // addAxis("Vertical", Axis({ KeyCode::Down }, { KeyCode::Up }));
     };
     ~Input() {};
 
+    /**
+     * @brief Updates the input.
+     * @param runtime The runtime system.
+     * 
+     * This method updates the input by checking if any of the keys are pressed.
+     */
     void update(std::shared_ptr<IRuntime> runtime) {
         for (auto& action : _actions) {
             action.second.update(runtime);
@@ -41,6 +44,11 @@ public:
         }
     }
 
+    /**
+     * @brief Gets the value of the action.
+     * @param name The name of the action.
+     * @return The value of the action.
+     */
     bool getAction(const std::string& name) const {
         auto it = _actions.find(name);
         if (it == _actions.end()) {
@@ -49,6 +57,11 @@ public:
         return it->second.get();
     }
 
+    /**
+     * @brief Gets the value of the axis.
+     * @param name The name of the axis.
+     * @return The value of the axis.
+     */
     int getAxis(const std::string& name) const {
         auto it = _axes.find(name);
         if (it == _axes.end()) {
@@ -58,13 +71,23 @@ public:
     }
 
 private:
-    std::map<std::string, Action> _actions;
-    std::map<std::string, Axis> _axes;
+    std::map<std::string, Action> _actions; ///< The actions.
+    std::map<std::string, Axis> _axes; ///< The axes.
 
+    /**
+     * @brief Adds an action.
+     * @param name The name of the action.
+     * @param action The action.
+     */
     void addAction(const std::string& name, const Action& action) {
         _actions[name] = action;
     }
 
+    /**
+     * @brief Adds an axis.
+     * @param name The name of the axis.
+     * @param axis The axis.
+     */
     void addAxis(const std::string& name, const Axis& axis) {
         _axes[name] = axis;
     }
