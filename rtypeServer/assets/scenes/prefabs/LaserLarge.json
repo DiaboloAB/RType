@@ -1,5 +1,5 @@
 {
-    "tag": "Laser",
+    "tag": "LaserLarge",
     "layer": "playerProjectile",
     "staticObject": true,
     "CppScripts": [
@@ -11,7 +11,7 @@
             "scale": [2, 2, 0]
         },
         "Collider": {
-            "size": [16, 12, 0],
+            "size": [48, 14, 0],
             "offSet": [0, 0, 0],
             "isTrigger": true
         },
@@ -22,11 +22,11 @@
         "Animator": {
             "animations": [
                 {
-                    "name": "default",
+                    "name": "defaults",
                     "speed": 10,
-                    "texture": "graphics/player/beam/small.png",
+                    "texture": "graphics/player/beam/large.png",
                     "frameCount": 2,
-                    "frameSize": [16, 12, 0],
+                    "frameSize": [48, 14, 0],
                     "loop": true
                 }
             ]

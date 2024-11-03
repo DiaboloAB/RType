@@ -31,38 +31,31 @@ class PlayerShoot : public RType::ICppScript
         if (gameContext._runtime->getKeyUp(KeyCode::Space))
         {
             float charge = timer.getTime();
-            mobs::Entity laser = gameContext._sceneManager.instantiate("Laser", gameContext);
-            auto &animator = registry.get<Animator>(laser).animations;
-            auto &transform = registry.get<Transform>(laser);
-            auto &collider = registry.get<Collider>(laser);
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+            auto networkId = registry.get<NetworkData>(getEntity())._id;
+            auto laserPacket = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
 
-            transform.position =
-                registry.get<Transform>(getEntity()).position + mlg::vec3(50, 0, 0);
+            laserPacket->setClientEvent(dimension::ClientEventType::ATTACK);
+            std::string PlayerId = std::to_string(networkId);
 
             if (charge < 0.4)
             {
-                animator.playAnim("small");
-                collider.size = mlg::vec3(16, 10, 0);
-                health = 1;
+                laserPacket->setDescription("laser:shoot=small=" + PlayerId);
             }
             else if (charge < 1)
             {
-                animator.playAnim("medium");
-                collider.size = mlg::vec3(32, 12, 0);
-                health = 2;
+                laserPacket->setDescription("laser:shoot=medium=" + PlayerId);
             }
             else if (charge < 1.6)
             {
-                animator.playAnim("large");
-                collider.size = mlg::vec3(48, 14, 0);
-                health = 3;
+                laserPacket->setDescription("laser:shoot=large=" + PlayerId);
             }
             else
             {
-                animator.playAnim("full");
-                collider.size = mlg::vec3(64, 14, 0);
-                health = 5;
+                laserPacket->setDescription("laser:shoot=full=" + PlayerId);
             }
+
+            networkC.client->send(laserPacket, *networkC.client->_directionEndpoint, true);
             timer.reset();
             timer.stop();
         }

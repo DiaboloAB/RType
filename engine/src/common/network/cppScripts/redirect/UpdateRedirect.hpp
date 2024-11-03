@@ -90,6 +90,14 @@ class UpdateRedirect
         }
     }
 
+    static void updateEntity(mobs::Registry &registry, GameContext &gameContext, PacketDatas &packet)
+    {
+        auto packetUpdate = std::dynamic_pointer_cast<dimension::UpdateEntity>(packet.first);
+        std::string packetDescription = packetUpdate->getDescription();
+
+        std::cout << "Packet description: " << packetDescription << std::endl;
+    }
+
    public:
     /**
      * @brief Call the handler associated with Update packet context stored in
@@ -112,6 +120,7 @@ class UpdateRedirect
 
             std::string packetDescription = packetUpdate->getDescription();
             if (packetDescription.find("room:", 0) == 0) updateRoom(registry, gameContext, packet);
+            if (packetDescription.find("entity", 0) == 0) updateEntity(registry, gameContext, packet);
             if (packetDescription.find("scene:", 0) == 0)
                 updateScene(registry, gameContext, packet);
         }

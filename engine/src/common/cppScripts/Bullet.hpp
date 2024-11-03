@@ -28,9 +28,21 @@ class Bullet : public RType::ICppScript
 
         transform.position += direction * speed * gameContext._deltaT;
 
-        /// TODO : server responsability
+        try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+        } catch (const std::exception &e) {
+        }
         if (outOfBounds(transform.position))
         {
+            NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+            auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+            killServe->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+            room.room->sendToAll(killServe);
+
             registry.kill(getEntity());
         }
     }

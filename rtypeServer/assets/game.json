@@ -28,6 +28,18 @@
             "path": "scenes/prefabs/Laser.json"
         },
         {
+            "name": "LaserMedium",
+            "path": "scenes/prefabs/LaserMedium.json"
+        },
+        {
+            "name": "LaserLarge",
+            "path": "scenes/prefabs/LaserLarge.json"
+        },
+        {
+            "name": "LaserFull",
+            "path": "scenes/prefabs/LaserFull.json"
+        },
+        {
             "name": "Bullet",
             "path": "scenes/prefabs/Bullet.json"
         },

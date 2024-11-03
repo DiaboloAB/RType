@@ -33,6 +33,7 @@ class GameManager : public RType::ICppScript
                         gameContext._sceneManager.instantiate(event.prefab, gameContext);
                     auto &transform = registry.get<Transform>(entity);
                     auto &basic = registry.get<Basics>(entity);
+                    auto &networkData = registry.get<NetworkData>(entity);
 
                     basic.tag = event.prefab + std::to_string(_eventID);
                     transform.position = event.position;
@@ -41,6 +42,7 @@ class GameManager : public RType::ICppScript
 
                     NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
                     uint32_t networkId = room.idFactory.generateNetworkId();
+                    networkData._id = networkId;
                     sendEventSpawn(registry, event.prefab, event.position, event.scale, networkId, room);
                 }
                 if (event.type == "stopScrolling")

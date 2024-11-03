@@ -24,7 +24,32 @@ class RedShip : public RType::ICppScript
     {
         auto &animations = registry.get<Animator>(getEntity()).animations;
 
-        animations.playAnim("explosion");
+        try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+        } catch (const std::exception &e) {}
+
+        NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+        auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+        getCppScriptById<MoveLaser>(other, registry)->reduceHealth(registry, 1);
+
+        auto createServ = room.factory.createEmptyPacket<dimension::CreateEntity>();
+        uint32_t id = room.idFactory.generateNetworkId();
+        auto &transform = registry.get<Transform>(getEntity());
+        createServ->setNetworkId(id);
+        createServ->setEntityToCreate("Explosion");
+        createServ->setPosX(transform.position.x);
+        createServ->setPosY(transform.position.y);
+        createServ->setScaleX(1);
+        createServ->setScaleY(1);
+        room.room->sendToAll(createServ);
+
+        killServe->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+        room.room->sendToAll(killServe);
+        registry.kill(getEntity());
     }
 
     void start(mobs::Registry &registry, GameContext &gameContext) override
@@ -56,9 +81,7 @@ class RedShip : public RType::ICppScript
             timer.reset();
             mobs::Entity entity = gameContext._sceneManager.instantiate("Bullet", gameContext);
 
-            auto &bulletBasic = registry.get<Basics>(entity);
             auto &bulletTransform = registry.get<Transform>(entity);
-            auto &entityScript = registry.get<CppScriptComponent>(entity);
             auto &networkData = registry.get<NetworkData>(entity);
 
             bulletTransform.position = transform.position + mlg::vec3(-20, 32, 0);
@@ -80,9 +103,20 @@ class RedShip : public RType::ICppScript
             }
         }
 
-        /// TODO : server responsability
+        try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+        } catch (const std::exception &e) {}
         if (transform.position.x < -100)
         {
+            NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+            auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+            killServe->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+            room.room->sendToAll(killServe);
+
             registry.kill(getEntity());
         }
     }
