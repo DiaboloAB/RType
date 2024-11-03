@@ -32,6 +32,19 @@ class ComServer : public RType::ICppScript
                 networkC.client->send(event, *networkC.client->_serverEndpoint);
         }
     }
+
+    void events(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto &networkC = registry.get<NetworkClient>(getEntity());
+        if (gameContext.hasEvent("startTheGame"))
+        {
+            auto event = networkC.factory.createEmptyPacket<dimension::ClientEvent>();
+            event->setClientEvent(dimension::ClientEventType::ROOM);
+            event->setDescription("start=N");
+            if (networkC.client->_serverEndpoint)
+                networkC.client->send(event, *networkC.client->_serverEndpoint);
+        }
+    }
     static constexpr const char *name = "ComServer";
 
    private:

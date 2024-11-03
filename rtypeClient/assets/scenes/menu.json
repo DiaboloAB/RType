@@ -242,6 +242,21 @@
       }
     },
     {
+      "tag": "play",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [1700, 900, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Play",
+          "color": [255, 255, 255],
+          "size": [100, 30, 0],
+          "events": ["startTheGame"]
+        }
+      }
+    },
+    {
       "tag": "NetworkCom",
       "staticObject": false,
       "components": {
