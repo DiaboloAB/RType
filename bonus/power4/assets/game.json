@@ -16,6 +16,20 @@
         {
             "name": "game",
             "path": "scenes/game.json"
+        },
+        {
+            "name": "end",
+            "path": "scenes/end.json"
+        }
+    ],
+    "prefabs": [
+        {
+            "name": "redBall",
+            "path": "scenes/prefabs/redBall.json"
+        },
+        {
+            "name": "yellowBall",
+            "path": "scenes/prefabs/yellowBall.json"
         }
     ]
 }

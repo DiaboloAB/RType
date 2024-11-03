@@ -39,3 +39,4 @@ r-type_client
 bonus/power4/power4
 .venv/
 env/
+**/power4

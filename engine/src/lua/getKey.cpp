@@ -122,6 +122,34 @@ int getMousePosition(lua_State* L)
     return 2;
 }
 
+int hasEvent(lua_State* L)
+{
+    const char* eventName = lua_tostring(L, 1);
+
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    bool hasEvent = gameContext->hasEvent(eventName);
+
+    lua_pushboolean(L, hasEvent);
+
+    return 1;
+}
+
+int instantiate(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    const char* prefabName = lua_tostring(L, 1);
+
+    mobs::Entity entity = gameContext->_sceneManager.instantiate(prefabName, *gameContext);
+
+    lua_pushinteger(L, entity);
+
+    return 1;
+}
+
 void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
 {
     lua_pushlightuserdata(L, gameContext);
@@ -167,6 +195,26 @@ void initializeLuaBindings(lua_State* L, RType::GameContext* gameContext)
     lua_pushlightuserdata(L, gameContext);
     lua_pushcclosure(L, (lua_CFunction)setRigidBody, 1);
     lua_setglobal(L, "setRigidBody");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)hasEvent, 1);
+    lua_setglobal(L, "hasEvent");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)instantiate, 1);
+    lua_setglobal(L, "instantiate");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)setEntityPosition, 1);
+    lua_setglobal(L, "setEntityPosition");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)getEntityId, 1);
+    lua_setglobal(L, "getEntityId");
+
+    lua_pushlightuserdata(L, gameContext);
+    lua_pushcclosure(L, (lua_CFunction)setEntityText, 1);
+    lua_setglobal(L, "setEntityText");
 }
 
 #endif  // GETKEY_H

@@ -65,7 +65,6 @@ struct Scripts
 
             if (lua_pcall(L, 2, 0, 0) != LUA_OK)
             {
-                std::cerr << "Failed to call start: " << lua_tostring(L, -1) << std::endl;
                 lua_pop(L, 1);
             }
         }
@@ -82,7 +81,6 @@ struct Scripts
 
             if (lua_pcall(L, 2, 0, 0) != LUA_OK)
             {
-                std::cerr << "Failed to call update: " << lua_tostring(L, -1) << std::endl;
                 lua_pop(L, 1);
             }
         }
@@ -99,7 +97,42 @@ struct Scripts
 
             if (lua_pcall(L, 2, 0, 0) != LUA_OK)
             {
-                std::cerr << "Failed to call " << action << ": " << lua_tostring(L, -1) << std::endl;
+                lua_pop(L, 1);
+            }
+        }
+    }
+
+    void eventsAll(mobs::Registry& registry, GameContext& gameContext)
+    {
+        for (auto L : luaStates)
+        {
+            lua_getglobal(L, "events");
+
+            lua_pushlightuserdata(L, &registry);
+            lua_pushlightuserdata(L, &gameContext);
+
+            if (lua_pcall(L, 2, 0, 0) != LUA_OK)
+            {
+                std::cerr << "Failed to call events: " << lua_tostring(L, -1) << std::endl;
+                lua_pop(L, 1);
+            }
+
+        }
+    }
+
+    void onCollisionEnterAll(mobs::Registry& registry, GameContext& gameContext, mobs::Entity other)
+    {
+        for (auto L : luaStates)
+        {
+            lua_getglobal(L, "onCollisionEnter");
+
+            lua_pushlightuserdata(L, &registry);
+            lua_pushlightuserdata(L, &gameContext);
+            lua_pushinteger(L, other);
+
+            if (lua_pcall(L, 3, 0, 0) != LUA_OK)
+            {
+                std::cerr << "Failed to call onCollisionStay: " << lua_tostring(L, -1) << std::endl;
                 lua_pop(L, 1);
             }
         }

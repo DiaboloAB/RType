@@ -19,10 +19,12 @@ int getLuaGlobalInteger(lua_State* L, const char* name);
 
 void playMusicSound(lua_State* L);
 int getPosition(lua_State* L);
+int setEntityPosition(lua_State* L);
 void setPosition(lua_State* L);
 void setRigidBody(lua_State* L);
 int getRigidBody(lua_State* L);
-
+int getEntityId(lua_State* L);
+int setEntityText(lua_State* L);
 
 
 #endif  // LUABINDINGS_H

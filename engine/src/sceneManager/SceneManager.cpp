@@ -70,6 +70,7 @@ mobs::Entity SceneManager::instantiate(const std::string& prefabName, GameContex
         std::cerr << "Error: Could not open file" << std::endl;
         throw std::runtime_error("Could not open file");
     }
+    std::cout << "Loading prefab: " << prefabName << std::endl;
     nlohmann::json prefabJson;
     i >> prefabJson;
     mobs::Entity entity = gameContext._registry.create();

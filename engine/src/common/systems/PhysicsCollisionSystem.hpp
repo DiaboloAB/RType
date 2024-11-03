@@ -61,17 +61,24 @@ class PhysicsSystem : public ISystem
                     {
                         if (result == ENTER)
                         {
-                            registry.get<CppScriptComponent>(entity).onCollisionEnterAll(
-                                registry, gameContext, otherEntity);
+                            if (registry.hasComponent<CppScriptComponent>(entity))
+                                registry.get<CppScriptComponent>(entity).onCollisionEnterAll(
+                                    registry, gameContext, otherEntity);
+                            for (const auto& event : collider.events)
+                            {
+                                gameContext.addEvent(event, {});
+                            }
                         }
                         else if (result == STAY)
                         {
-                            registry.get<CppScriptComponent>(entity).onCollisionStayAll(
+                            if (registry.hasComponent<CppScriptComponent>(entity))
+                                registry.get<CppScriptComponent>(entity).onCollisionStayAll(
                                 registry, gameContext, otherEntity);
                         }
                         else if (result == EXIT)
                         {
-                            registry.get<CppScriptComponent>(entity).onCollisionExitAll(
+                            if (registry.hasComponent<CppScriptComponent>(entity))
+                                registry.get<CppScriptComponent>(entity).onCollisionExitAll(
                                 registry, gameContext, otherEntity);
                         }
                     }

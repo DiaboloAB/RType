@@ -40,6 +40,16 @@ class ScriptSystem : public ISystem
         }
     }
 
+    void events(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto view = registry.view<Scripts>();
+        for (auto entity : view)
+        {
+            auto &scripts = view.get<Scripts>(entity);
+            scripts.eventsAll(registry, gameContext);
+        }
+    }
+
    private:
 };
 

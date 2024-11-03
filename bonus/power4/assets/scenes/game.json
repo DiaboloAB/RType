@@ -11,6 +11,21 @@
       }
     },
     {
+      "tag": "winner",
+      "staticObject": false,
+      "components": {
+        "Transform": {
+          "position": [500, 200, 0]
+        },
+        "Text": {
+          "font": "fonts/Roboto.ttf",
+          "fontSize": 100,
+          "text": "",
+          "color": [255, 255, 255]
+        }
+      }
+    },
+    {
       "layer": "ground",
       "components": {
         "Transform": {
@@ -154,7 +169,7 @@
       "layer": "yellowBall",
       "components": {
         "Transform": {
-          "position": [1700, 0, 0]
+          "position": [1600, 800, 0]
         },
         "Sprite": {
           "texture": "graphics/yellowBall.png"
@@ -177,81 +192,143 @@
       }
     },
     {
-      "layer": "yellowBall",
+      "tag": "triggerColumn1",
+      "layer": "triggerColumn",
       "components": {
         "Transform": {
-          "position": [1700, 0, 0]
-        },
-        "Sprite": {
-          "texture": "graphics/yellowBall.png"
+          "position": [200, 260, 0]
         },
         "RigidBody": {
-          "static": false,
-          "mass": 800
+          "static": true
         },
         "Collider": {
+          "isTrigger": true,
           "layerMask": [
-            "ground", "wall", "yellowBall"
+            "yellowBall", "redBall"
           ],
-          "isTrigger": false,
-          "size": [70, 115, 0],
-          "offset": [20, 0, 0]
-        },
-        "Scripts": [
-          "scripts/ball.lua"
-        ]
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn1", "triggerColumn" ]
+        }
       }
     },
     {
-      "layer": "yellowBall",
+      "tag": "triggerColumn2",
+      "layer": "triggerColumn",
       "components": {
         "Transform": {
-          "position": [1700, 0, 0]
-        },
-        "Sprite": {
-          "texture": "graphics/yellowBall.png"
+          "position": [315, 260, 0]
         },
         "RigidBody": {
-          "static": false,
-          "mass": 800
+          "static": true
         },
         "Collider": {
+          "isTrigger": true,
           "layerMask": [
-            "ground", "wall", "yellowBall"
+            "yellowBall", "redBall"
           ],
-          "isTrigger": false,
-          "size": [70, 115, 0],
-          "offset": [20, 0, 0]
-        },
-        "Scripts": [
-          "scripts/ball.lua"
-        ]
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn2", "triggerColumn" ]
+        }
       }
     },
     {
-      "layer": "yellowBall",
+      "tag": "triggerColumn3",
+      "layer": "triggerColumn",
       "components": {
         "Transform": {
-          "position": [1700, 0, 0]
-        },
-        "Sprite": {
-          "texture": "graphics/yellowBall.png"
+          "position": [430, 260, 0]
         },
         "RigidBody": {
-          "static": false,
-          "mass": 800
+          "static": true
         },
         "Collider": {
+          "isTrigger": true,
           "layerMask": [
-            "ground", "wall", "yellowBall"
+            "yellowBall", "redBall"
           ],
-          "isTrigger": false,
-          "size": [70, 115, 0],
-          "offset": [20, 0, 0]
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn3", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn4",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [545, 260, 0]
         },
-        "Scripts": [
-          "scripts/ball.lua"
-        ]
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn4", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn5",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [660, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn5", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn6",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [775, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn6", "triggerColumn" ]
+        }
+      }
+    },
+    {
+      "tag": "triggerColumn7",
+      "layer": "triggerColumn",
+      "components": {
+        "Transform": {
+          "position": [890, 260, 0]
+        },
+        "RigidBody": {
+          "static": true
+        },
+        "Collider": {
+          "isTrigger": true,
+          "layerMask": [
+            "yellowBall", "redBall"
+          ],
+          "size": [100, 10, 0],
+          "events": [ "triggerColumn7", "triggerColumn" ]
+        }
       }
     }
   ]

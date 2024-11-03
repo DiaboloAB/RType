@@ -89,3 +89,53 @@ void setRigidBody(lua_State* L)
         rigidBody.velocity.y = luaL_checknumber(L, 2);
     }
 }
+
+int setEntityPosition(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    int entityId = luaL_checkinteger(L, 1);
+
+    if (gameContext->_registry.hasComponent<RType::Transform>(entityId)) {
+        RType::Transform &transform = gameContext->_registry.get<RType::Transform>(entityId);
+        float x = luaL_checknumber(L, 2);
+        float y = luaL_checknumber(L, 3);
+        transform.position.x = x;
+        transform.position.y = y;
+    }
+    return 0;
+}
+
+int getEntityId(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    std::string tag = luaL_checkstring(L, 1);
+
+    for (auto entity : gameContext->_registry.view<RType::Basics>()) {
+        auto &basics = gameContext->_registry.get<RType::Basics>(entity);
+        if (basics.tag == tag) {
+            lua_pushinteger(L, entity);
+            return 1;
+        }
+    }
+    return 1;
+}
+
+int setEntityText(lua_State* L)
+{
+    RType::GameContext* gameContext =
+        static_cast<RType::GameContext*>(lua_touserdata(L, lua_upvalueindex(1)));
+
+    int entityId = luaL_checkinteger(L, 1);
+    std::string text = luaL_checkstring(L, 2);
+
+    if (gameContext->_registry.hasComponent<RType::Text>(entityId)) {
+        RType::Text &textComponent = gameContext->_registry.get<RType::Text>(entityId);
+        textComponent.text = text;
+    }
+    return 0;
+}
+

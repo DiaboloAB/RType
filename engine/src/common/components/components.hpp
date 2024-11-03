@@ -115,6 +115,8 @@ struct Collider
     std::vector<mobs::Entity> collisions;
     std::vector<std::string> layerMask;
 
+    std::vector<std::string> events;
+
     int isColliding(mlg::vec3 position, mobs::Entity otherEntity, mlg::vec3 otherPosition,
                     mlg::vec3 otherSize, mlg::vec3 scale, mlg::vec3 otherScale)
     {
