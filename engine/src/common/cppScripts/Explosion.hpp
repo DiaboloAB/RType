@@ -24,6 +24,16 @@ class Explosion : public RType::ICppScript
         animations.playAnim("explosion");
     }
 
+    void update(mobs::Registry &registry, GameContext &gameContext) override
+    {
+        auto &animations = registry.get<Animator>(getEntity()).animations;
+
+        if (animations.getCurrentAnim() == "default")
+        {
+            registry.kill(getEntity());
+        }
+    }
+
     static constexpr const char *name = "Explosion";
 
    private:
