@@ -83,8 +83,19 @@ class SystemManager
      */
     void draw(mobs::Registry &registry, GameContext &gameContext);
 
+    /**
+     * @brief Handles events for all systems.
+     *
+     * @param registry The registry containing all entities and components.
+     * @param gameContext The context of the game.
+     */
     void events(mobs::Registry &registry, GameContext &gameContext);
 
+    /**
+     * @brief Gets the number of systems.
+     *
+     * @return int The number of systems.
+     */
     int getSystemCount() const { return _systems.size(); }
 
    private:
