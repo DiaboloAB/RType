@@ -73,10 +73,6 @@ class Menu : public RType::ICppScript
                 std::cerr << e.what() << std::endl;
             }
         }
-        else if (action == "startGame")
-        {
-            gameContext._sceneManager.switchScene("scene2");
-        }
         else if (action == "findGame")
         {
             auto &networkC = gameContext.get<NetworkClient>("NetworkCom");

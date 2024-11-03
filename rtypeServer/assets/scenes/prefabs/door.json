@@ -1,5 +1,6 @@
 {
     "tag": "door",
+    "layer": "wall",
     "staticObject": true,
     "CppScripts": [
         "Terrain"
@@ -11,7 +12,9 @@
         },
         "Collider": {
             "size": [192, 96, 0],
-            "offSet": [0, 0, 0]
+            "offSet": [0, 0, 0],
+            "isTrigger": true,
+            "layerMask": "ally"
         },
         "NetworkData": {
             "id": 0,

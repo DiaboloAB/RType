@@ -1,5 +1,6 @@
 {
     "tag": "bullet",
+    "layer": "ally",
     "staticObject": true,
     "CppScripts": [
         "Bullet"

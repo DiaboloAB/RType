@@ -32,6 +32,24 @@ class MoveLaser : public RType::ICppScript
         }
     }
 
+    void onCollisionEnter(mobs::Registry &registry, GameContext &gameContext, mobs::Entity other) override
+    {
+        try {
+            auto &networkC = gameContext.get<NetworkClient>("NetworkCom");
+
+            if (networkC.client->_serverEndpoint) {
+                return;
+            }
+        } catch (const std::exception &e) {
+        }
+        NetworkRoom &room = registry.get<NetworkRoom>(registry.view<NetworkRoom>().front());
+        auto killServe = room.factory.createEmptyPacket<dimension::DestroyEntity>();
+        killServe->setNetworkId(registry.get<NetworkData>(getEntity())._id);
+        room.room->sendToAll(killServe);
+
+        registry.kill(getEntity());
+    }
+
     void start(mobs::Registry &registry, GameContext &gameContext) override
     {
         auto &basic = registry.get<Basics>(getEntity());

@@ -1,5 +1,6 @@
 {
     "tag": "floor_0",
+    "layer": "wall",
     "staticObject": true,
     "CppScripts": [
         "Terrain"
@@ -15,7 +16,9 @@
         },
         "Collider": {
             "size": [64, 16, 0],
-            "offSet": [0, 0, 0]
+            "offSet": [0, 0, 0],
+            "isTrigger": true,
+            "layerMask": "ally"
         },
         "Animator": {
             "animations": [

@@ -13,7 +13,8 @@
         "Collider": {
             "size": [32, 12, 0],
             "offSet": [0, 0, 0],
-            "isTrigger": true
+            "isTrigger": true,
+            "layerMask": "wall"
         },
         "NetworkData": {
             "id": 0,
