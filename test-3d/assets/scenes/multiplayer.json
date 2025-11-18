@@ -1,0 +1,95 @@
+{
+    "entities": [
+      {
+        "tag": "thruster",
+        "staticObject": false,
+        "CppScripts": [
+          "AnimThruster"
+        ],
+        "components": {
+          "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+          },
+          "Sticky": {
+            "target": "player",
+            "offset": [-32, -8, 0]
+          },
+          "Animator": {
+            "animations": [
+              {
+                "name": "default",
+                "speed": 1,
+                "texture": "graphics/player/thruster/low.png",
+                "frameCount": 1,
+                "frameSize": [1, 1, 0],
+                "loop": true
+              },
+              {
+                "name": "low",
+                "speed": 10,
+                "texture": "graphics/player/thruster/low.png",
+                "frameCount": 2,
+                "frameSize": [32, 32, 0],
+                "loop": true
+              },
+              {
+                "name": "full",
+                "speed": 10,
+                "texture": "graphics/player/thruster/high.png",
+                "frameCount": 2,
+                "frameSize": [32, 32, 0],
+                "loop": true
+              }
+            ]
+          }
+        }
+      },
+      {
+        "tag": "LaserCharge",
+        "staticObject": false,
+        "CppScripts": [
+          "AnimLaserCharge"
+        ],
+        "components": {
+          "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+          },
+          "Sticky": {
+            "target": "player",
+            "offset": [30, -8, 0]
+          },
+          "Animator": {
+            "animations": [
+              {
+                "name": "default",
+                "speed": 1,
+                "texture": "graphics/player/beam/charge.png",
+                "frameCount": 1,
+                "frameSize": [1, 1, 0],
+                "loop": true
+              },
+              {
+                "name": "charging",
+                "speed": 10,
+                "texture": "graphics/player/beam/charge.png",
+                "frameCount": 8,
+                "frameSize": [32, 32, 0],
+                "loop": true
+              },
+              {
+                "name": "charged",
+                "speed": 10,
+                "texture": "graphics/player/beam/charged.png",
+                "frameCount": 3,
+                "frameSize": [32, 32, 0],
+                "loop": true
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+  

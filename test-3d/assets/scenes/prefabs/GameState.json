@@ -1,0 +1,14 @@
+{
+    "tag": "GameState",
+    "layer": "none",
+    "CppScripts": [
+        "GameState"
+    ],
+    "staticObject": true,
+    "components": {
+        "NetworkData": {
+            "id": 0,
+            "authority": "client"
+        }
+    }
+}

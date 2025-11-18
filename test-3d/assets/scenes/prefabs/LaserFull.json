@@ -1,0 +1,35 @@
+{
+    "tag": "LaserFull",
+    "layer": "playerProjectile",
+    "staticObject": true,
+    "CppScripts": [
+        "MoveLaser"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Collider": {
+            "size": [64, 14, 0],
+            "offSet": [0, 0, 0],
+            "isTrigger": true
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 10,
+                    "texture": "graphics/player/beam/full.png",
+                    "frameCount": 2,
+                    "frameSize": [64, 14, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

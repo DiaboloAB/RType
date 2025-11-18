@@ -7,8 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_subdirectory(engine)
 
-add_subdirectory(rtypeServer)
-add_subdirectory(rtypeClient)
+add_subdirectory(test-3d)
+# add_subdirectory(rtypeServer)
+# add_subdirectory(rtypeClient)
 
 option(BONUS "Build bonus features" OFF)
 

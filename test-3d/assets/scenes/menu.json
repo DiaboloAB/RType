@@ -1,0 +1,271 @@
+{
+  "entities": [
+    {
+      "tag": "menuManager",
+      "staticObject": false,
+      "CppScripts": ["Menu"]
+    },
+    {
+      "staticObject": false,
+      "components": {
+        "Transform": { "position": [0, 0, 0] },
+        "Metrics": {
+        }
+      }
+    },
+    {
+      "staticObject": false,
+      "components": {
+        "Transform": { "position": [1000, 900, 0] },
+        "Console": {
+        }
+      }
+    },
+    {
+      "tag": "soundManager",
+      "staticObject": false,
+      "components": {
+        "Audio": {
+          "musicList": [
+            "sounds/mainTrack.ogg"
+          ],
+          "soundList": [
+            "sounds/bip.ogg"
+          ]
+        },
+        "Scripts": [
+            "scripts/player.lua"
+          ]
+      }
+    },
+    {
+      "tag": "background",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [0, 0, -1] },
+        "Sprite": { "texture": "graphics/background.png" }
+      }
+    },
+    {
+      "tag": "title",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [100, 100, 0] },
+        "Sprite": { "texture": "graphics/R-Type_Logo.png" }
+      }
+    },
+    {
+      "tag": "exitButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 500, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Exit",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "exit"
+        }
+      }
+    },
+    {
+      "tag": "settingsButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 450, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Settings",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "settings"
+        }
+      }
+    },
+    {
+      "tag": "Find game",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 300, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Find Game",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "findGame"
+        }
+      }
+    },
+    {
+      "tag": "Game Code",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 400, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Code:",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "input": true,
+          "content": "0000"
+        }
+      }
+
+    },
+    {
+      "tag": "Host Game",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [150, 350, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Host Game",
+          "color": [255, 255, 255],
+          "size": [200, 50, 0],
+          "entity": "menuManager",
+          "action": "hostGame"
+        }
+      }
+    },
+    {
+      "tag": "Join Game",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [380, 400, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 24,
+          "text": "Join",
+          "color": [255, 255, 255],
+          "size": [100, 50, 0],
+          "entity": "menuManager",
+          "action": "joinPrivate"
+        }
+      }
+    },
+    {
+      "tag": "hostInput",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [30, 950, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Host:",
+          "color": [255, 255, 255],
+          "size": [200, 30, 0],
+          "input": true,
+          "content": "127.0.0.1"
+        }
+      }
+    },
+    {
+      "tag": "portInput",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [260, 950, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Port:",
+          "color": [255, 255, 255],
+          "size": [100, 30, 0],
+          "input": true,
+          "content": "8581"
+        }
+      }
+    },
+    {
+      "tag": "connectButton",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [390, 950, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Connect",
+          "color": [255, 255, 255],
+          "size": [100, 30, 0],
+          "entity": "menuManager",
+          "action": "connect"
+        }
+      }
+    },
+    {
+      "tag": "status",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [30, 900, 0] },
+        "Text": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "status: not connected",
+          "color": [255, 0, 0],
+          "size": [200, 30, 0]
+        }
+      }
+    },
+    {
+      "tag": "Room",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [1700, 940, 0] },
+        "Text": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Room: ",
+          "color": [255, 255, 255],
+          "size": [200, 30, 0]
+        }
+      }
+    },
+    {
+      "tag": "connectedNb",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [1700, 970, 0] },
+        "Text": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Connected: ",
+          "color": [255, 255, 255],
+          "size": [200, 30, 0]
+        }
+      }
+    },
+    {
+      "tag": "play",
+      "staticObject": true,
+      "components": {
+        "Transform": { "position": [1700, 900, 0] },
+        "Button": {
+          "font": "fonts/r-type.ttf",
+          "fontSize": 17,
+          "text": "Play",
+          "color": [255, 255, 255],
+          "size": [100, 30, 0],
+          "events": ["startTheGame"]
+        }
+      }
+    },
+    {
+      "tag": "NetworkCom",
+      "staticObject": false,
+      "components": {
+        "NetworkClient": {}
+      },
+      "CppScripts": [
+        "ComServer",
+        "ClientRedirect"
+      ]
+    }
+  ]
+}

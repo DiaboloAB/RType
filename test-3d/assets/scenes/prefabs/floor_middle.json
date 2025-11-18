@@ -1,0 +1,33 @@
+{
+    "tag": "floor_middle",
+    "staticObject": true,
+    "CppScripts": [
+        "Terrain"
+    ],
+    "components": {
+        "Transform": {
+            "position": [0, 0, 0],
+            "scale": [2, 2, 0]
+        },
+        "Collider": {
+            "size": [64, 32, 0],
+            "offSet": [0, 0, 0]
+        },
+        "NetworkData": {
+            "id": 0,
+            "authority": "server"
+        },
+        "Animator": {
+            "animations": [
+                {
+                    "name": "default",
+                    "speed": 1,
+                    "texture": "graphics/terrain/floor_middle.png",
+                    "frameCount": 1,
+                    "frameSize": [64, 32, 0],
+                    "loop": true
+                }
+            ]
+        }
+    }
+}

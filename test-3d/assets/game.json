@@ -1,0 +1,20 @@
+{
+    "gameName": "test3d",
+    "iconPath": "graphics/icon.png",
+    "version": "1.0.0",
+    "description": "A simple game",
+    "defaultScene": "default",
+    "fontList": [
+        "assets/fonts/Roboto-Medium.ttf",
+        "assets/fonts/r-type.ttf"
+    ],
+    "scenes": [
+        {
+            "name": "default",
+            "path": "scenes/default.json"
+        },
+    ],
+    "prefabs": [
+
+    ]
+}

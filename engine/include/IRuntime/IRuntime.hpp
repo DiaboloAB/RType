@@ -110,7 +110,9 @@ class IRuntime
      * This method must be implemented to set the title of the window.
      */
     virtual void drawRectangle(mlg::vec4& spriteCoords, bool full,
-                               const mlg::vec3& color = mlg::vec3(0, 0, 0)) {}
+                               const mlg::vec3& color = mlg::vec3(0, 0, 0))
+    {
+    }
 
     /**
      * @brief Pure virtual method to set the window icon.
@@ -143,7 +145,9 @@ class IRuntime
      * in the rendering window.
      */
     virtual void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
-                            float rotation) {}
+                            float rotation)
+    {
+    }
     virtual void drawSprite(int spriteId, mlg::vec3 position) {}
 
     /**
@@ -153,7 +157,9 @@ class IRuntime
      * on the screen.
      */
     virtual void drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
-                          unsigned int fontSize, const mlg::vec3& color, bool centered) {}
+                          unsigned int fontSize, const mlg::vec3& color, bool centered)
+    {
+    }
 
     /**
      * @brief Pure virtual method to toggle fullscreen mode.
@@ -269,7 +275,10 @@ class IRuntime
      * shader file.
      */
     virtual int loadShader(const std::string& vertexShaderPath,
-                           const std::string& fragmentShaderPath) { return 0; }
+                           const std::string& fragmentShaderPath)
+    {
+        return 0;
+    }
 
     /**
      * @brief Pure virtual method to set the active shader.
@@ -320,6 +329,42 @@ class IRuntime
      * a shared pointer to the loaded texture.
      */
     virtual void unloadShader(int shaderId) {}
+
+    // // extension 3D
+
+    // // Camera Management
+    // virtual void setCamera(const mlg::vec3& position, const mlg::vec3& target,
+    //                        const mlg::vec3& up) = 0;
+    // virtual void setCameraProjection(float fov, float aspectRatio, float nearPlane,
+    //                                  float farPlane) = 0;
+    // virtual void setOrthographicProjection(float left, float right, float bottom, float top,
+    //                                        float near, float far) = 0;
+
+    // // 3D Model/Mesh Management
+    // virtual int loadModel(const std::string& filePath) = 0;
+    // virtual void unloadModel(int modelId) = 0;
+    // virtual void drawModel(int modelId, const mlg::vec3& position, const mlg::vec3& rotation,
+    //                        const mlg::vec3& scale) = 0;
+
+    // // Lighting
+    // virtual void setAmbientLight(const mlg::vec3& color, float intensity) = 0;
+    // virtual int addDirectionalLight(const mlg::vec3& direction, const mlg::vec3& color,
+    //                                 float intensity) = 0;
+    // virtual int addPointLight(const mlg::vec3& position, const mlg::vec3& color, float intensity,
+    //                           float radius) = 0;
+    // virtual void removeLight(int lightId) = 0;
+
+    // // Depth and Rendering
+    // virtual void clearDepthBuffer() = 0;
+    // virtual void enableDepthTest(bool enable) = 0;
+    // virtual void enableBackfaceCulling(bool enable) = 0;
+
+    // // Shader uniforms for 3D
+    // virtual void setShaderUniform(int shaderId, const std::string& name, float value) = 0;
+    // virtual void setShaderUniform(int shaderId, const std::string& name,
+    //                               const mlg::vec3& value) = 0;
+    // virtual void setShaderUniform(int shaderId, const std::string& name,
+    //                               const mlg::mat4& value) = 0;
 
    private:
     // No private member data defined in this interface.

@@ -21,7 +21,7 @@ if(NOT DEFINED GRAPHICS)
 set(GRAPHICS "SFML" CACHE STRING "Select the graphics library: SFML, SDL, or OFF" FORCE)
 endif()
 
-set_property(CACHE GRAPHICS PROPERTY STRINGS SFML SDL OFF)
+set_property(CACHE GRAPHICS PROPERTY STRINGS SFML SDL OPENGL OFF)
 ######################################################
 
 if(GRAPHICS STREQUAL "SFML")
@@ -29,11 +29,19 @@ message(STATUS "Using SFML as the graphics library")
 add_subdirectory(libs/sfml_lib)
 set(GRAPHICS_LIB sfml_lib::sfml_lib)
 add_definitions(-DGRAPHICS_SFML)
+
 elseif(GRAPHICS STREQUAL "SDL")
 message(STATUS "Using SDL2 as the graphics library")
 add_subdirectory(libs/sdl_lib)
 set(GRAPHICS_LIB sdl_lib::sdl_lib)
 add_definitions(-DGRAPHICS_SDL)
+
+elseif(GRAPHICS STREQUAL "OPENGL")
+message(STATUS "Using OpenGL as the graphics library")
+add_subdirectory(libs/opengl_lib)
+set(GRAPHICS_LIB opengl_lib::opengl_lib)
+add_definitions(-DGRAPHICS_OPENGL)
+
 elseif(GRAPHICS STREQUAL "OFF")
 message(STATUS "Using internal graphics handling (no external library)")
 set(GRAPHICS_LIB "")
@@ -58,15 +66,15 @@ src/common/components/animations/AnimationList.cpp
     src/utils/hexaColorToVec3.cpp
     src/utils/random.cpp
     )
-    
+
     add_library(Holtzman STATIC ${SOURCES})
-    
+
     target_include_directories(Holtzman PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
-    
+
     target_link_libraries(Holtzman PUBLIC
     nlohmann_json::nlohmann_json
     lua::lua

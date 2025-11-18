@@ -8,6 +8,7 @@
 #ifndef MLG_H
 #define MLG_H
 
+#include <mlg/matrice/mat4.hpp>
 #include <mlg/vector/vec3.hpp>
 #include <mlg/vector/vec4.hpp>
 // std

@@ -6,7 +6,7 @@ class MyProjectConan(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
 
     options = {
-        "graphics": ["SFML", "SDL", "OFF"]
+        "graphics": ["SFML", "SDL", "OPENGL", "OFF"]
     }
     default_options = {
         "graphics": "SFML"
@@ -23,6 +23,8 @@ class MyProjectConan(ConanFile):
             self.requires("sdl_mixer/2.8.0")
             self.requires("sdl_image/2.6.3")
         elif self.options.graphics == "SFML":
+            self.requires("sfml/2.5.1")
+        elif self.options.graphics == "OPENGL":
             self.requires("sfml/2.5.1")
 
     def configure(self):

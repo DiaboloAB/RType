@@ -1,0 +1,99 @@
+{
+    "entities": [
+      {
+        "tag": "menuManager",
+        "staticObject": false,
+        "CppScripts": ["Menu"]
+      },
+      {
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [0, 0, 0] },
+          "Metrics": {
+          }
+        }
+      },
+      {
+        "staticObject": false,
+        "components": {
+          "Transform": { "position": [1000, 900, 0] },
+          "Console": {
+          }
+        }
+      },
+      {
+        "tag": "soundManager",
+        "staticObject": false,
+        "components": {
+          "Audio": {
+            "musicList": [
+              "sounds/mainTrack.ogg"
+            ],
+            "soundList": [
+              "sounds/bip.ogg"
+            ]
+          },
+          "Scripts": [
+              "scripts/player.lua"
+            ]
+        }
+      },
+      {
+        "tag": "background",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [0, 0, -1] },
+          "Sprite": { "texture": "graphics/background.png" }
+        }
+      },
+      {
+        "tag": "title",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [100, 100, 0] },
+          "Sprite": { "texture": "graphics/R-Type_Logo.png" }
+        }
+      },
+      {
+        "tag": "GameOver",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [500, 500, 0] },
+          "Sprite": { "texture": "graphics/GameOver.png" }
+        }
+      },
+      {
+        "tag": "exitButton",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [150, 500, 0] },
+          "Button": {
+            "font": "fonts/r-type.ttf",
+            "fontSize": 24,
+            "text": "Exit",
+            "color": [255, 255, 255],
+            "size": [200, 50, 0],
+            "entity": "menuManager",
+            "action": "exit"
+          }
+        }
+      },
+      {
+        "tag": "returnButton",
+        "staticObject": true,
+        "components": {
+          "Transform": { "position": [150, 400, 0] },
+          "Button": {
+            "font": "fonts/r-type.ttf",
+            "fontSize": 24,
+            "text": "Return to menu",
+            "color": [255, 255, 255],
+            "size": [200, 50, 0],
+            "entity": "menuManager",
+            "action": "returnToMenu"
+          }
+        }
+      }
+    ]
+  }
+  

@@ -27,6 +27,16 @@ elif [ "$COMMAND" == "build-sdl" ]; then
     cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=SDL
     cmake --build . -- -j 4
 
+elif [ "$COMMAND" == "build-opengl" ]; then
+
+    echo "Building project with OPENGL..."
+    mkdir build
+    cd build
+    conan profile detect --force
+    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=OPENGL
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=OPENGL
+    cmake --build . -- -j 4
+
 elif [ "$COMMAND" == "build-off" ]; then
 
     echo "Building project without graphics..."

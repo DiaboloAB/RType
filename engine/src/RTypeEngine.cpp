@@ -5,9 +5,8 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RTypeEngine.hpp"
-
 #include "NullRuntime/NullRuntime.hpp"
+#include "RTypeEngine.hpp"
 #include "common/SYSTEMLIST.hpp"
 #include "utils/getBinaryPath.hpp"
 
@@ -15,6 +14,8 @@
 #include "sfml_lib/RenderSystemSFML.hpp"
 #elif defined(GRAPHICS_SDL)
 #include "sdl_lib/RenderSystemSDL.hpp"
+#elif defined(GRAPHICS_OPENGL)
+#include "opengl_lib/RenderSystemSFML.hpp"
 #endif
 
 // std
@@ -49,15 +50,18 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
 #elif defined(GRAPHICS_SDL)
         _runtime = std::make_shared<RenderSystemSDL>();
         std::cout << "SDL graphics library selected!" << std::endl;
+#elif defined(GRAPHICS_OPENGL)
+        _runtime = std::make_shared<RenderSystemSFML>();
+        std::cout << "OPENGL graphics library selected!" << std::endl;
 #else
         _runtime = std::make_shared<NullRuntime>();
         std::cout << "No graphics library selected!" << std::endl;
 #endif
     }
 
-
     std::cout << "Engine Status: Constructing game context" << std::endl;
-    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager, _clockManager, _input, _runtime);
+    _gameContext = std::make_shared<GameContext>(_assetsPath, _registry, _sceneManager,
+                                                 _clockManager, _input, _runtime);
     _gameContext->_args = args;
     std::cout << "Engine Status: Loading game" << std::endl;
 
@@ -147,14 +151,16 @@ void Engine::run()
             _gameContext->_runtime->pollEvents();
             _gameContext->_input.update(_gameContext->_runtime);
             if (_gameContext->_runtime->getKey(KeyCode::Close)) break;
-            if (_gameContext->_runtime->getKeyDown(KeyCode::F11)) _gameContext->_runtime->FullScreenWindow(true);
+            if (_gameContext->_runtime->getKeyDown(KeyCode::F11))
+                _gameContext->_runtime->FullScreenWindow(true);
             _gameContext->_deltaT = _clockManager.getUpdateDeltaT() * _gameContext->getGameSpeed();
             _systemManager.update(_registry, *_gameContext);
             _systemManager.events(_registry, *_gameContext);
             _gameContext->clearEvents();
             _clockManager.getUpdateDeltaT() = 0.0f;
         }
-        if (_sceneManager.update(*_gameContext)) {
+        if (_sceneManager.update(*_gameContext))
+        {
             _systemManager.load(_registry, *_gameContext);
             _sceneManager.startEntities(_registry, *_gameContext);
         }
