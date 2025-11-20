@@ -32,11 +32,11 @@
 namespace RType
 {
 
-class RenderSystemSFML : public RType::IRuntime
+class RenderSystemOPENGL : public RType::IRuntime
 {
    public:
-    RenderSystemSFML();
-    ~RenderSystemSFML();
+    RenderSystemOPENGL();
+    ~RenderSystemOPENGL();
 
    public:
     void pollEvents() override;
@@ -59,8 +59,10 @@ class RenderSystemSFML : public RType::IRuntime
     void drawRectangle(mlg::vec4& spriteCoords, bool full,
                        const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
     void FullScreenWindow(bool fullscreen) override;
-    bool isWindowOpen() override { return true; }
+    bool isWindowOpen() override { return !glfwWindowShouldClose(_window); }
     // sf::RenderWindow& getWindow() { return this->_window; }
+    GLFWwindow* getWindow() const { return _window; }
+
     int loadMusic(const std::string& filePath) override;
     void playMusic(int musicID, bool loop = true) override;
     void stopCurrentMusic() override;

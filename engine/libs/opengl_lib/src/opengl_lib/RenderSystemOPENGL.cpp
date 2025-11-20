@@ -5,18 +5,18 @@
  * Date, Location: 2024, Rennes
  **********************************************************************************/
 
-#include "RenderSystemSFML.hpp"
+#include "RenderSystemOPENGL.hpp"
 
 namespace RType
 {
 
-RenderSystemSFML::RenderSystemSFML()
+RenderSystemOPENGL::RenderSystemOPENGL()
     : _isFullScreen(false), _nextSpriteId(1), _nextFontId(1), _nextMusicId(1), _nextSoundId(1)
 {
     _activeShader = nullptr;
 
     if (!glfwInit()) throw std::runtime_error("Failed to initialize GLFW\n");
-    _window = glfwCreateWindow(1280, 960, "Wow - Fractal - OMG", NULL, NULL);
+    _window = glfwCreateWindow(1920, 1080, "RType", NULL, NULL);
     if (!_window)
     {
         glfwTerminate();
@@ -32,33 +32,44 @@ RenderSystemSFML::RenderSystemSFML()
     }
 }
 
-RenderSystemSFML::~RenderSystemSFML() {}
+RenderSystemOPENGL::~RenderSystemOPENGL()
+{
+    glfwDestroyWindow(_window);
+    glfwTerminate();
+}
 
-void RenderSystemSFML::pollEvents() {}
+void RenderSystemOPENGL::pollEvents() {}
 
-bool RenderSystemSFML::getKey(KeyCode key)
+bool RenderSystemOPENGL::getKey(KeyCode key)
 {
     if (key < 0 || key >= _currentKeys.size()) return false;
     return _currentKeys[key];
 }
 
-bool RenderSystemSFML::getKeyUp(KeyCode key)
+bool RenderSystemOPENGL::getKeyUp(KeyCode key)
 {
     if (key < 0 || key >= _currentKeys.size()) return false;
     return _currentKeys[key] == false && _previousKeys[key] == true;
 }
 
-bool RenderSystemSFML::getKeyDown(KeyCode key)
+bool RenderSystemOPENGL::getKeyDown(KeyCode key)
 {
     if (key < 0 || key >= _currentKeys.size()) return false;
     return _currentKeys[key] == true && _previousKeys[key] == false;
 }
 
-void RenderSystemSFML::clearWindow() {}
+void RenderSystemOPENGL::clearWindow() { glClear(GL_COLOR_BUFFER_BIT); }
 
-void RenderSystemSFML::updateWindow() {}
+void RenderSystemOPENGL::updateWindow()
+{
+    glfwSwapBuffers(_window);
+    glfwPollEvents();
 
-std::shared_ptr<sf::Texture> RenderSystemSFML::loadTexture(const std::string& filePath)
+    if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(_window, true);
+}
+
+std::shared_ptr<sf::Texture> RenderSystemOPENGL::loadTexture(const std::string& filePath)
 {
     if (_textures.find(filePath) != _textures.end())
     {
@@ -74,7 +85,7 @@ std::shared_ptr<sf::Texture> RenderSystemSFML::loadTexture(const std::string& fi
     return texture;
 }
 
-int RenderSystemSFML::loadSprite(const std::string& filePath)
+int RenderSystemOPENGL::loadSprite(const std::string& filePath)
 {
     auto texture = loadTexture(filePath);
     if (!texture)
@@ -89,7 +100,7 @@ int RenderSystemSFML::loadSprite(const std::string& filePath)
     return spriteId;
 }
 
-void RenderSystemSFML::unloadSprite(int spriteId)
+void RenderSystemOPENGL::unloadSprite(int spriteId)
 {
     auto it = _spriteCache.find(spriteId);
     if (it != _spriteCache.end())
@@ -105,14 +116,14 @@ void RenderSystemSFML::unloadSprite(int spriteId)
     }
 }
 
-void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords,
-                                  mlg::vec3 scale, float rotation)
+void RenderSystemOPENGL::drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteCoords,
+                                    mlg::vec3 scale, float rotation)
 {
 }
 
-void RenderSystemSFML::drawSprite(int spriteId, mlg::vec3 position) {}
+void RenderSystemOPENGL::drawSprite(int spriteId, mlg::vec3 position) {}
 
-mlg::vec3 RenderSystemSFML::getTextureSize(int spriteId)
+mlg::vec3 RenderSystemOPENGL::getTextureSize(int spriteId)
 {
     auto it = _spriteCache.find(spriteId);
     if (it != _spriteCache.end())
@@ -123,20 +134,22 @@ mlg::vec3 RenderSystemSFML::getTextureSize(int spriteId)
     return mlg::vec3(0, 0, 0);
 }
 
-mlg::vec3 RenderSystemSFML::getMousePosition() {}
+mlg::vec3 RenderSystemOPENGL::getMousePosition() {}
 
-void RenderSystemSFML::setGameIcon(const std::string& filePath) {}
+void RenderSystemOPENGL::setGameIcon(const std::string& filePath) {}
 
-void RenderSystemSFML::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
-                                unsigned int fontSize, const mlg::vec3& color, bool centered)
+void RenderSystemOPENGL::drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
+                                  unsigned int fontSize, const mlg::vec3& color, bool centered)
 {
 }
 
-void RenderSystemSFML::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color) {}
+void RenderSystemOPENGL::drawRectangle(mlg::vec4& spriteCoords, bool full, const mlg::vec3& color)
+{
+}
 
-void RenderSystemSFML::FullScreenWindow(bool fullscreen) {}
+void RenderSystemOPENGL::FullScreenWindow(bool fullscreen) {}
 
-int RenderSystemSFML::loadMusic(const std::string& filePath)
+int RenderSystemOPENGL::loadMusic(const std::string& filePath)
 {
     if (_musicCache.find(filePath) != _musicCache.end())
     {
@@ -157,7 +170,7 @@ int RenderSystemSFML::loadMusic(const std::string& filePath)
     return musicId;
 }
 
-void RenderSystemSFML::playMusic(int musicID, bool loop)
+void RenderSystemOPENGL::playMusic(int musicID, bool loop)
 {
     auto it = _musics.find(musicID);
     if (it != _musics.end())
@@ -177,7 +190,7 @@ void RenderSystemSFML::playMusic(int musicID, bool loop)
     }
 }
 
-void RenderSystemSFML::stopCurrentMusic()
+void RenderSystemOPENGL::stopCurrentMusic()
 {
     if (_currentMusic)
     {
@@ -186,7 +199,7 @@ void RenderSystemSFML::stopCurrentMusic()
     }
 }
 
-void RenderSystemSFML::unloadMusic(int musicID)
+void RenderSystemOPENGL::unloadMusic(int musicID)
 {
     auto it = _musics.find(musicID);
     if (it != _musics.end())
@@ -202,7 +215,7 @@ void RenderSystemSFML::unloadMusic(int musicID)
     }
 }
 
-int RenderSystemSFML::loadSound(const std::string& filePath)
+int RenderSystemOPENGL::loadSound(const std::string& filePath)
 {
     if (_soundCache.find(filePath) != _soundCache.end())
     {
@@ -224,7 +237,7 @@ int RenderSystemSFML::loadSound(const std::string& filePath)
     return soundId;
 }
 
-void RenderSystemSFML::playSound(int soundId)
+void RenderSystemOPENGL::playSound(int soundId)
 {
     auto it = _sounds.find(soundId);
     if (it != _sounds.end())
@@ -241,7 +254,7 @@ void RenderSystemSFML::playSound(int soundId)
     }
 }
 
-void RenderSystemSFML::unloadSound(int soundId)
+void RenderSystemOPENGL::unloadSound(int soundId)
 {
     auto it = _sounds.find(soundId);
     if (it != _sounds.end())
@@ -257,7 +270,7 @@ void RenderSystemSFML::unloadSound(int soundId)
     }
 }
 
-int RenderSystemSFML::loadFont(const std::string& filePath)
+int RenderSystemOPENGL::loadFont(const std::string& filePath)
 {
     if (_fontCache.find(filePath) != _fontCache.end())
     {
@@ -277,12 +290,12 @@ int RenderSystemSFML::loadFont(const std::string& filePath)
 
     return fontId;
 }
-void RenderSystemSFML::setFramerateLimit(unsigned int limit) {}
+void RenderSystemOPENGL::setFramerateLimit(unsigned int limit) {}
 
-void RenderSystemSFML::setVerticalSyncEnabled(bool enabled) {}
+void RenderSystemOPENGL::setVerticalSyncEnabled(bool enabled) {}
 
-int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
-                                 const std::string& fragmentShaderPath)
+int RenderSystemOPENGL::loadShader(const std::string& vertexShaderPath,
+                                   const std::string& fragmentShaderPath)
 {
     if (_shaderCache.find(vertexShaderPath) != _shaderCache.end())
     {
@@ -305,7 +318,7 @@ int RenderSystemSFML::loadShader(const std::string& vertexShaderPath,
     return shaderId;
 }
 
-void RenderSystemSFML::unloadShader(int shaderId)
+void RenderSystemOPENGL::unloadShader(int shaderId)
 {
     auto it = _shaders.find(shaderId);
     if (it != _shaders.end())
@@ -321,7 +334,7 @@ void RenderSystemSFML::unloadShader(int shaderId)
     }
 }
 
-void RenderSystemSFML::setShader(int shaderId)
+void RenderSystemOPENGL::setShader(int shaderId)
 {
     auto it = _shaders.find(shaderId);
     if (it != _shaders.end())
@@ -335,7 +348,7 @@ void RenderSystemSFML::setShader(int shaderId)
     }
 }
 
-KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
+KeyCode RenderSystemOPENGL::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
 {
     switch (key)
     {
@@ -462,7 +475,7 @@ KeyCode RenderSystemSFML::convertSFMLKeyToKeyCode(sf::Keyboard::Key key)
     }
 }
 
-KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
+KeyCode RenderSystemOPENGL::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
 {
     switch (button)
     {
@@ -481,7 +494,7 @@ KeyCode RenderSystemSFML::convertSFMLMouseToKeyCode(sf::Mouse::Button button)
     }
 }
 
-KeyCode RenderSystemSFML::convertSFMLJoystickButtonToKeyCode(unsigned int button)
+KeyCode RenderSystemOPENGL::convertSFMLJoystickButtonToKeyCode(unsigned int button)
 {
     switch (button)
     {
@@ -523,8 +536,8 @@ KeyCode RenderSystemSFML::convertSFMLJoystickButtonToKeyCode(unsigned int button
     }
 }
 
-void RenderSystemSFML::setSoundVolume(int volume) { _soundVolume = volume; }
+void RenderSystemOPENGL::setSoundVolume(int volume) { _soundVolume = volume; }
 
-void RenderSystemSFML::resetShader() { _activeShader = nullptr; }
+void RenderSystemOPENGL::resetShader() { _activeShader = nullptr; }
 
 }  // namespace RType

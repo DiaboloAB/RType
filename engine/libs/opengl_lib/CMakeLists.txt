@@ -9,7 +9,7 @@ find_package(GLEW REQUIRED)
 project(opengl_lib VERSION 0.1)
 
 set(SOURCES
-    src/opengl_lib/RenderSystemSFML.cpp
+    src/opengl_lib/RenderSystemOPENGL.cpp
     )
 
 add_library(opengl_lib STATIC ${SOURCES})

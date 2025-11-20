@@ -15,7 +15,7 @@
 #elif defined(GRAPHICS_SDL)
 #include "sdl_lib/RenderSystemSDL.hpp"
 #elif defined(GRAPHICS_OPENGL)
-#include "opengl_lib/RenderSystemSFML.hpp"
+#include "opengl_lib/RenderSystemOPENGL.hpp"
 #endif
 
 // std
@@ -51,7 +51,7 @@ Engine::Engine(std::map<std::string, std::string> args) : _args(args)
         _runtime = std::make_shared<RenderSystemSDL>();
         std::cout << "SDL graphics library selected!" << std::endl;
 #elif defined(GRAPHICS_OPENGL)
-        _runtime = std::make_shared<RenderSystemSFML>();
+        _runtime = std::make_shared<RenderSystemOPENGL>();
         std::cout << "OPENGL graphics library selected!" << std::endl;
 #else
         _runtime = std::make_shared<NullRuntime>();
