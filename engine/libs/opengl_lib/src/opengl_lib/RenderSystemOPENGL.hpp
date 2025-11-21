@@ -15,12 +15,11 @@
 #include <unistd.h>
 #endif
 
-#include <GL/glew.h>
+
+
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -39,60 +38,60 @@ class RenderSystemOPENGL : public RType::IRuntime
     ~RenderSystemOPENGL();
 
    public:
-    void pollEvents() override;
-    bool getKey(KeyCode key) override;
-    bool getKeyUp(KeyCode key) override;
-    bool getKeyDown(KeyCode key) override;
+    void pollEvents() override ;
+    bool getKey(KeyCode key) override { return false;};
+    bool getKeyUp(KeyCode key) override { return false;};
+    bool getKeyDown(KeyCode key) override {return false;};
     void clearWindow() override;
     void updateWindow() override;
-    std::shared_ptr<sf::Texture> loadTexture(const std::string& filePath);
-    int loadSprite(const std::string& filePath) override;
-    void unloadSprite(int spriteId) override;
+    // std::shared_ptr<sf::Texture> loadTexture(const std::string& filePath);
+    int loadSprite(const std::string& filePath) override {return -1;};
+    void unloadSprite(int spriteId) override {};
     void drawSprite(int spriteId, mlg::vec3 position, mlg::vec4 spriteRect, mlg::vec3 scale,
-                    float rotation) override;
-    void drawSprite(int spriteId, mlg::vec3 position) override;
-    mlg::vec3 getTextureSize(int spriteId) override;
-    mlg::vec3 getMousePosition() override;
-    void setGameIcon(const std::string& filePath) override;
+                    float rotation) override {};
+    void drawSprite(int spriteId, mlg::vec3 position) override {};
+    mlg::vec3 getTextureSize(int spriteId) override {};
+    mlg::vec3 getMousePosition() override {};
+    void setGameIcon(const std::string& filePath) override {};
     void drawText(int fontID, const std::string& textStr, const mlg::vec3 position,
-                  unsigned int fontSize, const mlg::vec3& color, bool centered) override;
+                  unsigned int fontSize, const mlg::vec3& color, bool centered) override {};
     void drawRectangle(mlg::vec4& spriteCoords, bool full,
-                       const mlg::vec3& color = mlg::vec3(0, 0, 0)) override;
-    void FullScreenWindow(bool fullscreen) override;
+                       const mlg::vec3& color = mlg::vec3(0, 0, 0)) override {};
+    void FullScreenWindow(bool fullscreen) override {};
     bool isWindowOpen() override { return !glfwWindowShouldClose(_window); }
     // sf::RenderWindow& getWindow() { return this->_window; }
     GLFWwindow* getWindow() const { return _window; }
 
-    int loadMusic(const std::string& filePath) override;
-    void playMusic(int musicID, bool loop = true) override;
-    void stopCurrentMusic() override;
-    void unloadMusic(int musicID) override;
-    int loadSound(const std::string& filePath) override;
-    void playSound(const int soundID) override;
-    void unloadSound(const int soundID) override;
-    int loadFont(const std::string& filePath) override;
-    void setFramerateLimit(unsigned int limit) override;
-    void setVerticalSyncEnabled(bool enabled) override;
+    int loadMusic(const std::string& filePath) override { return -1;};
+    void playMusic(int musicID, bool loop = true) override {};
+    void stopCurrentMusic() override {};
+    void unloadMusic(int musicID) override {};
+    int loadSound(const std::string& filePath) override { return -1;};
+    void playSound(const int soundID) override {};
+    void unloadSound(const int soundID) override {};
+    int loadFont(const std::string& filePath) override { return -1;};
+    void setFramerateLimit(unsigned int limit) override {};
+    void setVerticalSyncEnabled(bool enabled) override {};
     int loadShader(const std::string& vertexShaderPath,
-                   const std::string& fragmentShaderPath) override;
-    void setShader(int shaderId) override;
-    void resetShader() override;
-    void unloadShader(int shaderId) override;
-    void setSoundVolume(int volume) override;
+                   const std::string& fragmentShaderPath) override{ return -1;};
+    void setShader(int shaderId) override{};
+    void resetShader() override{};
+    void unloadShader(int shaderId) override{};
+    void setSoundVolume(int volume) override {};
 
    private:
     GLFWwindow* _window;
 
-    sf::Image _icon;
+    // sf::Image _icon;
     bool _isFullScreen;
 
-    std::unordered_map<int, std::shared_ptr<sf::Sprite>> _spriteCache;
-    std::unordered_map<int, std::shared_ptr<sf::Music>> _musics;
-    std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _sounds;
-    std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaders;
-    std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
+    // std::unordered_map<int, std::shared_ptr<sf::Sprite>> _spriteCache;
+    // std::unordered_map<int, std::shared_ptr<sf::Music>> _musics;
+    // std::unordered_map<int, std::shared_ptr<sf::SoundBuffer>> _sounds;
+    // std::unordered_map<int, std::shared_ptr<sf::Shader>> _shaders;
+    // std::unordered_map<int, std::shared_ptr<sf::Font>> _fonts;
 
-    std::unordered_map<std::string, std::shared_ptr<sf::Texture>> _textures;
+    // std::unordered_map<std::string, std::shared_ptr<sf::Texture>> _textures;
 
     std::map<std::string, int> _musicCache;
     std::map<std::string, int> _soundCache;
@@ -105,21 +104,21 @@ class RenderSystemOPENGL : public RType::IRuntime
     int _nextMusicId;
     int _nextSoundId;
 
-    sf::Music* _currentMusic = nullptr;
-    std::vector<sf::Sound> _activeSounds;
+    // sf::Music* _currentMusic = nullptr;
+    // std::vector<sf::Sound> _activeSounds;
 
     int _currentMusicId = -1;
 
-    KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
-    KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
-    KeyCode convertSFMLJoystickButtonToKeyCode(unsigned int button);
+    // KeyCode convertSFMLKeyToKeyCode(sf::Keyboard::Key key);
+    // KeyCode convertSFMLMouseToKeyCode(sf::Mouse::Button button);
+    // KeyCode convertSFMLJoystickButtonToKeyCode(unsigned int button);
 
-    std::vector<bool> _currentKeys = std::vector<bool>(1000, false);
-    std::vector<bool> _previousKeys = std::vector<bool>(1000, false);
+    // std::vector<bool> _currentKeys = std::vector<bool>(1000, false);
+    // std::vector<bool> _previousKeys = std::vector<bool>(1000, false);
 
     int _soundVolume = 50;
 
-    sf::Shader* _activeShader;
+    // sf::Shader* _activeShader;
 };
 
 }  // namespace RType

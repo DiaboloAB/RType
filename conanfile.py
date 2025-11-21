@@ -1,41 +1,68 @@
 from conan import ConanFile
-from conan.tools.cmake import CMakeToolchain, CMakeDeps
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.files import copy
+import os
 
-class MyProjectConan(ConanFile):
+
+class HoltzmanConan(ConanFile):
+    name = "Holtzman"
+    version = "0.1"
     settings = "os", "compiler", "build_type", "arch"
+
     generators = "CMakeDeps", "CMakeToolchain"
 
     options = {
-        "graphics": ["SFML", "SDL", "OPENGL", "OFF"]
+        "shared": [True, False],
+        "tests": [True, False],
     }
     default_options = {
-        "graphics": "SFML"
+        "shared": False,
+        "tests": False,
     }
 
+    exports_sources = (
+        "CMakeLists.txt",
+        "engine/*",
+        "libs/*",
+        "include/*",
+        "src/*",
+        "assets/*",
+    )
+
     def requirements(self):
-        self.requires("asio/1.31.0")
-        self.requires("lua/5.4.7")
-        self.requires("nlohmann_json/3.11.3")
+        self.requires("nlohmann_json/3.11.2")
+        self.requires("asio/1.28.0")
+        self.requires("lua/5.4.6")
 
-        # Conditionally include SDL dependencies based on the graphics option
-        if self.options.graphics == "SDL":
-            self.requires("sdl_ttf/2.22.0")
-            self.requires("sdl_mixer/2.8.0")
-            self.requires("sdl_image/2.6.3")
-        elif self.options.graphics == "SFML":
-            self.requires("sfml/2.5.1")
-        elif self.options.graphics == "OPENGL":
-            self.requires("sfml/2.5.1")
+        if self.options.tests:
+            self.requires("gtest/1.14.0")
 
-    def configure(self):
-        # Override specific dependencies if needed
-        if self.options.graphics == "SDL":
-            self.requires("sdl/2.28.5", override=True)
-            self.requires("flac/1.4.2", override=True)
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.variables["ASSETS_PATH"] = "assets/"
+        tc.variables["TESTS"] = "ON" if self.options.tests else "OFF"
 
-    def build_requirements(self):
-        self.tool_requires("cmake/3.22.6")
+        # important for multi-dir projects
+        tc.variables["CMAKE_POLICY_DEFAULT_CMP0091"] = "NEW"
 
 
-from conan import ConanFile
+        deps = CMakeDeps(self)
 
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure()   # will configure from the root CMakeLists.txt
+        cmake.build()
+
+        if self.options.tests:
+            cmake.test()
+
+    def package(self):
+        copy(self, "*.hpp", src="include", dst=os.path.join(self.package_folder, "include"))
+        copy(self, "*.h", src="include", dst=os.path.join(self.package_folder, "include"))
+        copy(self, "*.a", src=".", dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+        copy(self, "*.so*", src=".", dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+        copy(self, "*.dll", src=".", dst=os.path.join(self.package_folder, "bin"), keep_path=False)
+        copy(self, "*.dylib", src=".", dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+
+    def package_info(self):
+        self.cpp_info.libs = ["Holtzman"]

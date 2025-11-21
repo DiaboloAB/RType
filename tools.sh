@@ -30,12 +30,19 @@ elif [ "$COMMAND" == "build-sdl" ]; then
 elif [ "$COMMAND" == "build-opengl" ]; then
 
     echo "Building project with OPENGL..."
-    mkdir build
-    cd build
-    conan profile detect --force
-    conan install .. --output-folder=conan --build=missing -c "tools.system.package_manager:mode=install" -c "tools.system.package_manager:sudo=true" -o graphics=OPENGL
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=conan/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DGRAPHICS=OPENGL
-    cmake --build . -- -j 4
+
+    rm -rf build
+
+    conan install . --output-folder=build --build=missing -s build_type=Debug
+    cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug
+    cmake --build build
+
+
+    # # configure with toolchain
+    # cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DGRAPHICS=OPENGL -DCMAKE_BUILD_TYPE=Release
+
+    # # build
+    # cmake --build . -j 4
 
 elif [ "$COMMAND" == "build-off" ]; then
 
